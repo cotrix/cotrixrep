@@ -72,7 +72,7 @@ public interface PermissionDelegationService {
 		
 		/**
 		 * Selects the target user.
-		 * @param user the user
+		 * @param currentUser the user
 		 * 
 		 * @throws IllegalArgumentException if the user has no identifier
 		 * @throws IllegalAccessError if the revocation is not allowed by the current policy

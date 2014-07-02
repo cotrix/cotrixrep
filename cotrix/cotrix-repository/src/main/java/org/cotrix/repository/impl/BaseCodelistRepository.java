@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.utils.Utils;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.spi.StateRepository;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist
 		
 		time = currentTimeMillis()-time;
 		
-		log.trace("added codelist {} in {} msecs, roughly {} codes/sec",list.id(),time,((float) list.codes().size()/time*1000));
+		log.trace("added codelist {} in {} msecs, roughly {} codes/sec",Utils.signatureOf(list),time,((float) list.codes().size()/time*1000));
 		
 		
 		

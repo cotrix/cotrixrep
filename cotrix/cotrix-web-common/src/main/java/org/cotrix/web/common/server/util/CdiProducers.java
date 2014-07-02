@@ -15,24 +15,22 @@ import org.jboss.weld.context.http.Http;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Priority(Constants.RUNTIME)
+//alternatives below have max priority if deployed in production
+@Priority(Constants.RUNTIME) 
 public class CdiProducers {
 
 	public static Logger log = LoggerFactory.getLogger(CdiProducers.class);
 	
-	@Produces @SessionScoped @Alternative
-	public @Current BeanSession session() {
+	//the alternative when working at regime is session-scoped (obviously)
+	@Produces @Current @Alternative
+	public @SessionScoped BeanSession session() {
 	
 		return new BeanSession();		
 	}
 	
+	//the alternative when working at regime is request-scoped (during login can change)
 	@Produces @Current @Alternative
-	public RequestContext request(@Http RequestContext ctx) {
-		return ctx;		
-	}
-	
-	@Produces @RequestScoped @Alternative
-	public @Current User currentUser(@Current BeanSession session) {
+	public @RequestScoped User currentUser(@Current BeanSession session) {
 		
 		try {
 			return session.get(User.class);
@@ -45,4 +43,11 @@ public class CdiProducers {
 		}	
 		
 	}
+	
+	//at regime, the current request context request-scoped
+	@Produces @Current @Alternative
+	public RequestContext request(@Http RequestContext ctx) {
+		return ctx;		
+	}
+	
 }

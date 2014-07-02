@@ -1,21 +1,28 @@
 package org.cotrix.test;
 
+import static org.cotrix.test.TestConstants.*;
+
 import java.util.Collection;
 
-import javax.enterprise.inject.Vetoed;
+import javax.inject.Singleton;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 
-@Vetoed
-public class CurrentUser implements User {
+//test wrapper for hot-swapping of logged users
+@Singleton
+public class TestUser implements User {
 
-	private User test;
+	private User test = joe;
 	
 	public void set(User test) {
 		this.test=test;
+	}
+	
+	public User get() {
+		return test;
 	}
 
 	public String id() {

@@ -15,7 +15,7 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.stage.data.SomeUsers;
 import org.cotrix.test.ApplicationTest;
-import org.cotrix.test.CurrentUser;
+import org.cotrix.test.TestUser;
 import org.junit.Test;
 
 public class StagersTest extends ApplicationTest {
@@ -26,7 +26,7 @@ public class StagersTest extends ApplicationTest {
 	@Inject
 	CodelistRepository codelists;
 	
-	public void setup(@Observes Startup event,CurrentUser user) {
+	public void setup(@Observes Startup event,TestUser user) {
 		
 		user.set(SomeUsers.owners.iterator().next());
 	}

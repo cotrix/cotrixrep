@@ -7,9 +7,10 @@ import java.util.Calendar;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.events.Current;
 import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.user.User;
@@ -19,7 +20,6 @@ public class Utils {
 
 	private static User currentUser;
 	private static RequestContext requestContext;
-	
 	public static Attribute.State stateof(Attribute a) {
 		return reveal(a).state();
 	}
@@ -34,6 +34,11 @@ public class Utils {
 	
 	public static String currentUser() {
 		return requestContext.isActive()?currentUser.name():Users.cotrix.name();
+	}
+	
+	
+	public static String signatureOf(Codelist list) {
+		return String.format("%s  (%s v.%s)",list.id(),list.qname(),list.version());
 	}
 	
 	

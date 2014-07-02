@@ -15,7 +15,7 @@ import org.cotrix.domain.version.Version;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
-import org.cotrix.test.CurrentUser;
+import org.cotrix.test.TestUser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,41 +27,39 @@ public class VersioningServiceTest extends ApplicationTest {
 	@Inject
 	CodelistRepository codelists;
 	
+	@Inject
+	TestUser currentUser;
 	
 	@Inject
 	UserRepository users;
 	
-	
-	@Inject
-	CurrentUser currentUser;
-	
 	@Inject
 	Event<Version> events;
 	
-	Codelist codelist = codelist().name("test").build();
-	
-	User fifi = user().name("fifi").fullName("fifi").email("dude@me.com").is(OWNER.on(codelist.id())).build();
-	
+	Codelist list = codelist().name("test").build();
 	
 	@Before
 	public void before() {
 		
-		currentUser.set(fifi);
+		codelists.add(list);
 		
-		users.add(fifi);
+		User jimmy = user().name("jimmy").fullName("Jimmy The Manager").noMail().is(OWNER.on(list.id())).build();
 		
-		codelists.add(codelist);
+		currentUser.set(jimmy);
+		
+		users.add(jimmy);
+		
 		
 	}
 	
 	@Test
 	public void codelistCanBeVersioned() {
 		
-		String version = codelist.version();
+		String version = list.version();
 		
 		assertFalse(version.equals("2014"));
 		
-		Codelist versioned = service.bump(codelist).to("2014");
+		Codelist versioned = service.bump(list).to("2014");
 		
 		assertEquals("2014", versioned.version());
 		
@@ -70,12 +68,12 @@ public class VersioningServiceTest extends ApplicationTest {
 	@Test
 	public void versioningPropagatesPermissions() {
 		
-		Codelist versioned = service.bump(codelist).to("2014");
+		Codelist versioned = service.bump(list).to("2014");
 		
 		assertEquals("2014", versioned.version());
 		
-		fifi = users.lookup(fifi.id());
+		User persisted = users.lookup(currentUser.id());
 		
-		assertTrue(fifi.is(OWNER.on(versioned.id())));
+		assertTrue(persisted.is(OWNER.on(versioned.id())));
 	}
 }

@@ -1,10 +1,9 @@
 package org.cotrix.repository.impl.memory;
 
 import static java.lang.Math.*;
-import static java.lang.Thread.*;
 import static org.cotrix.action.ResourceType.*;
-import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.common.Constants.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
@@ -61,14 +60,12 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 		//simulate progress
 		int total = list.codes().size()+list.definitions().size()+list.links().size()+list.attributes().size();
-		int timeUnit = 1000/total;
 		int progressInterval = min(100,total);
 		try {
 			
 			int i;
 			for (i=0; i < total;i = i +min(progressInterval,total-i)) {
 				int step = min(progressInterval,total-i);
-				sleep(step*timeUnit);
 				context.save(new TaskUpdate(((float)i+step)/total, "loaded "+i+" of "+total+" elements"));
 			}
 				

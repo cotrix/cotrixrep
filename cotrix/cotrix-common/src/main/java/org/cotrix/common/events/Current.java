@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
+//used to abstract over scopes that may not be active (e.g. at startup, during test)
+
 @Target({ TYPE, METHOD, PARAMETER, FIELD })
 @Retention(RUNTIME)
 @Documented

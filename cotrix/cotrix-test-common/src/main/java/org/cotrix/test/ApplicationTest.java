@@ -13,11 +13,9 @@ import org.junit.runner.RunWith;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
-/**
- * Base class for integration tests that rely on startup and shutdown events.
- * 
- * 
- */
+//injectable tests that simulate a running application and executable with transactional boundaries 
+//a dedicated start event enable test-specific initialisers with classpath visibility
+
 @RunWith(JeeunitRunner.class)
 public abstract class ApplicationTest {
 	
@@ -39,7 +37,9 @@ public abstract class ApplicationTest {
 
 	@BeforeClass
 	public static void init() {
+		
 		System.setProperty("org.slf4j.simpleLogger.log.org.cotrix","trace");
+		
 	}
 	
 	@Before
@@ -52,6 +52,9 @@ public abstract class ApplicationTest {
 		app.start();
 		
 		tx = txs.open();
+		
+		System.out.println("\n------start test ----------------------------------------------------------------------------------\n");
+		
 	}
 	
 	@After
