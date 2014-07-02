@@ -11,9 +11,9 @@ import javax.inject.Singleton;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
+import org.cotrix.common.BeanSession;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
-import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;

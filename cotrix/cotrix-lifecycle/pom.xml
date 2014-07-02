@@ -15,19 +15,14 @@
 
 		<dependency>
 			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-common</artifactId>
+			<artifactId>cotrix-action</artifactId>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-domain</artifactId>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.cotrix</groupId>
-			<artifactId>cotrix-action</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>com.googlecode</groupId>
 			<artifactId>stateless4j</artifactId>

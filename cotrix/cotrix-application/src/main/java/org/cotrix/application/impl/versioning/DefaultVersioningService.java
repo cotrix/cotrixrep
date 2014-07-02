@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.spi.IdGenerator;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;

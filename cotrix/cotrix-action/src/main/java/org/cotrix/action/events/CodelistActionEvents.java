@@ -4,7 +4,7 @@ import static org.cotrix.common.CommonUtils.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.BeanSession;
 
 public class CodelistActionEvents {
 

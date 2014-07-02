@@ -21,8 +21,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.Outcome;
-import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
-import org.cotrix.common.cdi.ApplicationEvents.Ready;
+import org.cotrix.common.events.ApplicationLifecycleEvents.FirstTime;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Ready;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;

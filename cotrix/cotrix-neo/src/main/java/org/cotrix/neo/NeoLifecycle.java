@@ -13,10 +13,10 @@ import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
-import org.cotrix.common.cdi.ApplicationLifecycle;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.ApplicationLifecycle;
+import org.cotrix.common.events.Current;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
@@ -78,7 +78,7 @@ public class NeoLifecycle {
 	void onStart(@Observes Startup event, ApplicationLifecycle app) {
 
 		if (!newstore)
-			app.isRestart();
+			app.markAsRestart();
 		
 	}
 

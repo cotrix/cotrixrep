@@ -4,7 +4,7 @@ import static org.cotrix.neo.domain.Constants.*;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;

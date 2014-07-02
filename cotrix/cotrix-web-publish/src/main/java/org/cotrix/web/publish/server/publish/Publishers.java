@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.web.publish.shared.PublishDirectives;
 

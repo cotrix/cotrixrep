@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
+import org.cotrix.common.events.ApplicationLifecycleEvents.EndRequest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;

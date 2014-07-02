@@ -22,7 +22,7 @@ import org.cotrix.application.NewsService;
 import org.cotrix.application.NewsService.NewsItem;
 import org.cotrix.application.StatisticsService;
 import org.cotrix.application.StatisticsService.Statistics;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;

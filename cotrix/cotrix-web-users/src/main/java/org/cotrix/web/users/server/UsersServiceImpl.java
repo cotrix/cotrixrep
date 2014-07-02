@@ -25,7 +25,7 @@ import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 import org.cotrix.application.PermissionDelegationService;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;

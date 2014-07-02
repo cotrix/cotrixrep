@@ -7,13 +7,13 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.ApplicationEvents.ApplicationEvent;
-import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
-import org.cotrix.common.cdi.ApplicationEvents.Ready;
-import org.cotrix.common.cdi.ApplicationEvents.Restart;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
-import org.cotrix.common.cdi.ApplicationLifecycle;
+import org.cotrix.common.ApplicationLifecycle;
+import org.cotrix.common.events.ApplicationLifecycleEvents.ApplicationEvent;
+import org.cotrix.common.events.ApplicationLifecycleEvents.FirstTime;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Ready;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Restart;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -60,7 +60,7 @@ public class ApplicationLifecycleTest {
 				
 				@Override
 				public Void answer(InvocationOnMock invocation) throws Throwable {
-					lc.isRestart();
+					lc.markAsRestart();
 					return null;
 				}
 		};

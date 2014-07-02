@@ -6,8 +6,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.impl.ParseTask;
 import org.cotrix.io.impl.SerialisationTask;

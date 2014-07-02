@@ -1,4 +1,4 @@
-package org.cotrix.common.cdi;
+package org.cotrix.common;
 
 import java.io.Serializable;
 import java.util.HashMap;

@@ -10,7 +10,7 @@ import java.util.Map;
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.CommonUtils;
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;

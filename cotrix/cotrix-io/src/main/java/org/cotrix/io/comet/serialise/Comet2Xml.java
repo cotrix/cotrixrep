@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.io.impl.SerialisationTask;
 import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.manager.output.StructureWriterManager;

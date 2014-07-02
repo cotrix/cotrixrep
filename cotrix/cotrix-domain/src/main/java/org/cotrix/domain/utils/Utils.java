@@ -7,8 +7,8 @@ import java.util.Calendar;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;

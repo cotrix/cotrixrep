@@ -21,7 +21,7 @@ public interface Range {
 		
 		public Default(int min, int max) {
 			
-			verify("range bounds", min>=0 && max >0 && min<=max);
+			verify("invalid range bounds", min>=0 && max >0 && min<=max);
 			
 			this.min=min;
 			this.max=max;

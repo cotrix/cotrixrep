@@ -15,7 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;

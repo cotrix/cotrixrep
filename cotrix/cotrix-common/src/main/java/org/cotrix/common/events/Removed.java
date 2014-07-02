@@ -1,4 +1,4 @@
-package org.cotrix.common.cdi;
+package org.cotrix.common.events;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
@@ -9,14 +9,8 @@ import java.lang.annotation.Target;
 
 import javax.inject.Qualifier;
 
-@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Target({PARAMETER,FIELD})
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-/**
- * A CDI qualifier for beans produced in session or request scope.
- * 
- * @author Fabio Simeoni
- *
- */
-public @interface Current {}
+public @interface Removed {}

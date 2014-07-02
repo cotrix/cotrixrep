@@ -7,8 +7,8 @@ import static org.neo4j.graphdb.Direction.*;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.kernel.impl.cache.LruCache;

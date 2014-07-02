@@ -9,7 +9,7 @@ import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
+import org.cotrix.common.events.ApplicationLifecycleEvents.EndRequest;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
 import org.cotrix.io.MapService.MapDirectives;
