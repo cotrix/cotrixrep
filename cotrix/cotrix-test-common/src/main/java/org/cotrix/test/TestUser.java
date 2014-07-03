@@ -11,7 +11,7 @@ import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 
-//test wrapper for hot-swapping of logged users
+//it's an average joe but can wrap anyone else during testing (hot user swapping)
 @Singleton
 public class TestUser implements User {
 

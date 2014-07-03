@@ -12,7 +12,8 @@ import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
 import org.jboss.weld.context.unbound.Unbound;
 
-//alternatives with highest priority @ test time
+//these alternatives have the highest priority @ test time
+//they should be singletong, but @ApplicationScope lets us inject them in session/request scoped beans
 
 @Priority(Constants.TEST)
 public class Producers {
@@ -28,7 +29,8 @@ public class Producers {
 		return session;
 	}
 	
-	//extracted from current session (see below)
+	//this is extracted from the session above, like in production.
+	//it's the test user, unless some production code sets it to something else (e.g. @t login time).
 	@Produces @Current @Alternative
 	public @ApplicationScoped User user(@Current BeanSession session) {
 		return session.get(User.class);
