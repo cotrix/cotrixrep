@@ -37,6 +37,11 @@ public class Producers {
 	}
 	
 
+	//see DomainUtils for how this is used.
+	//in essence: we publish a fake but active RequestContet as the @Current context
+	//DomainUtils uses the context to know if there is a current user to avoid producing scoped proxies
+	//doomed to fail. At test time we want to distribute our test users, so we pretend there is a context.
+	//this is Weld specific.
 	@Produces @Current @Alternative
 	static @ApplicationScoped RequestContext context(@Unbound RequestContext ctx) {
 		ctx.activate();
