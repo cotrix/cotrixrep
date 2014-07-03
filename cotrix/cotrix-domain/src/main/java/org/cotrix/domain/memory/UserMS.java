@@ -4,7 +4,6 @@ import static org.cotrix.common.CommonUtils.*;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.cotrix.action.Action;
@@ -19,8 +18,8 @@ public class UserMS extends IdentifiedMS implements User.State {
 	private String fullName;
 	private String email;
 	
-	private Set<Action> permissions = new LinkedHashSet<Action>();
-	private Set<Role> roles = new LinkedHashSet<Role>();
+	private Set<Action> permissions = new HashSet<Action>();
+	private Set<Role> roles = new HashSet<Role>();
 	
 	public UserMS() {
 	}
@@ -69,10 +68,18 @@ public class UserMS extends IdentifiedMS implements User.State {
 	
 	public Collection<Action> permissions() {
 		
-		return permissions;
+		return new HashSet<Action>(permissions);
 		
 	}
 	
+	public void add(Action permission) {
+		
+		notNull("permission",permission);
+		
+		this.permissions.add(permission);
+		
+	}
+
 	public void add(Role role) {
 		
 		notNull("role",role);
@@ -89,6 +96,14 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 	}
 	
+	public void remove(Action permission) {
+		
+		notNull("role",permission);
+		
+		this.permissions.remove(permission);
+		
+	}
+	
 	public void roles(Collection<Role> roles) {
 		
 		notNull("roles",roles);
@@ -100,7 +115,7 @@ public class UserMS extends IdentifiedMS implements User.State {
 	}
 	
 	public Collection<Role> roles() {
-		return roles;
+		return new HashSet<Role>(roles);
 	}
 	
 	@Override

@@ -32,7 +32,7 @@ public class BaseUserRepository extends AbstractRepository<User,User.Private,Use
 		if (get(userByName(user.name()))!=null)
 			throw new IllegalStateException("user "+user.name()+" cannot be added as a user with the same name is already in this repository");
 		
-		log.trace("added user: {} as {}",user.name());
+		log.trace("added user: {}",user.name());
 		
 		
 		super.add(user);
