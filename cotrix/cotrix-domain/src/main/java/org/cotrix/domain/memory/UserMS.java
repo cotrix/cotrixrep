@@ -68,7 +68,10 @@ public class UserMS extends IdentifiedMS implements User.State {
 	
 	public Collection<Action> permissions() {
 		
-		return new HashSet<Action>(permissions);
+		synchronized (permissions) {
+			return new HashSet<Action>(permissions);
+		}
+		
 		
 	}
 	
@@ -76,7 +79,9 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("permission",permission);
 		
-		this.permissions.add(permission);
+		synchronized (permissions) {
+			this.permissions.add(permission);
+		}
 		
 	}
 
@@ -84,7 +89,9 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("role",role);
 		
-		this.roles.add(role);
+		synchronized (roles) {
+			this.roles.add(role);
+		}
 		
 	}
 	
@@ -92,7 +99,9 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("role",role);
 		
-		this.roles.remove(role);
+		synchronized (roles) {
+			this.roles.remove(role);
+		}
 		
 	}
 	
@@ -100,7 +109,10 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("role",permission);
 		
-		this.permissions.remove(permission);
+		synchronized (permissions) {
+			this.permissions.remove(permission);
+		}
+		
 		
 	}
 	
@@ -108,14 +120,18 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("roles",roles);
 		
-		this.roles.clear();
+		synchronized (roles) {
+			this.roles.clear();
+		}
 		
 		for (Role role : roles)
 			add(role);
 	}
 	
 	public Collection<Role> roles() {
-		return new HashSet<Role>(roles);
+		synchronized (roles) {
+			return new HashSet<Role>(roles);			
+		}
 	}
 	
 	@Override
