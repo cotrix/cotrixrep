@@ -108,7 +108,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	 */
 	@Override
 	public void init() throws ServletException {
-		cloud.discover();
+		//cloud.discover();
 	}
 
 	/** 
