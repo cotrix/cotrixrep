@@ -10,7 +10,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.cotrix.common.ApplicationLifecycle;
-import org.jboss.weld.environment.servlet.WeldServletLifecycle;
+import org.jboss.weld.environment.servlet.Listener;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -42,7 +42,7 @@ public class CotrixServletContextListener implements ServletContextListener {
 	private ApplicationLifecycle lifecycle(ServletContext ctx) {
 		
 		
-		BeanManager manager = (BeanManager) ctx.getAttribute(WeldServletLifecycle.BEAN_MANAGER_ATTRIBUTE_NAME);
+		BeanManager manager = (BeanManager) ctx.getAttribute(Listener.BEAN_MANAGER_ATTRIBUTE_NAME);
 		
 		Bean<?> bean = manager.resolve(manager.getBeans(ApplicationLifecycle.class));
 		

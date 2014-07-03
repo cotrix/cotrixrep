@@ -38,6 +38,12 @@
 
 
 		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet-core</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
 		</dependency>

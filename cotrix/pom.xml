@@ -353,26 +353,13 @@
 				<artifactId>weld-servlet-core</artifactId>
 				<version>${weld.version}</version>
 				<scope>runtime</scope>
-				<exclusions>
-					<exclusion>
-						<artifactId>jboss-el-api_3.0_spec</artifactId>
-						<groupId>org.jboss.spec.javax.el</groupId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<artifactId>jboss-el-api_3.0_spec</artifactId>
-				<groupId>org.jboss.spec.javax.el</groupId>
-				<version>1.0.0.Alpha1</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.weld</groupId>
 				<artifactId>weld-core</artifactId>
 				<version>${weld.version}</version>
-				<scope>compile</scope>
+				<scope>runtime</scope>
 			</dependency>
 
 			<dependency>
