@@ -67,7 +67,7 @@ public interface Codelink extends Identified, Attributed, Named {
 		}
 		
 		@Override
-		public QName name() {
+		public QName qname() {
 			//safe: type cannot be or become null
 			return state().type().name();
 		}

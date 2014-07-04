@@ -15,7 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
@@ -404,7 +404,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 		List<CodelistInfo> infos = new ArrayList<>();
 		while(iterator.hasNext()) {
 			Codelist codelist = iterator.next();
-			infos.add(new CodelistInfo(codelist.name().getLocalPart(), codelist.version()));
+			infos.add(new CodelistInfo(codelist.qname().getLocalPart(), codelist.version()));
 		}
 		return infos;
 	}

@@ -2,7 +2,7 @@ package org.acme;
 
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;

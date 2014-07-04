@@ -1,6 +1,6 @@
 package org.cotrix.domain.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.UUID;
 
@@ -89,6 +89,10 @@ public class IdentifiedMS implements Identified.State {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return super.toString()+":"+hashCode();
+	}
 	
 
 }

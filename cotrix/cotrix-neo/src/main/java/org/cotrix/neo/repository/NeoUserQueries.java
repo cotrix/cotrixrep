@@ -94,15 +94,27 @@ public class NeoUserQueries extends NeoQueries implements UserQueryFactory {
 	public MultiQuery<User, User> teamFor(final String codelistId) {
 		
 		return new NeoMultiQuery<User,User>(engine) {
+			
+			{
+				match(format("(%1$s:%2$s)",$node,USER.name()));
+				rtrn(format("%1$s as %2$s",$node,$result));
+			}
 
 			@Override
 			public Iterator<User> iterator() {
+				
+				ExecutionResult result = executeNeo();
+
+				ResourceIterator<Node> it = result.columnAs($result);
 
 				Collection<User> matches = new HashSet<User>();
 				
-				for (User user : allUsers().execute())
+				Iterator<User> users = users(it);
+				while (users.hasNext()) {
+					User user = users.next();
 					if (!user.fingerprint().specificRolesOver(codelistId,codelists).isEmpty())
 						matches.add(user);
+				}
 				
 				return matches.iterator();
 			}

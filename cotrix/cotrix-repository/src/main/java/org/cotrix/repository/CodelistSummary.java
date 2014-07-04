@@ -24,7 +24,7 @@ public class CodelistSummary {
 	
 	public CodelistSummary(Codelist list) {
 
-		this.name = list.name();
+		this.name = list.qname();
 		this.size = list.codes().size();
 		
 		this.codeFingerprint = new Fingerprint()

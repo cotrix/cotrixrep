@@ -1,6 +1,6 @@
 package org.cotrix.domain.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.xml.namespace.QName;
 
@@ -15,7 +15,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	private String description;
 	
 	//by default, attribute has 'private' definition
-	private Definition.State definition = new DefinitionMS();
+	private Definition.State definition = new DefinitionMS(false);
 	
 	public AttributeMS() {
 	}
@@ -59,6 +59,11 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	
 	public QName type() {
 		return definition.type();
+	}
+	
+	@Override
+	public boolean is(QName name) {
+		return definition.is(name);
 	}
 	
 	public String value() {
@@ -106,6 +111,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 				return false;
 		} else if (!definition.equals(other.definition()))
 			return false;
+		
 		if (value == null) {
 			if (other.value() != null)
 				return false;
@@ -113,7 +119,6 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 			return false;
 		return true;
 	}
-	
 
 
 }

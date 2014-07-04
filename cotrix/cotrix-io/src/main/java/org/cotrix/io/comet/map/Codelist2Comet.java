@@ -5,6 +5,7 @@ import static java.lang.System.*;
 import static org.cotrix.common.Log.*;
 import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.fao.fi.comet.mapping.dsl.DataProviderDSL.*;
 import static org.fao.fi.comet.mapping.dsl.MappingDataDSL.*;
@@ -62,19 +63,19 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		
 		double time = System.currentTimeMillis();
 
-		report().log(item("mapping codelist "+codelist.name()+"("+codelist.id()+") to Comet")).as(INFO)
+		report().log(item("mapping codelist "+codelist.qname()+"("+codelist.id()+") to Comet")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
 		NamedContainer<? extends Attribute> attributes = codelist.attributes();
 		
-		DataProvider source = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.name().toString()), codelist.version());
+		DataProvider source = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), codelist.version());
 		
-		String previous = attributes.contains(PREVIOUS_VERSION) ? attributes.lookup(PREVIOUS_VERSION).value():null;
+		String previous = attributes.contains(PREVIOUS_VERSION.qname()) ? attributes.lookup(PREVIOUS_VERSION.qname()).value():null;
 		
-		DataProvider target = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.name().toString()), previous);
+		DataProvider target = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), previous);
 		
 		MappingData data = new MappingData()
-				.id(uri(codelist.name()+":"+codelist.version()+(previous==null?"":":"+previous)))
+				.id(uri(codelist.qname()+":"+codelist.version()+(previous==null?"":":"+previous)))
 				.version(codelist.version())
 				.producedBy(NS)
 				.linking(source)
@@ -83,7 +84,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 				.with(minimumWeightedScore(1.0), maximumCandidates(1));
 		
 		if (previous!=null)
-			data.setDescription(String.format("A mapping between codelist v.%s and v.%s of codelist %s", codelist.version(), previous, codelist.name()));
+			data.setDescription(String.format("A mapping between codelist v.%s and v.%s of codelist %s", codelist.version(), previous, codelist.qname()));
 		
 		for (Code c : codelist.codes())
 		
@@ -91,7 +92,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 				
 				attributes = c.attributes();
 				
-				MappingElement element = wrap(properties(attributes)).with(id(c.name()));
+				MappingElement element = wrap(properties(attributes)).with(id(c.qname()));
 				
 				Mapping mapping = MappingDSL.map(element);
 				
@@ -105,11 +106,11 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 			}
 			catch(Exception e) {
 				
-				report().log(item(format("code %s cannot be mapped (%s)",c.name(),e.getMessage()))).as(ERROR);
+				report().log(item(format("code %s cannot be mapped (%s)",c.qname(),e.getMessage()))).as(ERROR);
 			
 			}
 		
-		String msg = format("transformed codelist %s (%s) to Comet in %s",codelist.name(),codelist.id(),(currentTimeMillis()-time)/1000);
+		String msg = format("transformed codelist %s (%s) to Comet in %s",codelist.qname(),codelist.id(),(currentTimeMillis()-time)/1000);
 		
 		report().log(item(msg)).as(INFO);
 
@@ -165,7 +166,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		List<Property> properties = new ArrayList<>();
 		
 		for (Attribute a : attributes)
-			if (!a.type().equals(SYSTEM_TYPE))
+			if (!a.is(SYSTEM_TYPE))
 				properties.add(propertyOf(a));
 		
 		return new PropertyList(properties);
@@ -176,14 +177,14 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		List<Property> properties = new ArrayList<>();
 		
 		for (Attribute a : attributes)
-			properties.add(new Property(a.name().toString(),a.type().toString(),a.description()));
+			properties.add(new Property(a.qname().toString(),a.type().toString(),a.description()));
 		
 		return new PropertyList(properties);
 	}
 
 	private Property propertyOf(Attribute a) {
 
-		return new Property(a.name().toString(), a.type().toString(), a.value());
+		return new Property(a.qname().toString(), a.type().toString(), a.value());
 	}
 
 	@Override

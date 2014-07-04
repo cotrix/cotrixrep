@@ -1,7 +1,7 @@
 package org.cotrix.io.impl;
 
 import static java.util.Arrays.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.InputStream;
 import java.util.Iterator;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.cdi.ApplicationEvents.EndRequest;
+import org.cotrix.common.events.ApplicationLifecycleEvents.EndRequest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
@@ -119,7 +119,7 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		Asset asset = new CsvCodelist(list.name().getLocalPart(),0,service);
+		Asset asset = new CsvCodelist(list.qname().getLocalPart(),0,service);
 		
 		repository.publish(describe(list,asset),table);
 	}
@@ -134,7 +134,7 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 		
 		RepositoryService service = repository.services().lookup(name);
 		
-		Asset asset = new CometAsset(list.name().getLocalPart(),service);
+		Asset asset = new CometAsset(list.qname().getLocalPart(),service);
 		
 		repository.publish(describe(list,asset),mapping);
 	}
@@ -143,7 +143,7 @@ public class DefaultCloudService implements Iterable<Asset>, CloudService {
 	private Asset describe(Codelist list, Asset asset) {
 		
 		for (Attribute attribute : list.attributes()) {
-			asset.properties().add(new Property(attribute.name().toString(),attribute.value()));
+			asset.properties().add(new Property(attribute.qname().toString(),attribute.value()));
 		}
 		
 		return asset;

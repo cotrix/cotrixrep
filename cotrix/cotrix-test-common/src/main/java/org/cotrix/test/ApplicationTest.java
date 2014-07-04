@@ -3,7 +3,7 @@ package org.cotrix.test;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.ApplicationLifecycle;
+import org.cotrix.common.ApplicationLifecycle;
 import org.cotrix.common.tx.Transaction;
 import org.cotrix.common.tx.Transactions;
 import org.junit.After;

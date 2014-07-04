@@ -16,11 +16,13 @@ public interface MetadataPanelView {
 	Widget asWidget();
 	
 	MetadataToolbar getToolBar();
-	
+
 	HasEditing getAttributesEditor();
 	
 	HasEditing getLinkTypesEditor();
 
 	HasEditing getAttributeTypesPanel();
+
+	SplashPanel getSplashPanel();
 
 }

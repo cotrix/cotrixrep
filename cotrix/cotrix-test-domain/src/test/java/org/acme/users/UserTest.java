@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import org.cotrix.action.Action;
 import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.junit.Test;
@@ -72,6 +72,6 @@ public class UserTest {
 	}
 
 	private User.Private reveal(User u) {
-		return Utils.reveal(u, User.Private.class);
+		return CommonUtils.reveal(u, User.Private.class);
 	}
 }

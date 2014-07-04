@@ -1,6 +1,6 @@
 package org.cotrix.application.impl.delegation;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.cotrix.action.Action;
 import org.cotrix.application.DelegationPolicy;
 import org.cotrix.application.PermissionDelegationService;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;

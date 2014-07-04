@@ -1,6 +1,6 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Roles.*;
 
 import java.util.Collection;

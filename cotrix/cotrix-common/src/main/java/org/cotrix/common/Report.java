@@ -1,7 +1,7 @@
 package org.cotrix.common;
 
 import static org.cotrix.common.Log.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.ArrayList;
 import java.util.List;

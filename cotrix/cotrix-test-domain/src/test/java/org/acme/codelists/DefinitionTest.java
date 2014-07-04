@@ -33,7 +33,7 @@ public class DefinitionTest extends DomainTest {
 		
 		//defaults
 		
-		assertEquals(defaultType,minimal.type());
+		assertEquals(DEFAULT_TYPE,minimal.type());
 		assertEquals(defaultValueType,minimal.valueType());
 		assertEquals(arbitrarily,minimal.range());
 		assertNull(minimal.language());
@@ -41,7 +41,7 @@ public class DefinitionTest extends DomainTest {
 		
 		//a maximal sentence
 		
-		assertEquals(name,def.name());
+		assertEquals(name,def.qname());
 		assertEquals(type,def.type());
 		assertEquals(language,def.language());
 		assertEquals(valueType().with(max_length.instance("20")),def.valueType());

@@ -9,7 +9,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.cotrix.common.cdi.ApplicationLifecycle;
+import org.cotrix.common.ApplicationLifecycle;
 import org.jboss.weld.environment.servlet.Listener;
 
 /**

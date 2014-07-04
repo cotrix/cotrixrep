@@ -44,7 +44,7 @@ public class Roles {
 	public static Role PUBLISHER = role("publisher").is(USER).can(CodelistAction.PUBLISH, MainAction.PUBLISH).buildAsRoleFor(codelists);
 
 	// a user that has all the permissions and roles on given codelists.
-	public static Role OWNER = role("owner").is(USER, EDITOR, REVIEWER,PUBLISHER).can(CodelistAction.values()).buildAsRoleFor(codelists);
+	public static Role OWNER = role("owner").is(USER, EDITOR, REVIEWER,PUBLISHER).can(CodelistAction.values()).cannot(CodelistAction.UNSEAL).buildAsRoleFor(codelists);
 
 	
 	

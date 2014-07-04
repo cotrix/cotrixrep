@@ -23,6 +23,9 @@ public interface Definition extends Identified, Named {
 	 * @return the type
 	 */
 	QName type();
+	
+	
+	boolean is(QName name);
 
 	/**
 	 * Returns the natural language of instance values.
@@ -45,6 +48,13 @@ public interface Definition extends Identified, Named {
 	Range range();
 	
 	
+	/**
+	 * Returns <code>true</code> if this definition is shared by many instances.
+	 * @return  <code>true</code> if this definition is shared by many instances
+	 */
+	boolean isShared();
+	
+	
 		
 	//state interface
 	static interface State extends Identified.State, Named.State, EntityProvider<Private> {
@@ -64,6 +74,11 @@ public interface Definition extends Identified, Named {
 		Range range();
 		
 		void range(Range type);
+		
+		boolean isShared();
+		
+		boolean is(QName name);
+		
 	}
 
 	//private implementation: delegates to state bean
@@ -74,13 +89,23 @@ public interface Definition extends Identified, Named {
 		}
 		
 		@Override
-		public QName name() {
+		public boolean isShared() {
+			return state().isShared();
+		}
+		
+		@Override
+		public QName qname() {
 			return state().name();
 		}
 		
 		@Override
 		public QName type() {
 			return state().type();
+		}
+		
+		@Override
+		public boolean is(QName name) {
+			return state().is(name);
 		}
 
 		@Override
@@ -93,6 +118,8 @@ public interface Definition extends Identified, Named {
 			return state().valueType();
 		}
 		
+		
+		
 		@Override
 		public Range range() {
 			return state().range();
@@ -104,11 +131,11 @@ public interface Definition extends Identified, Named {
 			super.update(changeset);
 			
 			//name (cannnot be reset)
-			if (changeset.name() == NULL_QNAME)
-				throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
+			if (changeset.qname() == NULL_QNAME)
+				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
-			if (changeset.name() != null)
-				state().name(changeset.name());
+			if (changeset.qname() != null)
+				state().name(changeset.qname());
 
 			//type (cannot be reset)
 			if (changeset.type() == NULL_QNAME)
@@ -138,7 +165,7 @@ public interface Definition extends Identified, Named {
 
 		@Override
 		public String toString() {
-			return "def [id=" + id() + ", name=" + name() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
+			return "def [id=" + id() + ", shared=" + isShared()+ ", name=" + qname() + ", range=" + range() + ", valueType=" + valueType() + ", language=" + language()
 					+ (type() == null ? "" : ", type=" + type()) + (status() == null ? "" : " (" + status() + ") ")
 					+ "]";
 		}

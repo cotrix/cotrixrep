@@ -29,7 +29,7 @@ public class CodelistIngester {
 	
 	public Codelist ingest(Codelist list) {
 
-		log.info("ingesting {} ({})", list.name(),list.version());
+		log.info("ingesting {} ({})", list.qname(),list.version());
 		
 		codelists.add(list);
 

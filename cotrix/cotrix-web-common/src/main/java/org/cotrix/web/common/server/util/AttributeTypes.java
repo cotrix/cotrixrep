@@ -25,7 +25,7 @@ public class AttributeTypes {
 		UIAttributeType attributeType = new UIAttributeType();
 		attributeType.setId(definition.id());
 		attributeType.setLanguage(ValueUtils.safeLanguage(definition.language()));
-		attributeType.setName(ValueUtils.safeValue(definition.name()));
+		attributeType.setName(ValueUtils.safeValue(definition.qname()));
 		attributeType.setType(ValueUtils.safeValue(definition.type()));
 		attributeType.setRange(toUiRange(definition.range()));
 		attributeType.setDefaultValue(definition.valueType().defaultValue());

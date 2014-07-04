@@ -4,7 +4,7 @@
 package org.cotrix.application.mail;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.Collection;
 import java.util.Iterator;

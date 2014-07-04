@@ -10,8 +10,8 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.ingest.server.climport.ImporterMapper.CsvMapper;
 import org.cotrix.web.ingest.server.climport.ImporterMapper.SdmxMapper;

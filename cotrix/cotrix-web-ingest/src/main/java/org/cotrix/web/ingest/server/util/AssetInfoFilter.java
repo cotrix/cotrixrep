@@ -4,6 +4,7 @@
 package org.cotrix.web.ingest.server.util;
 
 import org.cotrix.web.common.server.util.Ranges.Predicate;
+import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.ingest.shared.AssetInfo;
 
 /**
@@ -22,12 +23,11 @@ public class AssetInfoFilter implements Predicate<AssetInfo> {
 	public boolean apply(AssetInfo asset) {
 		if (asset == null) return false;
 		
-		if (asset.getName().toLowerCase().contains(term)) return true;
-		if (asset.getRepositoryName().getLocalPart().toLowerCase().contains(term)) return true;
-		if (asset.getType().toLowerCase().contains(term)) return true;
+		if (ValueUtils.contains(asset.getName(), term)) return true;
+		if (ValueUtils.contains(asset.getRepositoryName(), term)) return true;
+		if (ValueUtils.contains(asset.getType(), term)) return true;
 		
 		return false;
 	}
-
 
 }

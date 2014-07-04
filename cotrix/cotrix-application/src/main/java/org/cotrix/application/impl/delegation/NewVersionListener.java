@@ -6,7 +6,7 @@ import javax.enterprise.event.Observes;
 
 import org.cotrix.action.Action;
 import org.cotrix.action.events.CodelistActionEvents.Version;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -25,17 +25,17 @@ public class NewVersionListener {
 		if (!ctx.isActive())
 			return;
 		
-		log.info("delegating {}'s permissions to new version {} of {} ({})", user.name(),event.version,event.name,event.id);
+		log.info("delegating {}'s permissions to new version {} of {} ({})", user.name(),event.codelistVersion,event.codelistName,event.codelistId);
 		
 		UserChangeClause newuser = modifyUser(user);
 		
 		for (Role role : user.directRoles())
 			if (role.resource().equals(event.oldId))
-				newuser.is(role.on(event.id));
+				newuser.is(role.on(event.codelistId));
 		
 		for (Action permission : user.directPermissions())
 			if (permission.resource().equals(event.oldId))
-				newuser.can(permission.on(event.id));
+				newuser.can(permission.on(event.codelistId));
 		
 		User changeset = newuser.build();
 		

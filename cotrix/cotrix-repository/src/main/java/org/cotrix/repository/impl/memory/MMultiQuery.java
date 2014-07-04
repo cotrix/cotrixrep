@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.Range;
@@ -79,6 +79,6 @@ public abstract class MMultiQuery<T,R> extends AbstractMultiQuery<T,R> {
 	//helper
 	@SuppressWarnings("all")
 	private MCriterion<R> reveal(Criterion<R> criterion) {
-		return Utils.reveal(criterion, MCriterion.class);
+		return CommonUtils.reveal(criterion, MCriterion.class);
 	}
 }

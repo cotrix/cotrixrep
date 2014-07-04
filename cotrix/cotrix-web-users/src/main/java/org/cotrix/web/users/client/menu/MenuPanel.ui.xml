@@ -8,9 +8,8 @@
 			background-color: #efefef;
 		}
 		
-		
 		.headerPanel {
-	vertical-align: middle;
+			vertical-align: middle;
 			overflow: visible;
 			text-align: left;
 			color: #464545;

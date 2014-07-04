@@ -3,7 +3,7 @@
  */
 package org.cotrix.configuration;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.InputStream;
 import java.util.ArrayList;

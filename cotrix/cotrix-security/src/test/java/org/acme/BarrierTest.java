@@ -8,8 +8,8 @@ import javax.inject.Inject;
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
 
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.security.AuthBarrier;
 import org.cotrix.test.ApplicationTest;

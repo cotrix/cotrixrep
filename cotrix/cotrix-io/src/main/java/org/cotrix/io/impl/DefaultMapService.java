@@ -1,7 +1,7 @@
 package org.cotrix.io.impl;
 
 import static org.cotrix.common.Report.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

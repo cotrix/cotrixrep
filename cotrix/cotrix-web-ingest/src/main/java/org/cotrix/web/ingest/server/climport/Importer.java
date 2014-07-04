@@ -11,10 +11,9 @@ import javax.inject.Singleton;
 
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.action.events.CodelistActionEvents.Import;
+import org.cotrix.common.BeanSession;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.common.server.util.Reports;
 import org.cotrix.web.common.shared.Progress;
@@ -23,6 +22,7 @@ import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.virtualrepository.Asset;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -36,7 +36,6 @@ public class Importer {
 	@Inject
 	private Event<CodelistActionEvents.Import> events;
 
-	@Transactional
 	public <T> void importCodelist(Progress progress, SourceParameterProvider<T> sourceParameterProvider,
 			ImporterSource source,
 			ImporterMapper<T> mapper,
@@ -72,7 +71,7 @@ public class Importer {
 			Codelist codelist = outcome.result();
 			target.save(codelist, session.getMetadata().isSealed(), session.getOwnerId());
 
-			events.fire(new Import(codelist.id(), codelist.name(), codelist.version(), beanSession));
+			events.fire(new Import(origin(session),codelist.id(), codelist.qname(), codelist.version(), beanSession));
 			
 			progress.setDone();
 
@@ -81,5 +80,11 @@ public class Importer {
 			logger.error("Error during the import", throwable);
 			progress.setFailed(Exceptions.toError(throwable));
 		}
+	}
+	
+	//helper
+	String origin(ImportTaskSession session) {
+		Asset asset = session.getAsset();
+		return asset==null?"user desktop":asset.service().name().toString();
 	}
 }

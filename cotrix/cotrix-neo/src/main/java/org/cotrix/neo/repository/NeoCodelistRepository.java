@@ -17,10 +17,14 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.spi.StateRepository;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped @Alternative @Priority(RUNTIME)
 public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 
+	private static Logger log = LoggerFactory.getLogger(NeoCodelistRepository.class);
+	
 	@Inject
 	private GraphDatabaseService store;
 	
@@ -32,8 +36,16 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	@Override
 	public void add(State list) {
 		
-		new NeoCodelist(list);
+		try {
+			
+			new NeoCodelist(list);
 		
+		}
+		finally {
+			
+			log.info("cleared thread cache after import");
+			NeoUtils.threadCache().clear();
+		}
 	}
 
 	@Override

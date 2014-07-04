@@ -10,8 +10,8 @@ import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.InvalidCredentialsException;

@@ -2,7 +2,7 @@ package org.cotrix.lifecycle.impl;
 
 import static java.util.Arrays.*;
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 
 import org.cotrix.action.Action;
@@ -63,20 +63,21 @@ public class S4JLifecycleFactory implements LifecycleFactory {
 		machine.Configure(draft)
 								.PermitReentry(VIEW.on(id))
 								.PermitReentry(EDIT.on(id))
-								.Permit(LOCK.on(id),locked)
+								.Permit(LOCK.on(id), locked)
 								.Permit(REMOVE.on(id), removed)
 								.PermitReentry(VERSION.on(id))
 								.PermitReentry(PUBLISH.on(id));
 
 		machine.Configure(locked)
 								.PermitReentry(VIEW.on(id))
-								.Permit(SEAL.on(id),sealed)
+								.Permit(SEAL.on(id), sealed)
 								.Permit(UNLOCK.on(id), draft)
 								.Permit(REMOVE.on(id), removed)
 								.PermitReentry(VERSION.on(id))
 								.PermitReentry(PUBLISH.on(id));
 		
 		machine.Configure(sealed)
+								.Permit(UNSEAL.on(id), locked)
 								.PermitReentry(VIEW.on(id))
 								.PermitReentry(VERSION.on(id))
 								.PermitReentry(PUBLISH.on(id));

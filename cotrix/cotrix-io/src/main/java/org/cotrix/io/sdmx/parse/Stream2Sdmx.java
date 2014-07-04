@@ -1,13 +1,13 @@
 package org.cotrix.io.sdmx.parse;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.io.InputStream;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.io.impl.ParseTask;
 import org.sdmxsource.sdmx.api.manager.parse.StructureParsingManager;
 import org.sdmxsource.sdmx.api.model.StructureWorkspace;

@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.cotrix</groupId>
 		<artifactId>cotrix</artifactId>
-		<version>0.2.0-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>cotrix-common</artifactId>
 
@@ -28,6 +28,11 @@
 			<artifactId>weld-se</artifactId>
 			<version>${weld.version}</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
 		</dependency>
 
 	</dependencies>

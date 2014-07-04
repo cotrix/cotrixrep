@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.cotrix.common.Constants;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.configuration.ConfigurationBean;
 import org.cotrix.configuration.Provider;
 import org.cotrix.configuration.utils.Attributes;

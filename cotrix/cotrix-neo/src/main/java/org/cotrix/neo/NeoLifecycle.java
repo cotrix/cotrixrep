@@ -1,7 +1,7 @@
 package org.cotrix.neo;
 
 import static org.cotrix.common.Constants.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
@@ -13,10 +13,10 @@ import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
-import org.cotrix.common.cdi.ApplicationLifecycle;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.ApplicationLifecycle;
+import org.cotrix.common.events.Current;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Transaction;
@@ -78,7 +78,7 @@ public class NeoLifecycle {
 	void onStart(@Observes Startup event, ApplicationLifecycle app) {
 
 		if (!newstore)
-			app.isRestart();
+			app.markAsRestart();
 		
 	}
 
@@ -93,6 +93,7 @@ public class NeoLifecycle {
 
 			store.schema().indexFor(IDENTITY).on(name_prop).create();
 			store.schema().indexFor(CODELIST).on(id_prop).create();
+			store.schema().indexFor(DEFINITION).on(id_prop).create();
 			store.schema().indexFor(CODELISTLINK).on(id_prop).create();
 			store.schema().indexFor(USER).on(name_prop).create();
 			store.schema().indexFor(LIFECYCLE).on(id_prop).create();

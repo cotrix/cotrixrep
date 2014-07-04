@@ -24,6 +24,8 @@ public interface DataGridReportResource extends DataGrid.Resources {
 	
 	public interface DataGridReportStyle extends DataGrid.Style {
 		
+		String emptyTableWidget();
+		
 	}
 
 }

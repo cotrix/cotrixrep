@@ -1,18 +1,18 @@
 package org.cotrix.action.events;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.common.cdi.BeanSession;
+import org.cotrix.common.BeanSession;
 
 public class CodelistActionEvents {
 
 	public abstract static class CodelistEvent {
 		
-		public final String id;
-		public final QName name;
-		public final String version;
+		public final String codelistId;
+		public final QName codelistName;
+		public final String codelistVersion;
 		
 		public final BeanSession session;
 		
@@ -22,9 +22,9 @@ public class CodelistActionEvents {
 			valid("name", name);
 			valid("version", version);
 			
-			this.id = id;
-			this.name = name;
-			this.version = version;
+			this.codelistId = id;
+			this.codelistName = name;
+			this.codelistVersion = version;
 			this.session = session;
 		}
 		
@@ -40,8 +40,11 @@ public class CodelistActionEvents {
 	
 	public static class Import extends CodelistEvent {
 		
-		public Import(String id, QName name, String version, BeanSession session) {
+		public final String origin;
+		
+		public Import(String origin,String id, QName name, String version, BeanSession session) {
 			super(id,name,version,session);
+			this.origin=origin;
 		}
 		
 	}

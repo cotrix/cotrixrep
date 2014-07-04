@@ -25,7 +25,7 @@ import org.cotrix.action.Action;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 import org.cotrix.application.PermissionDelegationService;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.Role;
@@ -259,10 +259,10 @@ public class UsersServiceImpl implements UsersService {
 
 		for (CodelistCoordinates codelist:codelistRepository.get(codelistsFor(currentUser))) {
 
-			CodelistGroup group = groups.get(codelist.name());
+			CodelistGroup group = groups.get(codelist.qname());
 			if (group == null) {
-				group = new CodelistGroup(codelist.name().toString());
-				groups.put(codelist.name(), group);
+				group = new CodelistGroup(codelist.qname().toString());
+				groups.put(codelist.qname(), group);
 			}
 			List<String> roles = getRoles(fp.allRolesOver(codelist.id(), ResourceType.codelists));
 			group.addVersion(codelist.id(), ValueUtils.safeValue(codelist.version()), roles);

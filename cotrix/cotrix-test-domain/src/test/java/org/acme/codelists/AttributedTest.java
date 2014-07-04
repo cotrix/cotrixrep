@@ -1,7 +1,7 @@
 package org.acme.codelists;
 
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.trait.Status.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
@@ -30,9 +30,9 @@ public class AttributedTest extends DomainTest {
 		
 		Attributed e = like(new MyEntity(new AttributedMS()));
 		
-		assertTrue(e.attributes().contains(CREATION_TIME));
+		assertTrue(e.attributes().contains(CREATION_TIME.qname()));
 		
-		assertEquals(1,e.attributes().getAll(CREATION_TIME).size());
+		assertEquals(1,e.attributes().getAll(CREATION_TIME.qname()).size());
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class AttributedTest extends DomainTest {
 		
 		Attributed e = like(new MyEntity(new AttributedMS("someid",MODIFIED)));
 		
-		assertFalse(e.attributes().contains(CREATION_TIME));
+		assertFalse(e.attributes().contains(CREATION_TIME.qname()));
 		
 	}
 	
@@ -53,13 +53,13 @@ public class AttributedTest extends DomainTest {
 		
 		e.update(changeset);
 		
-		assertTrue(e.attributes().contains(UPDATE_TIME));
+		assertTrue(e.attributes().contains(UPDATE_TIME.qname()));
 		
-		assertEquals(1,e.attributes().getAll(UPDATE_TIME).size());
+		assertEquals(1,e.attributes().getAll(UPDATE_TIME.qname()).size());
 		
 		e.update(changeset);
 		
-		assertEquals(1,e.attributes().getAll(UPDATE_TIME).size());
+		assertEquals(1,e.attributes().getAll(UPDATE_TIME.qname()).size());
 	}
 	
 	

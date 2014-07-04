@@ -42,5 +42,15 @@ public class ValueUtils {
 		if (name == null) return null;
 		return name.getLocalPart();
 	}
+	
+	public static boolean contains(UIQName value, String term) {
+		if (value == null) return false;
+		return contains(value.getLocalPart(), term);
+	}
+	
+	public static boolean contains(String value, String term) {
+		if (value == null) return false;
+		return value.toLowerCase().contains(term);
+	}
 
 }

@@ -6,7 +6,7 @@ import java.io.ByteArrayInputStream;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.configuration.ConfigurationContext;
 import org.cotrix.neo.NeoConfiguration;
 import org.cotrix.test.ApplicationTest;

@@ -42,7 +42,7 @@ public class LinkTypes {
 		
 		linkType.setId(codelistLink.id());
 		
-		UIQName name = ValueUtils.safeValue(codelistLink.name());
+		UIQName name = ValueUtils.safeValue(codelistLink.qname());
 		linkType.setName(name);
 		
 		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
@@ -79,7 +79,7 @@ public class LinkTypes {
 			LinkOfLink linkOfLink = (LinkOfLink)valueType;
 			CodelistLink link = linkOfLink.target();
 			String id = link.id();
-			UIQName name = ValueUtils.safeValue(link.name());
+			UIQName name = ValueUtils.safeValue(link.qname());
 			return new LinkValue(id, name);
 		}
 		
@@ -87,7 +87,7 @@ public class LinkTypes {
 	}
 	
 	public static LinkValue toLinkType(CodelistLink codelistLink) {
-		return new LinkValue(codelistLink.id(), ValueUtils.safeValue(codelistLink.name()));
+		return new LinkValue(codelistLink.id(), ValueUtils.safeValue(codelistLink.qname()));
 	}
 	
 	private static UIValueFunction toValueFunction(ValueFunction valueFunction) {

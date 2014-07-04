@@ -2,7 +2,7 @@ package org.cotrix.repository;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.events.ApplicationLifecycleEvents;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.spi.UserQueryFactory;
@@ -52,7 +52,7 @@ public class UserQueries {
 	
 	public static class QueryFactoryInjector {
 
-		void configure(@Observes ApplicationEvents.Startup event, UserQueryFactory factory) {	
+		void configure(@Observes ApplicationLifecycleEvents.Startup event, UserQueryFactory factory) {	
 			
 			UserQueries.factory=factory;
 		}

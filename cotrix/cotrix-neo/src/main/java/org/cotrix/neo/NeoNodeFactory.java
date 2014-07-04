@@ -4,7 +4,7 @@ import static org.cotrix.neo.domain.Constants.*;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents.Startup;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
@@ -14,6 +14,8 @@ import org.neo4j.graphdb.ResourceIterator;
 //i.e. must create nodes but cannot have the store injected.
 
 public class NeoNodeFactory {
+	
+	//private static final Logger log = LoggerFactory.getLogger(NeoNodeFactory.class);
 
 	//usual 'static' injection sim: notified at startup, set static field manually 
 	static void startup(@Observes Startup event, GraphDatabaseService store) {

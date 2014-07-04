@@ -7,9 +7,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.BeanSession;
 import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
-import org.cotrix.common.cdi.BeanSession;
 import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;

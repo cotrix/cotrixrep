@@ -1,7 +1,7 @@
 package org.cotrix.neo.repository;
 
 import static java.lang.String.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,5 +1,6 @@
 package org.cotrix.neo.domain;
 
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.neo4j.graphdb.Direction.*;
@@ -45,26 +46,40 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	@Override
 	public Definition.State definition() {
 		
-		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
+		if (node().hasProperty(cdef_prop))
+			return commonDefinitionFor(QName.valueOf((String) node().getProperty(cdef_prop))).state();
 		
+		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
+				
 		//links should always have a type
 		if (rel==null)
 			throw new IllegalStateException(id()+" has an orphaned definition link");
 				
 		return NeoDefinition.factory.beanFrom(rel.getEndNode());
+
 	}
 
 	@Override
 	public void definition(Definition.State state) {
 		
-		//allow for private types
-		Node node = softResolve(state, DEFINITION);
-			
-		if (node==null)
-			node = NeoDefinition.factory.nodeFrom(state);
-			
-		node().createRelationshipTo(node,Relations.INSTANCEOF);
+		//common definitions are named in a property and then reconsituted in memory
+		if (isCommon(state.name()))
+			node().setProperty(cdef_prop,state.name().toString());
 		
+		//other definition are linked to
+		else  {
+			
+			Node target = null;
+			
+			if (state.isShared())
+				target = softResolve(state, DEFINITION);
+			
+			if (target==null)
+				target =NeoDefinition.factory.nodeFrom(state);
+			
+			node().createRelationshipTo(target,Relations.INSTANCEOF);
+		
+		}
 	}
 	
 	@Override
@@ -81,6 +96,11 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	public QName type() {
 		
 		return definition().type();
+	}
+	
+	@Override
+	public boolean is(QName name) {
+		return definition().is(name);
 	}
 
 	@Override

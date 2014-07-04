@@ -23,32 +23,12 @@ public class MetadataToolbarImpl extends Composite implements MetadataToolbar {
 	interface MetadataToolbarUiBinder extends UiBinder<Widget, MetadataToolbarImpl> {}
 	private static MetadataToolbarUiBinder uiBinder = GWT.create(MetadataToolbarUiBinder.class);
 	
-	@UiField PushButton lock;
-	@UiField PushButton unlock;
-	@UiField PushButton seal;
-	
 	@UiField PushButton codesButton;
 	
-	protected ToolBarListener listener;
+	private ToolBarListener listener;
 	
 	public MetadataToolbarImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
-	}
-	
-	
-	@UiHandler("lock")
-	protected void onLockClick(ClickEvent event) {
-		listener.onAction(Action.LOCK);
-	}
-	
-	@UiHandler("unlock")
-	protected void onUnlockClick(ClickEvent event) {
-		listener.onAction(Action.UNLOCK);
-	}
-	
-	@UiHandler("seal")
-	protected void onSealClick(ClickEvent event) {
-		listener.onAction(Action.FINALIZE);
 	}
 	
 	@UiHandler("codesButton")
@@ -64,10 +44,7 @@ public class MetadataToolbarImpl extends Composite implements MetadataToolbar {
 	@Override
 	public void setEnabled(Action action, boolean enabled) {
 		switch (action) {
-			case FINALIZE: seal.setEnabled(enabled); break;
-			case LOCK: lock.setEnabled(enabled); break;
-			case UNLOCK: unlock.setEnabled(enabled); break;
-			case TO_CODES: codesButton.setEnabled(enabled); break;
+			case TO_CODES: codesButton.setVisible(enabled); break;
 		}
 	}
 

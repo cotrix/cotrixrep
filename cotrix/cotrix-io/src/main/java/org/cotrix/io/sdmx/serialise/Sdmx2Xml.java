@@ -4,7 +4,7 @@ import java.io.OutputStream;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.io.impl.SerialisationTask;
 import org.sdmxsource.sdmx.api.constants.STRUCTURE_OUTPUT_FORMAT;
 import org.sdmxsource.sdmx.api.manager.output.StructureWriterManager;

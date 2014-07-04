@@ -24,8 +24,8 @@ public class RepositoryFilter implements Predicate<UIRepository> {
 	public boolean apply(UIRepository asset) {
 		if (asset == null) return false;
 		
-		if (ValueUtils.getLocalPart(asset.getName()).toLowerCase().contains(term)) return true;
-		if (asset.getPublishedTypes().toLowerCase().contains(term)) return true;
+		if (ValueUtils.contains(asset.getName(), term)) return true;
+		if (ValueUtils.contains(asset.getPublishedTypes(), term)) return true;
 		for (Format format:asset.getAvailableFormats()) if (format.toString().toLowerCase().contains(term)) return true;
 		
 		return false;

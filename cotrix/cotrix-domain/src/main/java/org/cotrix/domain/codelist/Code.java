@@ -136,7 +136,7 @@ public interface Code extends Identified,Attributed,Named {
 		
 		@Override
 		public String toString() {
-			return "Code [id="+id()+", name=" + name() + ", attributes=" + attributes()+ ", links=" + links()+"]" ;
+			return "Code [id="+id()+", name=" + qname() + ", attributes=" + attributes()+ ", links=" + links()+"]" ;
 		}
 
 	}

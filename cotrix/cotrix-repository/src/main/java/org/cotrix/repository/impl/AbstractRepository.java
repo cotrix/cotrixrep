@@ -1,9 +1,9 @@
 package org.cotrix.repository.impl;
 
 import static java.lang.System.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
@@ -60,8 +60,6 @@ public abstract class AbstractRepository<T extends Identified,
 			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
 		
 		delegate.add(implementation.state());
-		
-		log.trace("added entity {}",log(entity));
 		
 		producer.additions.fire(entity);
 		
@@ -121,7 +119,7 @@ public abstract class AbstractRepository<T extends Identified,
 	@Override
 	public void update(String id, UpdateAction<T> action) {
 	
-		notNull("codelist identifier",id);
+		notNull("entity identifier",id);
 		notNull("update action",action);
 		
 		T entity = lookup(id);
@@ -149,12 +147,16 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		if (!delegate.contains(id))
 			throw new IllegalStateException("entity "+id+" is not in this repository, hence cannot be removed.");
+		 
+				
+		T entity = lookup(id);
+
+		producer.removals.fire(entity);
 		
 		delegate.remove(id);	
 		
 		log.info("removed entity "+id);
 		
-		producer.removals.fire(id);
 
 	}
 	
@@ -165,7 +167,7 @@ public abstract class AbstractRepository<T extends Identified,
 	
 	@SuppressWarnings("all")
 	private <R> Query.Private<T,R> reveal(Query<T,R> query) {
-		return Utils.reveal(query,Query.Private.class);
+		return CommonUtils.reveal(query,Query.Private.class);
 	}
 
 	/* used to retype P as T and vice-versa.

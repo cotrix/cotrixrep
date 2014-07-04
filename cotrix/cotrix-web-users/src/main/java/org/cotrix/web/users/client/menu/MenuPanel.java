@@ -6,6 +6,8 @@ package org.cotrix.web.users.client.menu;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.feature.FeatureBinder;
+import org.cotrix.web.common.client.feature.UserProvider;
+import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.users.client.UsersBus;
 
 import com.google.gwt.core.client.GWT;
@@ -66,10 +68,18 @@ public class MenuPanel extends ResizeComposite {
 			
 			@Override
 			public void onUserLogged(UserLoggedEvent event) {
-				username.setText(event.getUser().getUsername());
-				
+				setUsername(event.getUser());
 			}
 		});
+	}
+	
+	@Inject
+	protected void initUsername(UserProvider userProvider) {
+		setUsername(userProvider.getUser());
+	}
+	
+	private void setUsername(UIUser user) {
+		if (user!=null) username.setText(user.getUsername());
 	}
 	
 	public void resetToProfile() {

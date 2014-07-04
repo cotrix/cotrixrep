@@ -1,6 +1,6 @@
 package org.cotrix.domain.common;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.cotrix.common.Utils;
+import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -126,8 +126,18 @@ public interface StateContainer<S> extends Iterable<S> {
 			StateContainer other = (StateContainer) obj;
 			//wrapping in a collection (e.g. list) allows us to test with soft equality
 			//otherwise keys would still be taken into account
-			if (!new ArrayList(elements.values()).equals(new ArrayList(Utils.collect(other))))
-				return false;
+			
+			if (IdentifiedMS.testmode) {
+			
+				if (!(collect(elements.values()).equals(collect(other))))
+					return false;
+				
+			}
+			else {
+				
+				if (!collectUnordered(elements.values()).equals(collectUnordered(other)))
+					return false;
+			}
 			
 			return true;
 		}

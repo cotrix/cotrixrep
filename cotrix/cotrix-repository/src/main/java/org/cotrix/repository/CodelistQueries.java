@@ -2,7 +2,7 @@ package org.cotrix.repository;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.events.ApplicationLifecycleEvents;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -73,7 +73,7 @@ public class CodelistQueries {
 	
 	static class QueryFactoryInjector {
 
-		void configure(@Observes ApplicationEvents.Startup event, CodelistQueryFactory factory) {	
+		void configure(@Observes ApplicationLifecycleEvents.Startup event, CodelistQueryFactory factory) {	
 			
 			CodelistQueries.setFactory(factory);
 		}

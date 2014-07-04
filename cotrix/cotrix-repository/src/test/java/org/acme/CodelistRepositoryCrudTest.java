@@ -73,7 +73,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		for (Code code : repository.lookup(source.id()).codes())
 			for (Codelink link : code.links())
-				System.out.println(link.type().name()+":"+link.value());
+				System.out.println(link.type().qname()+":"+link.value());
 		
 	}
 

@@ -35,6 +35,8 @@ public interface Attribute extends Identified, Named {
 	QName type();
 
 	
+	boolean is(QName name);
+	
 	/**
 	 * Returns the current value of this attribute
 	 * 
@@ -82,6 +84,8 @@ public interface Attribute extends Identified, Named {
 		void value(String value);
 		void language(String language);
 		void description(String description);
+		
+		boolean is(QName name);
 	}
 
 	
@@ -102,13 +106,18 @@ public interface Attribute extends Identified, Named {
 		}
 
 		@Override
-		public QName name() {
+		public QName qname() {
 			return state().name();
 		}
 
 		@Override
 		public QName type() {
 			return state().type();
+		}
+		
+		@Override
+		public boolean is(QName name) {
+			return state().is(name);
 		}
 
 		@Override
@@ -136,11 +145,11 @@ public interface Attribute extends Identified, Named {
 			if (changeset.value() != null)
 				state().value(changeset.value() == NULL_STRING ? null : validateAndUpdateValue(changeset.value()));
 				
-			if (changeset.name() == NULL_QNAME)
-				throw new IllegalArgumentException("attribute name " + name() + " cannot be erased");
+			if (changeset.qname() == NULL_QNAME)
+				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
-			if (changeset.name() != null)
-				state().name(changeset.name());
+			if (changeset.qname() != null)
+				state().name(changeset.qname());
 
 			if (changeset.type() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute type " + type() + " cannot be erased");
@@ -169,7 +178,7 @@ public interface Attribute extends Identified, Named {
 			ValueType type = definition().valueType();
 			
 			if (!type.isValid(value))
-				throw new IllegalArgumentException(format(validationErrorMsg, value, name(),type.constraints().asSingleConstraint()));
+				throw new IllegalArgumentException(format(validationErrorMsg, value, qname(),type.constraints().asSingleConstraint()));
 		
 			return value;
 		}

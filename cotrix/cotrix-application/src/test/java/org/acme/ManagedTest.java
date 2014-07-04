@@ -1,22 +1,21 @@
-package org.acme.codelists;
+package org.acme;
 
 import static java.util.concurrent.TimeUnit.*;
-import static org.acme.codelists.Fixture.*;
+import static org.cotrix.application.managed.ManagedCode.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.utils.CodeStatus.*;
-import static org.cotrix.domain.utils.Constants.*;
-import static org.cotrix.domain.utils.ManagedCode.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
+import org.cotrix.application.managed.ManagedCode;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.utils.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
@@ -38,13 +37,14 @@ public class ManagedTest extends ApplicationTest {
 	@Inject
 	UserRepository users;
 
-	Attribute attr = attribute().name(name).build();
+	Attribute attr = attribute().name("name").build();
 	
 	Code code = code()
-					.name(name)
+					.name("name")
 					.attributes(attr)
 					.build();
 		
+	
 	ManagedCode managed;
 	
 	
@@ -72,7 +72,7 @@ public class ManagedTest extends ApplicationTest {
 		//let date change
 		SECONDS.sleep(1);
 		
-		reveal(code).update(reveal(modify(code).name(newname).build()));
+		reveal(code).update(reveal(modify(code).name("newname").build()));
 		
 		assertNotEquals(managed.created(),managed.lastUpdated());
 	}
@@ -82,7 +82,7 @@ public class ManagedTest extends ApplicationTest {
 		
 		assertNull(managed.lastUpdatedBy());
 		
-		reveal(code).update(reveal(modify(code).name(newname).build()));
+		reveal(code).update(reveal(modify(code).name("newname").build()));
 		
 		//default current user
 		assertEquals(cotrix.name(),managed.lastUpdatedBy());
@@ -107,23 +107,24 @@ public class ManagedTest extends ApplicationTest {
 		assertNull(managed.originId());
 		assertNull(managed.originName());
 		
-		Codelist list  = codelist().name(name).with(code).build();
+		Codelist list  = codelist().name("newname").with(code).build();
 		
 		codelists.add(list);
 		
-		Codelist versioned = versioning.bump(list).to(newversion);
+		Codelist versioned = versioning.bump(list).to("2.0");
 		
-		ManagedCode managedVersioned = manage(versioned.codes().lookup(managed.name()));
+		ManagedCode managedVersioned = manage(versioned.codes().lookup(code.qname()));
 		
-		assertEquals(managed.id(), managedVersioned.originId());
-		assertEquals(managed.name(), managedVersioned.originName());
+		assertEquals(code.id(), managedVersioned.originId());
+		assertEquals(code.qname(), managedVersioned.originName());
 
 	}
 	
 	@Test
 	public void accessStatus() throws Exception {
 
-		reveal(code).update(reveal(modify(code).attributes(status(DELETED)).build()));
+		Attribute a = attribute().with(STATUS).value(DELETED.name()).build(); 
+		reveal(code).update(reveal(modify(code).attributes(a).build()));
 		
 		//default value is creation date
 		assertEquals(DELETED,managed.status());

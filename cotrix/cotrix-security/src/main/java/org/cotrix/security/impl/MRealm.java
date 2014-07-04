@@ -9,7 +9,7 @@ import javax.annotation.Priority;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Alternative;
 
-import org.cotrix.common.cdi.ApplicationEvents.Shutdown;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

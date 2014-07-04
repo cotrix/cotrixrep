@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.cotrix.neo.domain.NeoCodelist;
 import org.cotrix.neo.domain.utils.NeoBeanFactory;
@@ -49,7 +49,7 @@ public abstract class NeoQueries {
 	
 	
 	protected NeoCriterion<?> reveal(Criterion<?> c) {
-		return Utils.reveal(c,NeoCriterion.class);
+		return CommonUtils.reveal(c,NeoCriterion.class);
 	}
 	
 	

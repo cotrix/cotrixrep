@@ -1,7 +1,10 @@
 package org.cotrix.domain.memory;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.Utils.*;
 
 import java.util.Collection;
 
@@ -15,7 +18,9 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	private NamedStateContainer<Attribute.State> attributes = new NamedStateContainer.Default<Attribute.State>();
 
 	public AttributedMS() {
-		attributes.add(timestamp(CREATION_TIME));
+		
+		attributes.add(timestamp());
+	
 	}
 	
 	public AttributedMS(String id,Status status) {
@@ -23,9 +28,11 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	}
 	
 	public AttributedMS(Attributed.State other) {
-		for (Attribute.State state : other.attributes())
-			if (!state.type().equals(SYSTEM_TYPE))
-				attributes.add(new AttributeMS(state));
+		
+		for (Attribute.State attribute : other.attributes())
+			
+			if (!attribute.is(SYSTEM_TYPE))
+				attributes.add(new AttributeMS(attribute));
 	}
 	
 	@Override
@@ -55,9 +62,17 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		if (attributes == null) {
 			if (other.attributes() != null)
 				return false;
-		} else if (!attributes.equals(other.attributes()))
-			return false;
+		} else
+			if (!attributes.equals(other.attributes()))
+				return false;
+		
+		
 		return true;
 	}
 		
+	
+	//helpers
+	private Attribute.State timestamp() {
+		return stateof(attribute().with(CREATION_TIME).value(time()));
+	}
 }

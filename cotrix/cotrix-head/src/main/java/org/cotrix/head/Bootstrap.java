@@ -5,8 +5,8 @@ import static org.cotrix.domain.dsl.Users.*;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents.FirstTime;
-import org.cotrix.common.cdi.ApplicationEvents.Ready;
+import org.cotrix.common.events.ApplicationLifecycleEvents.FirstTime;
+import org.cotrix.common.events.ApplicationLifecycleEvents.Ready;
 import org.cotrix.security.SignupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

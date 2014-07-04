@@ -21,6 +21,7 @@ import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.CotrixStartupEvent;
 import org.cotrix.web.common.client.event.SwitchToModuleEvent;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
+import org.cotrix.web.common.client.feature.UserProvider;
 import org.cotrix.web.common.shared.UIUser;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.shared.InvalidUsernameException;
@@ -47,10 +48,14 @@ public class UserController {
 	protected static interface UserControllerEventBinder extends EventBinder<UserController> {}
 
 	@Inject @CotrixBus
-	protected EventBus cotrixBus;
-	protected List<String> openedCodelists = new ArrayList<String>();
+	private EventBus cotrixBus;
+	
+	@Inject
+	private UserProvider userIdProvider;
+	
+	private List<String> openedCodelists = new ArrayList<String>();
 
-	protected AsyncCallback<UIUser> loginCallback = new AsyncCallback<UIUser>() {
+	private AsyncCallback<UIUser> loginCallback = new AsyncCallback<UIUser>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -61,11 +66,12 @@ public class UserController {
 
 		@Override
 		public void onSuccess(UIUser result) {
+			userIdProvider.setUser(result);
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 		}
 	};
 
-	protected AsyncCallback<UIUser> logoutCallback = new AsyncCallback<UIUser>() {
+	private AsyncCallback<UIUser> logoutCallback = new AsyncCallback<UIUser>() {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -74,13 +80,14 @@ public class UserController {
 
 		@Override
 		public void onSuccess(UIUser result) {
+			userIdProvider.setUser(result);
 			cotrixBus.fireEvent(new UserLoggedEvent(result));
 			cotrixBus.fireEvent(new SwitchToModuleEvent(CotrixModule.HOME));
 		}
 	};
 
 	@Inject
-	protected MainServiceAsync service;
+	private MainServiceAsync service;
 
 	@Inject
 	private void bind(UserControllerEventBinder binder) {
@@ -126,36 +133,36 @@ public class UserController {
 		initialLogin();
 	}
 
-	protected void initialLogin() {
+	private void initialLogin() {
 		String tokenParameter = Location.getParameter("token");
 		Log.trace("tokenParameter: "+tokenParameter);
 		if (tokenParameter == null) getCurrentUser();
 		else logUsingToken(tokenParameter);
 	}
 
-	protected void getCurrentUser()
+	private void getCurrentUser()
 	{
 		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.getCurrentUser(loginCallback);
 	}
 
-	protected void logUsingToken(String token) {
+	private void logUsingToken(String token) {
 		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.login(new UrlToken(token), openedCodelists, loginCallback);
 	}
 
-	protected void logout()
+	private void logout()
 	{
 		service.logout(openedCodelists, logoutCallback);
 	}
 
-	protected void logUser(String username, String password)
+	private void logUser(String username, String password)
 	{
 		cotrixBus.fireEvent(new UserLoggingInEvent());
 		service.login(new UsernamePasswordToken(username, password), openedCodelists, loginCallback);
 	}
 
-	protected void registerUser(String username, String password, String email)
+	private void registerUser(String username, String password, String email)
 	{
 		cotrixBus.fireEvent(new UserRegisteringEvent());
 		service.registerUser(username, password, email, openedCodelists, loginCallback);

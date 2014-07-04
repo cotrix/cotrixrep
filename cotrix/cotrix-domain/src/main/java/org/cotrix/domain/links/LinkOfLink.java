@@ -1,6 +1,6 @@
 package org.cotrix.domain.links;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
 
@@ -57,7 +57,7 @@ public class LinkOfLink implements LinkValueType {
 
 	public boolean matches(CodelistLink.State link) {
 		
-		QName name = target.name();
+		QName name = target.qname();
 		String id = target.target() == null? null : target.target().id();
 		LinkValueType type = target.valueType();
 

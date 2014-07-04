@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.security.InvalidUsernameException;

@@ -9,7 +9,8 @@ public class Constants {
 	public static final String name_prop="name";
 	public static final String fullname_prop="fullname";
 	public static final String type_prop="type";
-	public static final String attr_type_prop="attr_type";
+	public static final String shared_prop="shared";
+	public static final String vtype_prop="vtype";
 	public static final String value_prop="val";
 	public static final String description_prop="desc";
 	public static final String lang_prop="lang";
@@ -22,6 +23,7 @@ public class Constants {
 	public static final String target_prop = "target";
 	public static final String function_prop = "function";
 	public static final String range_prop = "range";
+	public static final String cdef_prop = "cdef";
 	
 	public static enum NodeType implements Label {
 		

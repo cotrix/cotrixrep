@@ -1,6 +1,6 @@
 package org.cotrix.neo.domain;
 
-import static org.cotrix.neo.NeoUtils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
@@ -40,8 +40,25 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 		language(state.language());
 		valueType(state.valueType());
 		range(state.range());
+		shared(state.isShared());
 		
 	}
+	
+	@Override
+	public boolean isShared() {
+		
+		return (Boolean) node().getProperty(shared_prop,true);
+		
+	}
+	
+	
+	void shared(boolean flag) {
+		
+		//store only the less likely case
+		if (!flag)
+			node().setProperty(shared_prop,flag);
+	}
+	
 	
 	@Override
 	public QName name() {
@@ -70,6 +87,11 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 			node().setProperty(type_prop,type.toString());
 		
 	}
+	
+	@Override
+	public boolean is(QName name) {
+		return type().equals(name);
+	}
 
 	@Override
 	public String language() {
@@ -89,14 +111,14 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 	@Override
 	public ValueType valueType() {
 		
-		return (ValueType) binder().fromXML((String) node().getProperty(attr_type_prop));
+		return (ValueType) binder().fromXML((String) node().getProperty(vtype_prop));
 		
 	}
 	
 	@Override
 	public void valueType(ValueType state) {
 		
-		node().setProperty(attr_type_prop,binder().toXML(state));
+		node().setProperty(vtype_prop,binder().toXML(state));
 		
 	}
 	

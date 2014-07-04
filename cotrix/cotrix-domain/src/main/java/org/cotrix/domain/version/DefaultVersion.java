@@ -1,6 +1,6 @@
 package org.cotrix.domain.version;
 
-import org.cotrix.common.Utils;
+import org.cotrix.common.CommonUtils;
 
 
 
@@ -14,7 +14,7 @@ public class DefaultVersion implements Version {
 	
 	public DefaultVersion(String value) {
 		
-		Utils.notEmpty("version",value);
+		CommonUtils.notEmpty("version",value);
 		
 		this.value=value;
 	}

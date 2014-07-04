@@ -9,7 +9,7 @@
 .cellTreeEmptyMessage {
   padding-top: 16px;
   text-align: center;
-/*  font-style: italic;*/
+  height: 18px;
 }
 
 .cellTreeItem {

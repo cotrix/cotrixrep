@@ -25,8 +25,8 @@ public class Fingerprint {
 	public Fingerprint addAttributes(Iterable<? extends Attribute> attributes) {
 		
 		for (Attribute a : attributes)
-			if (!a.type().equals(SYSTEM_TYPE))
-			  addTo(typesFor(a.name()), a.type(), a.language());
+			if (!a.is(SYSTEM_TYPE))
+			  addTo(typesFor(a.qname()), a.type(), a.language());
 		
 		return this;
 	}
@@ -35,8 +35,8 @@ public class Fingerprint {
 	public Fingerprint addDefinitions(Iterable<? extends Definition> definitions) {
 		
 		for (Definition def : definitions)
-			if (!def.type().equals(SYSTEM_TYPE))
-				addTo(typesFor(def.name()), def.type(), def.language());
+			if (!def.is(SYSTEM_TYPE))
+				addTo(typesFor(def.qname()), def.type(), def.language());
 			
 		return this;
 	}
@@ -50,7 +50,7 @@ public class Fingerprint {
 
 			if (type instanceof AttributeLink) {
 	
-					Map<QName, Set<String>> types = typesFor(link.name());
+					Map<QName, Set<String>> types = typesFor(link.qname());
 	
 					AttributeTemplate template = ((AttributeLink) type).template();
 	

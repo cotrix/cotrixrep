@@ -3,9 +3,9 @@ package org.cotrix.repository.impl;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.cotrix.domain.events.Qualifiers.Modified;
-import org.cotrix.domain.events.Qualifiers.New;
-import org.cotrix.domain.events.Qualifiers.Removed;
+import org.cotrix.common.events.Modified;
+import org.cotrix.common.events.New;
+import org.cotrix.common.events.Removed;
 
 public class EventProducer {
 
@@ -13,7 +13,7 @@ public class EventProducer {
 	public Event<Object> additions;
 	
 	@Inject @Removed
-	public Event<String> removals;
+	public Event<Object> removals;
 	
 	@Inject @Modified
 	public Event<Object> updates;

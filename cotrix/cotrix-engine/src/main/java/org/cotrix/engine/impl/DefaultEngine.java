@@ -1,7 +1,7 @@
 package org.cotrix.engine.impl;
 
 import static org.cotrix.action.Actions.*;
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.engine.impl.Task.*;
 
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.cotrix.action.Action;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;

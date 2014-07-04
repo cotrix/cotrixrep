@@ -65,7 +65,7 @@ public class NamedTest extends DomainTest {
 		
 		e.update(changeset);
 		
-		assertEquals(new QName("newname"),e.name());
+		assertEquals(new QName("newname"),e.qname());
 	}
 	
 	

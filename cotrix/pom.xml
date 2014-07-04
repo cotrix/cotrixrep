@@ -7,7 +7,7 @@
 
 	<groupId>org.cotrix</groupId>
 	<artifactId>cotrix</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -445,7 +445,14 @@
 				<version>1.3</version>
 			</dependency>
 
+			<!-- other -->
 
+			<dependency>
+				<groupId>com.thoughtworks.xstream</groupId>
+				<artifactId>xstream</artifactId>
+				<version>1.4.5</version>
+			</dependency>
+		
 		</dependencies>
 	</dependencyManagement>
 

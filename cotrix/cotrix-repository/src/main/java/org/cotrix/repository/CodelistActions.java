@@ -1,10 +1,10 @@
 package org.cotrix.repository;
 
-import static org.cotrix.common.Utils.*;
+import static org.cotrix.common.CommonUtils.*;
 
 import javax.enterprise.event.Observes;
 
-import org.cotrix.common.cdi.ApplicationEvents;
+import org.cotrix.common.events.ApplicationLifecycleEvents;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.spi.CodelistActionFactory;
 
@@ -35,7 +35,7 @@ public class CodelistActions {
 	
 	static class ActionFactoryInjector {
 
-		void configure(@Observes ApplicationEvents.Startup event, CodelistActionFactory factory) {	
+		void configure(@Observes ApplicationLifecycleEvents.Startup event, CodelistActionFactory factory) {	
 			
 			CodelistActions.setFactory(factory);
 		}

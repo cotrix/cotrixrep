@@ -60,7 +60,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 				build();
 		
 		report().log("==============================");
-		report().log("terminated import of codelist '"+codelist.name()+"' with "+codelist.codes().size()+" codes.");
+		report().log("terminated import of codelist '"+codelist.qname()+"' with "+codelist.codes().size()+" codes.");
 		
 		return codelist;
 	}
@@ -138,7 +138,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		
 		//names: at least one, all with language
 		for (TextTypeWrapper name : bean.getNames())
-			attributes.add(attributeFor(directives.get(NAME), Constants.NAME, name, pool));
+			attributes.add(attributeFor(directives.get(NAME), Constants.NAME_TYPE, name, pool));
 		
 
 		//descriptions: might be none, all with language
@@ -152,7 +152,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 					annotationBean.getTitle()==null?directives.get(NAME):q(annotationBean.getTitle()):
 					q(annotationBean.getId());
 
-			QName type = annotationBean.getType()==null?Constants.defaultType:q(annotationBean.getType());
+			QName type = annotationBean.getType()==null?Constants.DEFAULT_TYPE:q(annotationBean.getType());
 			
 			for (TextTypeWrapper annotation :  annotationBean.getText()) // create an attribute for each annotation text piece
 				attributes.add(attributeFor(name,type, annotation, pool));

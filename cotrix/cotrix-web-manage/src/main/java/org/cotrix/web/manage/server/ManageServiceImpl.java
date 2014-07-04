@@ -23,8 +23,8 @@ import org.cotrix.action.MainAction;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
-import org.cotrix.common.cdi.BeanSession;
-import org.cotrix.common.cdi.Current;
+import org.cotrix.common.BeanSession;
+import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
@@ -64,6 +64,7 @@ import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.FeatureCarrier.Void;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
@@ -140,6 +141,7 @@ public class ManageServiceImpl implements ManageService {
 		mapper.map(LOCK).to(LOCK_CODELIST);
 		mapper.map(UNLOCK).to(UNLOCK_CODELIST);
 		mapper.map(SEAL).to(SEAL_CODELIST);
+		mapper.map(UNSEAL).to(UNSEAL_CODELIST);
 		mapper.map(REMOVE).to(ApplicationFeatures.REMOVE_CODELIST);
 		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
@@ -245,6 +247,13 @@ public class ManageServiceImpl implements ManageService {
 	public FeatureCarrier.Void seal(@Id String codelistId) throws ServiceException {
 		return FeatureCarrier.getVoid();
 	}
+	
+
+	@Override
+	@CodelistTask(UNSEAL)
+	public Void unseal(@Id String codelistId) throws ServiceException {
+		return FeatureCarrier.getVoid();
+	}
 
 	@Override
 	@CodelistTask(EDIT)
@@ -308,7 +317,7 @@ public class ManageServiceImpl implements ManageService {
 		userRepository.update(changeset);
 		
 		UICodelistInfo codelistInfo = addCodelist(newCodelist);
-		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.name(), newCodelist.version(), session));
+		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.qname(), newCodelist.version(), session));
 		return codelistInfo;
 	}
 
@@ -385,7 +394,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getLinkTypes codelistId: {}",codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		List<UILinkTypeInfo> types = new ArrayList<>();
-		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.name())));
+		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.qname())));
 		return types;
 	}
 
@@ -396,7 +405,7 @@ public class ManageServiceImpl implements ManageService {
 		CodelistLink link = codelist.links().lookup(linkTypeId);
 		Codelist target = link.target();
 		List<UICodeInfo> codes = new ArrayList<>();
-		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.name())));
+		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.qname())));
 		return codes;
 	}
 

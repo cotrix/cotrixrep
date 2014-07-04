@@ -12,10 +12,13 @@ import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -31,9 +34,25 @@ public class SplashPanel extends LoadingPanel {
 	interface ProfilePanelUiBinder extends UiBinder<Widget, SplashPanel> {}
 	interface ProfilePanelEventBinder extends EventBinder<SplashPanel> {}
 	
+	enum Action {
+		LOCK,
+		UNLOCK,
+		SEAL,
+		UNSEAL;
+	}
+	
+	public interface Listener {
+		public void onAction(Action action);
+	}
+	
 	@UiField Label name;
 	@UiField InlineLabel version;
 	@UiField Label state;
+	
+	@UiField PushButton lock;
+	@UiField PushButton unlock;
+	@UiField PushButton seal;
+	@UiField PushButton unseal;
 	
 	@Inject
 	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
@@ -49,6 +68,8 @@ public class SplashPanel extends LoadingPanel {
 	
 	@Inject @CurrentCodelist
 	private UICodelist codelist;
+	
+	private Listener listener;
 
 	@Inject
 	protected void init(ProfilePanelUiBinder uiBinder) {
@@ -80,6 +101,40 @@ public class SplashPanel extends LoadingPanel {
 
 	public HasEditing getLinkTypesPanel() {
 		return linkTypesPanel;
+	}
+	
+	
+	@UiHandler("lock")
+	protected void onLockClick(ClickEvent event) {
+		listener.onAction(Action.LOCK);
+	}
+	
+	@UiHandler("unlock")
+	protected void onUnlockClick(ClickEvent event) {
+		listener.onAction(Action.UNLOCK);
+	}
+	
+	@UiHandler("seal")
+	protected void onSealClick(ClickEvent event) {
+		listener.onAction(Action.SEAL);
+	}
+	
+	@UiHandler("unseal")
+	protected void onUnsealClick(ClickEvent event) {
+		listener.onAction(Action.UNSEAL);
+	}
+	
+	public void setListener(Listener listener) {
+		this.listener = listener;
+	}
+
+	public void setEnabled(Action action, boolean enabled) {
+		switch (action) {
+			case SEAL: seal.setVisible(enabled); break;
+			case UNSEAL: unseal.setVisible(enabled); break;
+			case LOCK: lock.setVisible(enabled); break;
+			case UNLOCK: unlock.setVisible(enabled); break;
+		}
 	}
 
 }
