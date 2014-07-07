@@ -61,7 +61,7 @@ public class MLifecycleRepository implements LifecycleRepository {
 		ResumptionToken token = tokens.get(lc.resourceId());
 		
 		if (token==null)
-			log.warn("cannot update lifecycle for "+lc.resourceId()+"as it has been previous removed");
+			log.warn("cannot update lifecycle for "+lc.resourceId()+" (maybe it has just been removed?)");
 		
 		else {
 			

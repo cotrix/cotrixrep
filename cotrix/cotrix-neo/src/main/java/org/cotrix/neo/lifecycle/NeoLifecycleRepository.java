@@ -82,11 +82,15 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 		Node node = nodeFor(lc.resourceId());
 
 		if (node==null)
-			throw new AssertionError("attempt to update transient lifecycle "+lc.resourceId());
+			log.warn("cannot update lifecycle for "+lc.resourceId()+" (maybe it has just been removed?)");
 		
-		node.setProperty(state_prop,stream.toXML(lc.state()));
-		
-		log.info("updated {}'s lifecycle",lc.resourceId());
+		else {
+			
+			node.setProperty(state_prop,stream.toXML(lc.state()));
+			
+			log.info("updated {}'s lifecycle",lc.resourceId());
+			
+		}
 	}
 	
 	@Override
