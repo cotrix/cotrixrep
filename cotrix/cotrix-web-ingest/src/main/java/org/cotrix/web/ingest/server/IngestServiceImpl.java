@@ -30,6 +30,8 @@ import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.client.IngestService;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
@@ -379,8 +381,8 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			return new PreviewHeaders(previewData.isHeadersEditable(), previewData.getHeadersLabels());
 		} catch(Exception e)
 		{
-			logger.error("Error converting the preview data", e);
-			throw new ServiceException(e.getMessage());
+			logger.error("Error reading the preview data", e);
+			throw new ServiceErrorException(Exceptions.toError("Error reading the preview data", e));
 		}
 
 	}
@@ -389,12 +391,18 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	public DataWindow<List<String>> getPreviewData(Range range) throws ServiceException {
 		logger.trace("getPreviewData range: {}", range);
 		
-		PreviewData previewData = previewDataManager.getPreviewData();
-		if (previewData == null) return DataWindow.emptyWindow();
-		
-		List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
-		
-		return new DataWindow<>(rows, previewData.getRows().size());
+		try {
+			PreviewData previewData = previewDataManager.getPreviewData();
+			if (previewData == null) return DataWindow.emptyWindow();
+			
+			List<List<String>> rows = Ranges.subList(previewData.getRows(), range);
+			
+			return new DataWindow<>(rows, previewData.getRows().size());
+		} catch(Exception e)
+		{
+			logger.error("Error reading the preview data", e);
+			throw new ServiceErrorException(Exceptions.toError("Error reading the preview data", e));
+		}
 	}
 
 	@Override

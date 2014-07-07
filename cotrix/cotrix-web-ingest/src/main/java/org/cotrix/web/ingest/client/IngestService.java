@@ -9,6 +9,7 @@ import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
@@ -43,7 +44,7 @@ public interface IngestService extends RemoteService {
 	
 	public FileUploadProgress getUploadProgress() throws ServiceException;
 	
-	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ServiceException;
+	public PreviewData getCsvPreviewData(CsvConfiguration configuration) throws ServiceException, ServiceErrorException;
 	
 	public UIAssetType getCodeListType() throws ServiceException;
 	

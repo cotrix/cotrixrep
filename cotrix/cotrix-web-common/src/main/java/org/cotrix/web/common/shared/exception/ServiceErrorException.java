@@ -18,6 +18,10 @@ public class ServiceErrorException extends ServiceException {
 	
 	private Error error;
 	
+	@SuppressWarnings("unused")
+	private ServiceErrorException() {
+	}
+	
 	public ServiceErrorException(Error error) {
 		super(error.getMessage());
 		this.error = error;

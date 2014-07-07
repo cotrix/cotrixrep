@@ -18,6 +18,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.Identified;
@@ -92,7 +93,7 @@ public class TaskInterceptor {
 		} catch(IllegalAccessError e) {
 			throw new IllegalActionException(e.getMessage());
 		} catch (Throwable e) {
-			if (e instanceof ServiceException) throw e;
+			if (e instanceof ServiceException || e instanceof ServiceErrorException) throw e;
 			logger.error("An error occurred executing the task", e);
 			throw new ServiceException(e.getMessage());
 		}
