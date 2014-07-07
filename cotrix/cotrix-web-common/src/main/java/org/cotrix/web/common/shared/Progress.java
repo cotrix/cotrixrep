@@ -13,9 +13,8 @@ public class Progress implements IsSerializable {
 	
 	public enum Status {ONGOING, DONE, FAILED};
 	
-	protected Status status;
-	protected Error failureCause; 
-	protected boolean mappingFailed;
+	private Status status;
+	private Error failureCause; 
 	
 	public Progress() {
 		status = Status.ONGOING;
@@ -44,20 +43,6 @@ public class Progress implements IsSerializable {
 		this.failureCause = cause;
 	}
 	
-	/**
-	 * @return the mappingFailed
-	 */
-	public boolean isMappingFailed() {
-		return mappingFailed;
-	}
-
-	/**
-	 * @param mappingFailed the mappingFailed to set
-	 */
-	public void setMappingFailed() {
-		this.status = Status.DONE;
-		this.mappingFailed = true;
-	}
 
 	public boolean isComplete()
 	{
@@ -74,8 +59,6 @@ public class Progress implements IsSerializable {
 		builder.append(status);
 		builder.append(", failureCause=");
 		builder.append(failureCause);
-		builder.append(", mappingFailed=");
-		builder.append(mappingFailed);
 		builder.append("]");
 		return builder.toString();
 	}

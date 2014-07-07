@@ -26,7 +26,6 @@ import org.cotrix.web.common.server.util.Ranges.Predicate;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -48,6 +47,7 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodelistInfo;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
@@ -196,6 +196,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 				logger.error("Unexpected upload progress null.");
 				throw new ServiceException("Upload progress not available");
 			}
+				
 			return uploadProgress;
 		} catch(Exception e)
 		{
@@ -290,7 +291,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 			logger.trace("user "+user.id()+" user "+user.fullName());
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
-			Progress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
+			ImportProgress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
 			session.setImporterProgress(importerProgress);
 		} catch (IOException e) {
 			logger.error("Error during import starting", e);
@@ -300,7 +301,7 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 
 
 	@Override
-	public Progress getImportProgress() throws ServiceException {
+	public ImportProgress getImportProgress() throws ServiceException {
 		try {
 			return session.getImporterProgress();
 		} catch(Exception e)

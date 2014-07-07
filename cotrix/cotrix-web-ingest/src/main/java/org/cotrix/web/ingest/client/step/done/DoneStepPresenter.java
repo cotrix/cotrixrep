@@ -1,11 +1,11 @@
 package org.cotrix.web.ingest.client.step.done;
 
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.ingest.client.event.ImportBus;
 import org.cotrix.web.ingest.client.event.ImportProgressEvent;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
@@ -50,7 +50,7 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 
 	@EventHandler
 	void onImportProgress(ImportProgressEvent event) {
-		Progress progress = event.getProgress();
+		ImportProgress progress = event.getProgress();
 		if (progress.getStatus() == Status.DONE) {
 			if (progress.isMappingFailed()) {
 				configuration.setTitle("...Oops!");

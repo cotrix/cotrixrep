@@ -1,11 +1,11 @@
 package org.cotrix.web.publish.client.wizard.step.done;
 
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
+import org.cotrix.web.publish.shared.PublishProgress;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.StepButton;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -41,7 +41,7 @@ public class DoneStepPresenter extends AbstractVisualWizardStep implements Visua
 			
 			@Override
 			public void onPublishComplete(PublishCompleteEvent event) {
-				Progress progress = event.getProgress();
+				PublishProgress progress = event.getProgress();
 				if (progress.getStatus() == Status.DONE) {
 					if (progress.isMappingFailed()) setFailed();
 					else setDone(event.getDownloadUrl());

@@ -20,7 +20,6 @@ import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Format;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -38,6 +37,7 @@ import org.cotrix.web.publish.server.util.RepositoryFilter;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishDirectives;
+import org.cotrix.web.publish.shared.PublishProgress;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,7 +157,7 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 
 
 	@Override
-	public Progress getPublishProgress() throws ServiceException {
+	public PublishProgress getPublishProgress() throws ServiceException {
 		try {
 			return session.getPublishStatus().getProgress();
 		} catch(Exception e)

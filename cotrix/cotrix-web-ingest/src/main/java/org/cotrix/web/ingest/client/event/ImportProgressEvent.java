@@ -1,6 +1,6 @@
 package org.cotrix.web.ingest.client.event;
 
-import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.ingest.shared.ImportProgress;
 
 import com.google.web.bindery.event.shared.binder.GenericEvent;
 
@@ -10,13 +10,13 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  */
 public class ImportProgressEvent extends GenericEvent {
 
-	private Progress progress;
+	private ImportProgress progress;
 
-	public ImportProgressEvent(Progress progress) {
+	public ImportProgressEvent(ImportProgress progress) {
 		this.progress = progress;
 	}
 
-	public Progress getProgress() {
+	public ImportProgress getProgress() {
 		return progress;
 	}
 }

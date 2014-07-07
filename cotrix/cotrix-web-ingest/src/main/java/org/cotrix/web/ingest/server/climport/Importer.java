@@ -16,10 +16,10 @@ import org.cotrix.common.Outcome;
 import org.cotrix.common.Report;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.web.common.server.util.Reports;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.virtualrepository.Asset;
@@ -36,7 +36,7 @@ public class Importer {
 	@Inject
 	private Event<CodelistActionEvents.Import> events;
 
-	public <T> void importCodelist(Progress progress, SourceParameterProvider<T> sourceParameterProvider,
+	public <T> void importCodelist(ImportProgress progress, SourceParameterProvider<T> sourceParameterProvider,
 			ImporterSource source,
 			ImporterMapper<T> mapper,
 			ImporterTarget target,

@@ -22,6 +22,7 @@ import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.ImportMetadata;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -121,17 +122,17 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 
 	protected void getImportProgress()
 	{
-		importService.getImportProgress(new ManagedFailureCallback<Progress>() {
+		importService.getImportProgress(new ManagedFailureCallback<ImportProgress>() {
 
 			@Override
-			public void onSuccess(Progress result) {
+			public void onSuccess(ImportProgress result) {
 				Log.trace("Import progress: "+result);
 				updateImportProgress(result);			
 			}
 		});
 	}
 
-	protected void updateImportProgress(Progress progress)
+	protected void updateImportProgress(ImportProgress progress)
 	{
 		importComplete = progress.isComplete();
 		importEventBus.fireEvent(new ImportProgressEvent(progress));

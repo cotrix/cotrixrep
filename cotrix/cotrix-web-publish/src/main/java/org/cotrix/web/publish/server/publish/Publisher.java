@@ -15,10 +15,10 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.SerialisationService.SerialisationDirectives;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Reports;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.shared.PublishDirectives;
+import org.cotrix.web.publish.shared.PublishProgress;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class Publisher {
 			SerializationDirectivesProducer<T> serializationProducer,
 			PublishToDestination destination, PublishStatus publishStatus, BeanSession session) {
 		
-		Progress progress = publishStatus.getProgress();
+		PublishProgress progress = publishStatus.getProgress();
 		
 		try {
 			logger.info("starting publishing");

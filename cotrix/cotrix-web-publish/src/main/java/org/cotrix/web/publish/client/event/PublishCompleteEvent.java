@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.event;
 
-import org.cotrix.web.common.shared.Progress;
+import org.cotrix.web.publish.shared.PublishProgress;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -13,19 +13,19 @@ public class PublishCompleteEvent extends GwtEvent<PublishCompleteEvent.PublishC
 
 	public static Type<PublishCompleteHandler> TYPE = new Type<PublishCompleteHandler>();
 	
-	private Progress progress;
+	private PublishProgress progress;
 	private String downloadUrl;
 
 	public interface PublishCompleteHandler extends EventHandler {
 		void onPublishComplete(PublishCompleteEvent event);
 	}
 
-	public PublishCompleteEvent(Progress progress, String downloadUrl) {
+	public PublishCompleteEvent(PublishProgress progress, String downloadUrl) {
 		this.progress = progress;
 		this.downloadUrl = downloadUrl;
 	}
 
-	public Progress getProgress() {
+	public PublishProgress getProgress() {
 		return progress;
 	}
 
