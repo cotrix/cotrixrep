@@ -5,7 +5,7 @@ package org.cotrix.web.common.client.error;
 
 import javax.inject.Inject;
 
-import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.Error;
 import org.cotrix.web.common.shared.exception.Exceptions;
 
@@ -21,7 +21,7 @@ public abstract class ManagedFailureLongCallback<T> implements AsyncCallback<T> 
 	private static ErrorManager errorManager;
 	
 	@Inject
-	private static ProgressDialog progressDialog;
+	private static LoaderDialog progressDialog;
 
 	public ManagedFailureLongCallback() {
 		progressDialog.showCentered();

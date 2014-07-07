@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.ingest.client.step.upload;
+package org.cotrix.web.common.client.widgets;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -16,18 +16,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A widget that displays progress on an arbitrary scale.
- * 
- * <h3>CSS Style Rules</h3>
- * <ul class='css'>
- * <li>.gwt-ProgressBar-shell { primary style } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-bar { the actual progress bar }
- * </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text { text on the bar } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text-firstHalf { applied to text
- * when progress is less than 50 percent } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text-secondHalf { applied to
- * text when progress is greater than 50 percent } </li>
- * </ul>
  */
 public class ProgressBar extends Widget {
 
@@ -311,11 +299,6 @@ public class ProgressBar extends Widget {
 		redraw();
 	}
 
-	/*public void setTextFirstHalfStyleName(String textFirstHalfClassName) {
-		this.textFirstHalfClassName = textFirstHalfClassName;
-		onTextStyleChange();
-	}*/
-
 	/**
 	 * Set the text formatter.
 	 *
@@ -324,17 +307,6 @@ public class ProgressBar extends Widget {
 	public void setTextFormatter(TextFormatter textFormatter) {
 		this.textFormatter = textFormatter;
 	}
-
-	/*public void setTextSecondHalfStyleName(String textSecondHalfClassName) {
-		this.textSecondHalfClassName = textSecondHalfClassName;
-		onTextStyleChange();
-	}
-
-	public void setTextStyleName(String textClassName) {
-		this.textClassName = textClassName;
-		onTextStyleChange();
-	}*/
-
 	/**
 	 * Sets whether the text is visible over the bar.
 	 *
@@ -366,63 +338,15 @@ public class ProgressBar extends Widget {
 		}
 	}
 
-	/**
-	 * Get the bar element.
-	 *
-	 * @return the bar element
-	 */
-	protected Element getBarElement() {
-		return barElement;
-	}
-
-	/**
-	 * Get the text element.
-	 *
-	 * @return the text element
-	 */
-	protected Element getTextElement() {
-		return textElement;
-	}
-
-	/**
-	 * This method is called immediately after a widget becomes attached to the
-	 * browser's document.
-	 */
-	/*@Override
-	protected void onLoad() {
-		// Reset the position attribute of the parent element
-		DOM.setStyleAttribute(getElement(), "position", "relative");
-		ResizableWidgetCollection.get().add(this);
-		redraw();
-	}
-
-	@Override
-	protected void onUnload() {
-		ResizableWidgetCollection.get().remove(this);
-	}*/
 
 	/**
 	 * Reset the progress text based on the current min and max progress range.
 	 */
-	protected void resetProgress() {
+	private void resetProgress() {
 		setProgress(getProgress());
 	}
 
-	/*private void onTextStyleChange() {
-		int percent = (int) (100 * getPercent());
-		updateTextStyle(percent);
-	}*/
-
 	private void updateTextStyle(int percent) {
 		textElement.setClassName(css.text());
-
-		// Set the style depending on the size of the bar
-		/*if (percent < 50) {
-			DOM.setElementProperty(textElement, "className",
-					textClassName + " " + textFirstHalfClassName);
-		} else {
-			DOM.setElementProperty(textElement, "className",
-					textClassName + " " + textSecondHalfClassName);
-		}*/
 	}
 }

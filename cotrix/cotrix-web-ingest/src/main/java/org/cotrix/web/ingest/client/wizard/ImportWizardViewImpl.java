@@ -7,7 +7,7 @@ import java.util.Map;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.HasMinHeight;
-import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
@@ -57,7 +57,7 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView,
 	protected Map<String, Integer> labelsIndexes;
 	
 	@Inject
-	protected ProgressDialog progressDialog;
+	protected LoaderDialog progressDialog;
 	
 	@Inject
 	protected ErrorManager errorManager;

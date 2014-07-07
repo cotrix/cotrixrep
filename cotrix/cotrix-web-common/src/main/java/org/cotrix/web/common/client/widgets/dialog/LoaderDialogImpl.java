@@ -14,13 +14,13 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
+public class LoaderDialogImpl extends DialogBox implements LoaderDialog {
 	private static final Binder binder = GWT.create(Binder.class);
 	
-	@UiTemplate("ProgressDialog.ui.xml")
-	interface Binder extends UiBinder<Widget, ProgressDialogImpl> {}
+	@UiTemplate("LoaderDialog.ui.xml")
+	interface Binder extends UiBinder<Widget, LoaderDialogImpl> {}
 
-	public ProgressDialogImpl() {
+	public LoaderDialogImpl() {
 
 		CommonResources.INSTANCE.css().ensureInjected();
 		setGlassStyleName(CommonResources.INSTANCE.css().glassPanel());

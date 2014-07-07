@@ -6,8 +6,8 @@ import com.google.inject.ImplementedBy;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@ImplementedBy(ProgressDialogImpl.class)
-public interface ProgressDialog {
+@ImplementedBy(LoaderDialogImpl.class)
+public interface LoaderDialog {
 	public void showCentered();
 	public void hide();
 }

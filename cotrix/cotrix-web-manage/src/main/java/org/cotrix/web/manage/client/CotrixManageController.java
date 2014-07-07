@@ -10,7 +10,7 @@ import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
-import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -55,7 +55,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private ManageServiceAsync service;
 	
 	@Inject
-	private ProgressDialog progressDialog;
+	private LoaderDialog progressDialog;
 	
 	@Inject
 	private ConfirmDialog confirmDialog;
