@@ -12,43 +12,56 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.cotrix.common.tx.Transaction;
+import org.cotrix.common.tx.Transactions;
+
 @ApplicationScoped
 public class DefaultExecutionService implements ExecutionService {
 
 	private static ExecutorService service = Executors.newCachedThreadPool();
-	
+
 	@Inject
 	TaskContext context;
+
+	@Inject
+	Transactions txs;
 
 	private static class Closure {	
 		Task t; 
 	}
-	
-	
+
+
 	@Override
 	public <T> ReportingFuture<T> execute(final Callable<T> task) throws RejectedExecutionException {
-	
+
 		notNull("task", task);
-		
+
 		try {
-			
+
 			final CountDownLatch started = new CountDownLatch(1);
-			
+
 			final Closure closure = new Closure();
-			
+
 			Callable<T> wrap = new Callable<T>() {
-				
+
 				@Override
 				public T call() throws Exception {
-				
+
 					try {
-						
+
 						closure.t = context.thisTask();
-						
+
 						started.countDown();
-						
-						return task.call();
-						
+
+						try(Transaction tx = txs.open()) {
+
+							T result = task.call();
+
+							tx.commit();
+
+							return result;
+						}
+
 					}
 					catch(Exception e) {
 						context.thisTask().failed(e);
@@ -59,11 +72,11 @@ public class DefaultExecutionService implements ExecutionService {
 					}
 				}
 			};
-			
+
 			Future<T> future = service.submit(wrap);
-				
+
 			started.await();
-			
+
 			return new DefaultReportingFuture<T>(future,closure.t);
 
 		}
@@ -71,5 +84,4 @@ public class DefaultExecutionService implements ExecutionService {
 			throw unchecked(e);
 		}
 	}
-
 }
