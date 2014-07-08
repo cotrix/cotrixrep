@@ -17,30 +17,24 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ProgressMonitor {
-	
+
 	private Logger logger = LoggerFactory.getLogger(ProgressMonitor.class);
 
 	private ReportingFuture<?> future;
-	
+
 	public ProgressMonitor(ReportingFuture<?> future) {
 		this.future = future;
 	}
 
 	public LongTaskProgress getProgress() {
 		logger.trace("getProgress");
+		LongTaskProgress progress = new LongTaskProgress();
+
 		try {
-			LongTaskProgress progress = new LongTaskProgress();
 
 			if (future.isDone()) {
 				logger.trace("future is done");
 				progress.setDone();
-				try {
-					future.get();
-				} catch(ExecutionException e) {
-					logger.trace("execution failed", e);
-					Throwable cause = e.getCause();
-					progress.setFailed(Exceptions.toError(cause));
-				}
 			}
 
 			TaskUpdate taskUpdate = future.get(TaskUpdate.class);
@@ -48,12 +42,12 @@ public class ProgressMonitor {
 			progress.setMessage(taskUpdate!=null?taskUpdate.activity():null);
 
 			logger.trace("returning progress "+progress);
-			
-			return progress;
-		} catch(Exception e) {
-			logger.error("Retrieving progress failed", e);
-			throw new RuntimeException("Failed getting task progress", e);
+		} catch(ExecutionException e) {
+			logger.trace("execution failed", e);
+			Throwable cause = e.getCause();
+			progress.setFailed(Exceptions.toError(cause));
 		}
+		return progress;
 	}
 
 }
