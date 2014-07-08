@@ -17,6 +17,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.cotrix.web.common.server.util.FileNameUtil;
 import org.cotrix.web.common.server.util.TmpFileManager;
+import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.server.upload.CodeListTypeGuesser;
 import org.cotrix.web.ingest.server.upload.DefaultMappingsGuessers;
@@ -28,7 +29,6 @@ import org.cotrix.web.ingest.server.util.ParsingHelper.InvalidSdmxException;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
-import org.cotrix.web.ingest.shared.FileUploadProgress.Status;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,6 +141,9 @@ public class FileUpload extends HttpServlet{
 			uploadProgress.setCodeListType(codeListType);
 			session.setCodeListType(codeListType);
 			response.setStatus(HttpServletResponse.SC_OK);
+			
+			uploadProgress.setProgress(35);
+			Thread.sleep(2000);
 
 			switch (codeListType) {
 				case CSV: {

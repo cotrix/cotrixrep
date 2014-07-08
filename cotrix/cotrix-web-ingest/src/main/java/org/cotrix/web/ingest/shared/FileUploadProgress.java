@@ -2,24 +2,17 @@
  * 
  */
 package org.cotrix.web.ingest.shared;
-
-import java.io.Serializable;
 import org.cotrix.web.common.shared.Error;
+import org.cotrix.web.common.shared.Progress;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class FileUploadProgress implements Serializable {
-	
-	private static final long serialVersionUID = -5904685977710138006L;
-	
-	public enum Status {ONGOING, FAILED, DONE};
+public class FileUploadProgress extends Progress {
 	
 	protected int progress;
-	protected Status status;
 	protected UIAssetType codeListType;
-	protected Error error;
 	
 	public FileUploadProgress(){}
 	
@@ -33,37 +26,14 @@ public class FileUploadProgress implements Serializable {
 		this.codeListType = codeListType;
 	}
 
-	/**
-	 * @return the progress
-	 */
 	public int getProgress() {
 		return progress;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public Status getStatus() {
-		return status;
-	}
-
-	/**
-	 * @return the codeListType
-	 */
 	public UIAssetType getCodeListType() {
 		return codeListType;
 	}
 
-	/**
-	 * @return the error
-	 */
-	public Error getError() {
-		return error;
-	}
-
-	/**
-	 * @param progress the progress to set
-	 */
 	public void setProgress(int progress) {
 		this.progress = progress;
 	}
@@ -76,16 +46,7 @@ public class FileUploadProgress implements Serializable {
 	public void setFailed(String errorMessage) {
 		setFailed(new Error(errorMessage, ""));
 	}
-		
-	
-	public void setFailed(Error error) {
-		this.status = Status.FAILED;
-		this.error = error;
-	}
 
-	/**
-	 * @param codeListType the codeListType to set
-	 */
 	public void setCodeListType(UIAssetType codeListType) {
 		this.codeListType = codeListType;
 	}
@@ -103,7 +64,7 @@ public class FileUploadProgress implements Serializable {
 		builder.append(", codeListType=");
 		builder.append(codeListType);
 		builder.append(", error=");
-		builder.append(error);
+		builder.append(failureCause);
 		builder.append("]");
 		return builder.toString();
 	}

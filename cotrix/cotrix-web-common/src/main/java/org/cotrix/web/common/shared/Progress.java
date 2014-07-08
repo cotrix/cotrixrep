@@ -13,23 +13,17 @@ public class Progress implements IsSerializable {
 	
 	public enum Status {ONGOING, DONE, FAILED};
 	
-	private Status status;
-	private Error failureCause; 
+	protected Status status;
+	protected Error failureCause; 
 	
 	public Progress() {
 		status = Status.ONGOING;
 	}
-	
-	/**
-	 * @return the status
-	 */
+
 	public Status getStatus() {
 		return status;
 	}
-	
-	/**
-	 * @return the failureCause
-	 */
+
 	public Error getFailureCause() {
 		return failureCause;
 	}
@@ -43,7 +37,6 @@ public class Progress implements IsSerializable {
 		this.failureCause = cause;
 	}
 	
-
 	public boolean isComplete()
 	{
 		return (status == Status.DONE || status == Status.FAILED);

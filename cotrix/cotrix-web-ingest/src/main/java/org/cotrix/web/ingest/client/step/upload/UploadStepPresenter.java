@@ -171,7 +171,7 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 		switch (progress.getStatus()) {
 			case ONGOING: uploadOngoing(progress.getProgress()); break;
 			case DONE: uploadDone(progress); break;
-			case FAILED: uploadFailed(progress.getError()); break;
+			case FAILED: uploadFailed(progress.getFailureCause()); break;
 		}
 	}
 	

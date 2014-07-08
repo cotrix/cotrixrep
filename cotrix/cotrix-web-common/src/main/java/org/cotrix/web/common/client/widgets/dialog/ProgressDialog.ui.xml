@@ -1,7 +1,24 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:c='urn:import:org.cotrix.web.common.client.widgets'>
 	<ui:with field='resources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<g:Image resource='{resources.loader}' />
+	<ui:style>
+		.container {
+			
+			min-width: 200px;
+			max-width: 300px;
+		}
+		.message {
+			width: 100%;
+			text-align: center;
+
+		}
+	</ui:style>
+	<g:FlowPanel styleName="{style.container}">
+		<c:ProgressBar ui:field="progressBar" />
+		<g:Label ui:field="message" styleName="{style.message}" />
+	</g:FlowPanel>
+	
 </ui:UiBinder>

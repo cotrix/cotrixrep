@@ -24,6 +24,7 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
+import org.cotrix.common.async.ReportingFuture;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
@@ -36,12 +37,14 @@ import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
+import org.cotrix.repository.AsyncCodelistRepository;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
+import org.cotrix.web.common.server.progress.ProgressService;
 import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
@@ -130,6 +133,12 @@ public class ManageServiceImpl implements ManageService {
 	
 	@Inject
 	private UserRepository userRepository;
+	
+	@Inject
+	private ProgressService progressService;
+	
+	@Inject
+	private AsyncCodelistRepository asyncCodelistRepository;
 
 	/** 
 	 * {@inheritDoc}
@@ -422,9 +431,13 @@ public class ManageServiceImpl implements ManageService {
 	
 	@Override
 	@CodelistTask(REMOVE)
-	public void removeCodelist(@Id String codelistId) throws ServiceException {
+	public String removeCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
-		repository.remove(codelistId);
+		
+		ReportingFuture<?> future = asyncCodelistRepository.remove(codelistId);
+		String token = progressService.monitorize(future);
+		logger.trace("progress token {}", token);
+		return token;
 	}
 
 	@Override
