@@ -12,6 +12,7 @@ import org.cotrix.common.async.TaskManagerProvider;
 import org.cotrix.web.common.server.util.HttpServletRequestHolder;
 import org.jboss.weld.context.http.HttpRequestContext;
 import org.jboss.weld.context.http.HttpSessionContext;
+import org.jboss.weld.servlet.SessionHolder;
 
 @ApplicationScoped @Alternative 
 @Priority(RUNTIME)
@@ -37,21 +38,21 @@ public class HttpTaskManagerProvider implements TaskManagerProvider {
 		
 		@Override
 		public void started() {
+			
+			//WELD 2.0.4 final requires this workaround
+			SessionHolder.sessionCreated(request.getSession());
 		
 			httpReqContext.associate(request);
 			httpReqContext.activate();
 			
 			httpContext.associate(request);
 			httpContext.activate();
-			
-			
 		}
 		
 		@Override
 		public void finished() {
 			
 			httpReqContext.dissociate(request);
-			
 			httpContext.dissociate(request);
 		
 		}
@@ -59,7 +60,6 @@ public class HttpTaskManagerProvider implements TaskManagerProvider {
 	
 	@Override
 	public TaskManager get() {
-	
 		return new HttpTaskManager(holder.getRequest());
 	}
 	

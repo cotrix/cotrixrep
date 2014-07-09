@@ -51,15 +51,18 @@ public class AsyncTaskInterceptor {
 
 		//TODO check the return type
 		
-		logger.trace("executing aync");
+		logger.trace("executing aync: {}", method.getName());
+		
 		ReportingFuture<AsyncOutput<?>> future = service.execute(new Callable<AsyncOutput<?>>() {
 			@Override
 			public AsyncOutput<?> call() throws Exception {
+				logger.trace("executing call");
 				return (AsyncOutput<?>) ctx.proceed();
 			}
 		});
 		
 		String progressToken = progressService.monitorize(future);
+		logger.trace("returning progress token: {}",progressToken);
 		
 		return new AsyncTask<>(progressToken);
 		

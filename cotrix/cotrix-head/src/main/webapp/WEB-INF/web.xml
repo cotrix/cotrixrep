@@ -23,6 +23,10 @@
 	<listener>
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
 	</listener>
+	
+	<listener>
+	<listener-class>org.cotrix.web.common.server.util.HttpServletRequestHolder</listener-class>
+	</listener>
 
 	<!-- <filter> -->
 	<!-- <filter-name>slownetwork</filter-name> -->
