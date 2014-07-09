@@ -44,7 +44,7 @@ import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.web.common.server.CotrixRemoteServlet;
-import org.cotrix.web.common.server.progress.ProgressService;
+import org.cotrix.web.common.server.async.ProgressService;
 import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
