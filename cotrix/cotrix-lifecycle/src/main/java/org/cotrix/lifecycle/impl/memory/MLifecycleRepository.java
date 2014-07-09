@@ -61,11 +61,15 @@ public class MLifecycleRepository implements LifecycleRepository {
 		ResumptionToken token = tokens.get(lc.resourceId());
 		
 		if (token==null)
-			throw new AssertionError("attempt to update transient lifecycle "+lc.resourceId());
+			log.warn("cannot update lifecycle for "+lc.resourceId()+" (maybe it has just been removed?)");
 		
-		token.state=lc.state();
+		else {
+			
+			token.state=lc.state();
+			
+			log.info("updated memory lifecycle for {} ",lc.resourceId());
 		
-		log.info("updated memory lifecycle for {} ",lc.resourceId());
+		}
 	}
 	
 	@Override
