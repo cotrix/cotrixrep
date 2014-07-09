@@ -10,12 +10,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
-import org.cotrix.common.async.TaskEvents.EndTask;
-import org.cotrix.common.async.TaskEvents.StartTask;
-import org.cotrix.common.async.TaskEvents.StartTask.InfoProvider;
 import org.cotrix.common.events.Current;
 
 @ApplicationScoped
@@ -26,11 +22,8 @@ public class DefaultExecutionService implements ExecutionService {
 	@Inject
 	private TaskContext context;
 	
-	@Inject
-	private Event<Object> event;
-	
 	@Inject @Current
-	private InfoProvider info;
+	private TaskManager manager;
 	
 	private static class Closure {	
 		Task t; 
@@ -49,7 +42,7 @@ public class DefaultExecutionService implements ExecutionService {
 			
 			final Closure closure = new Closure();
 			
-			final StartTask start = new StartTask(info.get());
+			manager.submitted();
 			
 			Callable<T> wrap = new Callable<T>() {
 				
@@ -57,7 +50,7 @@ public class DefaultExecutionService implements ExecutionService {
 				@Override
 				public T call() throws Exception {
 				
-					event.fire(start);
+					manager.started();
 					
 					try {
 						
@@ -81,7 +74,7 @@ public class DefaultExecutionService implements ExecutionService {
 						
 						context.reset();
 						
-						event.fire(EndTask.instance);
+						manager.finished();
 					}
 				}
 			};

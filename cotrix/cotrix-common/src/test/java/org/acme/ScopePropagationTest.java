@@ -4,12 +4,10 @@ import java.io.Serializable;
 import java.util.concurrent.Callable;
 
 import javax.enterprise.context.SessionScoped;
-import javax.enterprise.event.Event;
 import javax.inject.Inject;
 
 import org.cotrix.common.async.DefaultExecutionService;
-import org.cotrix.common.async.TaskEvents.StartTask;
-import org.cotrix.common.async.TaskEvents.StartTask.InfoProvider;
+import org.cotrix.common.async.TaskManager;
 import org.cotrix.common.events.Current;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +24,7 @@ public class ScopePropagationTest {
 	Boo boo;
 	
 	@Inject @Current
-	InfoProvider info;
-
-	@Inject
-	private Event<Object> event;
+	TaskManager manager;
 	
 	@SessionScoped
 	@SuppressWarnings("serial")
@@ -46,7 +41,7 @@ public class ScopePropagationTest {
 	@Test
 	public void propagate() throws Exception {
 		
-		event.fire(new StartTask(info.get()));
+		manager.started();
 		
 		// access context
 		System.out.println(boo.foo);
