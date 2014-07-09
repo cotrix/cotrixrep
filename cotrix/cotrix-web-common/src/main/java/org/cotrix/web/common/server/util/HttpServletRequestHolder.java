@@ -28,7 +28,7 @@ public class HttpServletRequestHolder implements ServletRequestListener {
 		REQUESTS.set(HttpServletRequest.class.cast(sre.getServletRequest()));
 	}
 
-	protected HttpServletRequest getRequest() {
+	public HttpServletRequest getRequest() {
 		return REQUESTS.get();
 	}
 }

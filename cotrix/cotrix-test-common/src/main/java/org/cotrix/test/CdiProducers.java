@@ -10,7 +10,7 @@ import javax.enterprise.inject.Produces;
 
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.Constants;
-import org.cotrix.common.async.TaskManager;
+import org.cotrix.common.async.TaskManagerProvider;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
@@ -53,24 +53,28 @@ public class CdiProducers {
 	}
 	
 	
-	@Produces @ApplicationScoped @Current
-	TaskManager testManager(final BoundSessionContext ctx, @Current final Map<String, Object> storage ) {
+	@Produces @ApplicationScoped @Alternative
+	TaskManagerProvider testManager(final BoundSessionContext ctx, @Current final Map<String, Object> storage ) {
 		
-		return new TaskManager() {
+		return new TaskManagerProvider() {
 			
 			@Override
-			public void submitted() {}
-			
-			@Override
-			public void started() {
-				ctx.associate(storage);
-				ctx.activate();
-				
-			}
-			
-			@Override
-			public void finished() {
-				ctx.dissociate(storage);
+			public TaskManager get() {
+				return new TaskManager() {
+					
+					@Override
+					public void started() {
+						ctx.associate(storage);
+						ctx.activate();
+						
+					}
+					
+					@Override
+					public void finished() {
+						ctx.dissociate(storage);
+						
+					}
+				};
 			}
 		};
 	}

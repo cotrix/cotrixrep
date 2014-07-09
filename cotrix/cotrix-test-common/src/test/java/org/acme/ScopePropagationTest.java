@@ -1,5 +1,7 @@
 package org.acme;
 
+import static org.junit.Assert.*;
+
 import java.io.Serializable;
 import java.util.concurrent.Callable;
 
@@ -7,8 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
 import org.cotrix.common.async.DefaultExecutionService;
-import org.cotrix.common.async.TaskManager;
-import org.cotrix.common.events.Current;
+import org.cotrix.common.async.TaskManagerProvider;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -23,8 +24,8 @@ public class ScopePropagationTest {
 	@Inject
 	Boo boo;
 	
-	@Inject @Current
-	TaskManager manager;
+	@Inject
+	TaskManagerProvider provider;
 	
 	@SessionScoped
 	@SuppressWarnings("serial")
@@ -41,17 +42,18 @@ public class ScopePropagationTest {
 	@Test
 	public void propagate() throws Exception {
 		
-		manager.started();
+		provider.get().started();
 		
-		// access context
-		System.out.println(boo.foo);
-
+		final int hash = boo.foo.hashCode();
+	
 		Callable<?> c = new Callable<Void>() {
 
 			@Override
 			public Void call() throws Exception {
 
-				System.out.println(boo.foo);
+				System.out.println(boo.foo.toString());
+				
+				assertEquals(hash,boo.foo.hashCode());
 
 				return null;
 			}
@@ -60,7 +62,7 @@ public class ScopePropagationTest {
 
 		service.execute(c).get();
 
-		System.out.println(boo.foo);
+		assertEquals(hash,boo.foo.hashCode());
 
 	}
 
