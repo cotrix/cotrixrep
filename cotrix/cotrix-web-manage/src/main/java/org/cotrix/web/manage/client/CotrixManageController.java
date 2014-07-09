@@ -5,14 +5,18 @@ import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.common.client.error.ManagedFailureLongCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
-import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog.ProgressCallBack;
+import org.cotrix.web.common.shared.LongTaskProgress;
+import org.cotrix.web.common.shared.async.AsyncOutput;
+import org.cotrix.web.common.shared.async.AsyncTask;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.manage.client.ManageServiceAsync;
@@ -53,6 +57,9 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	
 	@Inject
 	private ManageServiceAsync service;
+	
+	@Inject
+	private LoaderDialog loaderDialog;
 	
 	@Inject
 	private ProgressDialog progressDialog;
@@ -136,7 +143,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void createNewVersion(String codelistId, String newVersion)
 	{
 		Log.trace("createNewVersion codelistId: " + codelistId+" newVerions: "+newVersion);
-		progressDialog.showCentered();
+		loaderDialog.showCentered();
 		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<UICodelistInfo>() {
 		
 			/** 
@@ -144,7 +151,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			 */
 			@Override
 			public void onCallFailed() {
-				progressDialog.hide();
+				loaderDialog.hide();
 			}
 
 			@Override
@@ -152,7 +159,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 				Log.trace("created "+result);
 				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
-				progressDialog.hide();
+				loaderDialog.hide();
 			}
 		});
 	}
@@ -172,7 +179,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Creation of a new codelist failed", caught);
-				progressDialog.hide();
+				loaderDialog.hide();
 				errorManager.showError(Exceptions.toError(caught));
 			}
 		});
@@ -180,19 +187,19 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	
 	private void removeCodelist(final UICodelist codelist) {
 		Log.trace("deleteCodelist codelist: "+codelist);
-		progressDialog.showCentered();
+		loaderDialog.showCentered();
 		service.canUserRemove(codelist.getId(), new AsyncCallback<CodelistRemoveCheckResponse>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Checking user rights failed", caught);
-				progressDialog.hide();
+				loaderDialog.hide();
 				errorManager.showError(Exceptions.toError(caught));
 			}
 
 			@Override
 			public void onSuccess(CodelistRemoveCheckResponse result) {
-				progressDialog.hide();
+				loaderDialog.hide();
 				askUserConfirm(codelist, result);
 			}
 		});
@@ -216,14 +223,33 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	}
 	
 	private void doRemoveCodelist(final UICodelist codelist) {
-		service.removeCodelist(codelist.getId(), new ManagedFailureLongCallback<Void>() {
+		Log.trace("doRemoveCodelist codelist: "+codelist);
+		/*service.removeCodelist(codelist.getId(), new ManagedFailureCallback<AsyncOutput<Void>>() {
 
 			@Override
-			public void onCallSuccess(Void result) {
-				managerBus.fireEvent(new CodelistRemovedEvent(codelist));
-				managerBus.fireEvent(new CloseCodelistEvent(codelist));
+			public void onSuccess(AsyncOutput<Void> result) {
+				
+				Log.trace("result "+result);
+				
+				AsyncTask<Void> task = (AsyncTask<Void>)result;
+				String token = task.getId();
+				Log.trace("progressToken "+token);
+				progressDialog.show(token, new ProgressCallBack() {
+					
+					@Override
+					public void onSuccess(LongTaskProgress result) {
+						Log.trace("complete");
+						managerBus.fireEvent(new CodelistRemovedEvent(codelist));
+						managerBus.fireEvent(new CloseCodelistEvent(codelist));
+					}
+					
+					@Override
+					public void onFailure(org.cotrix.web.common.shared.Error reason) {
+						errorManager.showError(reason);
+					}
+				});
 			}
-		});
+		});*/
 	}
 
 	@Override

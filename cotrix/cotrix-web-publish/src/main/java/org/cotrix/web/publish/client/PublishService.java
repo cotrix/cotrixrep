@@ -4,7 +4,6 @@ import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Format;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
 import org.cotrix.web.common.shared.codelist.RepositoryDetails;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -14,6 +13,7 @@ import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishDirectives;
+import org.cotrix.web.publish.shared.PublishProgress;
 import org.cotrix.web.publish.shared.UIRepository;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -38,7 +38,7 @@ public interface PublishService extends RemoteService {
 
 	public void startPublish(PublishDirectives publishDirectives) throws ServiceException;
 
-	public Progress getPublishProgress() throws ServiceException;
+	public PublishProgress getPublishProgress() throws ServiceException;
 	
 	public DataWindow<UIRepository> getRepositories(Range range, ColumnSortInfo sortInfo, String query, boolean force) throws ServiceException;
 	

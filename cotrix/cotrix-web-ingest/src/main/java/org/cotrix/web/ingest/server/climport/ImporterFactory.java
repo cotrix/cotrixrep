@@ -12,11 +12,11 @@ import javax.inject.Singleton;
 
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.ingest.server.climport.ImporterMapper.CsvMapper;
 import org.cotrix.web.ingest.server.climport.ImporterMapper.SdmxMapper;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider.CodelistBeanDirectivesProvider;
 import org.cotrix.web.ingest.server.climport.ImporterSource.SourceParameterProvider.TableDirectivesProvider;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.UIAssetType;
 
 /**
@@ -52,10 +52,10 @@ public class ImporterFactory {
 	@Inject @Current
 	protected BeanSession session;
 
-	public Progress importCodelist(final ImportTaskSession importTaskSession, UIAssetType codeListType) throws IOException
+	public ImportProgress importCodelist(final ImportTaskSession importTaskSession, UIAssetType codeListType) throws IOException
 	{
 		final BeanSession unscopedSession = this.session.copy();
-		final Progress progress = new Progress();
+		final ImportProgress progress = new ImportProgress();
 		switch (codeListType) {
 			case CSV: {
 				executorService.execute(new Runnable() {

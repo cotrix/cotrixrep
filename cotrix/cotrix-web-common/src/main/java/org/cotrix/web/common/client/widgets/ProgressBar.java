@@ -1,44 +1,21 @@
 /**
  * 
  */
-package org.cotrix.web.ingest.client.step.upload;
-/*
- * Copyright 2008 Google Inc.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
+package org.cotrix.web.common.client.widgets;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A widget that displays progress on an arbitrary scale.
- * 
- * <h3>CSS Style Rules</h3>
- * <ul class='css'>
- * <li>.gwt-ProgressBar-shell { primary style } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-bar { the actual progress bar }
- * </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text { text on the bar } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text-firstHalf { applied to text
- * when progress is less than 50 percent } </li>
- * <li>.gwt-ProgressBar-shell .gwt-ProgressBar-text-secondHalf { applied to
- * text when progress is greater than 50 percent } </li>
- * </ul>
  */
 public class ProgressBar extends Widget {
 
@@ -166,21 +143,21 @@ public class ProgressBar extends Widget {
 		css.ensureInjected();
 
 		// Create the outer shell
-		setElement(DOM.createDiv());
-		DOM.setStyleAttribute(getElement(), "position", "relative");
+		setElement((Element) Document.get().createDivElement().cast());
+		getElement().getStyle().setPosition(Position.RELATIVE);
 		setStyleName(css.shell());
 
 		// Create the bar element
 		barElement = DOM.createDiv();
-		DOM.appendChild(getElement(), barElement);
-		DOM.setStyleAttribute(barElement, "height", "100%");
+		getElement().appendChild(barElement);
+		barElement.getStyle().setHeight(100, Unit.PCT);
 		setBarStyleName(css.bar());
 
 		// Create the text element
 		textElement = DOM.createDiv();
-		DOM.appendChild(getElement(), textElement);
-		DOM.setStyleAttribute(textElement, "position", "absolute");
-		DOM.setStyleAttribute(textElement, "top", "0px");
+		getElement().appendChild(textElement);
+		textElement.getStyle().setPosition(Position.ABSOLUTE);
+		textElement.getStyle().setTop(0, Unit.PX);
 
 		// Set the current progress
 		setProgress(curProgress);
@@ -259,9 +236,9 @@ public class ProgressBar extends Widget {
 	 */
 	public void onResize(int width, int height) {
 		if (textVisible) {
-			int textWidth = DOM.getElementPropertyInt(textElement, "offsetWidth");
+			int textWidth = textElement.getOffsetWidth();
 			int left = (width / 2) - (textWidth / 2);
-			DOM.setStyleAttribute(textElement, "left", left + "px");
+			textElement.getStyle().setLeft(left, Unit.PX);
 		}
 	}
 
@@ -270,14 +247,14 @@ public class ProgressBar extends Widget {
 	 */
 	public void redraw() {
 		if (isAttached()) {
-			int width = DOM.getElementPropertyInt(getElement(), "clientWidth");
-			int height = DOM.getElementPropertyInt(getElement(), "clientHeight");
+			int width = getElement().getClientWidth();
+			int height = getElement().getClientHeight();
 			onResize(width, height);
 		}
 	}
 
 	public void setBarStyleName(String barClassName) {
-		DOM.setElementProperty(barElement, "className", barClassName);
+		barElement.setClassName(barClassName);
 	}
 
 	/**
@@ -314,18 +291,13 @@ public class ProgressBar extends Widget {
 
 		// Calculate percent complete
 		int percent = (int) (100 * getPercent());
-		DOM.setStyleAttribute(barElement, "width", percent + "%");
-		DOM.setElementProperty(textElement, "innerHTML", generateText(curProgress));
+		barElement.getStyle().setWidth(percent, Unit.PCT);
+		textElement.setInnerHTML(generateText(curProgress));
 		updateTextStyle(percent);
 
 		// Realign the text
 		redraw();
 	}
-
-	/*public void setTextFirstHalfStyleName(String textFirstHalfClassName) {
-		this.textFirstHalfClassName = textFirstHalfClassName;
-		onTextStyleChange();
-	}*/
 
 	/**
 	 * Set the text formatter.
@@ -335,17 +307,6 @@ public class ProgressBar extends Widget {
 	public void setTextFormatter(TextFormatter textFormatter) {
 		this.textFormatter = textFormatter;
 	}
-
-	/*public void setTextSecondHalfStyleName(String textSecondHalfClassName) {
-		this.textSecondHalfClassName = textSecondHalfClassName;
-		onTextStyleChange();
-	}
-
-	public void setTextStyleName(String textClassName) {
-		this.textClassName = textClassName;
-		onTextStyleChange();
-	}*/
-
 	/**
 	 * Sets whether the text is visible over the bar.
 	 *
@@ -354,10 +315,10 @@ public class ProgressBar extends Widget {
 	public void setTextVisible(boolean textVisible) {
 		this.textVisible = textVisible;
 		if (this.textVisible) {
-			DOM.setStyleAttribute(textElement, "display", "");
+			textElement.getStyle().setDisplay(null);
 			redraw();
 		} else {
-			DOM.setStyleAttribute(textElement, "display", "none");
+			textElement.getStyle().setDisplay(Display.NONE);
 		}
 	}
 
@@ -377,63 +338,15 @@ public class ProgressBar extends Widget {
 		}
 	}
 
-	/**
-	 * Get the bar element.
-	 *
-	 * @return the bar element
-	 */
-	protected Element getBarElement() {
-		return barElement;
-	}
-
-	/**
-	 * Get the text element.
-	 *
-	 * @return the text element
-	 */
-	protected Element getTextElement() {
-		return textElement;
-	}
-
-	/**
-	 * This method is called immediately after a widget becomes attached to the
-	 * browser's document.
-	 */
-	/*@Override
-	protected void onLoad() {
-		// Reset the position attribute of the parent element
-		DOM.setStyleAttribute(getElement(), "position", "relative");
-		ResizableWidgetCollection.get().add(this);
-		redraw();
-	}
-
-	@Override
-	protected void onUnload() {
-		ResizableWidgetCollection.get().remove(this);
-	}*/
 
 	/**
 	 * Reset the progress text based on the current min and max progress range.
 	 */
-	protected void resetProgress() {
+	private void resetProgress() {
 		setProgress(getProgress());
 	}
 
-	/*private void onTextStyleChange() {
-		int percent = (int) (100 * getPercent());
-		updateTextStyle(percent);
-	}*/
-
 	private void updateTextStyle(int percent) {
-		DOM.setElementProperty(textElement, "className",
-				css.text());
-		// Set the style depending on the size of the bar
-		/*if (percent < 50) {
-			DOM.setElementProperty(textElement, "className",
-					textClassName + " " + textFirstHalfClassName);
-		} else {
-			DOM.setElementProperty(textElement, "className",
-					textClassName + " " + textSecondHalfClassName);
-		}*/
+		textElement.setClassName(css.text());
 	}
 }

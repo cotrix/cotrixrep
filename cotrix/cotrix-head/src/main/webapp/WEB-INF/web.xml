@@ -88,6 +88,12 @@
 		<servlet-class>org.cotrix.web.users.server.UsersServiceImpl$Servlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>commonServlet</servlet-name>
+		<servlet-class>org.cotrix.web.common.server.CommonServiceImpl$Servlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>listServlet</servlet-name>
@@ -127,6 +133,11 @@
 	<servlet-mapping>
 		<servlet-name>usersServlet</servlet-name>
 		<url-pattern>/Cotrix/service/usersService</url-pattern>
+	</servlet-mapping>
+	
+		<servlet-mapping>
+		<servlet-name>commonServlet</servlet-name>
+		<url-pattern>/Cotrix/service/common</url-pattern>
 	</servlet-mapping>
 
 	<!-- <filter-mapping> -->

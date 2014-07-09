@@ -11,9 +11,8 @@
       http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 
    <interceptors>
-
+      <class>org.cotrix.web.common.server.async.AsyncTaskInterceptor</class>
       <class>org.cotrix.web.common.server.task.TaskInterceptor</class>
-
    </interceptors>
 
 </beans>

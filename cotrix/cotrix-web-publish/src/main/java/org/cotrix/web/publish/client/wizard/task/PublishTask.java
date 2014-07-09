@@ -6,7 +6,6 @@ package org.cotrix.web.publish.client.wizard.task;
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.Format;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
@@ -23,6 +22,7 @@ import org.cotrix.web.publish.shared.DownloadType;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
+import org.cotrix.web.publish.shared.PublishProgress;
 import org.cotrix.web.publish.shared.UIRepository;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;
@@ -180,10 +180,10 @@ public class PublishTask implements TaskWizardStep {
 	
 	protected void getPublishProgress()
 	{
-		service.getPublishProgress(new ManagedFailureCallback<Progress>() {
+		service.getPublishProgress(new ManagedFailureCallback<PublishProgress>() {
 
 			@Override
-			public void onSuccess(Progress result) {
+			public void onSuccess(PublishProgress result) {
 				Log.trace("Import progress: "+result);
 				if (result.isComplete()) publishComplete(result);
 			}
@@ -198,7 +198,7 @@ public class PublishTask implements TaskWizardStep {
 		mappings = null;
 	}
 	
-	protected void publishComplete(Progress progress) {
+	protected void publishComplete(PublishProgress progress) {
 		publishProgressPolling.cancel();
 		publishBus.fireEvent(new PublishCompleteEvent(progress, getDownloadUrl()));
 		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);

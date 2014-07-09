@@ -15,8 +15,8 @@ import javax.inject.Inject;
 
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.ingest.server.climport.ImportTaskSession;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.UIAssetType;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
@@ -43,7 +43,7 @@ public class ImportSession implements Serializable {
 
 	private MappingMode guessedMappingMode;
 	
-	private Progress importerProgress;
+	private ImportProgress importerProgress;
 	
 	private String importedCodelistName;
 	
@@ -165,14 +165,14 @@ public class ImportSession implements Serializable {
 	/**
 	 * @return the importer
 	 */
-	public Progress getImporterProgress() {
+	public ImportProgress getImporterProgress() {
 		return importerProgress;
 	}
 
 	/**
 	 * @param importer the importer to set
 	 */
-	public void setImporterProgress(Progress importerProgress) {
+	public void setImporterProgress(ImportProgress importerProgress) {
 		this.importerProgress = importerProgress;
 	}
 

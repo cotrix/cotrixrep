@@ -6,8 +6,8 @@ package org.cotrix.web.publish.server.publish;
 import java.util.List;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.web.common.shared.Progress;
 import org.cotrix.web.common.shared.ReportLog;
+import org.cotrix.web.publish.shared.PublishProgress;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -16,7 +16,7 @@ import org.cotrix.web.common.shared.ReportLog;
 public class PublishStatus {
 	
 	protected Codelist publishedCodelist;
-	protected Progress progress = new Progress();
+	protected PublishProgress progress = new PublishProgress();
 	protected List<ReportLog> reportLogs;
 	protected String report;
 	protected Object publishResult;
@@ -66,14 +66,14 @@ public class PublishStatus {
 	/**
 	 * @return the progress
 	 */
-	public Progress getProgress() {
+	public PublishProgress getProgress() {
 		return progress;
 	}
 
 	/**
 	 * @param progress the progress to set
 	 */
-	public void setProgress(Progress progress) {
+	public void setProgress(PublishProgress progress) {
 		this.progress = progress;
 	}
 
