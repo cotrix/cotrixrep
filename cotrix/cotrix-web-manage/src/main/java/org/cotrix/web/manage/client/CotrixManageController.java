@@ -15,6 +15,8 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
 import org.cotrix.web.common.client.widgets.dialog.ProgressDialog.ProgressCallBack;
 import org.cotrix.web.common.shared.LongTaskProgress;
+import org.cotrix.web.common.shared.async.AsyncOutput;
+import org.cotrix.web.common.shared.async.AsyncTask;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.manage.client.ManageServiceAsync;
@@ -222,10 +224,15 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	
 	private void doRemoveCodelist(final UICodelist codelist) {
 		Log.trace("doRemoveCodelist codelist: "+codelist);
-		service.removeCodelist(codelist.getId(), new ManagedFailureCallback<String>() {
+		/*service.removeCodelist(codelist.getId(), new ManagedFailureCallback<AsyncOutput<Void>>() {
 
 			@Override
-			public void onSuccess(String token) {
+			public void onSuccess(AsyncOutput<Void> result) {
+				
+				Log.trace("result "+result);
+				
+				AsyncTask<Void> task = (AsyncTask<Void>)result;
+				String token = task.getId();
 				Log.trace("progressToken "+token);
 				progressDialog.show(token, new ProgressCallBack() {
 					
@@ -242,7 +249,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 					}
 				});
 			}
-		});
+		});*/
 	}
 
 	@Override

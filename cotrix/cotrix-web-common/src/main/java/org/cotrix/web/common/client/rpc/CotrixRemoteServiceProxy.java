@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.common.client.rpc;
 
+import org.cotrix.web.common.client.widgets.dialog.ProgressDialog;
+
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.impl.RemoteServiceProxy;
@@ -19,6 +21,9 @@ public class CotrixRemoteServiceProxy extends RemoteServiceProxy {
 	
 	@Inject
 	protected static CallBackListenerManager backListenerManager;
+	
+	@Inject
+	protected static ProgressDialog progressDialog;
 
 	protected CotrixRemoteServiceProxy(String moduleBaseURL,
 			String remoteServiceRelativePath, String serializationPolicyName,
@@ -31,8 +36,9 @@ public class CotrixRemoteServiceProxy extends RemoteServiceProxy {
 	protected <T> RequestCallback doCreateRequestCallback(RequestCallbackAdapter.ResponseReader responseReader,
 			String methodName, RpcStatsContext statsContext,
 			AsyncCallback<T> callback) {
-		//TODO
-		return super.doCreateRequestCallback(responseReader, methodName, statsContext, new CallBackInterceptor<T>(backListenerManager, callback));
+		AsyncCallBackInterceptor<T> asyncCallBackInterceptor = new AsyncCallBackInterceptor<T>(callback, progressDialog);
+		CallBackInterceptor<T> callBackInterceptor = new CallBackInterceptor<T>(backListenerManager, asyncCallBackInterceptor);
+		return super.doCreateRequestCallback(responseReader, methodName, statsContext, callBackInterceptor);
 	}
 
 }

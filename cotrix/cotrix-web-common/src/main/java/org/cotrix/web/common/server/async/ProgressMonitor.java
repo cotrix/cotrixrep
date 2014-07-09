@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.common.server.progress;
+package org.cotrix.web.common.server.async;
 
 import java.util.concurrent.ExecutionException;
 

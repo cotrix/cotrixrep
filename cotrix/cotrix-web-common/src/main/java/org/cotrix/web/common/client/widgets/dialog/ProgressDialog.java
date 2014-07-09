@@ -4,7 +4,6 @@ import org.cotrix.web.common.shared.LongTaskProgress;
 
 import com.google.gwt.core.client.Callback;
 import com.google.inject.ImplementedBy;
-import org.cotrix.web.common.shared.Error;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -13,7 +12,7 @@ import org.cotrix.web.common.shared.Error;
 @ImplementedBy(ProgressDialogImpl.class)
 public interface ProgressDialog {
 	
-	public interface ProgressCallBack extends Callback<LongTaskProgress, Error> {}
+	public interface ProgressCallBack extends Callback<LongTaskProgress, Throwable> {}
 	
 	public void show(String progressToken);
 	public void show(String progressToken, ProgressCallBack callback);

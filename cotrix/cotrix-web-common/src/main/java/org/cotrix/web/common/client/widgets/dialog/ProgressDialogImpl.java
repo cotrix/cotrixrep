@@ -5,7 +5,7 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.ProgressBar;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.Progress.Status;
-import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.common.shared.exception.ServiceErrorException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -117,7 +117,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 			hide();
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);
-				else callBack.onFailure(progress.getFailureCause());
+				else callBack.onFailure(new ServiceErrorException(progress.getFailureCause()));
 			}
 		}
 	}
@@ -129,7 +129,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	private void onProgressRetrievingFailure(Throwable caught) {
 		if (failureCounter>FAILURE_MAX) {
 			progressPolling.cancel();
-			if (callBack!=null) callBack.onFailure(Exceptions.toError(caught));
+			if (callBack!=null) callBack.onFailure(caught);
 		} else failureCounter++;		
 	}
 	
