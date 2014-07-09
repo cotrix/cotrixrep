@@ -5,7 +5,7 @@ public interface TaskManagerProvider {
 	public interface TaskManager {
 		
 		void started();
-		
+
 		void finished();
 
 	}

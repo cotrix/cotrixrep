@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.Serializable;
 import java.util.concurrent.Callable;
 
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith;
 import com.googlecode.jeeunit.JeeunitRunner;
 
 @RunWith(JeeunitRunner.class)
+@SuppressWarnings("serial")
 public class ScopePropagationTest {
 
 	@Inject
@@ -28,7 +30,7 @@ public class ScopePropagationTest {
 	TaskManagerProvider provider;
 	
 	@SessionScoped
-	@SuppressWarnings("serial")
+
 	static class Foo implements Serializable {
 	}
 
@@ -37,12 +39,22 @@ public class ScopePropagationTest {
 		@Inject
 		Foo foo;
 
+		@Inject
+		Goo goo;
+	}
+	
+	@RequestScoped
+	static class Goo implements Serializable  {
+		
 	}
 
 	@Test
 	public void propagate() throws Exception {
 		
 		provider.get().started();
+		
+		System.out.println(boo.foo.toString());
+		System.out.println(boo.goo.toString());
 		
 		final int hash = boo.foo.hashCode();
 	
@@ -52,6 +64,7 @@ public class ScopePropagationTest {
 			public Void call() throws Exception {
 
 				System.out.println(boo.foo.toString());
+				System.out.println(boo.goo.toString());
 				
 				assertEquals(hash,boo.foo.hashCode());
 
@@ -62,6 +75,9 @@ public class ScopePropagationTest {
 
 		service.execute(c).get();
 
+		System.out.println(boo.foo.toString());
+		System.out.println(boo.goo.toString());
+		
 		assertEquals(hash,boo.foo.hashCode());
 
 	}

@@ -15,6 +15,7 @@ import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.bound.BoundRequestContext;
 import org.jboss.weld.context.bound.BoundSessionContext;
 import org.jboss.weld.context.unbound.Unbound;
 
@@ -54,7 +55,7 @@ public class CdiProducers {
 	
 	
 	@Produces @ApplicationScoped @Alternative
-	TaskManagerProvider testManager(final BoundSessionContext ctx, @Current final Map<String, Object> storage ) {
+	TaskManagerProvider testManager(final BoundSessionContext ctx, final BoundRequestContext rctx, @Current final Map<String, Object> storage ) {
 		
 		return new TaskManagerProvider() {
 			
@@ -64,6 +65,10 @@ public class CdiProducers {
 					
 					@Override
 					public void started() {
+						
+						rctx.associate(storage);
+						rctx.activate();
+						
 						ctx.associate(storage);
 						ctx.activate();
 						
@@ -71,7 +76,9 @@ public class CdiProducers {
 					
 					@Override
 					public void finished() {
+						
 						ctx.dissociate(storage);
+						rctx.dissociate(storage);
 						
 					}
 				};

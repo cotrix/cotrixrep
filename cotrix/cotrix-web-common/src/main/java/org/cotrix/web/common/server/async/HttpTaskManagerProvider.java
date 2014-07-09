@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.cotrix.common.async.TaskManagerProvider;
 import org.cotrix.web.common.server.util.HttpServletRequestHolder;
+import org.jboss.weld.context.http.HttpRequestContext;
 import org.jboss.weld.context.http.HttpSessionContext;
 
 @ApplicationScoped @Alternative 
@@ -18,6 +19,9 @@ public class HttpTaskManagerProvider implements TaskManagerProvider {
 	
 	@Inject 
 	HttpSessionContext httpContext;
+	
+	@Inject 
+	HttpRequestContext httpReqContext;
 	
 	@Inject
 	private HttpServletRequestHolder holder;
@@ -34,13 +38,19 @@ public class HttpTaskManagerProvider implements TaskManagerProvider {
 		@Override
 		public void started() {
 		
+			httpReqContext.associate(request);
+			httpReqContext.activate();
+			
 			httpContext.associate(request);
 			httpContext.activate();
+			
 			
 		}
 		
 		@Override
 		public void finished() {
+			
+			httpReqContext.dissociate(request);
 			
 			httpContext.dissociate(request);
 		
