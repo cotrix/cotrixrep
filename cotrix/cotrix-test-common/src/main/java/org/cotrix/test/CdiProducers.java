@@ -1,5 +1,8 @@
 package org.cotrix.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -11,6 +14,7 @@ import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
+import org.jboss.weld.context.bound.BoundSessionContext;
 import org.jboss.weld.context.unbound.Unbound;
 
 @Priority(Constants.TEST)
@@ -35,6 +39,18 @@ public class CdiProducers {
 	
 	@Produces @Current @Alternative
 	static RequestContext context(@Unbound RequestContext ctx) {
+		ctx.activate();
+		return ctx;
+	}
+	
+	@Produces @ApplicationScoped @Current @Alternative
+	static Map<String,Object> sessionStorage() {
+		return new HashMap<>();
+	}
+	
+	@Produces @ApplicationScoped @Current @Alternative
+	static BoundSessionContext sessionContext(@Current Map<String,Object> storage, BoundSessionContext ctx) {
+		ctx.associate(storage);
 		ctx.activate();
 		return ctx;
 	}
