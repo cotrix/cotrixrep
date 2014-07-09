@@ -3,25 +3,35 @@ package org.acme;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
-import org.cotrix.common.async.TaskManager;
+import org.cotrix.common.async.TaskManagerProvider;
 import org.cotrix.common.events.Current;
 
 public class CdiProducers {
 
 		
 	@Produces @ApplicationScoped @Current
-	TaskManager testManager() {
+	TaskManagerProvider testManager() {
 		
-		return new TaskManager() {
+		return new TaskManagerProvider() {
 			
 			@Override
-			public void submitted() {}
+			public TaskManager get() {
+				
+				return new TaskManager() {
+					
+					@Override
+					public void started() {
+						System.out.println("started task manager");
+					}
+					
+					@Override
+					public void finished() {
+						System.out.println("ended task manager");
+					}
+				};
+			}
 			
-			@Override
-			public void started() {}
 			
-			@Override
-			public void finished() {}
 		};
 	}
 	

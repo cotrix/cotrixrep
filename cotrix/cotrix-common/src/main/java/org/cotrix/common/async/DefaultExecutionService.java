@@ -12,7 +12,7 @@ import java.util.concurrent.RejectedExecutionException;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import org.cotrix.common.events.Current;
+import org.cotrix.common.async.TaskManagerProvider.TaskManager;
 import org.cotrix.common.tx.Transaction;
 import org.cotrix.common.tx.Transactions;
 
@@ -24,8 +24,8 @@ public class DefaultExecutionService implements ExecutionService {
 	@Inject
 	private TaskContext context;
 
-	@Inject @Current
-	private TaskManager manager;
+	@Inject
+	private TaskManagerProvider managers;
 
 	@Inject
 	Transactions txs;
@@ -45,7 +45,7 @@ public class DefaultExecutionService implements ExecutionService {
 
 			final Closure closure = new Closure();
 
-			manager.submitted();
+			final TaskManager manager = managers.get();
 
 			Callable<T> wrap = new Callable<T>() {
 
