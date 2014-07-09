@@ -10,6 +10,7 @@ import javax.enterprise.inject.Produces;
 
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.Constants;
+import org.cotrix.common.async.TaskManager;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
@@ -43,23 +44,41 @@ public class CdiProducers {
 		return ctx;
 	}
 	
-	@Produces @ApplicationScoped @Current @Alternative
-	static Map<String,Object> sessionStorage() {
-		return new HashMap<>();
-	}
-	
-	@Produces @ApplicationScoped @Current @Alternative
-	static BoundSessionContext sessionContext(@Current Map<String,Object> storage, BoundSessionContext ctx) {
-		ctx.associate(storage);
-		ctx.activate();
-		return ctx;
-	}
-	
 	//produces current user for tests that want to control it. it's cotrix by default
 	@Produces @ApplicationScoped @Alternative
 	public static CurrentUser current() {
 		CurrentUser user = new CurrentUser();
 		user.set(Users.cotrix);
 		return user;
+	}
+	
+	
+	@Produces @ApplicationScoped @Current
+	TaskManager testManager(final BoundSessionContext ctx, @Current final Map<String, Object> storage ) {
+		
+		return new TaskManager() {
+			
+			@Override
+			public void submitted() {}
+			
+			@Override
+			public void started() {
+				ctx.associate(storage);
+				ctx.activate();
+				
+			}
+			
+			@Override
+			public void finished() {
+				ctx.dissociate(storage);
+			}
+		};
+	}
+	
+	
+
+	@Produces @ApplicationScoped @Current
+	static Map<String, Object> sessionStorage() {
+		return new HashMap<>();
 	}
 }

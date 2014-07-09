@@ -9,13 +9,10 @@ import org.cotrix.common.async.ReportingFuture;
 import org.cotrix.common.async.TaskContext;
 import org.cotrix.common.async.TaskObserver;
 import org.cotrix.common.async.TaskUpdate;
+import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import com.googlecode.jeeunit.JeeunitRunner;
-
-@RunWith(JeeunitRunner.class)
-public class ExecutionServiceTest {
+public class ExecutionServiceTest extends ApplicationTest {
 
 	@Inject
 	AsyncApi asyncApi;
@@ -32,7 +29,7 @@ public class ExecutionServiceTest {
 
 			for (int i = 1; i < 101; i++) {
 
-				Thread.sleep(20);
+				Thread.sleep(5);
 
 				if (i % 10 == 0)
 					ctx.save(new TaskUpdate(i / 100f, "done " + i + "%"));
