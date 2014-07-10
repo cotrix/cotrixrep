@@ -12,7 +12,8 @@ import javax.inject.Singleton;
 import org.cotrix.common.async.ReportingFuture;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.async.AsyncOutcome;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,7 +28,7 @@ public class ProgressService {
 		monitors = new HashMap<>();
 	}	
 	
-	public <F extends AsyncOutcome<T>, T extends FeatureCarrier> String monitorize(ReportingFuture<F> future) {
+	public <F extends AsyncOutcome<T>, T extends IsSerializable> String monitorize(ReportingFuture<F> future) {
 		ProgressMonitor<?,?> monitor = new ProgressMonitor<F, T>(future);
 		String token = UUID.randomUUID().toString();
 		monitors.put(token, monitor);

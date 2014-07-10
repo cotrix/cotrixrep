@@ -49,25 +49,25 @@ public class LongTaskProgress extends Progress implements FeatureCarrier {
 	
 	@Override
 	public Set<UIFeature> getApplicationFeatures() {
-		return (outcome!=null)?outcome.getOutcome().getApplicationFeatures():Collections.<UIFeature>emptySet();
+		return (outcome!=null)?outcome.getApplicationFeatures():Collections.<UIFeature>emptySet();
 	}
 
 
 	@Override
 	public void setApplicationFeatures(Set<UIFeature> applicationFeatures) {
-		outcome.getOutcome().setApplicationFeatures(applicationFeatures);
+		outcome.setApplicationFeatures(applicationFeatures);
 	}
 
 
 	@Override
 	public Map<String, Set<UIFeature>> getInstancesFeatures() {
-		return (outcome!=null)?outcome.getOutcome().getInstancesFeatures():Collections.<String, Set<UIFeature>>emptyMap();
+		return (outcome!=null)?outcome.getInstancesFeatures():Collections.<String, Set<UIFeature>>emptyMap();
 	}
 
 
 	@Override
 	public void addInstancesFeatures(String instanceId, Set<UIFeature> instanceFeatures) {
-		outcome.getOutcome().addInstancesFeatures(instanceId, instanceFeatures);
+		outcome.addInstancesFeatures(instanceId, instanceFeatures);
 	}
 	
 

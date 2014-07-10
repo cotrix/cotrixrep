@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.server;
 
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -14,10 +16,14 @@ import org.cotrix.web.common.shared.async.AsyncTask;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.UIFeature;
 import org.cotrix.web.manage.client.AsyncManageService;
+import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -41,10 +47,10 @@ public class AsyncManageServiceImpl implements AsyncManageService {
 
 	@Inject
 	private ManageServiceImpl syncService;
-	
+
 	@Inject
 	private ExecutionService executionService;
-	
+
 	@Inject
 	private ProgressService progressService;
 
@@ -60,10 +66,10 @@ public class AsyncManageServiceImpl implements AsyncManageService {
 			}
 		});
 	}
-	
+
 	@Override
 	public AsyncOutput<Void> removeCodelist(final String codelistId) throws ServiceException {
-		logger.trace("removeCodelist codelistId: {}", codelistId);
+		logger.trace("asyncRemoveCodelist codelistId: {}", codelistId);
 		return call(new Callable<Void>() {
 
 			@Override
@@ -73,20 +79,49 @@ public class AsyncManageServiceImpl implements AsyncManageService {
 			}
 		});
 	}
-	
-	private <T extends FeatureCarrier> AsyncOutput<T> call(final Callable<T> call) {
+
+
+	@Override
+	public AsyncOutput<UICodelistInfo> createNewCodelistVersion(final String codelistId, final String newVersion) throws ServiceException {
+		logger.trace("asynccreateNewCodelistVersion codelistId: {} newVersion: {}", codelistId, newVersion);
+		return call(new Callable<UICodelistInfo>() {
+
+			@Override
+			public UICodelistInfo call() throws Exception {
+				return syncService.createNewCodelistVersion(codelistId, newVersion);
+			}
+		});
+	}
+
+	private <T extends IsSerializable> AsyncOutput<T> call(final Callable<T> call) {
 		ReportingFuture<AsyncOutcome<T>> future = executionService.execute(new Callable<AsyncOutcome<T>>() {
 			@Override
 			public AsyncOutcome<T> call() throws Exception {
 				logger.trace("executing call");
-				T outcome = call.call();
-				return new AsyncOutcome<T>(outcome);
+				T result = call.call();
+				return toOutcome(result);
 			}
 		});
-		
+
 		String progressToken = progressService.<AsyncOutcome<T>,T>monitorize(future);
 		logger.trace("returning progress token: {}",progressToken);
-		
+
 		return new AsyncTask<>(progressToken);
 	}
+
+	private <T extends IsSerializable> AsyncOutcome<T> toOutcome(T result) {
+		AsyncOutcome<T> outcome = new AsyncOutcome<T>(result);
+		if (result instanceof FeatureCarrier) copy((FeatureCarrier) result, outcome);
+		return outcome;
+	}
+
+	private void copy(FeatureCarrier source, FeatureCarrier destination) {
+		destination.setApplicationFeatures(source.getApplicationFeatures());
+		if (source.getInstancesFeatures()!=null) {
+			for (Entry<String, Set<UIFeature>> entry:source.getInstancesFeatures().entrySet()) {
+				destination.addInstancesFeatures(entry.getKey(), entry.getValue());
+			}
+		}
+	}
+
 }

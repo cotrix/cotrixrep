@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.common.shared.async;
 
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AsyncTask<T extends FeatureCarrier> implements AsyncOutput<T> {
+public class AsyncTask<T extends IsSerializable> implements AsyncOutput<T> {
 	
 	private String id;
 

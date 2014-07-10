@@ -43,8 +43,6 @@ public interface ManageService extends RemoteService {
 	
 	UICodelistMetadata getMetadata(String codelistId) throws ServiceException;
 	
-	UICodelistInfo createNewCodelistVersion(String codelistId, String newVersion) throws ServiceException;
-	
 	ResponseWrapper<LifecycleState> getCodelistState(String codelistId) throws ServiceException;
 	
 	AbstractFeatureCarrier.Void lock(String codelistId) throws ServiceException;

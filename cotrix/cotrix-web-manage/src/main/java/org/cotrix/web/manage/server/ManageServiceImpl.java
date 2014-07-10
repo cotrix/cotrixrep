@@ -276,7 +276,6 @@ public class ManageServiceImpl implements ManageService {
 		}
 	}
 
-	@Override
 	@CodelistTask(VERSION)
 	public UICodelistInfo createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
 		try {

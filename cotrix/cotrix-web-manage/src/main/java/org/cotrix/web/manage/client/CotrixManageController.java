@@ -42,6 +42,8 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -139,25 +141,15 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void createNewVersion(String codelistId, String newVersion)
 	{
 		Log.trace("createNewVersion codelistId: " + codelistId+" newVerions: "+newVersion);
-		loaderDialog.showCentered();
-		service.createNewCodelistVersion(codelistId, newVersion, new ManagedFailureCallback<UICodelistInfo>() {
-
-			/** 
-			 * {@inheritDoc}
-			 */
-			@Override
-			public void onCallFailed() {
-				loaderDialog.hide();
-			}
+		asyncService.createNewCodelistVersion(codelistId, newVersion, async(new ManagedFailureCallback<UICodelistInfo>() {
 
 			@Override
 			public void onSuccess(UICodelistInfo result) {
 				Log.trace("created "+result);
 				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
-				loaderDialog.hide();
 			}
-		});
+		}));
 	}
 
 	private void createNewCodelist(String name, String version)

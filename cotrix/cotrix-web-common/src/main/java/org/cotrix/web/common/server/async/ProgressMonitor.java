@@ -8,15 +8,16 @@ import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.async.AsyncOutcome;
 import org.cotrix.web.common.shared.exception.Exceptions;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ProgressMonitor<F extends AsyncOutcome<T>, T extends FeatureCarrier> {
+public class ProgressMonitor<F extends AsyncOutcome<T>, T extends IsSerializable> {
 
 	private Logger logger = LoggerFactory.getLogger(ProgressMonitor.class);
 

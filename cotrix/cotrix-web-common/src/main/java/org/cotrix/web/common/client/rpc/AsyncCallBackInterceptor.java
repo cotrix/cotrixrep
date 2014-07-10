@@ -39,6 +39,7 @@ public class AsyncCallBackInterceptor<T> implements AsyncCallback<T> {
 	private void startProgress(AsyncTask<?> task) {
 		dialog.show(task.getId(), new ProgressCallBack() {
 			
+			@SuppressWarnings("unchecked")
 			@Override
 			public void onSuccess(LongTaskProgress result) {
 				T r = (T)result.getOutcome();
