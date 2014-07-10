@@ -24,7 +24,6 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
-import org.cotrix.common.async.ReportingFuture;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
@@ -65,9 +64,9 @@ import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
 import org.cotrix.web.common.shared.feature.ApplicationFeatures;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
-import org.cotrix.web.common.shared.feature.FeatureCarrier.Void;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
@@ -127,16 +126,16 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject @Current
 	private BeanSession session;
-	
+
 	@Inject @Current
 	private User currentUser;
-	
+
 	@Inject
 	private UserRepository userRepository;
-	
+
 	@Inject
 	private ProgressService progressService;
-	
+
 	@Inject
 	private AsyncCodelistRepository asyncCodelistRepository;
 
@@ -160,22 +159,22 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistsInfos");
 
 		List<UICodelistInfo> codelistInfos = new ArrayList<>();
-		
+
 		Iterable<CodelistCoordinates> codelists = repository.get(allListCoordinates().sort(byCoordinateName()));
-		
+
 		List<String> codelistIds = new ArrayList<>();
 		for (CodelistCoordinates codelist:codelists) codelistIds.add(codelist.id());
 		Map<String, Lifecycle> lifecycles = lifecycleService.lifecyclesOf(codelistIds);
-		
+
 		FingerPrint fp = currentUser.fingerprint();
-		
+
 		for (CodelistCoordinates codelist:codelists) {
-			
+
 			boolean isUserInTeam = !fp.allRolesOver(codelist.id(), ResourceType.codelists).isEmpty();
-			
+
 			Lifecycle lifecycle = lifecycles.get(codelist.id());
 			UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(codelist, lifecycle.state(), isUserInTeam);
-			
+
 			codelistInfos.add(codelistInfo);
 		}
 
@@ -241,27 +240,27 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(LOCK)
-	public FeatureCarrier.Void lock(@Id String codelistId) throws ServiceException {
-		return FeatureCarrier.getVoid();
+	public AbstractFeatureCarrier.Void lock(@Id String codelistId) throws ServiceException {
+		return AbstractFeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(UNLOCK)
-	public FeatureCarrier.Void unlock(@Id String codelistId) throws ServiceException {
-		return FeatureCarrier.getVoid();
+	public AbstractFeatureCarrier.Void unlock(@Id String codelistId) throws ServiceException {
+		return AbstractFeatureCarrier.getVoid();
 	}
 
 	@Override
 	@CodelistTask(SEAL)
-	public FeatureCarrier.Void seal(@Id String codelistId) throws ServiceException {
-		return FeatureCarrier.getVoid();
+	public AbstractFeatureCarrier.Void seal(@Id String codelistId) throws ServiceException {
+		return AbstractFeatureCarrier.getVoid();
 	}
-	
+
 
 	@Override
 	@CodelistTask(UNSEAL)
 	public Void unseal(@Id String codelistId) throws ServiceException {
-		return FeatureCarrier.getVoid();
+		return AbstractFeatureCarrier.getVoid();
 	}
 
 	@Override
@@ -282,11 +281,11 @@ public class ManageServiceImpl implements ManageService {
 	public UICodelistInfo createNewCodelistVersion(@Id String codelistId, String newVersion)	throws ServiceException {
 		try {
 			Codelist codelist = repository.lookup(codelistId);
-			
+
 			Codelist newCodelist = versioningService.bump(codelist).to(newVersion);
-	
+
 			UICodelistInfo codelistInfo = addCodelist(newCodelist);
-			
+
 			return codelistInfo;
 		} catch(Throwable throwable)
 		{
@@ -324,7 +323,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("owner: {}", currentUser);
 		User changeset = modifyUser(currentUser).is(Roles.OWNER.on(newCodelist.id())).build();
 		userRepository.update(changeset);
-		
+
 		UICodelistInfo codelistInfo = addCodelist(newCodelist);
 		events.fire(new CodelistActionEvents.Create(newCodelist.id(),newCodelist.qname(), newCodelist.version(), session));
 		return codelistInfo;
@@ -332,11 +331,11 @@ public class ManageServiceImpl implements ManageService {
 
 	private UICodelistInfo addCodelist(Codelist newCodelist) {
 		repository.add(newCodelist);
-		
+
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(newCodelist.id());
-		
+
 		boolean isUserInTeam = !currentUser.fingerprint().allRolesOver(newCodelist.id(), ResourceType.codelists).isEmpty();
-		
+
 		UICodelistInfo codelistInfo = CodelistsInfos.toUICodelistInfo(newCodelist, lifecycle.state(), isUserInTeam);
 
 		return codelistInfo;
@@ -345,16 +344,16 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
-		
+
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<UILinkType> types = new ArrayList<>();
 		for (CodelistLink codelistLink:codelist.links()) {
 			types.add(LinkTypes.toUILinkType(codelistLink));
 		}
-		
+
 		logger.trace("found {} link types", types.size());
-		
+
 		return new DataWindow<>(types);
 	}
 
@@ -386,7 +385,7 @@ public class ManageServiceImpl implements ManageService {
 			}
 		}
 		logger.trace("returning {} attribute types", attributeTypes.size());
-		
+
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<LinkValue> types = new ArrayList<>();
@@ -421,23 +420,18 @@ public class ManageServiceImpl implements ManageService {
 	@Override
 	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException {
 		logger.trace("canUserDelete codelistId: {}",codelistId);
-		
+
 		Lifecycle lifecycle = lifecycleService.lifecycleOf(codelistId);
 		if (lifecycle.state() == DefaultLifecycleStates.sealed) return CodelistRemoveCheckResponse.cannot("the codelist is sealed");
-		
+
 		if (!currentUser.can(CodelistAction.EDIT.on(codelistId))) return CodelistRemoveCheckResponse.cannot("insufficient premissions"); 
 		return CodelistRemoveCheckResponse.can();
 	}
-	
-	@Override
+
 	@CodelistTask(REMOVE)
-	public String removeCodelist(@Id String codelistId) throws ServiceException {
+	public void removeCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("removeCodelist codelistId: {}",codelistId);
-		
-		ReportingFuture<?> future = asyncCodelistRepository.remove(codelistId);
-		String token = progressService.monitorize(future);
-		logger.trace("progress token {}", token);
-		return token;
+		repository.remove(codelistId);
 	}
 
 	@Override
@@ -449,4 +443,11 @@ public class ManageServiceImpl implements ManageService {
 		for (Definition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
 		return new DataWindow<UIAttributeType>(types);
 	}
+
+
+	public String testAsync(String input) throws ServiceException {
+		logger.trace("testAsync input: {}", input);
+		return "This is my output "+currentUser.fullName();
+	}
+
 }

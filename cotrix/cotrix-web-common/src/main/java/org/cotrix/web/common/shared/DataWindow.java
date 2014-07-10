@@ -6,13 +6,13 @@ package org.cotrix.web.common.shared;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class DataWindow<T> extends FeatureCarrier {
+public class DataWindow<T> extends AbstractFeatureCarrier {
 	
 	protected static DataWindow<Object> EMPTY = new DataWindow<Object>(new ArrayList<Object>());
 	

@@ -3,15 +3,21 @@
  */
 package org.cotrix.web.common.shared.async;
 
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AsyncOutcome<T> extends FeatureCarrier implements AsyncOutput<T> {
+public class AsyncOutcome<T extends FeatureCarrier> implements AsyncOutput<T> {
 	
-	public static final AsyncOutcome<java.lang.Void> VOID = new AsyncOutcome<java.lang.Void>(null);
+	public static class Void extends AsyncOutcome<AbstractFeatureCarrier.Void> {
+	}
+	
+	public static Void getVoid() {
+		return new Void();
+	}
 
 	private T outcome;
 
@@ -34,5 +40,4 @@ public class AsyncOutcome<T> extends FeatureCarrier implements AsyncOutput<T> {
 		builder.append("]");
 		return builder.toString();
 	}
-	
 }

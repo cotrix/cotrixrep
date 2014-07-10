@@ -75,6 +75,11 @@
 		<servlet-name>manageServlet</servlet-name>
 		<servlet-class>org.cotrix.web.manage.server.ManageServiceImpl$Servlet</servlet-class>
 	</servlet>
+	
+	<servlet>
+		<servlet-name>asyncManageServlet</servlet-name>
+		<servlet-class>org.cotrix.web.manage.server.AsyncManageServiceImpl$Servlet</servlet-class>
+	</servlet>
 
 	<servlet>
 		<servlet-name>publishServlet</servlet-name>
@@ -122,6 +127,11 @@
 	<servlet-mapping>
 		<servlet-name>manageServlet</servlet-name>
 		<url-pattern>/Cotrix/service/manageService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>asyncManageServlet</servlet-name>
+		<url-pattern>/Cotrix/service/asyncManageService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

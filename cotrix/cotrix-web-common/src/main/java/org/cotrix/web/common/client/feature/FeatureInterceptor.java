@@ -9,6 +9,7 @@ import java.util.Set;
 import org.cotrix.web.common.client.feature.event.NewApplicationFeatureSetEvent;
 import org.cotrix.web.common.client.feature.event.NewInstancesFeatureSetEvent;
 import org.cotrix.web.common.client.rpc.CallBackListener;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.UIFeature;
 
@@ -32,7 +33,7 @@ public class FeatureInterceptor implements CallBackListener {
 
 	@Override
 	public boolean onSuccess(Object result) {
-		if (result instanceof FeatureCarrier) {
+		if (result instanceof AbstractFeatureCarrier) {
 			FeatureCarrier response = (FeatureCarrier) result;
 
 			if (response.getApplicationFeatures()!=null) {

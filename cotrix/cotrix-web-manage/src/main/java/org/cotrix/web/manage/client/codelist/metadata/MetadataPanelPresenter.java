@@ -7,7 +7,7 @@ import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.HasFeature;
 import org.cotrix.web.common.shared.codelist.LifecycleState;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistNewStateEvent;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
@@ -51,10 +51,10 @@ public class MetadataPanelPresenter implements Presenter {
 	
 	private FeatureBinder featureBinder;
 	
-	private ManagedFailureCallback<FeatureCarrier.Void> callBack = new ManagedFailureCallback<FeatureCarrier.Void>() {
+	private ManagedFailureCallback<AbstractFeatureCarrier.Void> callBack = new ManagedFailureCallback<AbstractFeatureCarrier.Void>() {
 
 		@Override
-		public void onSuccess(FeatureCarrier.Void result) {
+		public void onSuccess(AbstractFeatureCarrier.Void result) {
 			loadState();
 		}
 	};
