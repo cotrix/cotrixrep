@@ -19,6 +19,8 @@ public interface TaskWizardStep extends WizardStep {
 	
 	public void run(TaskCallBack callback);
 	
+	
+	
 	public interface TaskCallBack extends Callback<WizardAction, Error>{}
 
 }

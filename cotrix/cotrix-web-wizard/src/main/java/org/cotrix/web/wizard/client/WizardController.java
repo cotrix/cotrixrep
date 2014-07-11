@@ -169,34 +169,21 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 		if (step.isComplete()) doAction(step.getAction());
 		else {
 
-			showProgress();
 			step.run(new TaskCallBack() {
 
 				@Override
 				public void onSuccess(WizardAction result) {
 					doAction(result);
-					hideProgress();
 				}
 
 				@Override
 				public void onFailure(Error error) {
 					Log.trace("TaskWizardStep "+step.getId()+" failed: "+error);
 					goBack();
-					hideProgress();
 					view.showError(error);
 				}
 			});
 		}
-	}
-
-	protected void showProgress()
-	{
-		view.showProgress();
-	}
-
-	protected void hideProgress()
-	{
-		view.hideProgress();
 	}
 
 	protected void applyStepConfiguration(VisualStepConfiguration configuration)

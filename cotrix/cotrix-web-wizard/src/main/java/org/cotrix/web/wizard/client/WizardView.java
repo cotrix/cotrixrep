@@ -34,9 +34,6 @@ public interface WizardView {
 	public void hideButton(WizardButton button);
 	
 	public void hideAllButtons();
-	
-	void showProgress();
-	void hideProgress();
 
 	void showError(Error error);
 }

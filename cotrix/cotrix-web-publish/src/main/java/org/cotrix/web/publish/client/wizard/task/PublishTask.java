@@ -3,12 +3,13 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.Format;
 import org.cotrix.web.common.shared.Progress.Status;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.publish.client.PublishServiceAsync;
 import org.cotrix.web.publish.client.event.ItemSelectedEvent;
 import org.cotrix.web.publish.client.event.ItemUpdatedEvent;
@@ -30,6 +31,7 @@ import org.cotrix.web.wizard.client.step.TaskWizardStep;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -45,6 +47,9 @@ public class PublishTask implements TaskWizardStep {
 	
 	@Inject
 	protected PublishServiceAsync service;
+	@Inject
+	private LoaderDialog loaderDialog;
+	
 	protected EventBus publishBus;
 	protected TaskCallBack callback;
 	
@@ -154,7 +159,7 @@ public class PublishTask implements TaskWizardStep {
 	}
 
 	@Override
-	public void run(TaskCallBack callback) {
+	public void run(final TaskCallBack callback) {
 		this.callback = callback;
 		PublishDirectives directives = new PublishDirectives();
 		directives.setCodelistId(codelist.getId());
@@ -168,24 +173,36 @@ public class PublishTask implements TaskWizardStep {
 		
 		Log.trace("PublishDirectives: "+directives);
 		
-		service.startPublish(directives, new ManagedFailureCallback<Void>() {
+		loaderDialog.showCentered();
+		
+		service.startPublish(directives, new AsyncCallback<Void>() {
 
 			@Override
 			public void onSuccess(Void result) {
 				publishProgressPolling.scheduleRepeating(1000);;
 				
 			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				callback.onFailure(Exceptions.toError(caught));
+			}
 		});
 	}
 	
 	protected void getPublishProgress()
 	{
-		service.getPublishProgress(new ManagedFailureCallback<PublishProgress>() {
+		service.getPublishProgress(new AsyncCallback<PublishProgress>() {
 
 			@Override
 			public void onSuccess(PublishProgress result) {
 				Log.trace("Import progress: "+result);
 				if (result.isComplete()) publishComplete(result);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				callback.onFailure(Exceptions.toError(caught));
 			}
 		});
 	}
@@ -201,6 +218,7 @@ public class PublishTask implements TaskWizardStep {
 	protected void publishComplete(PublishProgress progress) {
 		publishProgressPolling.cancel();
 		publishBus.fireEvent(new PublishCompleteEvent(progress, getDownloadUrl()));
+		loaderDialog.hide();
 		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);
 		else callback.onFailure(progress.getFailureCause());
 	}

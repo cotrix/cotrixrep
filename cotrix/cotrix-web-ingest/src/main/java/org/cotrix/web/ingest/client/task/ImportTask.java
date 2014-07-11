@@ -3,18 +3,18 @@
  */
 package org.cotrix.web.ingest.client.task;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 import java.util.List;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.shared.CsvConfiguration;
-import org.cotrix.web.common.shared.Progress;
-import org.cotrix.web.common.shared.Progress.Status;
-import org.cotrix.web.ingest.client.IngestServiceAsync;
+import org.cotrix.web.common.shared.exception.Exceptions;
+import org.cotrix.web.ingest.client.AsyncIngestServiceAsync;
 import org.cotrix.web.ingest.client.event.CsvParserConfigurationUpdatedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.event.ImportProgressEvent;
+import org.cotrix.web.ingest.client.event.ImportResultEvent;
 import org.cotrix.web.ingest.client.event.MappingLoadedEvent;
 import org.cotrix.web.ingest.client.event.MappingModeUpdatedEvent;
 import org.cotrix.web.ingest.client.event.MappingsUpdatedEvent;
@@ -22,7 +22,7 @@ import org.cotrix.web.ingest.client.event.MetadataUpdatedEvent;
 import org.cotrix.web.ingest.client.wizard.ImportWizardAction;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.ImportMetadata;
-import org.cotrix.web.ingest.shared.ImportProgress;
+import org.cotrix.web.ingest.shared.ImportResult;
 import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
@@ -30,7 +30,7 @@ import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -46,24 +46,20 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 
 	protected static interface ImportTaskEventBinder extends EventBinder<ImportTask> {}
 
-	protected EventBus importEventBus;
-	protected TaskCallBack callback;
-	protected boolean importComplete;
-
-
-
+	private EventBus importEventBus;
+	private TaskCallBack callback;
+	private boolean importComplete;
+	
 	@Inject
-	protected IngestServiceAsync importService;
-
+	private AsyncIngestServiceAsync asyncImportService;
+	
 	@Inject @CotrixBus
-	protected EventBus cotrixBus;
+	private EventBus cotrixBus;
 
-	protected CsvConfiguration csvConfiguration;
-	protected ImportMetadata metadata;
-	protected List<AttributeMapping> mappings;
-	protected MappingMode mappingMode;	
-
-	protected Timer importProgressPolling;
+	private CsvConfiguration csvConfiguration;
+	private ImportMetadata metadata;
+	private List<AttributeMapping> mappings;
+	private MappingMode mappingMode;	
 
 
 	@Inject
@@ -76,18 +72,6 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	@Inject
 	private void bind(ImportTaskEventBinder binder, @ImportBus EventBus importEventBus) {
 		binder.bindEventHandlers(this, importEventBus);
-	}
-
-	@Inject
-	private void setupTimer()
-	{
-		importProgressPolling = new Timer() {
-
-			@Override
-			public void run() {
-				getImportProgress();
-			}
-		};
 	}
 
 	protected void bind()
@@ -110,43 +94,33 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 		this.callback = callback;
 
 		Log.trace("starting import");
-		importService.startImport(csvConfiguration, metadata, mappings, mappingMode, new ManagedFailureCallback<Void>() {
+		
+		asyncImportService.startImport(csvConfiguration, metadata, mappings, mappingMode, async(
+				
+				new AsyncCallback<ImportResult>() {
 
 			@Override
-			public void onSuccess(Void result) {
-				importProgressPolling.scheduleRepeating(1000);
+			public void onSuccess(ImportResult result) {
+				importComplete(result);
 			}
-
-		});
-	}
-
-	protected void getImportProgress()
-	{
-		importService.getImportProgress(new ManagedFailureCallback<ImportProgress>() {
 
 			@Override
-			public void onSuccess(ImportProgress result) {
-				Log.trace("Import progress: "+result);
-				updateImportProgress(result);			
+			public void onFailure(Throwable caught) {
+				importFailed(caught);
 			}
-		});
+		}));
 	}
-
-	protected void updateImportProgress(ImportProgress progress)
-	{
-		importComplete = progress.isComplete();
-		importEventBus.fireEvent(new ImportProgressEvent(progress));
-		if (importComplete) codelistImportComplete(progress);
+	
+	private void importComplete(ImportResult result) {
+		Log.trace("importComplete result: "+result);
+		importComplete = true;
+		importEventBus.fireEvent(new ImportResultEvent(result));
+		if (!result.isMappingFailed()) cotrixBus.fireEvent(new CodeListImportedEvent(result.getCodelistId()));
+		callback.onSuccess(ImportWizardAction.NEXT);
 	}
-
-	protected void codelistImportComplete(Progress progress)
-	{
-		Log.trace("CodeList import complete");
-		importProgressPolling.cancel();
-		//FIXME add id
-		cotrixBus.fireEvent(new CodeListImportedEvent(null));
-		if (progress.getStatus() == Status.DONE) callback.onSuccess(ImportWizardAction.NEXT);
-		else callback.onFailure(progress.getFailureCause());
+	
+	private void importFailed(Throwable caught) {
+		callback.onFailure(Exceptions.toError(caught));
 	}
 
 	@Override
@@ -155,7 +129,6 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 		importComplete = false;
 		metadata = null;
 		mappings = null;
-		importProgressPolling.cancel();
 	}
 
 	@EventHandler

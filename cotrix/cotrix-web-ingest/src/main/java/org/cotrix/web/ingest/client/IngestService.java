@@ -14,13 +14,11 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodelistInfo;
-import org.cotrix.web.ingest.shared.ImportProgress;
-import org.cotrix.web.ingest.shared.UIAssetType;
-import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
-import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.ingest.shared.PreviewData;
+import org.cotrix.web.ingest.shared.PreviewHeaders;
+import org.cotrix.web.ingest.shared.UIAssetType;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -53,11 +51,7 @@ public interface IngestService extends RemoteService {
 	public CsvConfiguration getCsvParserConfiguration() throws ServiceException;
 	
 	public List<AttributeMapping> getMappings(List<String> userLabels) throws ServiceException;
-	
-	public void startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException;
-	
-	public ImportProgress getImportProgress() throws ServiceException;
-	
+		
 	public DataWindow<ReportLog> getReportLogs(Range range) throws ServiceException;
 	
 	public PreviewHeaders getPreviewHeaders(CsvConfiguration configuration) throws ServiceException;

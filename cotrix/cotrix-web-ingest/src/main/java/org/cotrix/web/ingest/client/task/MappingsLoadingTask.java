@@ -6,6 +6,7 @@ package org.cotrix.web.ingest.client.task;
 import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.AssetTypeUpdatedEvent;
@@ -42,6 +43,9 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	
 	@Inject
 	private IngestServiceAsync importService;
+	
+	@Inject
+	private LoaderDialog loaderDialog;
 	
 	@Inject
 	@ImportBus
@@ -86,12 +90,14 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	}
 	
 	private void loadMappings(final TaskCallBack callback) {
+		loaderDialog.showCentered();
 		importService.getMappings(userHeaders, new AsyncCallback<List<AttributeMapping>>() {
 			
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Error getting the mappings", caught);
 				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
+				loaderDialog.hide();
 				callback.onFailure(Exceptions.toError(caught));
 			}
 
@@ -107,24 +113,30 @@ public class MappingsLoadingTask implements TaskWizardStep {
 	
 	private void loadCodelists(final TaskCallBack callback) {
 		if (codelistInfos == null) {
-		importService.getCodelistsInfo(new AsyncCallback<List<CodelistInfo>>() {
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Error getting the mappings", caught);
-				importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
-				callback.onFailure(Exceptions.toError(caught));
-			}
-
-			@Override
-			public void onSuccess(List<CodelistInfo> result) {
-				Log.trace("codelistInfos retrieved");
-				codelistInfos = result;
-				importEventBus.fireEvent(new CodelistInfosLoadedEvent(result));
-				callback.onSuccess(ImportWizardAction.NEXT);
-			}
-		});
-		} else callback.onSuccess(ImportWizardAction.NEXT);
+			loaderDialog.showCentered();
+			importService.getCodelistsInfo(new AsyncCallback<List<CodelistInfo>>() {
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					Log.error("Error getting the mappings", caught);
+					importEventBus.fireEvent(new MappingLoadFailedEvent(caught));
+					loaderDialog.hide();
+					callback.onFailure(Exceptions.toError(caught));
+				}
+	
+				@Override
+				public void onSuccess(List<CodelistInfo> result) {
+					Log.trace("codelistInfos retrieved");
+					codelistInfos = result;
+					importEventBus.fireEvent(new CodelistInfosLoadedEvent(result));
+					loaderDialog.hide();
+					callback.onSuccess(ImportWizardAction.NEXT);
+				}
+			});
+		} else {
+			loaderDialog.hide();
+			callback.onSuccess(ImportWizardAction.NEXT);
+		}
 	}
 	
 	@EventHandler

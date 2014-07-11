@@ -24,6 +24,8 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -64,7 +66,8 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 		Log.trace("retrieveAsset");
 		importEventBus.fireEvent(new AssetTypeUpdatedEvent(selectedAsset.getAssetType()));
 
-		importService.setAsset(selectedAsset.getId(), new AsyncCallback<Void>() {
+		
+		importService.setAsset(selectedAsset.getId(), showLoader(new AsyncCallback<Void>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -84,7 +87,7 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 				
 				callback.onSuccess(ImportWizardAction.NEXT);
 			}
-		});	
+		}));	
 	}
 	
 	@Override
@@ -96,8 +99,6 @@ public class RetrieveAssetTask implements TaskWizardStep, ResetWizardHandler {
 	void onCodeListSelected(AssetSelectedEvent event) {
 		selectedAsset = event.getSelectedAsset();
 	}
-	
-	
 	
 
 	@Override

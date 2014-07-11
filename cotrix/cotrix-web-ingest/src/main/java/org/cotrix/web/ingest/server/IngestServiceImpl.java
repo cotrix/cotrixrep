@@ -51,6 +51,7 @@ import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
 import org.cotrix.web.ingest.shared.ImportProgress;
+import org.cotrix.web.ingest.shared.ImportResult;
 import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.ingest.shared.PreviewData;
 import org.cotrix.web.ingest.shared.PreviewHeaders;
@@ -293,8 +294,7 @@ public class IngestServiceImpl implements IngestService {
 		}
 	}
 
-	@Override
-	public void startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException {
+	public ImportResult startImport(CsvConfiguration csvConfiguration, ImportMetadata metadata, List<AttributeMapping> mappings, MappingMode mappingMode) throws ServiceException {
 		logger.trace("startImport csvConfiguration: {}, metadata: {}, mappings: {}, mappingMode: {}", csvConfiguration, metadata, mappings, mappingMode);
 
 		try {
@@ -302,23 +302,11 @@ public class IngestServiceImpl implements IngestService {
 			logger.trace("user "+user.id()+" user "+user.fullName());
 			ImportTaskSession importTaskSession = session.createImportTaskSession();
 			importTaskSession.setUserOptions(csvConfiguration, metadata, mappings, mappingMode);
-			ImportProgress importerProgress = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
-			session.setImporterProgress(importerProgress);
-		} catch (IOException e) {
-			logger.error("Error during import starting", e);
-			throw new ServiceException("An error occurred starting import: "+e.getMessage());
-		}
-	}
-
-
-	@Override
-	public ImportProgress getImportProgress() throws ServiceException {
-		try {
-			return session.getImporterProgress();
-		} catch(Exception e)
-		{
-			logger.error("An error occurred on server side", e);
-			throw new ServiceException("An error occurred on server side: "+e.getMessage());
+			ImportResult result = importerFactory.importCodelist(importTaskSession, session.getCodeListType());
+			return result;
+		} catch (Exception e) {
+			logger.error("Error during import", e);
+			throw new ServiceErrorException(Exceptions.toError("An error occurred during the import", e));
 		}
 	}
 
