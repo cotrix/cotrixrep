@@ -36,7 +36,6 @@ import org.cotrix.domain.user.User;
 import org.cotrix.lifecycle.Lifecycle;
 import org.cotrix.lifecycle.LifecycleService;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
-import org.cotrix.repository.AsyncCodelistRepository;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.CodelistSummary;
@@ -135,9 +134,6 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private ProgressService progressService;
-
-	@Inject
-	private AsyncCodelistRepository asyncCodelistRepository;
 
 	/** 
 	 * {@inheritDoc}
