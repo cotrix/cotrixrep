@@ -6,9 +6,9 @@ package org.cotrix.web.ingest.client.step;
 import java.util.List;
 
 import org.cotrix.web.ingest.client.event.ImportBus;
-import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPresenter;
-import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
+import org.cotrix.web.ingest.client.task.RetrieveAssetDetailsTask;
 import org.cotrix.web.ingest.client.task.RetrieveAssetTask;
+import org.cotrix.web.ingest.client.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent;
 import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.flow.AbstractNodeSelector;
@@ -34,10 +34,10 @@ public class AssetDetailsNodeSelector extends AbstractNodeSelector<WizardStep> i
 	protected RetrieveAssetTask retrieveStep;
 	
 	@Inject
-	protected CodelistDetailsStepPresenter codelistDetailsStep;
+	protected RetrieveAssetDetailsTask codelistDetailsStep;
 	
 	@Inject
-	protected RepositoryDetailsStepPresenter repositoryDetailsStep;
+	protected RetrieveRepositoryDetailsTask repositoryDetailsStep;
 	
 	@Inject
 	public AssetDetailsNodeSelector(@ImportBus EventBus importBus, RetrieveAssetTask retrieveStep)

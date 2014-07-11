@@ -1,12 +1,12 @@
 package org.cotrix.web.ingest.client.step.selection;
 
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.ingest.client.event.AssetDetailsRequestEvent;
 import org.cotrix.web.ingest.client.event.AssetSelectedEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
+import org.cotrix.web.ingest.client.event.RepositoryDetailsRequestEvent;
 import org.cotrix.web.ingest.client.step.AssetDetailsNodeSelector;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
-import org.cotrix.web.ingest.client.step.codelistdetails.CodelistDetailsStepPresenter;
-import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.wizard.client.event.NavigationEvent;
@@ -32,12 +32,6 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 	
 	@Inject
 	protected AssetDetailsNodeSelector detailsNodeSelector;
-	
-	@Inject
-	protected CodelistDetailsStepPresenter codelistDetailsPresenter;
-	
-	@Inject
-	protected RepositoryDetailsStepPresenter repositoryDetailsPresenter;
 	
 	protected EventBus importEventBus;
 	
@@ -72,7 +66,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 
 	@Override
 	public void assetDetails(AssetInfo asset) {
-		codelistDetailsPresenter.setAsset(asset);
+		importEventBus.fireEvent(new AssetDetailsRequestEvent(asset));
 		detailsNodeSelector.switchToCodeListDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
@@ -85,7 +79,7 @@ public class SelectionStepPresenter extends AbstractVisualWizardStep implements 
 
 	@Override
 	public void repositoryDetails(UIQName repositoryId) {
-		repositoryDetailsPresenter.setRepository(repositoryId);
+		importEventBus.fireEvent(new RepositoryDetailsRequestEvent(repositoryId));
 		detailsNodeSelector.switchToRepositoryDetails();
 		importEventBus.fireEvent(NavigationEvent.FORWARD);
 	}
