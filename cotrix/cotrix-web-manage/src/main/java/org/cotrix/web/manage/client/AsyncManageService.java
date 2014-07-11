@@ -16,8 +16,6 @@ import org.cotrix.web.manage.shared.UICodelistInfo;
 @RemoteServiceRelativePath("service/asyncManageService")
 public interface AsyncManageService extends RemoteService {
 	
-	AsyncOutput<Void> testAsync(String input) throws ServiceException;
-	
 	AsyncOutput<Void> removeCodelist(String codelistId) throws ServiceException;
 	
 	AsyncOutput<UICodelistInfo> createNewCodelistVersion(String codelistId, String newVersion) throws ServiceException;

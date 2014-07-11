@@ -6,6 +6,7 @@ package org.cotrix.web.ingest.server;
 import javax.inject.Inject;
 
 import org.cotrix.web.common.server.CotrixRemoteServlet;
+import org.cotrix.web.common.server.async.AbstractAsyncService;
 import org.cotrix.web.ingest.client.AsyncIngestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ import org.slf4j.LoggerFactory;
  *
  */
 @SuppressWarnings("serial")
-public class AsyncIngestServiceImpl implements AsyncIngestService {
+public class AsyncIngestServiceImpl extends AbstractAsyncService implements AsyncIngestService {
 	
 	public static class Servlet extends CotrixRemoteServlet {
 
