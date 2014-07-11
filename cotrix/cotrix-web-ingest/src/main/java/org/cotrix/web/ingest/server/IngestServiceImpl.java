@@ -12,14 +12,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.servlet.ServletException;
 
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
+import org.cotrix.web.common.server.CotrixRemoteServlet;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
 import org.cotrix.web.common.server.util.Ranges.Predicate;
@@ -47,13 +48,13 @@ import org.cotrix.web.ingest.shared.AssetDetails;
 import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodelistInfo;
-import org.cotrix.web.ingest.shared.ImportProgress;
-import org.cotrix.web.ingest.shared.UIAssetType;
-import org.cotrix.web.ingest.shared.PreviewHeaders;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
+import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.ingest.shared.PreviewData;
+import org.cotrix.web.ingest.shared.PreviewHeaders;
+import org.cotrix.web.ingest.shared.UIAssetType;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,6 @@ import org.virtualrepository.csv.CsvAsset;
 import org.virtualrepository.csv.CsvCodelist;
 import org.virtualrepository.sdmx.SdmxCodelist;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.view.client.Range;
 
 
@@ -71,7 +71,18 @@ import com.google.gwt.view.client.Range;
  *
  */
 @SuppressWarnings("serial")
-public class IngestServiceImpl extends RemoteServiceServlet implements IngestService {
+public class IngestServiceImpl implements IngestService {
+	
+	public static class Servlet extends CotrixRemoteServlet {
+
+		@Inject
+		protected IngestServiceImpl bean;
+
+		@Override
+		public Object getBean() {
+			return bean;
+		}
+	}
 
 	private Logger logger = LoggerFactory.getLogger(IngestServiceImpl.class);
 
@@ -108,8 +119,8 @@ public class IngestServiceImpl extends RemoteServiceServlet implements IngestSer
 	/** 
 	 * {@inheritDoc}
 	 */
-	@Override
-	public void init() throws ServletException {
+	@PostConstruct
+	public void init() {
 		cloud.discover();
 	}
 

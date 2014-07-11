@@ -61,7 +61,13 @@
 
 	<servlet>
 		<servlet-name>ingestServiceServlet</servlet-name>
-		<servlet-class>org.cotrix.web.ingest.server.IngestServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.ingest.server.IngestServiceImpl$Servlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>asyncIngestServiceServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.AsyncIngestServiceImpl$Servlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -117,6 +123,11 @@
 	<servlet-mapping>
 		<servlet-name>ingestServiceServlet</servlet-name>
 		<url-pattern>/Cotrix/service/ingestService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>asyncIngestServiceServlet</servlet-name>
+		<url-pattern>/Cotrix/service/asyncIngestService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
