@@ -95,9 +95,9 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 
 		Log.trace("starting import");
 		
-		asyncImportService.startImport(csvConfiguration, metadata, mappings, mappingMode, async(
+		asyncImportService.startImport(csvConfiguration, metadata, mappings, mappingMode, 
 				
-				new AsyncCallback<ImportResult>() {
+				async(new AsyncCallback<ImportResult>() {
 
 			@Override
 			public void onSuccess(ImportResult result) {
@@ -120,6 +120,7 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	}
 	
 	private void importFailed(Throwable caught) {
+		Log.trace("importFailed", caught);
 		callback.onFailure(Exceptions.toError(caught));
 	}
 
