@@ -74,12 +74,18 @@ public class DefaultExecutionService implements ExecutionService {
 								logger.trace("commiting transaction "+tx);
 								tx.commit();
 							}
-							
+
 							return result;
 						}
 
 					}
-
+					catch (CancelledTaskException e) {
+						
+						Thread.interrupted();
+						
+						throw new InterruptedException(e.getMessage());
+						
+					}
 					catch(Exception e) {
 
 						context.thisTask().failed(e);

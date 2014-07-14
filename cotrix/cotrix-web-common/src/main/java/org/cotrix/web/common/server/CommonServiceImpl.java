@@ -42,4 +42,10 @@ public class CommonServiceImpl implements CommonService {
 		return progressService.getProgress(progressToken);
 	}
 
+	@Override
+	public void cancel(String progressToken) throws ServiceException {
+		logger.trace("cancel progressToken: {}", progressToken);
+		progressService.cancel(progressToken);
+	}
+
 }
