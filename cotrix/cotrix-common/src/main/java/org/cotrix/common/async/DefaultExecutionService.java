@@ -46,6 +46,8 @@ public class DefaultExecutionService implements ExecutionService {
 			final Closure closure = new Closure();
 
 			final TaskManager manager = managers.get();
+			
+			final Object cancelMonitor = new Object();
 
 			Callable<T> wrap = new Callable<T>() {
 
@@ -61,17 +63,27 @@ public class DefaultExecutionService implements ExecutionService {
 
 						started.countDown();
 
-						try(Transaction tx = txs.open()) {
+						Transaction tx = txs.open();
+						
+						try {
 
 							T result = task.call();
 
 							return result;
 						}
+						finally {
+							
+							synchronized (cancelMonitor) {
+							
+								//clears interrupt thread, if any.
+								Thread.interrupted();
+								
+								tx.close();
+							}
+						}
 
 					}
 					catch (CancelledTaskException e) {
-						
-						Thread.interrupted();
 						
 						throw new InterruptedException(e.getMessage());
 						
@@ -96,7 +108,7 @@ public class DefaultExecutionService implements ExecutionService {
 
 			started.await();
 
-			return new DefaultReportingFuture<T>(future,closure.t);
+			return new DefaultReportingFuture<T>(future,closure.t,cancelMonitor);
 
 		}
 		catch(Exception e) {
