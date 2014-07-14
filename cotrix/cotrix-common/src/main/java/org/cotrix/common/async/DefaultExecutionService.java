@@ -1,6 +1,5 @@
 package org.cotrix.common.async;
 
-import static java.lang.Thread.*;
 import static org.cotrix.common.CommonUtils.*;
 
 import java.util.concurrent.Callable;
@@ -16,11 +15,14 @@ import javax.inject.Inject;
 import org.cotrix.common.async.TaskManagerProvider.TaskManager;
 import org.cotrix.common.tx.Transaction;
 import org.cotrix.common.tx.Transactions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class DefaultExecutionService implements ExecutionService {
 
 	private static ExecutorService service = Executors.newCachedThreadPool();
+	private Logger logger = LoggerFactory.getLogger(DefaultExecutionService.class);
 
 	@Inject
 	private TaskContext context;
@@ -63,12 +65,16 @@ public class DefaultExecutionService implements ExecutionService {
 						started.countDown();
 
 						try(Transaction tx = txs.open()) {
+							logger.trace("Started transaction "+tx);
 
 							T result = task.call();
 
-							if (!currentThread().isInterrupted())
+							logger.trace("task complete, interrupted? "+Thread.interrupted());
+							if (!Thread.interrupted()){
+								logger.trace("commiting transaction "+tx);
 								tx.commit();
-			
+							}
+							
 							return result;
 						}
 
