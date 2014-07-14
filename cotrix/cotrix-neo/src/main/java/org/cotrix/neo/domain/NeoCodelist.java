@@ -4,6 +4,7 @@ import static java.lang.Math.*;
 import static org.cotrix.common.async.TaskUpdate.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
+import org.cotrix.common.async.CancelledTaskException;
 import org.cotrix.common.async.TaskContext;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
@@ -85,8 +86,8 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 			if (i%step==0)
 			
 				if (Thread.currentThread().isInterrupted()) {
-					log.info("aborting codelist creation on user request after creating {} codes.",i);
-					return;
+					log.info("codelist creation aborted on user request after {} codes.",i);
+					throw new CancelledTaskException("codelist creation aborted on user request");
 				}
 			
 				else
