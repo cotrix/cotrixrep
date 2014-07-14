@@ -15,8 +15,12 @@ import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NeoCodelist extends NeoVersioned implements Codelist.State {
+	
+	private static final Logger log = LoggerFactory.getLogger(NeoCodelist.class);
 
 	//asfismaxBatchSizetchSizeced, fairly arbitrary. see it as an attempt to avoid OOM errors :)
 	final static int maxBatchSize = 15000;
@@ -72,13 +76,18 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		long step = round(max(10,floor(codes/10)));
 		
 		for (Code.State c : state.codes()) {
-		
+			
 			if (i==maxBatchSize) {
 				NeoTransaction.current().split();
 				i=0;
 			}
 			
 			if (i%step==0) {
+				
+				if (Thread.currentThread().isInterrupted()) {
+					log.info("aborting codelist creation on user request after creating {} codes.",i);
+					return;
+				}
 				
 				progress = progress + i;
 				

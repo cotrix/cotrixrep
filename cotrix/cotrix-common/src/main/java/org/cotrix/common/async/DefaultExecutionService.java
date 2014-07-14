@@ -1,5 +1,6 @@
 package org.cotrix.common.async;
 
+import static java.lang.Thread.*;
 import static org.cotrix.common.CommonUtils.*;
 
 import java.util.concurrent.Callable;
@@ -65,8 +66,9 @@ public class DefaultExecutionService implements ExecutionService {
 
 							T result = task.call();
 
-							tx.commit();
-
+							if (!currentThread().isInterrupted())
+								tx.commit();
+			
 							return result;
 						}
 
