@@ -26,7 +26,7 @@ public class AsyncCallBackInterceptor<T> implements AsyncCallback<T> {
 
 	@Override
 	public void onSuccess(T result) {
-		if (result!=null && result.getClass().equals(AsyncTask.class)) {
+		if (result!=null && result instanceof AsyncTask) {
 			startProgress((AsyncTask<?>)result);
 		} else delegate.onSuccess(result);
 	}

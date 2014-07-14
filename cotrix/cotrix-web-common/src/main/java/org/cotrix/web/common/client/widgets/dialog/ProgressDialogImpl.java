@@ -60,6 +60,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		
 		@Override
 		public void onFailure(Throwable caught) {
+			Log.error("on progress retrieving failure", caught);
 			onProgressRetrievingFailure(caught);
 		}
 	};
@@ -107,13 +108,12 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	}
 	
 	private void onProgressUpdate(LongTaskProgress progress) {
-		Log.trace("onProgressUpdate progress: "+progress);
-		
 		progressBar.setProgress(progress.getPercentage());
 		setMessage(progress.getMessage());
+		
 		if (progress.isComplete()) {
-			if (progress.getStatus() == Status.DONE) progressBar.setProgress(100);
 			progressPolling.cancel();
+			if (progress.getStatus() == Status.DONE) progressBar.setProgress(100);
 			hide();
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);

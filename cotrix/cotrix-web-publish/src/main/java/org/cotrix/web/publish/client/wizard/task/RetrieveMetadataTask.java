@@ -19,6 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -78,7 +79,7 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving metadata for codelist "+selectedCodelist);
-		service.getMetadata(selectedCodelist.getId(), new AsyncCallback<UICodelistMetadata>() {
+		service.getMetadata(selectedCodelist.getId(), showLoader(new AsyncCallback<UICodelistMetadata>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -91,7 +92,7 @@ public class RetrieveMetadataTask implements TaskWizardStep {
 				codelistDetailsStep.setCodelist(result);
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
-		});
+		}));
 	}
 	
 	public void reset() {

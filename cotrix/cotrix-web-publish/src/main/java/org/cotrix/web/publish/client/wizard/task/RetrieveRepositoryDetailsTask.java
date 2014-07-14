@@ -21,6 +21,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -73,7 +75,7 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving details for repository "+selectedRepository);
-		service.getRepositoryDetails(selectedRepository.getId(), new AsyncCallback<RepositoryDetails>() {
+		service.getRepositoryDetails(selectedRepository.getId(), showLoader(new AsyncCallback<RepositoryDetails>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -86,7 +88,7 @@ public class RetrieveRepositoryDetailsTask implements TaskWizardStep {
 				publishBus.fireEvent(new ItemUpdatedEvent<RepositoryDetails>(result));
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
-		});
+		}));
 	}
 	
 	public void reset() {

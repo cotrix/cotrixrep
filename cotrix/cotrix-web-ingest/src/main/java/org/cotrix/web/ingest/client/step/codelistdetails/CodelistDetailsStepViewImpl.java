@@ -6,6 +6,7 @@ package org.cotrix.web.ingest.client.step.codelistdetails;
 import java.util.List;
 
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.Property;
 import org.cotrix.web.ingest.shared.AssetDetails;
 
@@ -29,8 +30,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class CodelistDetailsStepViewImpl extends ResizeComposite implements CodelistDetailsStepView {
 	
-	protected static final int ASSET_PROPERTIES_ROW = 3;
-	protected static final int REPOSITORY_PROPERTIES_ROW = 3;
+	private static final int ASSET_PROPERTIES_ROW = 4;
 
 	@Inject
 	private CodelistDetailsUiBinder uiBinder;
@@ -73,21 +73,24 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 		assetVersion.setText(asset.getVersion());
 		assetType.setText(asset.getType());
 		addAssetProperties(asset.getProperties());
-		repository.setText(String.valueOf(asset.getRepositoryName()));
+		repository.setText(ValueUtils.getLocalPart(asset.getRepositoryName()));
 	}
 
 	public void addAssetProperties(List<Property> properties)
 	{
 		assetProperties.removeAllRows();
-		assetDetails.getRowFormatter().setVisible(ASSET_PROPERTIES_ROW, !properties.isEmpty());
 		
-		if (!properties.isEmpty()) {
+		boolean empty = properties == null || properties.isEmpty();
+		
+		assetDetails.getRowFormatter().setVisible(ASSET_PROPERTIES_ROW, !empty);
+		
+		if (!empty) {
 			setupHeaders(assetProperties);
 			for (Property property:properties) addRow(assetProperties, property.getName(), property.getValue(), property.getDescription());
 		}
 	}
 
-	protected void setupHeaders(FlexTable table)
+	private void setupHeaders(FlexTable table)
 	{
 		table.getFlexCellFormatter().setColSpan(0, 0, 1);
 		table.setWidget(0, 0, getHeaderLabel("Name"));
@@ -95,18 +98,22 @@ public class CodelistDetailsStepViewImpl extends ResizeComposite implements Code
 		table.setWidget(0, 2, getHeaderLabel("Description"));
 	}
 
-	protected Label getHeaderLabel(String text)
+	private Label getHeaderLabel(String text)
 	{
 		Label headerLabel = new Label(text);
 		headerLabel.setStyleName(CommonResources.INSTANCE.css().propertiesTableHeader());
 		return headerLabel;
 	}
 
-	protected void addRow(FlexTable table, String name, String value, String description)
+	private void addRow(FlexTable table, String name, String value, String description)
 	{
 		int numRows = table.getRowCount();
-		table.setWidget(numRows, 0, new Label(name));
-		table.setWidget(numRows, 1, new Label(value));
-		table.setWidget(numRows, 2, new Label(description));
+		table.setWidget(numRows, 0, new Label(check(name)));
+		table.setWidget(numRows, 1, new Label(check(value)));
+		table.setWidget(numRows, 2, new Label(check(description)));
+	}
+	
+	private String check(String value) {
+		return value==null?"":value;
 	}
 }

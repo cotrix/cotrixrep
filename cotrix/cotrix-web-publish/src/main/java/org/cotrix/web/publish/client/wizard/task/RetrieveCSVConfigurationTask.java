@@ -20,6 +20,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -75,7 +76,7 @@ public class RetrieveCSVConfigurationTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving CsvParserConfiguration for codelist "+selectedCodelist);
-		service.getCsvWriterConfiguration(selectedCodelist.getId(), new AsyncCallback<CsvConfiguration>() {
+		service.getCsvWriterConfiguration(selectedCodelist.getId(), showLoader(new AsyncCallback<CsvConfiguration>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -89,7 +90,7 @@ public class RetrieveCSVConfigurationTask implements TaskWizardStep {
 				publishBus.fireEventFromSource(new ItemUpdatedEvent<CsvConfiguration>(result), RetrieveCSVConfigurationTask.this);
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
-		});
+		}));
 	}
 	
 	public void reset() {

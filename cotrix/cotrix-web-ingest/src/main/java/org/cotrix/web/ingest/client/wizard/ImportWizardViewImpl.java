@@ -7,11 +7,10 @@ import java.util.Map;
 import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.HasMinHeight;
-import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
+import org.cotrix.web.common.shared.Error;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker;
 import org.cotrix.web.wizard.client.progresstracker.ProgressTracker.ProgressStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
-import org.cotrix.web.common.shared.Error;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -57,9 +56,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView,
 	protected Map<String, Integer> labelsIndexes;
 	
 	@Inject
-	protected LoaderDialog progressDialog;
-	
-	@Inject
 	protected ErrorManager errorManager;
 
 	private Presenter presenter;
@@ -71,16 +67,6 @@ public class ImportWizardViewImpl extends Composite implements ImportWizardView,
 		initWidget(uiBinder.createAndBindUi(this));
 		decksIndexes = new HashMap<String, Integer>();
 		CommonResources.INSTANCE.css().ensureInjected();
-	}
-	
-	@Override
-	public void showProgress() {
-		progressDialog.showCentered();
-	}
-
-	@Override
-	public void hideProgress() {
-		progressDialog.hide();
 	}
 
 	public void addStep(VisualWizardStep step)

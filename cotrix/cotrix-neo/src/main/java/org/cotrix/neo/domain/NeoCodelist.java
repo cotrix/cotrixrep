@@ -52,7 +52,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		
 		float progress=0f;
 		
-		int total = state.codes().size()+state.definitions().size()+state.links().size()+state.attributes().size();
+		int total = state.codes().size()+state.definitions().size()+state.links().size();
 		
 		for (Definition.State def : state.definitions())
 			node().createRelationshipTo(NeoDefinition.factory.nodeFrom(def),Relations.DEFINITION);
@@ -82,22 +82,23 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 				i=0;
 			}
 			
-			if (i%step==0) {
-				
+			if (i%step==0)
+			
 				if (Thread.currentThread().isInterrupted()) {
 					log.info("aborting codelist creation on user request after creating {} codes.",i);
 					return;
 				}
+			
+				else
 				
-				progress = progress + i;
-				
-				context.save(update(progress/total, "added "+i+" codes"));
-			}
+					context.save(update(progress/total, "added "+i+" codes"));
+		
 				
 			
 			node().createRelationshipTo(NeoCode.factory.nodeFrom(c),Relations.CODE);
 			
 			i++;
+			progress++;
 		}
 		
 		context.save(update(1f, "added "+codes+" codes"));
