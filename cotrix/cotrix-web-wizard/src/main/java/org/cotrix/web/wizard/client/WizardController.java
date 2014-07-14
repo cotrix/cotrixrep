@@ -182,6 +182,12 @@ public class WizardController implements WizardView.Presenter, HasValueChangeHan
 					goBack();
 					view.showError(error);
 				}
+
+				@Override
+				public void onUserCancelled() {
+					Log.trace("TaskWizardStep "+step.getId()+" userCancelled");
+					goBack();
+				}
 			});
 		}
 	}

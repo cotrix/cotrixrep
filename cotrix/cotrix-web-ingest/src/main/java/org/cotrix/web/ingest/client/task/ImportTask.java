@@ -7,6 +7,7 @@ import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.async.UserCancelledException;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.shared.CsvConfiguration;
@@ -120,8 +121,12 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	}
 	
 	private void importFailed(Throwable caught) {
-		Log.trace("importFailed", caught);
-		callback.onFailure(Exceptions.toError(caught));
+		Log.trace("importFailed "+caught.getMessage());
+		if (caught instanceof UserCancelledException) callback.onUserCancelled();
+		else {
+			Log.error("import failure:", caught);
+			callback.onFailure(Exceptions.toError(caught));
+		}
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package org.cotrix.web.common.client.widgets.dialog;
 
 import org.cotrix.web.common.client.CommonServiceAsync;
+import org.cotrix.web.common.client.async.UserCancelledException;
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.rpc.Nop;
+import org.cotrix.web.common.client.util.ProgressAnimation;
 import org.cotrix.web.common.client.widgets.ProgressBar;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.Progress.Status;
@@ -9,8 +12,10 @@ import org.cotrix.web.common.shared.exception.ServiceErrorException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -50,6 +55,8 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	private String progressToken;
 	private ProgressCallBack callBack;
 	
+	private ProgressAnimation progressAnimation;
+	
 	private AsyncCallback<LongTaskProgress> asynCallBack = new AsyncCallback<LongTaskProgress>() {
 		
 		@Override
@@ -85,10 +92,21 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 				commonService.getProgress(progressToken, asynCallBack);
 			}
 		};
+		
+		progressAnimation = new ProgressAnimation(progressBar);
 	}
 	
 	public void show(String progressToken) {
 		show(progressToken, null);
+	}
+	
+	@UiHandler("cancelButton")
+	protected void cancelButtonClicked(ClickEvent click) {
+		Log.trace("cancel");
+		progressPolling.cancel();
+		hide();
+		commonService.cancel(progressToken, Nop.<Void>getInstance());
+		if (callBack!=null) callBack.onFailure(new UserCancelledException());
 	}
 
 	/** 
@@ -102,18 +120,18 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		
 		failureCounter = 0;
 		progressPolling.scheduleRepeating(POLLING_TIME);
-		progressBar.setProgress(0);
+		progressAnimation.start();
 		
 		super.center();
 	}
 	
 	private void onProgressUpdate(LongTaskProgress progress) {
-		progressBar.setProgress(progress.getPercentage());
+		progressAnimation.report(progress.getPercentage());
 		setMessage(progress.getMessage());
 		
 		if (progress.isComplete()) {
 			progressPolling.cancel();
-			if (progress.getStatus() == Status.DONE) progressBar.setProgress(100);
+			if (progress.getStatus() == Status.DONE) progressAnimation.report(100);
 			hide();
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);

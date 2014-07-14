@@ -60,5 +60,9 @@ public class ProgressMonitor<F extends AsyncOutcome<T>, T extends IsSerializable
 		float progress = update.progress();
 		return Math.min(100, (int)(progress*100));
 	}
+	
+	public void cancel() {
+		future.cancel(true);
+	}
 
 }

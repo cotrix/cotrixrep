@@ -36,11 +36,22 @@ public class ProgressService {
 	}
 	
 	public LongTaskProgress getProgress(String progressToken) {
-		ProgressMonitor<?,?> monitor = monitors.get(progressToken);
-		if (monitor == null) throw new IllegalArgumentException("No monitor found with token "+progressToken);
+		ProgressMonitor<?,?> monitor = getMonitor(progressToken);
 		LongTaskProgress progress = monitor.getProgress();
 		if (progress.isComplete()) monitors.remove(progressToken);
 		return progress;
+	}
+	
+	public void cancel(String progressToken) {
+		ProgressMonitor<?,?> monitor = getMonitor(progressToken);
+		monitor.cancel();
+		monitors.remove(progressToken);
+	}
+	
+	private ProgressMonitor<?,?> getMonitor(String progressToken) {
+		ProgressMonitor<?,?> monitor = monitors.get(progressToken);
+		if (monitor == null) throw new IllegalArgumentException("No monitor found with token "+progressToken);
+		return monitor;
 	}
 
 }
