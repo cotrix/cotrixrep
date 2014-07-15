@@ -4,13 +4,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 
 import org.cotrix.common.async.TaskManagerProvider;
-import org.cotrix.common.events.Current;
 
 public class CdiProducers {
 
 		
-	@Produces @ApplicationScoped @Current
-	TaskManagerProvider testManager() {
+	@Produces @ApplicationScoped
+	TaskManagerProvider testManagerProvider() {
 		
 		return new TaskManagerProvider() {
 			

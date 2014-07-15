@@ -47,7 +47,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	public Definition.State definition() {
 		
 		if (node().hasProperty(cdef_prop))
-			return commonDefinitionFor(QName.valueOf((String) node().getProperty(cdef_prop))).state();
+			return commonDefinitionFor((String) node().getProperty(cdef_prop)).state();
 		
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 				
@@ -63,8 +63,8 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	public void definition(Definition.State state) {
 		
 		//common definitions are named in a property and then reconsituted in memory
-		if (isCommon(state.name()))
-			node().setProperty(cdef_prop,state.name().toString());
+		if (isCommon(state.name().getLocalPart()))
+			node().setProperty(cdef_prop,state.name().getLocalPart());
 		
 		//other definition are linked to
 		else  {

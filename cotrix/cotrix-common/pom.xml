@@ -29,6 +29,8 @@
 			<version>${weld.version}</version>
 			<scope>test</scope>
 		</dependency>
+		
+		
 
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>

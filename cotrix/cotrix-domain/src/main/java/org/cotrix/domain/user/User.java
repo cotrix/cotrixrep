@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.cotrix.action.Action;
@@ -186,7 +185,7 @@ public interface User extends Identified {
 		
 		private void set(Collection<Role> roles) {
 
-			Collection<Role> newRoles = new LinkedHashSet<Role>();
+			Collection<Role> newRoles = new HashSet<Role>();
 			
 			for (Role role : roles) {
 				
@@ -226,7 +225,7 @@ public interface User extends Identified {
 
 		@Override
 		public Collection<Role> directRoles() {
-			return new HashSet<Role>(state().roles());
+			return Collections.unmodifiableCollection(state().roles());
 		}
 		
 

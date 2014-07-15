@@ -23,7 +23,7 @@ import org.cotrix.lifecycle.LifecycleEvent;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
-import org.cotrix.test.CurrentUser;
+import org.cotrix.test.TestUser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class LogbookServiceTest extends ApplicationTest {
 	VersioningService vservice;
 	
 	@Inject
-	CurrentUser user;
+	TestUser user;
 	
 	Codelist list = codelist().name("mylist").build();
 		

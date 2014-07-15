@@ -5,7 +5,6 @@ package org.cotrix.web.ingest.server;
 
 import static org.cotrix.repository.CodelistQueries.*;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +49,6 @@ import org.cotrix.web.ingest.shared.AttributeMapping;
 import org.cotrix.web.ingest.shared.CodelistInfo;
 import org.cotrix.web.ingest.shared.FileUploadProgress;
 import org.cotrix.web.ingest.shared.ImportMetadata;
-import org.cotrix.web.ingest.shared.ImportProgress;
 import org.cotrix.web.ingest.shared.ImportResult;
 import org.cotrix.web.ingest.shared.MappingMode;
 import org.cotrix.web.ingest.shared.PreviewData;

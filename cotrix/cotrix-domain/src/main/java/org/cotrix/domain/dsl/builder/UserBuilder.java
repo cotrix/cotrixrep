@@ -45,7 +45,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserBuilder can(Action ... actions) {
 		valid("actions",actions);
 		for (Action action : actions)
-			state.permissions().add(action);
+			state.add(action);
 		return this;
 	}
 	
@@ -89,7 +89,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	public UserBuilder cannot(Action ... actions) {
 		valid("actions",actions);
 		for (Action action : actions)
-			state.permissions().remove(action);
+			state.remove(action);
 		return this;
 	}
 	

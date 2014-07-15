@@ -12,19 +12,21 @@ import org.cotrix.common.BeanSession;
 import org.cotrix.common.Constants;
 import org.cotrix.common.async.TaskManagerProvider;
 import org.cotrix.common.events.Current;
-import org.cotrix.domain.dsl.Users;
 import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
 import org.jboss.weld.context.bound.BoundRequestContext;
 import org.jboss.weld.context.bound.BoundSessionContext;
 import org.jboss.weld.context.unbound.Unbound;
 
-@Priority(Constants.TEST)
-public class CdiProducers {
+//these alternatives have the highest priority @ test time
+//they should be singletong, but @ApplicationScope lets us inject them in session/request scoped beans
 
-	//simnulates session for services that expect it
-	@Produces @Current @ApplicationScoped @Alternative
-	public static BeanSession session(CurrentUser current) {
+@Priority(Constants.TEST)
+public class Producers {
+
+	//pre-loaded with test user
+	@Produces @Current @Alternative
+	public @ApplicationScoped BeanSession session(TestUser current) {
 		
 		BeanSession session = new BeanSession();
 		
@@ -33,24 +35,23 @@ public class CdiProducers {
 		return session;
 	}
 	
-	//produces current user for services that expect it
-	@Produces @Current @ApplicationScoped @Alternative
-	public static User user(@Current BeanSession session) {
+	//this is extracted from the session above, like in production.
+	//it's the test user, unless some production code sets it to something else (e.g. @t login time).
+	@Produces @Current @Alternative
+	public @ApplicationScoped User user(@Current BeanSession session) {
 		return session.get(User.class);
 	}
 	
+
+	//see DomainUtils for how this is used.
+	//in essence: we publish a fake but active RequestContet as the @Current context
+	//DomainUtils uses the context to know if there is a current user to avoid producing scoped proxies
+	//doomed to fail. At test time we want to distribute our test users, so we pretend there is a context.
+	//this is Weld specific.
 	@Produces @Current @Alternative
-	static RequestContext context(@Unbound RequestContext ctx) {
+	static @ApplicationScoped RequestContext context(@Unbound RequestContext ctx) {
 		ctx.activate();
 		return ctx;
-	}
-	
-	//produces current user for tests that want to control it. it's cotrix by default
-	@Produces @ApplicationScoped @Alternative
-	public static CurrentUser current() {
-		CurrentUser user = new CurrentUser();
-		user.set(Users.cotrix);
-		return user;
 	}
 	
 	

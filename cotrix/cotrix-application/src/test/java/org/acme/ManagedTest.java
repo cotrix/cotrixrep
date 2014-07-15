@@ -19,7 +19,7 @@ import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
-import org.cotrix.test.CurrentUser;
+import org.cotrix.test.TestUser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class ManagedTest extends ApplicationTest {
 	CodelistRepository codelists;
 	
 	@Inject
-	CurrentUser current;
+	TestUser current;
 	
 	@Inject
 	UserRepository users;
@@ -85,7 +85,7 @@ public class ManagedTest extends ApplicationTest {
 		reveal(code).update(reveal(modify(code).name("newname").build()));
 		
 		//default current user
-		assertEquals(cotrix.name(),managed.lastUpdatedBy());
+		assertEquals(current.name(),managed.lastUpdatedBy());
 		
 		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();
 		users.add(fifi);

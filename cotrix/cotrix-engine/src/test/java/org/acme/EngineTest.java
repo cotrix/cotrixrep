@@ -15,7 +15,7 @@ import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
 import org.cotrix.engine.Engine;
 import org.cotrix.engine.TaskOutcome;
 import org.cotrix.lifecycle.LifecycleService;
-import org.cotrix.test.CurrentUser;
+import org.cotrix.test.TestUser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +32,7 @@ public class EngineTest {
 	LifecycleService service;
 	
 	@Inject
-	CurrentUser currentUser;
+	TestUser currentUser;
 	
 	@Before
 	public void setup() {

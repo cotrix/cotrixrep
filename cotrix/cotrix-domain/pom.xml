@@ -21,8 +21,9 @@
   	</dependency>
   	
   	<dependency>
-  		<groupId>org.jboss.weld</groupId>
-  		<artifactId>weld-core</artifactId>
+  		<groupId>org.jboss.weld.servlet</groupId>
+  		<artifactId>weld-servlet-core</artifactId>
+  		<scope>compile</scope>
   	</dependency>
 
   </dependencies>

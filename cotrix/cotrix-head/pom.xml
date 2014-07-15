@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>org.cotrix</groupId>
 		<artifactId>cotrix</artifactId>
@@ -23,7 +23,7 @@
 		<exploded>${project.build.directory}/${project.build.finalName}</exploded>
 
 		<draft>false</draft>
-		
+
 		<war_name>${project.artifactId}-${project.version}-${active_profile}.war</war_name>
 
 		<gwt_module>org.cotrix.head.Cotrix</gwt_module>
@@ -35,6 +35,11 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.weld</groupId>
+			<artifactId>weld-core</artifactId>
 		</dependency>
 
 		<!-- exclude client-only GWT modules -->
@@ -166,7 +171,7 @@
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-stage</artifactId>
 				</dependency>
-				
+
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-neo</artifactId>
@@ -186,7 +191,7 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-rtms</artifactId>
 				</dependency>
-				
+
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-data-fao</artifactId>
@@ -195,9 +200,9 @@
 			</dependencies>
 
 		</profile>
-		
 
-		<!-- adds neo to current profile -->		
+
+		<!-- adds neo to current profile -->
 		<profile>
 
 			<id>neo</id>
@@ -212,7 +217,7 @@
 			</dependencies>
 
 		</profile>
-		
+
 		<!-- no plugins, no persistence, staging -->
 		<profile>
 
@@ -241,13 +246,13 @@
 		<profile>
 
 			<id>demo</id>
-			
+
 			<properties>
 				<gwt_module>org.cotrix.head.CotrixDemo</gwt_module>
 			</properties>
 
 			<dependencies>
-			
+
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-web-demo</artifactId>
@@ -277,7 +282,7 @@
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-rtms</artifactId>
 				</dependency>
-				
+
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-data-fao</artifactId>
@@ -294,8 +299,8 @@
 		<profile>
 
 			<id>gcube</id>
-			
-			
+
+
 			<!--TEMP -->
 			<repositories>
 
@@ -312,7 +317,7 @@
 				</repository>
 
 			</repositories>
-			
+
 			<dependencies>
 
 				<dependency>
@@ -322,17 +327,17 @@
 					<scope>runtime</scope>
 				</dependency>
 
- 				<dependency>
+				<dependency>
 					<groupId>org.virtualrepository</groupId>
- 					<artifactId>virtual-sdmx-registry</artifactId>
- 					<scope>runtime</scope>
- 				</dependency>
-				
- 				<dependency>
- 					<groupId>org.virtualrepository</groupId>
- 					<artifactId>virtual-data-fao</artifactId>
+					<artifactId>virtual-sdmx-registry</artifactId>
+					<scope>runtime</scope>
 				</dependency>
-				
+
+				<dependency>
+					<groupId>org.virtualrepository</groupId>
+					<artifactId>virtual-data-fao</artifactId>
+				</dependency>
+
 				<dependency>
 					<groupId>org.virtualrepository</groupId>
 					<artifactId>virtual-gcube-workspace</artifactId>
