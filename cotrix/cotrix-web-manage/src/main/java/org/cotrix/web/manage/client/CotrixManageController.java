@@ -1,10 +1,12 @@
 package org.cotrix.web.manage.client;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;
+import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.client.error.ErrorManager;
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -12,7 +14,6 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
-import org.cotrix.web.common.shared.async.AsyncOutput;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
@@ -41,8 +42,6 @@ import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
-
-import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -141,7 +140,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void createNewVersion(String codelistId, String newVersion)
 	{
 		Log.trace("createNewVersion codelistId: " + codelistId+" newVerions: "+newVersion);
-		asyncService.createNewCodelistVersion(codelistId, newVersion, async(new ManagedFailureCallback<UICodelistInfo>() {
+		asyncService.createNewCodelistVersion(codelistId, newVersion, async(ignoreCancel(manageError(new SuccessCallback<UICodelistInfo>() {
 
 			@Override
 			public void onSuccess(UICodelistInfo result) {
@@ -149,7 +148,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
 			}
-		}));
+		}))));
 	}
 
 	private void createNewCodelist(String name, String version)
@@ -212,19 +211,17 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 
 	private void doRemoveCodelist(final UICodelist codelist) {
 		Log.trace("doRemoveCodelist codelist: "+codelist);
-		asyncService.removeCodelist(codelist.getId(), new ManagedFailureCallback<AsyncOutput<Void>>() {
+		asyncService.removeCodelist(codelist.getId(), async(ignoreCancel(manageError(new SuccessCallback<Void>() {
 
 			@Override
-			public void onSuccess(AsyncOutput<Void> result) {
-
+			public void onSuccess(Void result) {
 				Log.trace("result "+result);
 
 				Log.trace("complete");
 				managerBus.fireEvent(new CodelistRemovedEvent(codelist));
 				managerBus.fireEvent(new CloseCodelistEvent(codelist));
-
 			}
-		});
+		}))));
 	}
 
 	@Override

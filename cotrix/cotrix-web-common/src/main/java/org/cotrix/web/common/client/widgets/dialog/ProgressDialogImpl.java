@@ -1,7 +1,6 @@
 package org.cotrix.web.common.client.widgets.dialog;
 
 import org.cotrix.web.common.client.CommonServiceAsync;
-import org.cotrix.web.common.client.async.UserCancelledException;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.ProgressAnimation;
 import org.cotrix.web.common.client.widgets.ProgressBar;
@@ -115,7 +114,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 				if (result) {
 					hide();
 					progressPolling.cancel();
-					if (callBack!=null) callBack.onFailure(new UserCancelledException());
+					if (callBack!=null) callBack.onCancel();
 				}
 			}
 		});
