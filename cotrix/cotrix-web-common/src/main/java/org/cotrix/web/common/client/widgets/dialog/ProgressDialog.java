@@ -12,7 +12,9 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(ProgressDialogImpl.class)
 public interface ProgressDialog {
 	
-	public interface ProgressCallBack extends Callback<LongTaskProgress, Throwable> {}
+	public interface ProgressCallBack extends Callback<LongTaskProgress, Throwable> {
+		public void onCancel();		
+	}
 	
 	public void show(String progressToken);
 	public void show(String progressToken, ProgressCallBack callback);

@@ -7,7 +7,6 @@ import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 import java.util.List;
 
-import org.cotrix.web.common.client.async.UserCancelledException;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.shared.CsvConfiguration;
@@ -31,7 +30,6 @@ import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
@@ -91,25 +89,32 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 	}
 
 	@Override
-	public void run(TaskCallBack callback) {
+	public void run(final TaskCallBack callback) {
 		this.callback = callback;
 
 		Log.trace("starting import");
 		
 		asyncImportService.startImport(csvConfiguration, metadata, mappings, mappingMode, 
 				
-				async(new AsyncCallback<ImportResult>() {
+				async(new CancellableAsyncCallback<ImportResult>() {
 
-			@Override
-			public void onSuccess(ImportResult result) {
-				importComplete(result);
-			}
+					@Override
+					public void onFailure(Throwable caught) {
+						Log.trace("importFailed ", caught);
+						callback.onFailure(Exceptions.toError(caught));
+					}
 
-			@Override
-			public void onFailure(Throwable caught) {
-				importFailed(caught);
-			}
-		}));
+					@Override
+					public void onSuccess(ImportResult result) {
+						importComplete(result);
+					}
+
+					@Override
+					public void onCancel() {
+						callback.onUserCancelled();
+					}
+					
+				}));
 	}
 	
 	private void importComplete(ImportResult result) {
@@ -118,15 +123,6 @@ public class ImportTask implements TaskWizardStep, ResetWizardHandler {
 		importEventBus.fireEvent(new ImportResultEvent(result));
 		if (!result.isMappingFailed()) cotrixBus.fireEvent(new CodeListImportedEvent(result.getCodelistId()));
 		callback.onSuccess(ImportWizardAction.NEXT);
-	}
-	
-	private void importFailed(Throwable caught) {
-		Log.trace("importFailed "+caught.getMessage());
-		if (caught instanceof UserCancelledException) callback.onUserCancelled();
-		else {
-			Log.error("import failure:", caught);
-			callback.onFailure(Exceptions.toError(caught));
-		}
 	}
 
 	@Override

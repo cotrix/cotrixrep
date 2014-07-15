@@ -12,6 +12,7 @@ import javax.inject.Singleton;
 import org.cotrix.common.async.ReportingFuture;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.async.AsyncOutcome;
+import org.cotrix.web.common.shared.exception.ServiceException;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -51,7 +52,7 @@ public class ProgressService {
 	
 	private ProgressMonitor<?,?> getMonitor(String progressToken) {
 		ProgressMonitor<?,?> monitor = monitors.get(progressToken);
-		if (monitor == null) throw new IllegalArgumentException("No monitor found with token "+progressToken);
+		if (monitor == null) throw new ServiceException("No monitor found with token "+progressToken);
 		return monitor;
 	}
 
