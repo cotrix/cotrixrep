@@ -159,11 +159,13 @@ public class AddUserDialog extends PopupPanel {
 	{
 		byNameFilter.setName(!filter.isEmpty()?filter:null);
 		dataProvider.applyFilters();
+		dataProvider.refresh();
 	}
 	
 	public void setIds(Set<String> ids) {
 		byIdFilter.setIds(ids);
 		dataProvider.applyFilters();
+		dataProvider.refresh();
 	}
 	
 	protected class ByNameFilter implements Filter<UIUserDetails> {
