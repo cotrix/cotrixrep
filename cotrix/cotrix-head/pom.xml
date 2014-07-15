@@ -47,10 +47,6 @@
 			<artifactId>weld-servlet-core</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>com.google.gwt.eventbinder</groupId>
-			<artifactId>eventbinder</artifactId>
-		</dependency>
 
 		<!-- exclude client-only GWT modules -->
 
@@ -177,15 +173,17 @@
 
 			<dependencies>
 
+
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-stage</artifactId>
 				</dependency>
-
+				
 				<dependency>
 					<groupId>org.cotrix</groupId>
 					<artifactId>cotrix-neo</artifactId>
 				</dependency>
+			
 
 				<dependency>
 					<groupId>org.virtualrepository</groupId>

@@ -7,9 +7,8 @@
 
     <weld:scan>
 
-        <!-- Don't deploy clientthe classes for the swing app! -->
-
-         <weld:exclude pattern="^org.cotrix.(.*).client.(.*)$" />
+        <weld:exclude pattern="^org.cotrix.(.*).client.(.*)$" />
+        <weld:exclude pattern="^org.cotrix.(.*).gen.(.*)$" />
 
     </weld:scan>
     
