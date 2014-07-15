@@ -7,18 +7,31 @@
 	<ui:style>
 		.container {
 			
-			min-width: 200px;
-			max-width: 300px;
+			min-width: 500px;
+			max-width: 600px;
+			background-color: rgba(216,216,216,0.7);
+			border-radius: 10px;
+			padding: 10px 20px 10px 20px;
+			line-height: 15px;
+			text-align: center;
 		}
+		
 		.message {
 			width: 100%;
 			text-align: center;
-
+			height: 20px;
+			padding-top: 15px;
+		}
+		
+		.button {
+			margin-top: 15px;
+			background-color: #AAAAAA;
 		}
 	</ui:style>
 	<g:FlowPanel styleName="{style.container}">
 		<c:ProgressBar ui:field="progressBar" />
 		<g:Label ui:field="message" styleName="{style.message}" />
+		<g:Button ui:field="cancelButton" styleName="{resources.css.grayButton} {style.button}">CANCEL</g:Button>
 	</g:FlowPanel>
 	
 </ui:UiBinder>

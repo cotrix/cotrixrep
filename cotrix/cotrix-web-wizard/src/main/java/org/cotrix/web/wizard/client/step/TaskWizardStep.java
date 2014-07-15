@@ -19,6 +19,11 @@ public interface TaskWizardStep extends WizardStep {
 	
 	public void run(TaskCallBack callback);
 	
-	public interface TaskCallBack extends Callback<WizardAction, Error>{}
+	
+	
+	public interface TaskCallBack extends Callback<WizardAction, Error> {
+		
+		public void onUserCancelled();
+	}
 
 }

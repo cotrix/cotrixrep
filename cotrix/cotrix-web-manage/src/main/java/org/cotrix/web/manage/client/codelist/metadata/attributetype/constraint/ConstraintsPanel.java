@@ -225,7 +225,6 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 	}
 	
 	public void validate() {
-		Log.trace("validating rows");
 		valid = true;
 		for (Entry<ConstraintRow, UIConstraint> entry:constraintsRows.entrySet()) valid &= validate(entry.getKey(), entry.getValue());
 		for (Entry<ConstraintArgumentsRow, UIConstraint> entry:constraintsArgumentRows.entrySet()) valid &= validate(entry.getKey(), entry.getValue());

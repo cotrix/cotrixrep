@@ -4,7 +4,6 @@ import static org.cotrix.common.CommonUtils.*;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.cotrix.action.Action;
@@ -19,8 +18,8 @@ public class UserMS extends IdentifiedMS implements User.State {
 	private String fullName;
 	private String email;
 	
-	private Set<Action> permissions = new LinkedHashSet<Action>();
-	private Set<Role> roles = new LinkedHashSet<Role>();
+	private Set<Action> permissions = new HashSet<Action>();
+	private Set<Role> roles = new HashSet<Role>();
 	
 	public UserMS() {
 	}
@@ -69,15 +68,30 @@ public class UserMS extends IdentifiedMS implements User.State {
 	
 	public Collection<Action> permissions() {
 		
-		return permissions;
+		synchronized (permissions) {
+			return new HashSet<Action>(permissions);
+		}
+		
 		
 	}
 	
+	public void add(Action permission) {
+		
+		notNull("permission",permission);
+		
+		synchronized (permissions) {
+			this.permissions.add(permission);
+		}
+		
+	}
+
 	public void add(Role role) {
 		
 		notNull("role",role);
 		
-		this.roles.add(role);
+		synchronized (roles) {
+			this.roles.add(role);
+		}
 		
 	}
 	
@@ -85,7 +99,20 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("role",role);
 		
-		this.roles.remove(role);
+		synchronized (roles) {
+			this.roles.remove(role);
+		}
+		
+	}
+	
+	public void remove(Action permission) {
+		
+		notNull("role",permission);
+		
+		synchronized (permissions) {
+			this.permissions.remove(permission);
+		}
+		
 		
 	}
 	
@@ -93,14 +120,18 @@ public class UserMS extends IdentifiedMS implements User.State {
 		
 		notNull("roles",roles);
 		
-		this.roles.clear();
+		synchronized (roles) {
+			this.roles.clear();
+		}
 		
 		for (Role role : roles)
 			add(role);
 	}
 	
 	public Collection<Role> roles() {
-		return roles;
+		synchronized (roles) {
+			return new HashSet<Role>(roles);			
+		}
 	}
 	
 	@Override

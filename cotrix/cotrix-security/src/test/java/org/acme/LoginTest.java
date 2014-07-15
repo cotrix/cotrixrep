@@ -1,13 +1,14 @@
 package org.acme;
 
-import static org.cotrix.action.UserAction.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.security.impl.DefaultNameAndPasswordCollector.*;
+import static org.cotrix.test.TestConstants.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.UserRepository;
@@ -22,14 +23,14 @@ public class LoginTest extends ApplicationTest {
 
 	@Inject
 	@Current
-	User currentUser;
+	BeanSession session;
 
 	@Inject
 	LoginService service;
-	
+
 	@Inject
 	UserRepository repository;
-	
+
 	@Inject
 	SignupService signupService;
 
@@ -37,80 +38,57 @@ public class LoginTest extends ApplicationTest {
 
 	@Test
 	public void loginAsGuestIfNoTokenIsAvailable() throws Exception {
-	
+
 		User logged = service.login(req);
 
 		assertEquals(guest, logged);
 
-		//we cannot compare objects as current currentUser is a CDI proxy
-		assertEquals(guest.id(), currentUser.id());
-		
+		//note: if we'd injected the current user we would not find it changed
+		assertEquals(guest, session.get(User.class));
+
 	}
 
 	@Test
-	public void loginAsCotrix() throws Exception {
-		
-		signupService.signup(cotrix,cotrix.name());
-		
-		when(req.getAttribute(nameParam)).thenReturn(cotrix.name());
-		when(req.getAttribute(pwdParam)).thenReturn(cotrix.name());
-		
-		User logged = service.login(req);
-		
-		assertEquals(logged.name(),cotrix.name());
-		
-	}
-	
-	@Test
-	public void signUpAndLogin() throws Exception {
-		
-		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
-		
-		signupService.signup(user,"any");
-		
-		user = repository.lookup(user.id());
-		
-		assertTrue(user.can(EDIT.on(user.id())));
-		assertEquals(user.email(),"fifi@me.com");
+	public void usersThatSignUpArePersistedAndLoggedIn() throws Exception {
 
-		when(req.getAttribute(nameParam)).thenReturn(user.name());
-		when(req.getAttribute(pwdParam)).thenReturn("any");
+		String pwd = "pwd";
+				
+		signupService.signup(joe,pwd);
+		
+		assertNotNull(repository.lookup(joe.id()));
 
-		User logged = service.login(req);
-		
-		assertEquals(logged.name(),user.name());
-		
+		when(req.getAttribute(nameParam)).thenReturn(joe.name());
+		when(req.getAttribute(pwdParam)).thenReturn(pwd);
+
+		User currentUser = service.login(req);
+
+		assertEquals(joe.id(), currentUser.id());
+
 	}
-	
+
 	@Test
-	public void changePwd() throws Exception {
-		
-		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
-		
-		signupService.signup(user,"old");
-		
-		user = repository.lookup(user.id());
-		
-		signupService.changePassword(user, "old", "new");
-		
-		when(req.getAttribute(nameParam)).thenReturn(user.name());
+	public void usersCanChangePassword() throws Exception {
+
+		signupService.signup(joe, "old");
+
+		signupService.changePassword(joe, "old", "new");
+
+		when(req.getAttribute(nameParam)).thenReturn(joe.name());
 		when(req.getAttribute(pwdParam)).thenReturn("new");
 
-		User logged = service.login(req);
-		
-		assertEquals(logged.name(),user.name());
-		
+		User currentUser = service.login(req);
+
+		assertEquals(joe.id(), currentUser.id());
+
 	}
 
-	@Test(expected=InvalidUsernameException.class)
+	@Test(expected = InvalidUsernameException.class)
 	public void identitiesAreUnique() throws Exception {
-		
-		User user = user().name("fifi").fullName("fifi").email("fifi@me.com").build();
-		
-		signupService.signup(user,"any");
-		
-		User homonymous = user().name("fifi").fullName("fifi").email("fifi@clone.com").build();
-		
-		signupService.signup(homonymous,"any");
+
+		signupService.signup(joe, "any");
+
+		User homonymous = user().name(joe.name()).fullName("Joe the Secondo").email("joe@clone.com").build();
+
+		signupService.signup(homonymous, "any");
 	}
 }

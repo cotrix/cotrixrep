@@ -12,7 +12,7 @@ import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
@@ -43,16 +43,12 @@ public interface ManageService extends RemoteService {
 	
 	UICodelistMetadata getMetadata(String codelistId) throws ServiceException;
 	
-	UICodelistInfo createNewCodelistVersion(String codelistId, String newVersion) throws ServiceException;
-	
-	String removeCodelist(String codelistId) throws ServiceException;
-	
 	ResponseWrapper<LifecycleState> getCodelistState(String codelistId) throws ServiceException;
 	
-	FeatureCarrier.Void lock(String codelistId) throws ServiceException;
-	FeatureCarrier.Void unlock(String codelistId) throws ServiceException;
-	FeatureCarrier.Void seal(String codelistId) throws ServiceException;
-	FeatureCarrier.Void unseal(String codelistId) throws ServiceException;
+	AbstractFeatureCarrier.Void lock(String codelistId) throws ServiceException;
+	AbstractFeatureCarrier.Void unlock(String codelistId) throws ServiceException;
+	AbstractFeatureCarrier.Void seal(String codelistId) throws ServiceException;
+	AbstractFeatureCarrier.Void unseal(String codelistId) throws ServiceException;
 	
 	public ModifyCommandResult modify(String codelistId, ModifyCommand command) throws ServiceException;
 	

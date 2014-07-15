@@ -11,11 +11,14 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.trait.Named;
 
 /**
- * Cross-codelist attribute definitions.
+ * Recurring, cross-codelist attribute definitions, typically system-managed.
  *
  */
 public enum CommonDefinition implements Named {
 
+	//for now, we can make all from a local name (ns=cotrix's, type=system)
+	//can overload make() later if we need different type of definitions.
+	
 	CREATION_TIME 		(make("created")),
 	
 	UPDATE_TIME 		(make("updated")),
@@ -30,14 +33,14 @@ public enum CommonDefinition implements Named {
 	SUPERSIDES          (make("supersides"));
 	
 	
-	//lookup table
-	
-	private static Map<QName,CommonDefinition> defs = new HashMap<QName, CommonDefinition>();
+	//lookup table to re-constitute enums from persisted local names.
+	private static Map<String,CommonDefinition> defs = new HashMap<String, CommonDefinition>();
 
-	//cannot be built in constructor. this is the next best thing.
+	//cannot build table with constructor. this is the next best thing and is as generic.
 	static {  
+		
 		for (CommonDefinition def : values())
-			defs.put(def.qname(), def);
+			defs.put(def.qname().getLocalPart(), def);
 	}
 	
 	
@@ -48,23 +51,28 @@ public enum CommonDefinition implements Named {
 		this.def= def;
 	}
 	
+	//name is taken to return a plain string...
 	public QName qname() {
 		return def.qname();
 	}
 	
+	//trust this is not going to be changed..if paranoia ensues, copy-construct..
 	public Definition get() {
 		return def;
 	}
 	
+	//just handy, cleans client code
 	public Definition.State state() {
 		return reveal(def).state();
 	}
 	
-	public static boolean isCommon(QName name) {
-		return defs.get(name)!=null;
+	//enables behavioural forks (e.g. store full def or just name...) 
+	public static boolean isCommon(String name) {
+		return commonDefinitionFor(name)!=null;
 	}
 	
-	public static CommonDefinition commonDefinitionFor(QName name) {
+	//reconstitution from local names
+	public static CommonDefinition commonDefinitionFor(String name) {
 		return defs.get(name);
 	}
 	

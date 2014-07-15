@@ -2,7 +2,7 @@ package org.cotrix.domain.trait;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
@@ -84,12 +84,12 @@ public interface Attributed {
 		
 		private void updateTimestampAndUserIn(NamedStateContainer<Attribute.State> attributes) {
 			attributes.lookup(UPDATE_TIME.qname()).value(time());
-			attributes.lookup(UPDATED_BY.qname()).value(currentUser());
+			attributes.lookup(UPDATED_BY.qname()).value(currentUser().name());
 		}
 		
 		private void addTimestampAndUserTo(NamedStateContainer<Attribute.State> attributes) {
 			attributes.add(stateof(attribute().with(UPDATE_TIME).value(time())));
-			attributes.add(stateof(attribute().with(UPDATED_BY).value(currentUser())));
+			attributes.add(stateof(attribute().with(UPDATED_BY).value(currentUser().name())));
 		}
 		
 	}

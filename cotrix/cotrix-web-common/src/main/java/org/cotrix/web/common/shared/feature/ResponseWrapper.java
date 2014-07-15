@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ResponseWrapper<T> extends FeatureCarrier implements IsSerializable {
+public class ResponseWrapper<T> extends AbstractFeatureCarrier implements IsSerializable {
 	
 	public static <T> ResponseWrapper<T> wrap(T payload)
 	{

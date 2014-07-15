@@ -8,7 +8,6 @@ import static org.cotrix.domain.dsl.Users.*;
 
 import javax.inject.Inject;
 
-import org.cotrix.common.tx.Transactional;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.User;
@@ -36,7 +35,6 @@ public class ImporterTarget {
 	@Inject
 	protected UserRepository userRepository;
 
-	@Transactional
 	public void save(Codelist codelist, boolean sealed, String ownerId) {
 		logger.trace("save codelist.id: {}, sealed: {}, ownerId: {}", codelist.id(), sealed, ownerId);
 
@@ -56,6 +54,7 @@ public class ImporterTarget {
 			}
 			
 		} catch(Throwable throwable) {
+			logger.error("Error during save task", throwable);
 			throw new RuntimeException("Failed completing the import", throwable);
 		}
 	}

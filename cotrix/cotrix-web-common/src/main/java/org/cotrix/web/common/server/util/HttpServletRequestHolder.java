@@ -5,14 +5,12 @@ package org.cotrix.web.common.server.util;
 import javax.inject.Singleton;
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;
-import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@WebListener
 @Singleton
 public class HttpServletRequestHolder implements ServletRequestListener {
 
@@ -28,7 +26,7 @@ public class HttpServletRequestHolder implements ServletRequestListener {
 		REQUESTS.set(HttpServletRequest.class.cast(sre.getServletRequest()));
 	}
 
-	protected HttpServletRequest getRequest() {
+	public HttpServletRequest getRequest() {
 		return REQUESTS.get();
 	}
 }

@@ -10,8 +10,8 @@ package org.cotrix.web.common.client.util;
 import java.math.BigDecimal;
 
 import com.google.gwt.animation.client.Animation;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Visibility;
-import com.google.gwt.user.client.Element;
 
 /**
  * Adapted from http://map-notes.blogspot.it/2012/11/fade-animation.html

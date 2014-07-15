@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.common.shared;
 
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIUser extends FeatureCarrier {
+public class UIUser extends AbstractFeatureCarrier {
 	
 	protected String id;
 	protected String username;

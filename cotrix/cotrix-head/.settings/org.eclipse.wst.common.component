@@ -60,6 +60,6 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="cotrix-head"/>
-        <property name="java-output-path" value="/cotrix-head/target/cotrix-head-0.1.0-SNAPSHOT/WEB-INF/classes"/>
+        <property name="java-output-path" value="/cotrix-head/target/cotrix-head-0.3.0-SNAPSHOT/WEB-INF/classes"/>
     </wb-module>
 </project-modules>

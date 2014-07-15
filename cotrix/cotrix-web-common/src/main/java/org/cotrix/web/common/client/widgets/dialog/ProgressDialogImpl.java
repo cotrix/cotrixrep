@@ -2,6 +2,8 @@ package org.cotrix.web.common.client.widgets.dialog;
 
 import org.cotrix.web.common.client.CommonServiceAsync;
 import org.cotrix.web.common.client.resources.CommonResources;
+import org.cotrix.web.common.client.util.ProgressAnimation;
+import org.cotrix.web.common.client.util.ProgressAnimation.AnimationListener;
 import org.cotrix.web.common.client.widgets.ProgressBar;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.Progress.Status;
@@ -9,8 +11,10 @@ import org.cotrix.web.common.shared.exception.ServiceErrorException;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -50,6 +54,8 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	private String progressToken;
 	private ProgressCallBack callBack;
 	
+	private ProgressAnimation progressAnimation;
+	
 	private AsyncCallback<LongTaskProgress> asynCallBack = new AsyncCallback<LongTaskProgress>() {
 		
 		@Override
@@ -60,6 +66,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		
 		@Override
 		public void onFailure(Throwable caught) {
+			Log.error("on progress retrieving failure", caught);
 			onProgressRetrievingFailure(caught);
 		}
 	};
@@ -84,10 +91,35 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 				commonService.getProgress(progressToken, asynCallBack);
 			}
 		};
+		
+		progressAnimation = new ProgressAnimation(progressBar);
 	}
 	
 	public void show(String progressToken) {
 		show(progressToken, null);
+	}
+	
+	@UiHandler("cancelButton")
+	protected void cancelButtonClicked(ClickEvent click) {
+		Log.trace("user request cancel");
+		commonService.cancel(progressToken, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Cancel request failed", caught);
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				Log.trace("cancel result: "+result);
+				if (result) {
+					hide();
+					progressPolling.cancel();
+					if (callBack!=null) callBack.onCancel();
+				}
+			}
+		});
+		
 	}
 
 	/** 
@@ -98,23 +130,28 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		Log.trace("show progressToken: "+progressToken);
 		this.progressToken = progressToken;
 		this.callBack = callBack;
+		setMessage(null, false);
 		
 		failureCounter = 0;
 		progressPolling.scheduleRepeating(POLLING_TIME);
-		progressBar.setProgress(0);
+		progressAnimation.start(new AnimationListener() {
+			
+			@Override
+			public void onComplete() {
+				hide();
+			}
+		});
 		
 		super.center();
 	}
 	
 	private void onProgressUpdate(LongTaskProgress progress) {
-		Log.trace("onProgressUpdate progress: "+progress);
+		progressAnimation.report(progress.getPercentage());
+		setMessage(progress.getMessage(), progress.getPercentage()!=100);
 		
-		progressBar.setProgress(progress.getPercentage());
-		setMessage(progress.getMessage());
 		if (progress.isComplete()) {
-			if (progress.getStatus() == Status.DONE) progressBar.setProgress(100);
 			progressPolling.cancel();
-			hide();
+			if (progress.getStatus() == Status.DONE) progressAnimation.report(100);
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);
 				else callBack.onFailure(new ServiceErrorException(progress.getFailureCause()));
@@ -122,8 +159,8 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		}
 	}
 	
-	private void setMessage(String text) {
-		message.setText(text==null?"":text);
+	private void setMessage(String text, boolean addDots) {
+		message.setText(text==null? "":addDots?text+"...":text);
 	}
 	
 	private void onProgressRetrievingFailure(Throwable caught) {

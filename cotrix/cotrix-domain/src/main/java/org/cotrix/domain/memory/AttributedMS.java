@@ -4,7 +4,7 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
 

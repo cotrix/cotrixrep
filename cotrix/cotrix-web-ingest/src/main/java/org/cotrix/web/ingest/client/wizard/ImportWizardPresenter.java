@@ -25,7 +25,9 @@ import org.cotrix.web.ingest.client.step.summary.SummaryStepPresenter;
 import org.cotrix.web.ingest.client.step.upload.UploadStepPresenter;
 import org.cotrix.web.ingest.client.task.ImportTask;
 import org.cotrix.web.ingest.client.task.MappingsLoadingTask;
+import org.cotrix.web.ingest.client.task.RetrieveAssetDetailsTask;
 import org.cotrix.web.ingest.client.task.RetrieveAssetTask;
+import org.cotrix.web.ingest.client.task.RetrieveRepositoryDetailsTask;
 import org.cotrix.web.wizard.client.DefaultWizardActionHandler;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.WizardActionHandler;
@@ -89,7 +91,9 @@ public class ImportWizardPresenter implements Presenter {
 
 			AssetDetailsNodeSelector assetDetailsNodeSelector,
 			SelectionStepPresenter selectionStep,
+			RetrieveAssetDetailsTask retrieveAssetDetailsTask,
 			CodelistDetailsStepPresenter codelistDetailsStep,
+			RetrieveRepositoryDetailsTask repositoryDetailsTask,
 			RepositoryDetailsStepPresenter repositoryDetailsStep,
 			
 			RetrieveAssetTask retrieveAssetTask,
@@ -127,9 +131,9 @@ public class ImportWizardPresenter implements Presenter {
 		SingleNodeBuilder<WizardStep> sdmxMapping = upload.alternative(mappingsLoadingTask).next(sdmxMappingStep);
 
 		SwitchNodeBuilder<WizardStep> selection = source.alternative(selectionStep).hasAlternatives(assetDetailsNodeSelector);
-		SingleNodeBuilder<WizardStep> codelistDetails = selection.alternative(codelistDetailsStep);
-		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsStep);
-		codelistDetails.next(repositoryDetails);
+		SingleNodeBuilder<WizardStep> repositoryDetails = selection.alternative(repositoryDetailsTask);
+		repositoryDetails.next(repositoryDetailsStep);
+		selection.alternative(retrieveAssetDetailsTask).next(codelistDetailsStep).next(repositoryDetails);
 		
 		SwitchNodeBuilder<WizardStep> retrieveAsset = selection.alternative(retrieveAssetTask).hasAlternatives(assetTypeNodeSelector);
 		retrieveAsset.alternative(csvPreview);

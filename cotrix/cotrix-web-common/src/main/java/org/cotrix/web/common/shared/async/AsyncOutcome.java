@@ -3,15 +3,18 @@
  */
 package org.cotrix.web.common.shared.async;
 
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
+
+import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AsyncOutcome<T> extends FeatureCarrier implements AsyncOutput<T> {
+public class AsyncOutcome<T extends IsSerializable> extends AbstractFeatureCarrier implements AsyncOutput<T> {
 	
-	public static final AsyncOutcome<java.lang.Void> VOID = new AsyncOutcome<java.lang.Void>(null);
+	public static class Void implements IsSerializable {
+	}
 
 	private T outcome;
 
@@ -34,5 +37,4 @@ public class AsyncOutcome<T> extends FeatureCarrier implements AsyncOutput<T> {
 		builder.append("]");
 		return builder.toString();
 	}
-	
 }

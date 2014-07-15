@@ -1,7 +1,7 @@
 package org.cotrix.application.logbook;
 
 import static java.lang.String.*;
-import static org.cotrix.domain.utils.Utils.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 
 public enum LogbookEvent {
 
@@ -19,11 +19,11 @@ public enum LogbookEvent {
 	}
 	
 	Logbook.Entry entry() {
-		return new Logbook.Entry(this,currentUser());
+		return new Logbook.Entry(this,currentUser().name());
 	}
 	
 	Logbook.Entry entryWith(Object ...args) {
-		return new Logbook.Entry(this,currentUser())
+		return new Logbook.Entry(this,currentUser().name())
 					.description(format(format,args));
 	}
 }

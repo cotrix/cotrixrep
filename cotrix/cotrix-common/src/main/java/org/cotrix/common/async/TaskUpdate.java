@@ -9,6 +9,10 @@ public class TaskUpdate {
 		this.progress=progress;
 		this.activity=activity;
 	}
+	
+	public static TaskUpdate update(float progress,String activity) {
+		return new TaskUpdate(progress, activity);
+	}
 
 	public float progress() {
 		return progress;

@@ -99,6 +99,7 @@ public class AttributeDefinitionPanel extends Composite {
 		
 		typeList = new EnumListBox<AttributeType>(AttributeType.class, typeLabelProvider);
 		optionList = new EnumListBox<Optional>(Optional.class, OPTIONAL_LABEL_PROVIDER);
+		optionList.setSelectedValue(Optional.OPTIONAL);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		nameField.setTitle(nameTitle);

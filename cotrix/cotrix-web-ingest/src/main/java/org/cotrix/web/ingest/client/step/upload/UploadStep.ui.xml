@@ -15,6 +15,10 @@
 			margin: auto;
 		}
 		
+		.progressBar {
+			width: 80%;
+		}
+		
 		.uploadFailPanel {
 			margin: 0 auto;
 
@@ -53,7 +57,7 @@
 				<tr>
 					<td>
 						<g:FlowPanel ui:field="uploadPanel" styleName="{style.uploadPanel}">
-							<c:ProgressBar ui:field="progressBar" visible="false" />
+							<c:ProgressBar ui:field="progressBar" visible="false" addStyleNames="{style.progressBar}"/>
 							<g:HorizontalPanel ui:field="uploadFailPanel" visible="false" styleName="{style.uploadFailPanel}">
 								<g:Label styleName="{style.uploadFailedMessage}">Upload failed.</g:Label>
 								<g:Label ui:field="retryButton" styleName="{style.uploadRetryButton}">Retry</g:Label>

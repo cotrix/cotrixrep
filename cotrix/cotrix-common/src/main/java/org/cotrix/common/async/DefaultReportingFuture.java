@@ -8,11 +8,13 @@ import java.util.concurrent.TimeoutException;
 public class DefaultReportingFuture<T> implements ReportingFuture<T> {
 	
 	private final Future<T> inner;
-	private Task context;
+	private final Task context;
+	private final Object cancelMonitor;
 	
-	public DefaultReportingFuture(Future<T> future, Task context) {
+	public DefaultReportingFuture(Future<T> future, Task context,Object cancelMonitor) {
 		this.inner=future;
 		this.context=context;
+		this.cancelMonitor=cancelMonitor;
 	}
 	
 	@Override
@@ -22,7 +24,24 @@ public class DefaultReportingFuture<T> implements ReportingFuture<T> {
 	
 	@Override
 	public boolean cancel(boolean mayInterruptIfRunning) {
-		return inner.cancel(mayInterruptIfRunning);
+		
+		synchronized (cancelMonitor) {
+			
+			try {
+				
+				TaskUpdate update = get(TaskUpdate.class);
+				
+				return update==null || update.progress()<1.0f ?
+					inner.cancel(mayInterruptIfRunning) :
+					false;
+					
+			}
+			
+			catch(ExecutionException e) {
+				return false;
+			}
+			
+		}
 	}
 	
 	@Override

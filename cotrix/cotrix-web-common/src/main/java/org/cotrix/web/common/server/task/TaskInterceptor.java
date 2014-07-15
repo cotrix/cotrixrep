@@ -20,6 +20,7 @@ import org.cotrix.engine.TaskOutcome;
 import org.cotrix.web.common.shared.exception.IllegalActionException;
 import org.cotrix.web.common.shared.exception.ServiceErrorException;
 import org.cotrix.web.common.shared.exception.ServiceException;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.FeatureCarrier;
 import org.cotrix.web.common.shared.feature.Identified;
 import org.slf4j.Logger;
@@ -83,7 +84,7 @@ public class TaskInterceptor {
 			
 			Object output = outcome.output();
 	
-			if (output instanceof FeatureCarrier) {
+			if (output instanceof AbstractFeatureCarrier) {
 				FeatureCarrier response = (FeatureCarrier) output;
 				logger.trace("nextActions: {}", outcome.nextActions());
 				actionMapper.fillFeatures(response, resource, outcome.nextActions());

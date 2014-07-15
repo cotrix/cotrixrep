@@ -24,6 +24,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 
+import static org.cotrix.web.common.client.async.AsyncUtils.*;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
@@ -95,7 +97,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		Log.trace("retrieving mappings for codelist "+selectedCodelist+" destinationType: "+destination+" format: "+format);
-		service.getMappings(selectedCodelist.getId(),  destination, format, new AsyncCallback<AttributesMappings>() {
+		service.getMappings(selectedCodelist.getId(),  destination, format, showLoader(new AsyncCallback<AttributesMappings>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -108,7 +110,7 @@ public class RetrieveMappingsTask implements TaskWizardStep {
 				publishBus.fireEventFromSource(new MappingsUpdatedEvent(result),  RetrieveMappingsTask.this);
 				callback.onSuccess(PublishWizardAction.NEXT);
 			}
-		});
+		}));
 	}
 	
 	public void reset() {

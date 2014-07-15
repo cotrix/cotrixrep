@@ -1,15 +1,10 @@
 package org.cotrix.web.ingest.client.step.repositorydetails;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.common.shared.codelist.RepositoryDetails;
-import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.ingest.client.IngestServiceAsync;
 import org.cotrix.web.ingest.client.event.ImportBus;
+import org.cotrix.web.ingest.client.event.RepositoryDetailsEvent;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AssetInfo;
-import org.cotrix.web.wizard.client.event.ResetWizardEvent;
-import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
@@ -18,29 +13,36 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 @Singleton
-public class RepositoryDetailsStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, RepositoryDetailsStepView.Presenter, ResetWizardHandler {
+public class RepositoryDetailsStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, RepositoryDetailsStepView.Presenter {
+	
+	protected static interface RepositoryDetailsStepPresenterEventBinder extends EventBinder<RepositoryDetailsStepPresenter> {}
 
 	protected final RepositoryDetailsStepView view;
 	
-	@Inject
-	protected IngestServiceAsync importService;
-	
-	protected EventBus importEventBus;
+	protected EventBus importBus;
 	
 	protected AssetInfo selectedAsset;
 	
 	@Inject
-	public RepositoryDetailsStepPresenter(RepositoryDetailsStepView view, @ImportBus EventBus importEventBus) {
+	public RepositoryDetailsStepPresenter(RepositoryDetailsStepView view) {
 		super("repositoryDetails", TrackerLabels.ACQUIRE, "Repository Details", "", ImportWizardStepButtons.BACKWARD);
 		this.view = view;
-		this.importEventBus = importEventBus;
-		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
+	}
+	
+	@Inject
+	protected void bind(RepositoryDetailsStepPresenterEventBinder binder, @ImportBus EventBus importBus)
+	{
+		binder.bindEventHandlers(this, importBus);
+		
+		this.importBus = importBus;
 	}
 
 	public void go(HasWidgets container) {
@@ -51,20 +53,10 @@ public class RepositoryDetailsStepPresenter extends AbstractVisualWizardStep imp
 		return false;
 	}
 
-
-	public void setRepository(UIQName repositoryId) {
-		Log.trace("getting asset details for "+repositoryId);
-		importService.getRepositoryDetails(repositoryId, new ManagedFailureCallback<RepositoryDetails>() {
-			
-			@Override
-			public void onSuccess(RepositoryDetails result) {
-				view.setRepository(result);
-			}
-		});
+	@EventHandler
+	public void onRepositoryDetails(RepositoryDetailsEvent event) {
+		Log.trace("onRepositoryDetails event: "+event);
+		view.setRepository(event.getRepositoryDetails());
 	}
 
-
-	public void onResetWizard(ResetWizardEvent event) {
-
-	}
 }

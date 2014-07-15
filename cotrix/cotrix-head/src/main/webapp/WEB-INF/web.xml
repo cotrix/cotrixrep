@@ -23,6 +23,10 @@
 	<listener>
 		<listener-class>org.cotrix.web.portlet.CotrixServletContextListener</listener-class>
 	</listener>
+	
+	<listener>
+	<listener-class>org.cotrix.web.common.server.util.HttpServletRequestHolder</listener-class>
+	</listener>
 
 	<!-- <filter> -->
 	<!-- <filter-name>slownetwork</filter-name> -->
@@ -57,7 +61,13 @@
 
 	<servlet>
 		<servlet-name>ingestServiceServlet</servlet-name>
-		<servlet-class>org.cotrix.web.ingest.server.IngestServiceImpl</servlet-class>
+		<servlet-class>org.cotrix.web.ingest.server.IngestServiceImpl$Servlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>asyncIngestServiceServlet</servlet-name>
+		<servlet-class>org.cotrix.web.ingest.server.AsyncIngestServiceImpl$Servlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -70,6 +80,11 @@
 	<servlet>
 		<servlet-name>manageServlet</servlet-name>
 		<servlet-class>org.cotrix.web.manage.server.ManageServiceImpl$Servlet</servlet-class>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>asyncManageServlet</servlet-name>
+		<servlet-class>org.cotrix.web.manage.server.AsyncManageServiceImpl$Servlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -109,6 +124,11 @@
 		<servlet-name>ingestServiceServlet</servlet-name>
 		<url-pattern>/Cotrix/service/ingestService</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>asyncIngestServiceServlet</servlet-name>
+		<url-pattern>/Cotrix/service/asyncIngestService</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>ingestReportDownloadServlet</servlet-name>
@@ -118,6 +138,11 @@
 	<servlet-mapping>
 		<servlet-name>manageServlet</servlet-name>
 		<url-pattern>/Cotrix/service/manageService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>asyncManageServlet</servlet-name>
+		<url-pattern>/Cotrix/service/asyncManageService</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

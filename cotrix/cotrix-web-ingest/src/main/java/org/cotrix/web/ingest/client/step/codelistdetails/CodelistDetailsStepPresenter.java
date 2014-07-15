@@ -1,16 +1,13 @@
 package org.cotrix.web.ingest.client.step.codelistdetails;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
-import org.cotrix.web.ingest.client.IngestServiceAsync;
+import org.cotrix.web.ingest.client.event.AssetDetailsEvent;
 import org.cotrix.web.ingest.client.event.ImportBus;
+import org.cotrix.web.ingest.client.event.RepositoryDetailsRequestEvent;
 import org.cotrix.web.ingest.client.step.TrackerLabels;
 import org.cotrix.web.ingest.client.step.repositorydetails.RepositoryDetailsStepPresenter;
 import org.cotrix.web.ingest.client.wizard.ImportWizardStepButtons;
 import org.cotrix.web.ingest.shared.AssetDetails;
-import org.cotrix.web.ingest.shared.AssetInfo;
 import org.cotrix.web.wizard.client.event.NavigationEvent;
-import org.cotrix.web.wizard.client.event.ResetWizardEvent;
-import org.cotrix.web.wizard.client.event.ResetWizardEvent.ResetWizardHandler;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
 import org.cotrix.web.wizard.client.step.VisualWizardStep;
 
@@ -19,20 +16,21 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 @Singleton
-public class CodelistDetailsStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, CodelistDetailsStepView.Presenter, ResetWizardHandler {
+public class CodelistDetailsStepPresenter extends AbstractVisualWizardStep implements VisualWizardStep, CodelistDetailsStepView.Presenter {
+	
+	protected static interface CodelistDetailsStepPresenterEventBinder extends EventBinder<CodelistDetailsStepPresenter> {}
 
 	protected final CodelistDetailsStepView view;
 	
-	@Inject
-	protected IngestServiceAsync importService;
-	
-	protected EventBus importEventBus;
+	protected EventBus importBus;
 	
 	protected AssetDetails visualizedAsset;
 	
@@ -40,12 +38,19 @@ public class CodelistDetailsStepPresenter extends AbstractVisualWizardStep imple
 	protected RepositoryDetailsStepPresenter repositoryDetails;
 	
 	@Inject
-	public CodelistDetailsStepPresenter(CodelistDetailsStepView view, @ImportBus EventBus importEventBus) {
+	public CodelistDetailsStepPresenter(CodelistDetailsStepView view) {
 		super("codelistDetails", TrackerLabels.ACQUIRE, "Codelist Details", "", ImportWizardStepButtons.BACKWARD);
 		this.view = view;
 		view.setPresenter(this);
-		this.importEventBus = importEventBus;
-		importEventBus.addHandler(ResetWizardEvent.TYPE, this);
+	}
+	
+	
+	@Inject
+	protected void bind(CodelistDetailsStepPresenterEventBinder binder, @ImportBus EventBus importBus)
+	{
+		binder.bindEventHandlers(this, importBus);
+		
+		this.importBus = importBus;
 	}
 
 	public void go(HasWidgets container) {
@@ -55,28 +60,18 @@ public class CodelistDetailsStepPresenter extends AbstractVisualWizardStep imple
 	public boolean leave() {
 		return true;
 	}
-
-
-	public void setAsset(AssetInfo asset) {
-		Log.trace("getting asset details for "+asset);
-		importService.getAssetDetails(asset.getId(), new ManagedFailureCallback<AssetDetails>() {
-			
-			@Override
-			public void onSuccess(AssetDetails result) {
-				view.setAssetDetails(result);
-				visualizedAsset = result;
-			}
-		});
-	}
-
-
-	public void onResetWizard(ResetWizardEvent event) {
-
+	
+	@EventHandler
+	public void onAssetDetails(AssetDetailsEvent event) {
+		Log.trace("onAssetDetails event: "+event);
+		view.setAssetDetails(event.getAssetDetails());
+		visualizedAsset = event.getAssetDetails();
 	}
 
 	@Override
 	public void repositoryDetails() {
-		repositoryDetails.setRepository(visualizedAsset.getRepositoryId());
-		importEventBus.fireEvent(NavigationEvent.FORWARD);
+		Log.trace("repositoryDetails");
+		importBus.fireEvent(new RepositoryDetailsRequestEvent(visualizedAsset.getRepositoryId()));
+		importBus.fireEvent(NavigationEvent.FORWARD);
 	}
 }

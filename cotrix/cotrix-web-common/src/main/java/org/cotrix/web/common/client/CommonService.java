@@ -17,5 +17,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface CommonService extends RemoteService  {
 	
 	public LongTaskProgress getProgress(String progressToken) throws ServiceException;
+	
+	public boolean cancel(String progressToken) throws ServiceException;
 
 }

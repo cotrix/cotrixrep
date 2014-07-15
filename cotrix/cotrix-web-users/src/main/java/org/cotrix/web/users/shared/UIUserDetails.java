@@ -4,7 +4,7 @@
 package org.cotrix.web.users.shared;
 
 import org.cotrix.web.common.shared.UIUser;
-import org.cotrix.web.common.shared.feature.FeatureCarrier;
+import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.Identified;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -13,7 +13,7 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIUserDetails extends FeatureCarrier implements IsSerializable, Identified {
+public class UIUserDetails extends AbstractFeatureCarrier implements IsSerializable, Identified {
 	
 	protected String id;
 	protected String username;
