@@ -61,6 +61,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	private boolean nameBoxReadOnly;
 	
 	@UiField(provided=true) SuggestListBox typeBox;
+	private boolean typeBoxReadOnly;
 	
 	@UiField AdvancedTextBox descriptionBox;
 	
@@ -141,13 +142,17 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		
 		setLanguage(Language.NONE);
 		languageBoxReadOnly = false;
+		
+		setType("");
+		typeBoxReadOnly = false;
 
-		syncNameLanguageFields();
+		syncDefinibleFields();
 	}
 	
-	private void syncNameLanguageFields() {
+	private void syncDefinibleFields() {
 		setNameReadOnly(readOnly || nameBoxReadOnly);
 		setLanguageReadOnly(readOnly || languageBoxReadOnly);
+		setTypeReadOnly(readOnly || typeBoxReadOnly);
 	}
 	
 	private void selectDefinition(String definitionId) {
@@ -170,6 +175,9 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		setLanguage(definition.getLanguage());
 		languageBoxReadOnly = true;
 		
+		setType(ValueUtils.getLocalPart(definition.getType()));
+		typeBoxReadOnly = true;
+		
 		String currentValue = getValue();
 		String defaultValue = definition.getDefaultValue();
 		
@@ -177,7 +185,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 				&& (defaultValue !=null && !defaultValue.isEmpty())) 
 			setValue(defaultValue);
 		
-		syncNameLanguageFields();
+		syncDefinibleFields();
 	}
 	
 	private void setupNameField() {
@@ -315,6 +323,11 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		typeBox.setStyleName(style.textboxError(), !valid);
 	}
 	
+	public void setTypeReadOnly(boolean readOnly) {
+		typeBox.setEnabled(!readOnly);
+		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
+	}
+	
 	public String getDescription() {
 		return descriptionBox.getValue();
 	}
@@ -365,8 +378,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		
 		setNameReadOnly(readOnly);
 		
-		typeBox.setEnabled(!readOnly);
-		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
+		setTypeReadOnly(readOnly);
 		
 		descriptionBox.setEnabled(!readOnly);
 		if (readOnly) descriptionBox.setStyleName(style.textboxError(), false);
@@ -376,7 +388,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		valueBox.setEnabled(!readOnly);
 		if (readOnly) valueBox.setStyleName(style.textboxError(), false);
 		
-		if (!readOnly) syncNameLanguageFields();
+		if (!readOnly) syncDefinibleFields();
 	}
 
 	private void fireChange() {
