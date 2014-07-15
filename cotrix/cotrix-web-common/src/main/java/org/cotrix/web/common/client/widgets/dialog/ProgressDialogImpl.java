@@ -3,6 +3,7 @@ package org.cotrix.web.common.client.widgets.dialog;
 import org.cotrix.web.common.client.CommonServiceAsync;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.ProgressAnimation;
+import org.cotrix.web.common.client.util.ProgressAnimation.AnimationListener;
 import org.cotrix.web.common.client.widgets.ProgressBar;
 import org.cotrix.web.common.shared.LongTaskProgress;
 import org.cotrix.web.common.shared.Progress.Status;
@@ -133,7 +134,13 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		
 		failureCounter = 0;
 		progressPolling.scheduleRepeating(POLLING_TIME);
-		progressAnimation.start();
+		progressAnimation.start(new AnimationListener() {
+			
+			@Override
+			public void onComplete() {
+				hide();
+			}
+		});
 		
 		super.center();
 	}
@@ -145,7 +152,6 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		if (progress.isComplete()) {
 			progressPolling.cancel();
 			if (progress.getStatus() == Status.DONE) progressAnimation.report(100);
-			hide();
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);
 				else callBack.onFailure(new ServiceErrorException(progress.getFailureCause()));

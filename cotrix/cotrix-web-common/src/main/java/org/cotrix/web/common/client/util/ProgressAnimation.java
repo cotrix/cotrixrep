@@ -11,6 +11,7 @@ import org.cotrix.web.common.client.widgets.ProgressBar;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -53,17 +54,7 @@ public class ProgressAnimation {
 		this.progressBar = progressBar;
 	}
 	
-	long startTime = 0;
-	long lastUpdate = 0;
-	long sum = 0;
-	int count = 0;
-
-	public void start() {
-		
-		startTime = System.currentTimeMillis();
-		lastUpdate = System.currentTimeMillis();
-		sum = 0;
-		count = 0;
+	public void start(final AnimationListener listener) {
 		
 		next_bar=progress=evidence=0;
 		next_bar = 1;
@@ -74,7 +65,9 @@ public class ProgressAnimation {
 			@Override
 			public boolean execute() {
 				progress();
-				return next_bar<max_progress;
+				boolean cont = next_bar<=max_progress;
+				if (!cont) fireComplete(listener);
+				return cont;
 			}
 		};
 		
@@ -83,15 +76,22 @@ public class ProgressAnimation {
 
 	}
 	
+	private void fireComplete(final AnimationListener listener) {
+		 Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+				
+				@Override
+				public void execute() {
+					listener.onComplete();
+					
+				}
+			});
+	}
+	
 	private void printstate() {
-		long delay = (System.currentTimeMillis()-lastUpdate);
-		sum += delay;
-		count++;
-		double avg = sum/count;	
-		
-		System.out.println("progress ="+progress+", step ="+step()+", evidence="+evidence + " time: "+(System.currentTimeMillis()-startTime)+" delay: "+delay+" avg delay: "+avg);
 
-		lastUpdate = System.currentTimeMillis();
+		
+		System.out.println("progress ="+progress+", step ="+step()+", evidence="+evidence);
+
 	}
 	
 	
