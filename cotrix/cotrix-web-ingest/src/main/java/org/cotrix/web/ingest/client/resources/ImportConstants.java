@@ -20,6 +20,13 @@ public interface ImportConstants extends Constants {
 	@DefaultIntValue(30)
 	int fileNameMaxSize();
 	
+	/**
+	 * The file size limit in MB.
+	 * @return
+	 */
+	@DefaultIntValue(15)
+	int fileSizeMax();
+	
 	String[] csvMimeTypes();
 	String[] xmlMimeTypes();
 

@@ -106,6 +106,11 @@ public class UploadStepPresenter extends AbstractVisualWizardStep implements Vis
 			return false;
 		}
 		
+		if (file.getSize() > constants.fileSizeMax()*1024*1024) {
+			onError("Sadly, this file exceedes our current upload limit of "+constants.fileSizeMax()+"Mb. Please contact us to arrange for a batch upload.");
+			return false;
+		}
+		
 		String type = file.getType();
 		if (type == null || type.isEmpty()) {
 			//we will check the type on server side

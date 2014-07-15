@@ -54,6 +54,7 @@ public class ImporterTarget {
 			}
 			
 		} catch(Throwable throwable) {
+			logger.error("Error during save task", throwable);
 			throw new RuntimeException("Failed completing the import", throwable);
 		}
 	}

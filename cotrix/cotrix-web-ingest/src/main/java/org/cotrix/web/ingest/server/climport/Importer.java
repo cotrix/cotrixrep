@@ -79,6 +79,8 @@ public class Importer {
 
 			events.fire(new Import(origin(session),codelist.id(), codelist.qname(), codelist.version(), beanSession));
 			
+			logger.trace("import complete, codelist id: "+codelist.id());
+			
 			return new ImportResult(codelist.id());
 
 		/*} catch(Throwable throwable)

@@ -42,10 +42,11 @@ public class ProgressService {
 		return progress;
 	}
 	
-	public void cancel(String progressToken) {
+	public boolean cancel(String progressToken) {
 		ProgressMonitor<?,?> monitor = getMonitor(progressToken);
-		monitor.cancel();
-		monitors.remove(progressToken);
+		boolean canceled = monitor.cancel();
+		if (canceled) monitors.remove(progressToken);
+		return canceled;
 	}
 	
 	private ProgressMonitor<?,?> getMonitor(String progressToken) {

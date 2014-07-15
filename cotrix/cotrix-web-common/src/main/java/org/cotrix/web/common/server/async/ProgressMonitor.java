@@ -42,7 +42,6 @@ public class ProgressMonitor<F extends AsyncOutcome<T>, T extends IsSerializable
 			}
 
 			TaskUpdate taskUpdate = future.get(TaskUpdate.class);
-			logger.trace("taskUpdate.progress(): {}", taskUpdate.progress());
 			progress.setPercentage(getProgressPercentage(taskUpdate));
 			progress.setMessage(taskUpdate!=null?taskUpdate.activity():null);
 
@@ -58,11 +57,16 @@ public class ProgressMonitor<F extends AsyncOutcome<T>, T extends IsSerializable
 	private int getProgressPercentage(TaskUpdate update) {
 		if (update == null) return 0;
 		float progress = update.progress();
+		logger.trace("taskUpdate.progress(): {}", progress);
 		return Math.min(100, (int)(progress*100));
 	}
 	
-	public void cancel() {
-		future.cancel(true);
+	public boolean cancel() {
+		logger.trace("cancel task");
+		if (!(future.isCancelled() || future.isDone())) {
+			logger.trace("Canceling");
+			return future.cancel(true);
+		} else return false;
 	}
 
 }

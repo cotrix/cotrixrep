@@ -3,7 +3,6 @@ package org.cotrix.web.common.client.widgets.dialog;
 import org.cotrix.web.common.client.CommonServiceAsync;
 import org.cotrix.web.common.client.async.UserCancelledException;
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.client.rpc.Nop;
 import org.cotrix.web.common.client.util.ProgressAnimation;
 import org.cotrix.web.common.client.widgets.ProgressBar;
 import org.cotrix.web.common.shared.LongTaskProgress;
@@ -102,11 +101,25 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	
 	@UiHandler("cancelButton")
 	protected void cancelButtonClicked(ClickEvent click) {
-		Log.trace("cancel");
-		progressPolling.cancel();
-		hide();
-		commonService.cancel(progressToken, Nop.<Void>getInstance());
-		if (callBack!=null) callBack.onFailure(new UserCancelledException());
+		Log.trace("user request cancel");
+		commonService.cancel(progressToken, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("Cancel request failed", caught);
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				Log.trace("cancel result: "+result);
+				if (result) {
+					hide();
+					progressPolling.cancel();
+					if (callBack!=null) callBack.onFailure(new UserCancelledException());
+				}
+			}
+		});
+		
 	}
 
 	/** 
@@ -117,6 +130,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		Log.trace("show progressToken: "+progressToken);
 		this.progressToken = progressToken;
 		this.callBack = callBack;
+		setMessage(null, false);
 		
 		failureCounter = 0;
 		progressPolling.scheduleRepeating(POLLING_TIME);
@@ -127,7 +141,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	
 	private void onProgressUpdate(LongTaskProgress progress) {
 		progressAnimation.report(progress.getPercentage());
-		setMessage(progress.getMessage());
+		setMessage(progress.getMessage(), progress.getPercentage()!=100);
 		
 		if (progress.isComplete()) {
 			progressPolling.cancel();
@@ -140,8 +154,8 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		}
 	}
 	
-	private void setMessage(String text) {
-		message.setText(text==null?"":text);
+	private void setMessage(String text, boolean addDots) {
+		message.setText(text==null? "":addDots?text+"...":text);
 	}
 	
 	private void onProgressRetrievingFailure(Throwable caught) {
