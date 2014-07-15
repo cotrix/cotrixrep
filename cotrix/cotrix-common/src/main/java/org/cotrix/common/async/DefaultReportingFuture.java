@@ -31,10 +31,10 @@ public class DefaultReportingFuture<T> implements ReportingFuture<T> {
 				
 				TaskUpdate update = get(TaskUpdate.class);
 				
-				return 
-					update!=null && update.progress()>=1.0f ?
-					  inner.cancel(mayInterruptIfRunning) :
-					  false;
+				return update==null || update.progress()<1.0f ?
+					inner.cancel(mayInterruptIfRunning) :
+					false;
+					
 			}
 			
 			catch(ExecutionException e) {
