@@ -76,9 +76,9 @@ public class DefaultExecutionService implements ExecutionService {
 
 							T result = task.call();
 
-							if (!currentThread().isInterrupted()){
+							synchronized(cancelMonitor) {
 								
-								synchronized(cancelMonitor) {
+								if (!currentThread().isInterrupted()){
 									tx.commit();
 									context.save(update(1f, "task completed"));
 									logger.trace("committed transaction {}",tx);
