@@ -133,6 +133,12 @@
 				<artifactId>weld-servlet-core</artifactId>
 				<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-core</artifactId>
+				<scope>provided</scope>
+		</dependency>
 
 	</dependencies>
 
