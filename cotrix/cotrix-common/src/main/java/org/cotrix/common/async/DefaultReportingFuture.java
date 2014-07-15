@@ -26,7 +26,21 @@ public class DefaultReportingFuture<T> implements ReportingFuture<T> {
 	public boolean cancel(boolean mayInterruptIfRunning) {
 		
 		synchronized (cancelMonitor) {
-			return inner.cancel(mayInterruptIfRunning);
+			
+			try {
+				
+				TaskUpdate update = get(TaskUpdate.class);
+				
+				return 
+					update!=null && update.progress()>=1.0f ?
+					  inner.cancel(mayInterruptIfRunning) :
+					  false;
+			}
+			
+			catch(ExecutionException e) {
+				return false;
+			}
+			
 		}
 	}
 	

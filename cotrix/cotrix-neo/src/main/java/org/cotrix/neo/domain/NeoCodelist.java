@@ -11,7 +11,6 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.CodelistLink;
 import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.neo.NeoTransaction;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -23,9 +22,6 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	
 	private static final Logger log = LoggerFactory.getLogger(NeoCodelist.class);
 
-	//asfismaxBatchSizetchSizeced, fairly arbitrary. see it as an attempt to avoid OOM errors :)
-	final static int maxBatchSize = 15000;
-	
 	public static final NeoStateFactory<Codelist.State> factory = new NeoStateFactory<Codelist.State>() {
 		
 		@Override
@@ -78,14 +74,9 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		
 		for (Code.State c : state.codes()) {
 			
-			if (i==maxBatchSize) {
-				NeoTransaction.current().split();
-				i=0;
-			}
-			
 			if (i%step==0)
 			
-				if (Thread.currentThread().isInterrupted()) {
+				if (context.isCancelled()) {
 					log.info("codelist creation aborted on user request after {} codes.",i);
 					throw new CancelledTaskException("codelist creation aborted on user request");
 				}
@@ -101,8 +92,6 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 			i++;
 			progress++;
 		}
-		
-		context.save(update(1f, "added "+codes+" codes"));
 	}
 	
 	public Codelist.Private entity() {

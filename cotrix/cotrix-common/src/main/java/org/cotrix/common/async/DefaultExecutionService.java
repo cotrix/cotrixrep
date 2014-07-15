@@ -2,6 +2,7 @@ package org.cotrix.common.async;
 
 import static java.lang.Thread.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.common.async.TaskUpdate.*;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
@@ -76,9 +77,12 @@ public class DefaultExecutionService implements ExecutionService {
 							T result = task.call();
 
 							if (!currentThread().isInterrupted()){
-								tx.commit();
-								logger.trace("committed transaction {}",tx);
-
+								
+								synchronized(cancelMonitor) {
+									tx.commit();
+									context.save(update(1f, "task completed"));
+									logger.trace("committed transaction {}",tx);
+								}
 							}
 
 							return result;

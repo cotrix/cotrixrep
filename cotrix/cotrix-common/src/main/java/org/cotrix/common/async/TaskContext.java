@@ -15,6 +15,11 @@ public class TaskContext {
 		return context.get();
 	}
 	
+	//encapsulate cooperative cancellation mechanism for clarity and future evolution
+	public boolean isCancelled() {
+		return Thread.currentThread().isInterrupted();
+	}
+	
 	public void save(Object o) {
 		thisTask().put(o);
 	}
