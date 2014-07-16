@@ -74,13 +74,24 @@ public abstract class ManagedEntity<T extends Attributed> {
 		
 	}
 	
-	//helper
-	protected String lookup(CommonDefinition def) {
+	/**
+	 * Returns the string value of an attribute with a given common definition, if one exists.
+	 * @param def the definition
+	 * @return the string value of the attribute, or <code>null</code> if no such attribute exists.
+	 * @throws IllegalStateException if there are two or more attributes with the given definition.
+	 */
+	public String lookup(CommonDefinition def) throws IllegalStateException {
 		Attribute a  = attribute(def);
 		return a==null?null:a.value();
 	}
 	
-	protected Attribute attribute(CommonDefinition def) {
+	/**
+	 * Returns the an attribute with a given common definition, if one exists.
+	 * @param def the definition
+	 * @return the attribute, or <code>null</code> if no such attribute exists.
+	 * @throws IllegalStateException if there are two or more attributes with the given definition.
+	 */
+	public Attribute attribute(CommonDefinition def) {
 		return managed().attributes().contains(def.qname()) ?
 			managed().attributes().lookup(def.qname()):
 			null;

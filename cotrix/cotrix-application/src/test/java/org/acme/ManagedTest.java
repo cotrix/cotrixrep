@@ -5,7 +5,6 @@ import static org.cotrix.application.managed.ManagedCode.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.domain.utils.CodeStatus.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -121,13 +120,17 @@ public class ManagedTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void accessStatus() throws Exception {
+	public void accessMarkers() throws Exception {
 
-		Attribute a = attribute().with(STATUS).value(DELETED.name()).build(); 
+		Attribute a = attribute().with(DELETED).value("any").build(); 
 		reveal(code).update(reveal(modify(code).attributes(a).build()));
 		
 		//default value is creation date
-		assertEquals(DELETED,managed.status());
+		assertFalse(managed.markers().isEmpty());
+		
+		assertNotNull(managed.attribute(DELETED));
+		
+		assertEquals(DELETED.qname(),managed.markers().get(0).definition().qname());
 		
 	}
 	

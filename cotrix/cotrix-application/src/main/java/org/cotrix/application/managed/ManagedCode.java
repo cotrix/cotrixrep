@@ -1,10 +1,11 @@
 package org.cotrix.application.managed;
 
-import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.utils.CodeStatus.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.utils.CodeStatus;
 
 
 //read-only interface over codes with support for systemic attributes
@@ -19,14 +20,20 @@ public class ManagedCode extends ManagedEntity<Code> {
 		super(code);
 	}
 	
-	public CodeStatus status() {
+	public List<Attribute> markers() {
 		
-		String val = lookup(STATUS);
+		List<Attribute> mks = new ArrayList<>();
+		for (CommonDefinition def : CommonDefinition.markers()) {
+			
+			Attribute mk = attribute(def);
+			
+			if (mk!=null)
+				mks.add(mk);
+		}
 		
-		if (val==null)
-			return VALID;
-		
-		return CodeStatus.valueOf(val);
+		return mks;
+			
+	
 	}
 	
 	
