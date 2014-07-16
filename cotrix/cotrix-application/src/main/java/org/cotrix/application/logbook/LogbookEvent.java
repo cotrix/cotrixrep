@@ -13,7 +13,7 @@ public enum LogbookEvent {
 	LOCKED(null,true);
 	
 	private final String format;
-	private final boolean deletable;
+	private final boolean removable;
 	
 	private LogbookEvent(String format) {
 		this(format,false);
@@ -21,15 +21,11 @@ public enum LogbookEvent {
 	
 	private LogbookEvent(String format,boolean deleteable) {
 		this.format=format;
-		this.deletable = deleteable;
-	}
-	
-	public boolean isDeletable() {
-		return deletable;
+		this.removable = deleteable;
 	}
 	
 	Logbook.Entry entry() {
-		return new Logbook.Entry(this,currentUser().name());
+		return new Logbook.Entry(this,currentUser().name(),removable);
 	}
 	
 	Logbook.Entry entryWith(Object ...args) {

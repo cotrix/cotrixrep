@@ -17,16 +17,26 @@ public class Logbook implements Serializable {
 		private final LogbookEvent event;
 		private String description;
 		private final String user;
+		private final boolean removable;
 		
 		Entry(LogbookEvent event,String user) {
+			this(event,user,false);
+		}
+		
+		Entry(LogbookEvent event,String user, boolean removable) {
 			this.timestamp=getDateTimeInstance().format(Calendar.getInstance().getTime());
 			this.event=event;
 			this.user=user;
+			this.removable=removable;
 		}
 		
 		public Entry description(String description) {
 			this.description = description;
 			return this;
+		}
+		
+		public boolean isRemovable() {
+			return removable;
 		}
 		
 		public String description() {
