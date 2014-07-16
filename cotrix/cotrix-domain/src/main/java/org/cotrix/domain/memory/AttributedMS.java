@@ -2,8 +2,8 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
@@ -29,10 +29,11 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	
 	public AttributedMS(Attributed.State other) {
 		
-		for (Attribute.State attribute : other.attributes())
-			
-			if (!attribute.is(SYSTEM_TYPE))
-				attributes.add(new AttributeMS(attribute));
+		this();
+		
+		for (Attribute.State attribute : other.attributes())			
+			if (attribute.is(INHERITED))
+				attributes.add(new AttributeMS(attribute));				
 	}
 	
 	@Override

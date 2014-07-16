@@ -7,6 +7,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.attributes.Definition.State;
+import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.trait.Status;
 
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
@@ -64,6 +65,11 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	@Override
 	public boolean is(QName name) {
 		return definition.is(name);
+	}
+	
+	@Override
+	public boolean is(Facet facet) {
+		return definition.is(facet);
 	}
 	
 	public String value() {

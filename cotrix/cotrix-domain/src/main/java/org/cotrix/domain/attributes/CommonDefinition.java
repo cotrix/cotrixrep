@@ -1,5 +1,6 @@
 package org.cotrix.domain.attributes;
 
+import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
@@ -24,21 +25,21 @@ public enum CommonDefinition implements Named {
 	//for now, we can make all from a local name (ns=cotrix's, type=system)
 	//can overload make() later if we need different type of definitions.
 	
-	CREATION_TIME 		(make("created",once)),
+	CREATION_TIME 		(make("created",once),VISIBLE),
 	
-	UPDATE_TIME 		(make("updated")),
-	UPDATED_BY 			(make("updatedBy")),
+	UPDATE_TIME 		(make("updated"),VISIBLE),
+	UPDATED_BY 			(make("updatedBy"),VISIBLE),
 	
 	//markers 
 	
 	DELETED				(make("deleted"),true),
 	INVALID				(make("invalid"),true),
 	
-	PREVIOUS_VERSION 		(make("previous_version")),
+	PREVIOUS_VERSION 		(make("previous_version"),VISIBLE),
 	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
-	PREVIOUS_VERSION_NAME 	(make("previous_version_name")),
+	PREVIOUS_VERSION_NAME 	(make("previous_version_name"),VISIBLE),
 	
-	SUPERSIDES          (make("supersides"));
+	SUPERSIDES          (make("supersides"),VISIBLE);
 
 	
 	//lookup table to re-constitute enums from persisted local names.
@@ -66,20 +67,30 @@ public enum CommonDefinition implements Named {
 	
 	private final Definition def;
 	private final boolean marker;
+	private final List<Facet> facets = new ArrayList<Facet>();
 	
-	private CommonDefinition(Definition def) {
-		this(def,false);
+	
+	private CommonDefinition(Definition def,Facet ... facets) {
+		this(def,false,facets);
 	}
 	
-	private CommonDefinition(Definition def, boolean marker) {
+	private CommonDefinition(Definition def, boolean marker, Facet ... facets) {
+		
 		this.def= def;
 		this.marker=marker;
+		
+		for (Facet f : facets)
+			this.facets.add(f);
 	}
 	
 	
 	//name is taken to return a plain string...
 	public QName qname() {
 		return def.qname();
+	}
+	
+	public boolean is(Facet facet) {
+		return facets.contains(facet);
 	}
 	
 	//trust this is not going to be changed..if paranoia ensues, copy-construct..
@@ -101,6 +112,18 @@ public enum CommonDefinition implements Named {
 		return commonDefinitionFor(name)!=null;
 	}
 	
+		public static boolean isCommon(String name, Facet facet) {
+			return commonDefinitionFor(name)!=null && commonDefinitionFor(name).is(facet);
+		}
+	
+	public static boolean isCommon(QName name) {
+		return isCommon(name.getLocalPart());
+	}
+	
+	public static boolean isCommon(QName name,Facet facet) {
+		return isCommon(name.getLocalPart(),facet);
+	}
+	
 	//reconstitution from local names
 	public static CommonDefinition commonDefinitionFor(String name) {
 		return defs.get(name);
@@ -120,4 +143,8 @@ public enum CommonDefinition implements Named {
 	private static Definition make(String name,Range range) {
 		return definition().name(q(NS,name)).is(SYSTEM_TYPE).occurs(range).build();
 	}
+	
+	
+	
+	
 }
