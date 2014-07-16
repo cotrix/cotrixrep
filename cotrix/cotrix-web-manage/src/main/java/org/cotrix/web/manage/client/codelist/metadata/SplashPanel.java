@@ -79,9 +79,6 @@ public class SplashPanel extends LoadingPanel {
 		name.setTitle(codelist.getName().getLocalPart());
 		version.setText(codelist.getVersion());
 		state.setText(codelist.getState()!=null?codelist.getState().toString():"");
-		
-		attributeTypesPanel.loadData();
-		linkTypesPanel.loadData();
 	}
 	
 	@EventHandler

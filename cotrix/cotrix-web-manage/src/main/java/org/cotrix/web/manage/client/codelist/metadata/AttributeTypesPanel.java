@@ -18,6 +18,7 @@ import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.AttributeTypeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.metadata.attributetype.AttributeTypePanel;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -26,11 +27,9 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -39,6 +38,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -187,25 +187,17 @@ public class AttributeTypesPanel extends Composite implements HasEditing {
 			
 		}
 	}
+	
+	@EventHandler
+	void onReady(ReadyEvent event) {
+		loadData();
+	}
 
-	public void loadData()
+	private void loadData()
 	{
 		showLoader(true);
-		attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading CodelistAttributeTypes", caught);
-				showLoader(false);
-			}
-
-			@Override
-			public void onSuccess(Collection<UIAttributeType> result) {
-				Log.trace("retrieved CodelistAttributeTypes: "+result);
-				setAttributeTypes(result);
-				showLoader(false);
-			}
-		});
+		setAttributeTypes(attributeTypesCache.getItems());
+		showLoader(false);
 	}
 	
 	private void showLoader(boolean visible) {

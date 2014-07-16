@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.manage.client.codelist.common.attribute;
 
-import java.util.Collection;
-
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
@@ -31,7 +29,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -118,19 +115,9 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	private void loadDefinitions(final String definitionId) {
 		setDefinitionLoader(true);
-		attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
-			
-			@Override
-			public void onSuccess(Collection<UIAttributeType> result) {
-				attributeTypeSuggestOracle.loadCache(result);
-				selectDefinition(definitionId);
-				setDefinitionLoader(false);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-			}
-		});
+		attributeTypeSuggestOracle.loadCache(attributeTypesCache.getItems());
+		selectDefinition(definitionId);
+		setDefinitionLoader(false);
 	}
 	
 	private void setDefinitionNone() {

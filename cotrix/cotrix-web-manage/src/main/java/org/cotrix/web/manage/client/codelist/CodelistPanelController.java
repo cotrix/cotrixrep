@@ -3,7 +3,9 @@ package org.cotrix.web.manage.client.codelist;
 import java.util.Collection;
 
 import org.cotrix.web.common.client.Presenter;
-import org.cotrix.web.common.client.rpc.Nop;
+import org.cotrix.web.common.client.async.AsyncUtils;
+import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
+import org.cotrix.web.common.client.widgets.LoaderPanel;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -18,6 +20,7 @@ import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.codelist.codes.CodesPanelPresenter;
 import org.cotrix.web.manage.client.codelist.event.CodelistLinkRefreshedEvent;
+import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataPanelPresenter;
 import org.cotrix.web.manage.client.data.AttributeTypeBridge;
 import org.cotrix.web.manage.client.data.CodeAttribute;
@@ -37,7 +40,6 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -58,6 +60,9 @@ public class CodelistPanelController implements Presenter {
 
 	@Inject @CurrentCodelist
 	private UICodelist codelist;
+	
+	@Inject @CodelistBus
+	private EventBus codelistBus;
 
 	@Inject
 	private CodesPanelPresenter codesPresenter;
@@ -67,13 +72,15 @@ public class CodelistPanelController implements Presenter {
 	@Inject
 	private MetadataPanelPresenter metadataPresenter;
 
-	//private FlexTable loadingPanel;
+	private LoaderPanel loadingPanel = new LoaderPanel();
 
-	@Inject
+	@Inject @CurrentCodelist
 	private LinkTypesCache linkTypesCache;
 
-	@Inject
+	@Inject @CurrentCodelist
 	private AttributeTypesCache attributeTypesCache;
+	
+	private int cacheToLoad = 2;
 
 	@Inject
 	private void init() {
@@ -81,20 +88,43 @@ public class CodelistPanelController implements Presenter {
 		view.setAnimationVertical(true);
 		codesPresenter.go(view);
 		metadataPresenter.go(view);
-
-		/*setupLoadingPanel();
+		
+		loadingPanel = new LoaderPanel();
+		loadingPanel.setMessage("loading "+codelist.getName().getLocalPart()+" ...");
 		view.add(loadingPanel);
 
-		showLoader();*/
-
-		showCodes();
+		loadCaches();
 	}
 
-	@Inject
 	private void loadCaches() {
-		//FIXME tmp solution
-		linkTypesCache.getItems(Nop.<Collection<UILinkType>>getInstance());
-		attributeTypesCache.getItems(Nop.<Collection<UIAttributeType>>getInstance());
+		showLoader();
+		linkTypesCache.setup(AsyncUtils.manageError(new SuccessCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				Log.trace("link types loaded "+linkTypesCache);
+				checkLoading();
+			}
+		}));
+		attributeTypesCache.setup(AsyncUtils.manageError(new SuccessCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				Log.trace("attribute types loaded "+attributeTypesCache);
+				checkLoading();
+			}
+		}));
+	}
+	
+	private void checkLoading() {
+		cacheToLoad--;
+		if (cacheToLoad == 0) setupComplete();
+	}
+	
+	private void setupComplete() {
+		Log.trace("completing setup");
+		codelistBus.fireEvent(new ReadyEvent());
+		showCodes();
 	}
 
 	@Inject
@@ -122,13 +152,6 @@ public class CodelistPanelController implements Presenter {
 		binder.bindEventHandlers(this, codelistBus);
 	}
 
-	/*private void setupLoadingPanel()
-	{
-		loadingPanel = new FlexTable();
-		loadingPanel.getElement().setAttribute("align", "center");
-		loadingPanel.setWidget(0, 0, new Label("loading..."));
-	}*/
-
 	@EventHandler
 	void onSwitchPanel(SwitchPanelEvent event) {
 		Log.trace("onSwitchPanel "+event);
@@ -142,9 +165,9 @@ public class CodelistPanelController implements Presenter {
 		checkCodesDirty();
 	}
 
-	/*private void showLoader() {
+	private void showLoader() {
 		view.showWidget(loadingPanel);
-	}*/
+	}
 
 	private void showCodes() {
 		checkCodesDirty();
@@ -174,30 +197,17 @@ public class CodelistPanelController implements Presenter {
 					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeType.class);
 
 				} else {
-
-					//TODO find another way to load the link types
-					linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
-
-						@Override
-						public void onSuccess(Collection<UILinkType> result) {
-							
-							if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkType.class)) return;
-							
-							//we check if the modified item is referred by our link types
-							UILinkType referencedLink = getOurLinkTypesReferTheModifiedItem(event, result);
-							Log.trace(codelist.getName().getLocalPart()+" referencedLink: "+referencedLink);
-							
-							codesDirty |= referencedLink!=null;
-							
-							//we inform other codelists about the update
-							if (referencedLink!=null) eventBus.fireEvent(new CodelistLinkRefreshedEvent(codelist.getId(), referencedLink));
-						}
-
-						@Override
-						public void onFailure(Throwable caught) {
-
-						}
-					});
+						
+					if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkType.class)) return;
+					
+					//we check if the modified item is referred by our link types
+					UILinkType referencedLink = getOurLinkTypesReferTheModifiedItem(event, linkTypesCache.getItems());
+					Log.trace(codelist.getName().getLocalPart()+" referencedLink: "+referencedLink);
+					
+					codesDirty |= referencedLink!=null;
+					
+					//we inform other codelists about the update
+					if (referencedLink!=null) eventBus.fireEvent(new CodelistLinkRefreshedEvent(codelist.getId(), referencedLink));
 
 				}
 			}
@@ -210,24 +220,12 @@ public class CodelistPanelController implements Presenter {
 				Log.trace(codelist.getName().getLocalPart()+" onLinkRefreshed event: "+event);
 				
 				if (event.getCodelistId().equals(codelist.getId())) return;
+						
+				UILinkType ourLinkType = ourLinkTypesReferTheModifiedCodelistLinkType(linkTypesCache.getItems(), event.getCodelistId(), event.getLinkType());
+				Log.trace(codelist.getName().getLocalPart()+" ourLinkType: "+ourLinkType);
 				
-				//TODO find another way to load the link types
-				linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
-					@Override
-					public void onSuccess(Collection<UILinkType> result) {
-						
-						UILinkType ourLinkType = ourLinkTypesReferTheModifiedCodelistLinkType(result, event.getCodelistId(), event.getLinkType());
-						Log.trace(codelist.getName().getLocalPart()+" ourLinkType: "+ourLinkType);
-						
-						codesDirty |= ourLinkType!=null;
-						if (ourLinkType!=null) eventBus.fireEvent(new CodelistLinkRefreshedEvent(codelist.getId(), ourLinkType));
-						
-					}
-					@Override
-					public void onFailure(Throwable caught) {
-
-					}
-				});
+				codesDirty |= ourLinkType!=null;
+				if (ourLinkType!=null) eventBus.fireEvent(new CodelistLinkRefreshedEvent(codelist.getId(), ourLinkType));
 			}
 		});
 	}

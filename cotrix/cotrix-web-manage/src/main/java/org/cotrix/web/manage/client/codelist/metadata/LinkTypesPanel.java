@@ -17,6 +17,7 @@ import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.linktype.LinkTypeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.metadata.linktype.LinkTypePanel;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -29,7 +30,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -187,24 +187,16 @@ public class LinkTypesPanel extends Composite implements HasEditing {
 		}
 	}
 
-	public void loadData()
+	@EventHandler
+	void onReady(ReadyEvent event) {
+		loadData();
+	}
+	
+	private void loadData()
 	{
 		showLoader(true);
-		linkTypesCache.getItems(new AsyncCallback<Collection<UILinkType>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Failed loading CodelistLinkTypes", caught);
-				showLoader(false);
-			}
-
-			@Override
-			public void onSuccess(Collection<UILinkType> result) {
-				Log.trace("retrieved CodelistLinkTypes: "+result);
-				setLinkTypes(result);
-				showLoader(false);
-			}
-		});
+		setLinkTypes(linkTypesCache.getItems());
+		showLoader(false);
 	}
 	
 	private void showLoader(boolean visible) {
