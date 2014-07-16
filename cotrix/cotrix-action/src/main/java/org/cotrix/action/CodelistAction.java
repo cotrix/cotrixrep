@@ -16,7 +16,8 @@ public enum CodelistAction implements Action {
 	UNSEAL("unseal"),
 	VERSION("version"),
 	PUBLISH("publish"),
-	REMOVE("removed")
+	REMOVE("removed"),
+	REMOVE_EVENT("remove-event")
 	
 	;	
 	
