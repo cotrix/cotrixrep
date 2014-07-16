@@ -97,6 +97,7 @@ public class NeoLifecycle {
 			store.schema().indexFor(CODELISTLINK).on(id_prop).create();
 			store.schema().indexFor(USER).on(name_prop).create();
 			store.schema().indexFor(LIFECYCLE).on(id_prop).create();
+			store.schema().indexFor(LOGBOOK).on(id_prop).create();
 
 			tx.success();
 		}

@@ -24,10 +24,11 @@ public class Constants {
 	public static final String function_prop = "function";
 	public static final String range_prop = "range";
 	public static final String cdef_prop = "cdef";
+	public static final String entries_prop = "entries";
 	
 	public static enum NodeType implements Label {
 		
-		ATTRIBUTE, DEFINITION, CODE, CODELIST, IDENTITY, LIFECYCLE, USER, CODELISTLINK, CODELINK;
+		ATTRIBUTE, DEFINITION, CODE, CODELIST, IDENTITY, LIFECYCLE, LOGBOOK, USER, CODELISTLINK, CODELINK;
 	}
 	
 	public static enum Relations implements RelationshipType {
