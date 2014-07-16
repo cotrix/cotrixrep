@@ -17,7 +17,7 @@ public enum CodelistAction implements Action {
 	VERSION("version"),
 	PUBLISH("publish"),
 	REMOVE("removed"),
-	REMOVE_EVENT("remove-event")
+	REMOVE_LOGBOOK_ENTRY("remove-logbook-entry")
 	
 	;	
 	
