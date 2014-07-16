@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.WhiteSpace;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -499,7 +500,7 @@ public class DefaultSuggestTextCellDisplay extends SuggestTextCellDisplay implem
 			// menu. If the window is resized and the suggestion cannot fit on a
 			// single row, it should be clipped (instead of wrapping around and
 			// taking up a second row).
-			DOM.setStyleAttribute(getElement(), "whiteSpace", "nowrap");
+			getElement().getStyle().setWhiteSpace(WhiteSpace.NOWRAP);
 			setStyleName(STYLENAME_DEFAULT);
 			setSuggestion(suggestion);
 		}

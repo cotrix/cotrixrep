@@ -151,6 +151,7 @@ HasBeforeSelectionHandlers<Integer>, HasSelectionHandlers<Integer> {
 			replacingWidget = false;
 		}
 
+		@SuppressWarnings("deprecation")
 		@Override
 		protected com.google.gwt.user.client.Element getContainerElement() {
 			return inner.cast();
