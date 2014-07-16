@@ -67,10 +67,15 @@ public class Logbook implements Serializable {
 	
 	private final String resourceId;
 	
-	private final List<Entry> entries = new ArrayList<Logbook.Entry>();
+	private final List<Entry> entries;
 	
 	public Logbook(String resourceId){
+		this(resourceId,new ArrayList<Logbook.Entry>());
+	}
+	
+	public Logbook(String resourceId, List<Entry> entries){
 		this.resourceId=resourceId;
+		this.entries=entries;
 	}
 	
 	public String resourceId() {

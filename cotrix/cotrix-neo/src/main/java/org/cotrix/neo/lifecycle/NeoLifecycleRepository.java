@@ -1,6 +1,7 @@
 package org.cotrix.neo.lifecycle;
 
 import static org.cotrix.common.Constants.*;
+import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.neo4j.tooling.GlobalGraphOperations.*;
@@ -49,7 +50,7 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 	@Override
 	public ResumptionToken lookup(String id) {
 		
-		Node node = nodeFor(id);
+		Node node = node(LIFECYCLE,id);
 
 		if (node==null)
 			return null;
@@ -79,7 +80,7 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 	@Override
 	public void update(Lifecycle lc) {
 		
-		Node node = nodeFor(lc.resourceId());
+		Node node = node(LIFECYCLE,lc.resourceId());
 
 		if (node==null)
 			log.warn("cannot update lifecycle for "+lc.resourceId()+" (maybe it has just been removed?)");
@@ -96,10 +97,12 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 	@Override
 	public void delete(String id) {
 		
-		Node node = nodeFor(id);
+		Node node = node(LIFECYCLE,id);
 
-		if (node==null)
-			throw new AssertionError("attempt to update transient lifecycle "+id);
+		if (node==null) {
+			log.warn("cannot remove lifecycle for {} (maybe it has already been removed?)",id);
+			return;
+		}
 		
 		try {
 			node.delete();
@@ -118,20 +121,6 @@ public class NeoLifecycleRepository implements LifecycleRepository {
 		State state = (State) stream.fromXML((String)node.getProperty(state_prop));
 		
 		return new ResumptionToken(name, state);
-	}
-	
-	
-	//helpers
-	
-	private Node nodeFor(String id) {
-		
-		try (
-				ResourceIterator<Node> retrieved = store.findNodesByLabelAndProperty(LIFECYCLE,id_prop,id).iterator(); 
-			) 
-		{
-			return retrieved.hasNext()? retrieved.next(): null;
-		}
-		
 	}
 
 }
