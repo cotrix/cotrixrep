@@ -25,9 +25,9 @@ public enum CommonDefinition implements Named {
 	//for now, we can make all from a local name (ns=cotrix's, type=system)
 	//can overload make() later if we need different type of definitions.
 	
-	CREATION_TIME 		(make("created",once),VISIBLE),
+	CREATION_TIME 		(make("created",once),VISIBLE,PUSBLISHEABLE),
 	
-	UPDATE_TIME 		(make("updated"),VISIBLE),
+	UPDATE_TIME 		(make("updated"),VISIBLE,PUSBLISHEABLE),
 	UPDATED_BY 			(make("updatedBy"),VISIBLE),
 	
 	//markers 

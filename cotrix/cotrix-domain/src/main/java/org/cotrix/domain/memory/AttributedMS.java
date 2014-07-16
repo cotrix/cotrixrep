@@ -32,7 +32,7 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		this();
 		
 		for (Attribute.State attribute : other.attributes())			
-			if (attribute.is(INHERITED))
+			if (attribute.is(INHERITABLE))
 				attributes.add(new AttributeMS(attribute));				
 	}
 	
