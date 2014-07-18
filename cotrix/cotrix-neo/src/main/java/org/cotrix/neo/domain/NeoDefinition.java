@@ -7,24 +7,24 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoDefinition extends NeoIdentified implements Definition.State {
+public class NeoDefinition extends NeoIdentified implements AttributeDefinition.State {
 
-	public static final NeoStateFactory<Definition.State> factory = new NeoStateFactory<Definition.State>() {
+	public static final NeoStateFactory<AttributeDefinition.State> factory = new NeoStateFactory<AttributeDefinition.State>() {
 		
 		@Override
-		public Definition.State beanFrom(Node node) {
+		public AttributeDefinition.State beanFrom(Node node) {
 			return new NeoDefinition(node);
 		}
 		
 		@Override
-		public Node nodeFrom(Definition.State state) {
+		public Node nodeFrom(AttributeDefinition.State state) {
 			return new NeoDefinition(state).node();
 		}
 	};
@@ -33,7 +33,7 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 		super(node);
 	}
 
-	public NeoDefinition(Definition.State state) {
+	public NeoDefinition(AttributeDefinition.State state) {
 		
 		super(DEFINITION,state);
 		
@@ -145,7 +145,7 @@ public class NeoDefinition extends NeoIdentified implements Definition.State {
 	}
 	
 	@Override
-	public Definition.Private entity() {
-		return new Definition.Private(this);
+	public AttributeDefinition.Private entity() {
+		return new AttributeDefinition.Private(this);
 	}
 }

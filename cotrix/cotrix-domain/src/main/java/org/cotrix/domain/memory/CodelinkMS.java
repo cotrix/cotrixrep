@@ -7,13 +7,13 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelink.Private;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.trait.Status;
 
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
 	private Code.State target;
-	private CodelistLink.State type;
+	private LinkDefinition.State type;
 
 	public CodelinkMS() {
 	}
@@ -52,13 +52,13 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		this.target = target;
 	}
 
-	public CodelistLink.State type() {
+	public LinkDefinition.State type() {
 		
 		return type;
 	
 	}
 
-	public void type(CodelistLink.State type) {
+	public void type(LinkDefinition.State type) {
 		
 		notNull("type",type);
 

@@ -6,13 +6,13 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.attributes.Facet;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class DefinitionMS extends IdentifiedMS implements Definition.State {
+public final class DefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
 
 	private QName name;
 	private QName type;
@@ -37,7 +37,7 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	}
 	
 	
-	public DefinitionMS(Definition.State state) {
+	public DefinitionMS(AttributeDefinition.State state) {
 		
 		name(state.name());
 		type(state.type());
@@ -113,8 +113,8 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 	}
 	
 	@Override
-	public Definition.Private entity() {
-		return new Definition.Private(this);
+	public AttributeDefinition.Private entity() {
+		return new AttributeDefinition.Private(this);
 	}
 
 
@@ -126,7 +126,7 @@ public final class DefinitionMS extends IdentifiedMS implements Definition.State
 		if (!super.equals(obj))
 			return false;
 		
-		Definition.State other = (Definition.State) obj;
+		AttributeDefinition.State other = (AttributeDefinition.State) obj;
 		if (language == null) {
 			if (other.language() != null)
 				return false;

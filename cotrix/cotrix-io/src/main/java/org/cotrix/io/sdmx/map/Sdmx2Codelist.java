@@ -10,7 +10,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.utils.Constants;
@@ -76,7 +76,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 	
 	private Attribute attributeFor(QName name, QName type, TextTypeWrapper wrapper, SharedDefinitionPool pool) {
 		
-		Definition def = pool == null?
+		AttributeDefinition def = pool == null?
 						definition().name(name).is(type).in(wrapper.getLocale()).build():
 						pool.get(name,type,wrapper.getLocale());
 		return attribute().

@@ -6,7 +6,7 @@ package org.cotrix.web.common.server.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
@@ -37,7 +37,7 @@ public class LinkTypes {
 	private static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();
 	private static final ArrayList<String> EMPTY_ARGUMENTS = new ArrayList<>();
 	
-	public static UILinkType toUILinkType(CodelistLink codelistLink) {
+	public static UILinkType toUILinkType(LinkDefinition codelistLink) {
 		UILinkType linkType = new UILinkType();
 		
 		linkType.setId(codelistLink.id());
@@ -77,7 +77,7 @@ public class LinkTypes {
 
 		if (valueType instanceof LinkOfLink) {
 			LinkOfLink linkOfLink = (LinkOfLink)valueType;
-			CodelistLink link = linkOfLink.target();
+			LinkDefinition link = linkOfLink.target();
 			String id = link.id();
 			UIQName name = ValueUtils.safeValue(link.qname());
 			return new LinkValue(id, name);
@@ -86,7 +86,7 @@ public class LinkTypes {
 		throw new IllegalArgumentException("Unknown value type :"+valueType);
 	}
 	
-	public static LinkValue toLinkType(CodelistLink codelistLink) {
+	public static LinkValue toLinkType(LinkDefinition codelistLink) {
 		return new LinkValue(codelistLink.id(), ValueUtils.safeValue(codelistLink.qname()));
 	}
 	

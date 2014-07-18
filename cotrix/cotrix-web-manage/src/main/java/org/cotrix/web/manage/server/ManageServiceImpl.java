@@ -26,11 +26,11 @@ import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.CommonDefinition;
-import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.Roles;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -344,7 +344,7 @@ public class ManageServiceImpl implements ManageService {
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<UILinkType> types = new ArrayList<>();
-		for (CodelistLink codelistLink:codelist.links()) {
+		for (LinkDefinition codelistLink:codelist.links()) {
 			types.add(LinkTypes.toUILinkType(codelistLink));
 		}
 
@@ -385,7 +385,7 @@ public class ManageServiceImpl implements ManageService {
 		Codelist codelist = repository.lookup(codelistId);
 
 		List<LinkValue> types = new ArrayList<>();
-		for (CodelistLink codelistLink:codelist.links()) {
+		for (LinkDefinition codelistLink:codelist.links()) {
 			types.add(LinkTypes.toLinkType(codelistLink));
 		}
 
@@ -398,7 +398,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getLinkTypes codelistId: {}",codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		List<UILinkTypeInfo> types = new ArrayList<>();
-		for (CodelistLink link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.qname())));
+		for (LinkDefinition link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.qname())));
 		return types;
 	}
 
@@ -406,7 +406,7 @@ public class ManageServiceImpl implements ManageService {
 	public List<UICodeInfo> getCodes(String codelistId, String linkTypeId) throws ServiceException {
 		logger.trace("getCodes codelistId: {} linkTypeId: {}",codelistId, linkTypeId);
 		Codelist codelist = repository.lookup(codelistId);
-		CodelistLink link = codelist.links().lookup(linkTypeId);
+		LinkDefinition link = codelist.links().lookup(linkTypeId);
 		Codelist target = link.target();
 		List<UICodeInfo> codes = new ArrayList<>();
 		for (Code code:target.codes()) codes.add(new UICodeInfo(code.id(), ValueUtils.safeValue(code.qname())));
@@ -436,7 +436,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
 		List<UIAttributeType> types = new ArrayList<>();
 		Codelist codelist = repository.lookup(codelistId);
-		for (Definition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
+		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
 		return new DataWindow<UIAttributeType>(types);
 	}
 

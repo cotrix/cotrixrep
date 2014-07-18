@@ -6,7 +6,7 @@ package org.cotrix.web.common.server.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.validation.Constraint;
 import org.cotrix.domain.validation.Validator;
@@ -21,7 +21,7 @@ import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
  */
 public class AttributeTypes {
 	
-	public static UIAttributeType toUIAttributeType(Definition definition) {
+	public static UIAttributeType toUIAttributeType(AttributeDefinition definition) {
 		UIAttributeType attributeType = new UIAttributeType();
 		attributeType.setId(definition.id());
 		attributeType.setLanguage(ValueUtils.safeLanguage(definition.language()));

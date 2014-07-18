@@ -9,7 +9,7 @@ import static org.neo4j.graphdb.Direction.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.links.LinkOfLink;
@@ -21,17 +21,17 @@ import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
+public class NeoCodelistLink extends NeoNamed implements LinkDefinition.State {
 
-	public static final NeoStateFactory<CodelistLink.State> factory = new NeoStateFactory<CodelistLink.State>() {
+	public static final NeoStateFactory<LinkDefinition.State> factory = new NeoStateFactory<LinkDefinition.State>() {
 		
 		@Override
-		public CodelistLink.State beanFrom(Node node) {
+		public LinkDefinition.State beanFrom(Node node) {
 			return new NeoCodelistLink(node);
 		}
 		
 		@Override
-		public Node nodeFrom(CodelistLink.State state) {
+		public Node nodeFrom(LinkDefinition.State state) {
 			return new NeoCodelistLink(state).node();
 		}
 	};
@@ -40,7 +40,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		super(node);
 	}
 	
-	public NeoCodelistLink(CodelistLink.State state) {
+	public NeoCodelistLink(LinkDefinition.State state) {
 
 		super(CODELISTLINK,state);	
 		
@@ -52,8 +52,8 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		
 	}
 	
-	public CodelistLink.Private entity() {
-		return new CodelistLink.Private(this);
+	public LinkDefinition.Private entity() {
+		return new LinkDefinition.Private(this);
 	}
 	
 	@Override
@@ -110,7 +110,7 @@ public class NeoCodelistLink extends NeoNamed implements CodelistLink.State {
 		//link-based: point to link as it can change over time
 		if (state instanceof LinkOfLink) {
 			
-			CodelistLink link = ((LinkOfLink) state).target();
+			LinkDefinition link = ((LinkOfLink) state).target();
 			
 			Node target = resolve(reveal(link).state(),CODELINK);
 			

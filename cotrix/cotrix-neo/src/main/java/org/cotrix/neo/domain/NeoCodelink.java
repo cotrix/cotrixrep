@@ -7,7 +7,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -43,7 +43,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	
 	@Override
 	public QName name() {
-		CodelistLink.State type = type();
+		LinkDefinition.State type = type();
 		return type==null?null:type.name();
 	}
 	
@@ -78,7 +78,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public CodelistLink.State type() {
+	public LinkDefinition.State type() {
 	
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 		
@@ -90,7 +90,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public void type(CodelistLink.State state) {
+	public void type(LinkDefinition.State state) {
 		
 		node().createRelationshipTo(resolve(state,CODELISTLINK),Relations.INSTANCEOF);
 	}

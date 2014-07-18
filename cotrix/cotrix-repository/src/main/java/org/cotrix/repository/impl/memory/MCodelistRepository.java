@@ -22,12 +22,12 @@ import org.cotrix.common.CommonUtils;
 import org.cotrix.common.async.TaskContext;
 import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodelistLinkMS;
 import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.trait.Named;
@@ -84,7 +84,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		notNull("identifier", id);
 		
 		for (Codelist.State list : getAll())
-			for (CodelistLink.State link : list.links())
+			for (LinkDefinition.State link : list.links())
 				if (link.target().id().equals(id))
 					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
 				
@@ -107,7 +107,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				Definition def = list.definitions().lookup(definitionId);
+				AttributeDefinition def = list.definitions().lookup(definitionId);
 				
 				for (Code code : list.codes()) {
 					Collection<Attribute> changesets = new ArrayList<>(); 
@@ -118,7 +118,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					reveal(code).update(reveal(modify(code).attributes(changesets).build()));
 				}
 				
-				Definition changeset = new DefinitionMS(def.id(),DELETED).entity();
+				AttributeDefinition changeset = new DefinitionMS(def.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).definitions(changeset).build()));
 				
@@ -142,18 +142,18 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				CodelistLink type= list.links().lookup(linkId);
+				LinkDefinition type= list.links().lookup(linkId);
 				
 				for (Code code : list.codes()) {
 					Collection<Codelink> changesets = new ArrayList<>(); 
 					for (Codelink l : code.links())
-						if(l.type().id().equals(type.id()))
+						if(l.definition().id().equals(type.id()))
 							changesets.add(delete(l));
 					
 					reveal(code).update(reveal(modify(code).links(changesets).build()));
 				}
 				
-				CodelistLink changeset = new CodelistLinkMS(type.id(),DELETED).entity();
+				LinkDefinition changeset = new CodelistLinkMS(type.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).links(changeset).build()));
 				
@@ -345,7 +345,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	}
 	
 	@Override
-	public Criterion<Code> byLink(final CodelistLink template, final int position) {
+	public Criterion<Code> byLink(final LinkDefinition template, final int position) {
 
 		valid("link name", template.qname());
 
@@ -354,7 +354,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			private boolean matches(Codelink link) {
 
 				return link.qname().equals(template.qname())
-						&& link.type().equals(template);
+						&& link.definition().equals(template);
 			}
 
 			@Override

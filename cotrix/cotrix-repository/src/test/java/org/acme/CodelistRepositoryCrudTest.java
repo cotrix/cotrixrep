@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.repository.CodelistRepository;
@@ -48,7 +48,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist target = addAndRetrieve(codelist().name("linked").with(t1,t2).build());
 
 		//prepare a list that links to target
-		CodelistLink listLink = listLink().name("link").target(target).build();
+		LinkDefinition listLink = listLink().name("link").target(target).build();
 		
 		Codelist source = addAndRetrieve(codelist().name("linking").links(listLink).build());
 		
@@ -73,7 +73,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		for (Code code : repository.lookup(source.id()).codes())
 			for (Codelink link : code.links())
-				System.out.println(link.type().qname()+":"+link.value());
+				System.out.println(link.definition().qname()+":"+link.value());
 		
 	}
 
@@ -140,7 +140,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist target = addAndRetrieve(codelist().name("name").build());
 
-		CodelistLink link = listLink().name("name").target(target).build();
+		LinkDefinition link = listLink().name("name").target(target).build();
 		
 		Codelist list = addAndRetrieve(codelist().name("name").build());
 
@@ -176,11 +176,11 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist target = addAndRetrieve(codelist().name("name").build());
 
-		CodelistLink link = listLink().name("name").target(target).build();
+		LinkDefinition link = listLink().name("name").target(target).build();
 		
 		Codelist list = addAndRetrieve(codelist().name("name").links(link).build());
 
-		CodelistLink targetChangeset =  modifyListLink(link.id()).name("name2").build();
+		LinkDefinition targetChangeset =  modifyListLink(link.id()).name("name2").build();
 		
 		Codelist changeset =  modifyCodelist(list.id()).links(targetChangeset).build();
 		
@@ -197,13 +197,13 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist target = addAndRetrieve(codelist().name("name1").build());
 
-		CodelistLink link = listLink().name("name").target(target).build();
+		LinkDefinition link = listLink().name("name").target(target).build();
 		
 		Codelist list = addAndRetrieve(codelist().name("name").links(link).build());
 
 		Attribute a = attribute().name("n").value("v").build();
 		
-		CodelistLink linkChangeset =  modifyListLink(link.id()).anchorTo(a).build();
+		LinkDefinition linkChangeset =  modifyListLink(link.id()).anchorTo(a).build();
 		
 		Codelist changeset =  modifyCodelist(list.id()).links(linkChangeset).build();
 		
@@ -238,7 +238,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	@Test
 	public void removeCodelist() {
 
-		Definition def = definition().name("name").build();
+		AttributeDefinition def = definition().name("name").build();
 		Attribute a = attribute().with(def).value("val").build();
 		Code c = code().name("name").attributes(a).build();
 		Codelist list = codelist().name("name").definitions(def).with(c).build();
@@ -264,7 +264,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist list = addAndRetrieve(codelist().name("name").build());
 
 		//establish a link
-		CodelistLink link = listLink().name("name").target(list).build();
+		LinkDefinition link = listLink().name("name").target(list).build();
 		
 		addAndRetrieve(codelist().name("name").links(link).build());
 
@@ -279,7 +279,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist list = addAndRetrieve(codelist().name("name").build());
 
 		//establish a link
-		CodelistLink link = listLink().name("name").target(list).build();
+		LinkDefinition link = listLink().name("name").target(list).build();
 		
 		Codelist ref = addAndRetrieve(codelist().name("name").links(link).build());
 

@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.server.modify;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
 
@@ -14,7 +14,7 @@ import org.cotrix.web.manage.shared.modify.attribute.AttributeCommand;
  */
 public class AttributeCommandUtil {
 	
-	public static Attribute handle(AttributeCommand command, Definition definition)
+	public static Attribute handle(AttributeCommand command, AttributeDefinition definition)
 	{
 		UIAttribute item = command.getItem();
 		Attribute attribute = null;

@@ -183,7 +183,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		for (Codelink link : code.links()) {
 			
-			LinkValueType type = link.type().valueType();
+			LinkValueType type = link.definition().valueType();
 			
 			if (!(type instanceof AttributeLink))
 				continue;

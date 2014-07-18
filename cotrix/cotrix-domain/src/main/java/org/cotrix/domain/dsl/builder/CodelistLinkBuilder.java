@@ -11,7 +11,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
@@ -107,7 +107,7 @@ public class CodelistLinkBuilder  {
 			return this;
 		}
 		
-		public OptionalClause anchorTo(CodelistLink template) {
+		public OptionalClause anchorTo(LinkDefinition template) {
 			state.valueType(new LinkOfLink(template));
 			return this;
 		}
@@ -141,7 +141,7 @@ public class CodelistLinkBuilder  {
 		}
 
 		@Override
-		public CodelistLink build() {
+		public LinkDefinition build() {
 			
 			return state.entity();
 		}

@@ -15,7 +15,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Container;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
@@ -148,7 +148,7 @@ public class Codelists {
 		UILink link = new UILink();
 		link.setId(codelink.id());
 		
-		CodelistLink type = codelink.type();
+		LinkDefinition type = codelink.definition();
 		link.setTypeId(type.id());
 		link.setTypeName(ValueUtils.safeValue(type.qname()));
 		
