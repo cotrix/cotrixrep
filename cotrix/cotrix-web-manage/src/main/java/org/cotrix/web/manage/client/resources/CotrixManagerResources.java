@@ -65,6 +65,10 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource linksUnselected();
 	public ImageResource linksDisabled();
 	
+	public ImageResource markersSelected();
+	public ImageResource markersUnselected();
+	public ImageResource markersDisabled();
+	
 	public ImageResource linksTypes();
 	
 	public ImageResource attributeTypes();
@@ -94,6 +98,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource showMenuHover();
 	public ImageResource radioBullet();
 	public ImageResource checkBullet();
+	
+	public ImageResource hideMenu();
+	
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();

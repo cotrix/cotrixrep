@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -57,6 +58,7 @@ public class CodeAttributeCommandHandler {
 	private Definition getDefinition(Codelist codelist, UIAttribute attribute) {
 		if (attribute.getDefinitionId() == null) return null;
 		if (codelist.definitions().contains(attribute.getDefinitionId())) return codelist.definitions().lookup(attribute.getDefinitionId());
+		for (CommonDefinition marker:CommonDefinition.markers()) if (marker.get().id().equals(attribute.getDefinitionId())) return marker.get();
 		return null;
 	}
 }

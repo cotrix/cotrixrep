@@ -30,6 +30,7 @@ public class CodesSidePanel extends ResizeComposite {
 	@UiField ToggleButton attributesButton;
 	@UiField ToggleButton filtersButton;
 	@UiField ToggleButton linksButton;
+	@UiField ToggleButton markersButton;
 	
 	@UiField DeckLayoutPanel tools;
 	
@@ -40,6 +41,9 @@ public class CodesSidePanel extends ResizeComposite {
 	
 	@Inject
 	@UiField(provided=true) LinksPanel linksPanel;
+	
+	@Inject
+	@UiField(provided=true) MarkersPanel markersPanel;
 
 	@Inject
 	private void init() {
@@ -49,11 +53,12 @@ public class CodesSidePanel extends ResizeComposite {
 		buttonGroup.addButton(attributesButton);
 		buttonGroup.addButton(linksButton);
 		buttonGroup.addButton(filtersButton);
+		buttonGroup.addButton(markersButton);
 		
 		buttonGroup.setDown(attributesButton);
 	}
 	
-	@UiHandler({"attributesButton", "filtersButton","linksButton"})
+	@UiHandler({"attributesButton", "filtersButton", "linksButton", "markersButton"})
 	protected void onButtonClicked(ClickEvent event)
 	{
 		Widget panel = getPanel((ToggleButton) event.getSource());
@@ -64,6 +69,7 @@ public class CodesSidePanel extends ResizeComposite {
 		if (button == attributesButton) return attributesPanel;
 		if (button == filtersButton) return filtersPanel;
 		if (button == linksButton) return linksPanel;
+		if (button == markersButton) return markersPanel;
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 

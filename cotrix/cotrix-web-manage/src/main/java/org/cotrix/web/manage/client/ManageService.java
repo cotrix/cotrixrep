@@ -66,5 +66,7 @@ public interface ManageService extends RemoteService {
 	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException;
 	
 	DataWindow<UIAttributeType> getCodelistAttributeTypes(String codelistId) throws ServiceException;
+	
+	List<UIAttributeType> getMarkersAttributeTypes() throws ServiceException;
 
 }

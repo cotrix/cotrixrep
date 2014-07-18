@@ -26,6 +26,7 @@ import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -443,6 +444,14 @@ public class ManageServiceImpl implements ManageService {
 	public String testAsync(String input) throws ServiceException {
 		logger.trace("testAsync input: {}", input);
 		return "This is my output "+currentUser.fullName();
+	}
+
+	@Override
+	public List<UIAttributeType> getMarkersAttributeTypes() throws ServiceException {
+		logger.trace("getCommonAttributeTypes");
+		List<UIAttributeType> types = new ArrayList<>();
+		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeTypes.toUIAttributeType(definition.get()));		
+		return types;
 	}
 
 }
