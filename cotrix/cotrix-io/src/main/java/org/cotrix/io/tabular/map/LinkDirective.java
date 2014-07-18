@@ -4,7 +4,7 @@ package org.cotrix.io.tabular.map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.utils.LinkTemplate;
+import org.cotrix.domain.codelist.CodelistLink;
 
 /**
  * Directives to map codelist attributes onto table columns.
@@ -15,27 +15,27 @@ import org.cotrix.domain.utils.LinkTemplate;
  */
 public class LinkDirective {
 
-	private final LinkTemplate template;
+	private final CodelistLink def;
 	private QName columnName;
 	
 	
-	public static LinkDirective map(LinkTemplate template) {
-		return new LinkDirective(template);
+	public static LinkDirective map(CodelistLink def) {
+		return new LinkDirective(def);
 	}
 	
 	
-	public LinkDirective(LinkTemplate template) {
-		this.template = template;
+	public LinkDirective(CodelistLink def) {
+		this.def = def;
 	}
 	
 	
-	public LinkTemplate template() {
-		return template;
+	public CodelistLink definition() {
+		return def;
 	}
 	
 	
 	public QName columnName() {
-		return columnName==null?template.qname():columnName;
+		return columnName==null?def.qname():columnName;
 	}
 	
 	

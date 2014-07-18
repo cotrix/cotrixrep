@@ -51,7 +51,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		
 		for (AttributeDirective directive : directives.attributes()) {
 		
-			attributeDirectiveMap.put(directive.template().qname(), directive);
+			attributeDirectiveMap.put(directive.definition().qname(), directive);
 			columns.add(new Column(directive.columnName()));
 			
 		}
@@ -60,7 +60,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		
 		for (LinkDirective directive : directives.links()) {
 		
-			linkDirectivesMap.put(directive.template().qname(), directive);
+			linkDirectivesMap.put(directive.definition().qname(), directive);
 			columns.add(new Column(directive.columnName()));
 			
 		}
@@ -133,25 +133,13 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		
 	private boolean matches(AttributeDirective directive,Attribute attribute) {
 		
-		if (directive==null)
-			return false;
-		
-		Attribute template = directive.template();
-		
-		if (!template.qname().equals(attribute.qname()))
-			return false;
-		
-		if (template.type()!=null && !template.type().equals(attribute.type()))
-			return false;
-		
-		if (template.language()!=null && !template.language().equals(attribute.language()))
-			return false;
-		
-		return true;
+		return directive==null ? false :
+								 directive.definition().id().equals(attribute.definition().id());
+	
 	}
 	
 	private boolean matches(LinkDirective directive,Codelink link) {
 		
-		return directive==null?false:directive.template().matches(link.type());
+		return directive==null? false:directive.definition().id().equals(link.type().id());
 	}
 }

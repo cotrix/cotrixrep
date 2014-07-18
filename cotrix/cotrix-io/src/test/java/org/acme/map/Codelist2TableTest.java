@@ -84,8 +84,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attribute().name("a1").build();
-		directives.add(template);
+		directives.add(a);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
@@ -111,11 +110,11 @@ public class Codelist2TableTest {
 		Codelist list = codelist().name("list").with(code).build();
 		
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
+		
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attribute().name("a1").build();
 		
-		directives.add(map(template).to("custom"));
+		directives.add(map(a).to("custom"));
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
@@ -145,9 +144,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attribute().name("a2").value("..").ofType("type").build();
-		
-		directives.add(map(template).to("a2-type"));
+		directives.add(map(a2).to("a2-type"));
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
@@ -176,9 +173,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		Attribute template = attribute().name("a1").value("..").in("fr").build();
-		
-		directives.add(map(template).to("a1-fr"));
+		directives.add(map(a2).to("a1-fr"));
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 

@@ -13,17 +13,17 @@ import org.cotrix.domain.attributes.Definition;
  * @author Fabio Simeoni
  * 
  */
-public class AttributeDirective {
+public class MemberDirective {
 
 	private final Definition def;
 	private QName columnName;
 	
-	public static AttributeDirective map(Attribute attribute) {
+	public static MemberDirective map(Attribute attribute) {
 		return map(attribute.definition());
 	}
 	
-	public static AttributeDirective map(Definition def) {
-		return new AttributeDirective(def);
+	public static MemberDirective map(Definition def) {
+		return new MemberDirective(def);
 	}
 	
 	
@@ -31,7 +31,7 @@ public class AttributeDirective {
 	 * Creates an instance for a given attribute template.
 	 * @param template the template
 	 */
-	public AttributeDirective(Definition def) {
+	public MemberDirective(Definition def) {
 		this.def = def;
 	}
 	
@@ -63,7 +63,7 @@ public class AttributeDirective {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public AttributeDirective to(QName name) {
+	public MemberDirective to(QName name) {
 		this.columnName=name;
 		return this;
 	}
@@ -74,7 +74,7 @@ public class AttributeDirective {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public AttributeDirective to(String name) {
+	public MemberDirective to(String name) {
 		return to(new QName(name));
 	}
 	
