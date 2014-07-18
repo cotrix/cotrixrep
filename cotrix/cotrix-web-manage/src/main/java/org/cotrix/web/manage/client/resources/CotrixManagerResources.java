@@ -101,6 +101,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource hideMenu();
 	
+	public ImageResource markersHeader();
+	
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();

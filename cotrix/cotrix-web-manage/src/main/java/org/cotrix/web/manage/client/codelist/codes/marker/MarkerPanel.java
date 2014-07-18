@@ -95,7 +95,7 @@ public class MarkerPanel extends Composite {
 		this.active = active;
 		updateColors();
 		detailsPanel.setDescription(description);
-		header.setExpandVisible(active);
+		header.setExpandVisible(active && !(description.isEmpty() && markerType.isDescriptionReadOnly()));
 		updateDescriptionEditability();
 	}
 	

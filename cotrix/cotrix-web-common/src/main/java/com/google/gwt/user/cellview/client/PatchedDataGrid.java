@@ -757,7 +757,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		startMeasuring();
 		int colIndex = getColumnIndex(column);
 		Header header = getHeader(colIndex);
-		double max = measureHeaderCell(header.getCell(), header.getValue());
+		double max = measureHeaderCell(header.getCell(), header.getValue(), header.getHeaderStyleNames());
 		int absRow = 0;
 		for (T t : getVisibleItems()) {
 			D value = column.getValue(t);
@@ -809,11 +809,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		document.getBody().appendChild(measuringElement);
 	}
 	
-	private <D> double measureHeaderCell(Cell<D> cell, D value)
+	private <D> double measureHeaderCell(Cell<D> cell, D value, String headerStyle)
 	{
 		//FIXME 4px added as workaround
 		Context context = new Context(0, 0, "");
-		return 4 + measureCell(cell, value, context, getResources().style().header());
+		String style = getResources().style().header() + " "+ headerStyle;
+		return 4 + measureCell(cell, value, context, style);
 	}
 	
 	private <D> double measureCell(Cell<D> cell, D value, Context context)
