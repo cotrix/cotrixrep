@@ -6,11 +6,14 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,6 +36,13 @@ public class MarkerDetailsPanel extends Composite implements HasValueChangeHandl
 
 	public MarkerDetailsPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+	}
+	
+	@UiHandler({"descriptionArea"})
+	protected void onKeyDown(KeyDownEvent event) {
+		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+			 descriptionArea.setFocus(false);
+	     }
 	}
 
 	public String getDescription() {

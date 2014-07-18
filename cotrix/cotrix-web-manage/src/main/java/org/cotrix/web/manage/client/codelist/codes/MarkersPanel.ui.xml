@@ -5,17 +5,26 @@
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='attributesresources'
 		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />
+		<ui:style>
+		.markersPanel {
+			background-color: #FBFBFB;
+		}
+		.toolbar {
+			background-color: #f1f1f1;
+
+		}
+		</ui:style>
 	<g:DockLayoutPanel unit='PX'>
 		<g:north size="30">
 			<g:HTML ui:field="header" styleName="{attributesresources.dataGridStyle.dataGridHeader}">Markers</g:HTML>
 		</g:north>
 		<g:center>
-			<g:ScrollPanel>
+			<g:ScrollPanel styleName="{style.markersPanel}">
 				<v:MarkersEditingPanel ui:field='markersPanel' />
 			</g:ScrollPanel>
 		</g:center>
 		<g:south size="28">
-			<g:FlowPanel />
+			<g:FlowPanel styleName="{style.toolbar}"/>
 		</g:south>
 	</g:DockLayoutPanel>
 </ui:UiBinder>

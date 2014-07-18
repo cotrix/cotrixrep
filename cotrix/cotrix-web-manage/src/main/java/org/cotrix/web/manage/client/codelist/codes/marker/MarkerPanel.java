@@ -17,8 +17,8 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class MarkerPanel extends Composite {
 	
-	private static String INACTIVE_BACKGROUND_COLOR = "white";
-	private static String INACTIVE_LABEL_COLOR = "grey";
+	private static String INACTIVE_BACKGROUND_COLOR = "#FBFBFB";
+	private static String INACTIVE_LABEL_COLOR = "#d6d6d9";
 	
 	public interface MarkerPanelListener {
 		public void onMarkerActived(String description);
@@ -59,6 +59,7 @@ public class MarkerPanel extends Composite {
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
+				disclosurePanel.setOpen(false);
 				fireUpdated(event.getValue());
 			}
 		});
@@ -95,7 +96,8 @@ public class MarkerPanel extends Composite {
 		this.active = active;
 		updateColors();
 		detailsPanel.setDescription(description);
-		header.setExpandVisible(active && !(description.isEmpty() && markerType.isDescriptionReadOnly()));
+		header.setActivationCheck(active);
+		header.setClickEnabled(active);
 		updateDescriptionEditability();
 	}
 	
@@ -133,11 +135,12 @@ public class MarkerPanel extends Composite {
 	private void updateDescriptionEditability() {
 		boolean descriptionEditable = !markerType.isDescriptionReadOnly() && editable && active;
 		detailsPanel.setReadOnly(!descriptionEditable);
+		boolean activable = !markerType.isReadOnly() && editable;
+		header.setActivationCheckEnabled(activable);
 	}
 	
 	private void openDetails(boolean open) {
 		disclosurePanel.setOpen(open);
-		header.setExpandDown(open);
 	}
 
 	public void setEditable(boolean editable) {
