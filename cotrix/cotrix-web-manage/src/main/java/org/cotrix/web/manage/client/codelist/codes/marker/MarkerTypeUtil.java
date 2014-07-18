@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -68,6 +70,16 @@ public class MarkerTypeUtil {
 		
 		if (definitionToMarker.size() != markerToDefinition.size() || definitionToMarker.size()!=MarkerType.values().length) throw new IllegalStateException("Markers not in sync");
 		
+	}
+	
+	public List<MarkerType> resolve(List<UIAttribute> attributes) {
+		if (attributes.isEmpty()) return Collections.emptyList();
+		List<MarkerType> markers = new ArrayList<MarkerType>();
+		for (UIAttribute attribute:attributes) {
+			MarkerType markerType = resolve(attribute);
+			if (markerType!=null) markers.add(markerType);
+		}
+		return markers;
 	}
 	
 	public MarkerType resolve(UIAttribute attribute) {

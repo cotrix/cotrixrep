@@ -1,16 +1,13 @@
-.groupHeaderCell {
-	padding: 1px 15px;
-	color: #4b4a4a;
-	text-shadow: #ddf 1px 1px 0;
-	font-size: 130%;
-	background: #eee;
+.headerCell {
+	padding: 6px 6px 6px 20px;
+}
+
+.markerHeader {
+	text-align: center !important;
 }
 
 .textCell {
-	padding-bottom: 8.0px;
-	padding-left: 10.0px;
-	padding-right: 8.0px;
-	padding-top: 8.0px;
+	padding: 12px 16px 12px 20px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -21,12 +18,8 @@
 	-moz-border-radius: 999px;
 	border-radius: 999px;
 	border-radius: 12px;
-	/* one half of ( (border * 2) + height + padding ) */
-	/* width: 13px;*/
 	min-width: 14px;
-	/*  height: 13px;*/
 	height: 16px;
-	/* padding: 3px;*/
 	padding: 4px 3px 0 3px;
 	border: 1px solid #666;
 	color: #666;
@@ -59,18 +52,10 @@
 }
 
 .dataGridFooter {
-	/*border-top: 2px solid #6f7277;
-	padding: 3px 15px;
-	text-align: left;
-	color: #4b4a4a;
-	text-shadow: #ddf 1px 1px 0;*/
 	
 }
 
 .dataGridHeader {
-	padding: 6px;
-	
-	padding-left: 20px;
 	text-align: left;
 	color: #464545;
 	font-size: 16px;
@@ -89,12 +74,11 @@
 	border-right: 1px solid #c6c6c6;
 	border-bottom: 1px solid #c6c6c6;
 	font-size: 14px;
-	/*padding: 8px 8px 8px 10px;*/
-	padding: 4px 8px 4px 10px;
 	text-align: left;
 	overflow: hidden;
 	max-width: 200px;
 	word-wrap: break-word;
+	vertical-align: top;
 }
 
 .dataGridFirstColumnFooter {
