@@ -5,7 +5,7 @@ package org.cotrix.io.tabular.map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 
 /**
  * Directives to map codelist attributes onto table columns.
@@ -15,14 +15,14 @@ import org.cotrix.domain.attributes.Definition;
  */
 public class AttributeDirective {
 
-	private final Definition def;
+	private final AttributeDefinition def;
 	private QName columnName;
 	
 	public static AttributeDirective map(Attribute attribute) {
 		return map(attribute.definition());
 	}
 	
-	public static AttributeDirective map(Definition def) {
+	public static AttributeDirective map(AttributeDefinition def) {
 		return new AttributeDirective(def);
 	}
 	
@@ -31,7 +31,7 @@ public class AttributeDirective {
 	 * Creates an instance for a given attribute template.
 	 * @param template the template
 	 */
-	public AttributeDirective(Definition def) {
+	public AttributeDirective(AttributeDefinition def) {
 		this.def = def;
 	}
 	
@@ -40,7 +40,7 @@ public class AttributeDirective {
 	 * Returns the attribute template for these directives.
 	 * @return the template
 	 */
-	public Definition definition() {
+	public AttributeDefinition definition() {
 		return def;
 	}
 	

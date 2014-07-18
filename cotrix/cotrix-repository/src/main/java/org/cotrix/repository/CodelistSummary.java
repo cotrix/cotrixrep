@@ -28,8 +28,7 @@ public class CodelistSummary {
 		this.size = list.codes().size();
 		
 		this.codeFingerprint = new Fingerprint()
-								.addDefinitions(list.definitions())
-								.addLinks(list.links());
+								.addDefinitions(list.definitions());
 		
 		this.codelistFingerprint = new Fingerprint().addAttributes(list.attributes());
 		

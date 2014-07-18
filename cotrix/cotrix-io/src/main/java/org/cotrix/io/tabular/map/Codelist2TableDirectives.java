@@ -6,9 +6,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.io.MapService.MapDirectives;
 import org.virtualrepository.tabular.Table;
 
@@ -62,7 +62,7 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 		 return this;
 	}
 	
-	public Codelist2TableDirectives add(Definition def) {
+	public Codelist2TableDirectives add(AttributeDefinition def) {
 		 return add(new AttributeDirective(def));
 	}
 	
@@ -70,12 +70,12 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 		 return add(a.definition());
 	}
 	
-	public Codelist2TableDirectives add(CodelistLink link) {
+	public Codelist2TableDirectives add(LinkDefinition link) {
 		return add(new LinkDirective(link));
 	}
 	
 	public Codelist2TableDirectives add(Codelink link) {
-		return add(link.type());
+		return add(link.definition());
 	}
 	
 	public List<AttributeDirective> attributes() {

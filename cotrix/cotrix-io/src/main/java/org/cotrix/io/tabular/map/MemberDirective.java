@@ -4,8 +4,8 @@ package org.cotrix.io.tabular.map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Named;
 
 /**
  * Directives to map codelist attributes onto table columns.
@@ -15,14 +15,14 @@ import org.cotrix.domain.attributes.Definition;
  */
 public class MemberDirective {
 
-	private final Definition def;
+	private final Named def;
 	private QName columnName;
 	
-	public static MemberDirective map(Attribute attribute) {
+	public static <T extends Named> MemberDirective map(Defined<T> attribute) {
 		return map(attribute.definition());
 	}
 	
-	public static MemberDirective map(Definition def) {
+	public static MemberDirective map(Named def) {
 		return new MemberDirective(def);
 	}
 	
@@ -31,16 +31,16 @@ public class MemberDirective {
 	 * Creates an instance for a given attribute template.
 	 * @param template the template
 	 */
-	public MemberDirective(Definition def) {
+	public MemberDirective(Named def) {
 		this.def = def;
 	}
 	
 	
 	/**
-	 * Returns the attribute template for these directives.
+	 * Returns the definition for this directives.
 	 * @return the template
 	 */
-	public Definition definition() {
+	public Named definition() {
 		return def;
 	}
 	
@@ -48,7 +48,7 @@ public class MemberDirective {
 	/**
 	 * Returns the name of the target column.
 	 * <p>
-	 * By default, this is the name in the underlying attribute definition.
+	 * By default, this is the name in the underlying definition.
 	 * 
 	 * @return the name of the target column
 	 */
