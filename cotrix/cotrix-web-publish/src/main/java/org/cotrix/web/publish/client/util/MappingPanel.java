@@ -58,7 +58,7 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 
 	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeMappingLabel, boolean includeMappingColumn) {
 		codelistMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODELIST ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
-		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODES ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
+		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODE ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
