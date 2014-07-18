@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -19,14 +20,7 @@ import org.cotrix.domain.values.ValueFunction;
  * @author Fabio Simeoni
  * 
  */
-public interface Codelink extends Identified, Attributed, Named {
-
-	/**
-	 * Returns the type of this link.
-	 * 
-	 * @return the type
-	 */
-	LinkDefinition definition();
+public interface Codelink extends Identified, Attributed, Named, Defined<LinkDefinition> {
 
 	/**
 	 * Returns the value of this link.

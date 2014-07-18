@@ -18,8 +18,8 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.io.MapService;
 import org.cotrix.io.comet.map.Codelist2CometDirectives;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
-import org.cotrix.io.tabular.map.AttributeDirective;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
+import org.cotrix.io.tabular.map.MemberDirective;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.Language;
@@ -65,7 +65,7 @@ public interface PublishMapper<T> {
 					Attribute template = getTemplate(mapping.getAttributeDefinition());
 					Column column = (Column) mapping.getMapping();
 					logger.trace("mapping {} to {}", template, column.getName());
-					directives.add(AttributeDirective.map(template).to(column.getName()));
+					directives.add(MemberDirective.map(template).to(column.getName()));
 				}
 			}
 			

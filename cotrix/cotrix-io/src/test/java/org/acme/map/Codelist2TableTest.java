@@ -2,8 +2,8 @@ package org.acme.map;
 
 import static org.acme.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.tabular.map.AttributeDirective.*;
 import static org.cotrix.io.tabular.map.Codelist2Table.*;
+import static org.cotrix.io.tabular.map.MemberDirective.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -84,7 +84,7 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		directives.codeColumnName("mycode");
 		
-		directives.add(a);
+		directives.add(a.definition());
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
@@ -112,7 +112,6 @@ public class Codelist2TableTest {
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		
 		directives.codeColumnName("mycode");
-		
 		
 		directives.add(map(a).to("custom"));
 		
@@ -185,7 +184,6 @@ public class Codelist2TableTest {
 		
 		assertEquals(expected,outcome.result());
 		
-		//System.out.println(serialise(outcome.result()));
 
 		assertEquals(outcome.result(),expectedData);
 	}

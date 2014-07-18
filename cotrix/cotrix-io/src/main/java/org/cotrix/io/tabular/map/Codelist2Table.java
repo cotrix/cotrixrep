@@ -15,6 +15,8 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.io.impl.MapTask;
 import org.virtualrepository.tabular.Column;
 import org.virtualrepository.tabular.DefaultTable;
@@ -45,25 +47,11 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		QName codeColumnName = directives.codeColumnName()==null?
 									new QName(DEFAULT_CODE_COLUMN_NAME):
 										directives.codeColumnName();		
+		
 		columns.add(new Column(codeColumnName));
 		
-		Map<QName,AttributeDirective> attributeDirectiveMap = new HashMap<QName, AttributeDirective>();
-		
-		for (AttributeDirective directive : directives.attributes()) {
-		
-			attributeDirectiveMap.put(directive.definition().qname(), directive);
+		for (MemberDirective<?> directive : directives.members())
 			columns.add(new Column(directive.columnName()));
-			
-		}
-		
-		Map<QName,LinkDirective> linkDirectivesMap = new HashMap<QName, LinkDirective>();
-		
-		for (LinkDirective directive : directives.links()) {
-		
-			linkDirectivesMap.put(directive.definition().qname(), directive);
-			columns.add(new Column(directive.columnName()));
-			
-		}
 		
 		
 		//-------- map rows
@@ -73,7 +61,6 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		for (Code code : list.codes()) {
 			
 			Map<QName,String> values = new HashMap<QName, String>();
-			
 			Map<QName,Attribute> attributeMatches = new HashMap<QName,Attribute>();
 			Map<QName,Codelink> linkMatches = new HashMap<QName,Codelink>();
 			
@@ -81,13 +68,18 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			values.put(codeColumnName,code.qname().getLocalPart());
 			
 			//collect matches
-			for (Attribute a : code.attributes())
-				if (matches(attributeDirectiveMap.get(a.qname()),a))
-					attributeMatches.put(attributeDirectiveMap.get(a.qname()).columnName(),a);
+			for (Attribute a : code.attributes()) {
+				MemberDirective<?> d = directives.member(a);
+				if (d!=null)
+					attributeMatches.put(d.columnName(),a);
+			}
 			
-			for (Codelink l : code.links())
-				if (matches(linkDirectivesMap.get(l.qname()),l))
-					linkMatches.put(attributeDirectiveMap.get(l.qname()).columnName(),l);
+			
+			for (Codelink l : code.links()) {
+				MemberDirective<?> d = directives.member(l);
+				if (matches(d,l))
+					linkMatches.put(d.columnName(),l);
+			}
 			
 			//map match values in column order
 			for (Column col : columns) {
@@ -123,6 +115,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		return new DefaultTable(columns, rows);
 	}
 	
+	
 	private String valueOf(Codelink l) {
 
 		List<Object> linkval = l.value();
@@ -130,16 +123,11 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 							 	linkval.size()==1? linkval.get(0).toString() :
 							 					   linkval.toString();
 	}
-		
-	private boolean matches(AttributeDirective directive,Attribute attribute) {
-		
+	
+	
+	private boolean matches(MemberDirective<?> directive,Defined<? extends Identified> member) {
 		return directive==null ? false :
-								 directive.definition().id().equals(attribute.definition().id());
+								 directive.definition().id().equals(member.definition().id());
 	
-	}
-	
-	private boolean matches(LinkDirective directive,Codelink link) {
-		
-		return directive==null? false:directive.definition().id().equals(link.definition().id());
 	}
 }

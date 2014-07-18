@@ -5,6 +5,7 @@ package org.cotrix.io.tabular.map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 /**
@@ -13,34 +14,35 @@ import org.cotrix.domain.trait.Named;
  * @author Fabio Simeoni
  * 
  */
-public class MemberDirective {
+public class MemberDirective<T extends Named & Identified> {
 
-	private final Named def;
+	private final T def;
 	private QName columnName;
 	
-	public static <T extends Named> MemberDirective map(Defined<T> attribute) {
-		return map(attribute.definition());
+	
+	public static <T extends Named & Identified> MemberDirective<T> map(Defined<T> defined) {
+		return mapdef(defined.definition());
 	}
 	
-	public static MemberDirective map(Named def) {
-		return new MemberDirective(def);
+	public static <T extends Named & Identified> MemberDirective<T> mapdef(T def) {
+		return new MemberDirective<T>(def);
 	}
 	
 	
 	/**
-	 * Creates an instance for a given attribute template.
-	 * @param template the template
+	 * Creates an instance for a given definition.
+	 * @param def the definition
 	 */
-	public MemberDirective(Named def) {
+	public MemberDirective(T def) {
 		this.def = def;
 	}
 	
 	
 	/**
 	 * Returns the definition for this directives.
-	 * @return the template
+	 * @return the definition
 	 */
-	public Named definition() {
+	public T definition() {
 		return def;
 	}
 	
@@ -63,7 +65,7 @@ public class MemberDirective {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public MemberDirective to(QName name) {
+	public MemberDirective<T> to(QName name) {
 		this.columnName=name;
 		return this;
 	}
@@ -74,8 +76,14 @@ public class MemberDirective {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public MemberDirective to(String name) {
+	public MemberDirective<T> to(String name) {
 		return to(new QName(name));
 	}
+
+	@Override
+	public String toString() {
+		return "Directive [def=" + def + ", columnName=" + columnName + "]";
+	}
+
 	
 }

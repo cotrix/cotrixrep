@@ -1,14 +1,14 @@
 package org.cotrix.io.tabular.map;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.trait.Named;
 import org.cotrix.io.MapService.MapDirectives;
 import org.virtualrepository.tabular.Table;
 
@@ -29,12 +29,10 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 
 	private QName codeColumnName;
 	
-	private List<AttributeDirective> attributeDirectives = new ArrayList<AttributeDirective>();
-	private List<LinkDirective> linkDirectives = new ArrayList<LinkDirective>();
+	private Map<String, MemberDirective<?>> memberDirectives = new HashMap<>();
 	
 	private MappingMode mode = MappingMode.STRICT;
 	
-
 	public Codelist2TableDirectives() {}
 
 
@@ -50,40 +48,22 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 		this.codeColumnName=name;
 		return this;
 	}
-	
-	
-	public Codelist2TableDirectives add(AttributeDirective directive) {
-		 attributeDirectives.add(directive);
+
+	public Codelist2TableDirectives add(MemberDirective<?> directive) {
+		 memberDirectives.put(directive.definition().id(),directive);
 		 return this;
 	}
 	
-	public Codelist2TableDirectives add(LinkDirective directive) {
-		 linkDirectives.add(directive);
-		 return this;
+	public <T extends Named & Identified> Codelist2TableDirectives add(T definition) {
+		 return add(new MemberDirective<T>(definition));
 	}
 	
-	public Codelist2TableDirectives add(AttributeDefinition def) {
-		 return add(new AttributeDirective(def));
+	public Collection<MemberDirective<?>> members() {
+		return memberDirectives.values();
 	}
 	
-	public Codelist2TableDirectives add(Attribute a) {
-		 return add(a.definition());
-	}
-	
-	public Codelist2TableDirectives add(LinkDefinition link) {
-		return add(new LinkDirective(link));
-	}
-	
-	public Codelist2TableDirectives add(Codelink link) {
-		return add(link.definition());
-	}
-	
-	public List<AttributeDirective> attributes() {
-		return attributeDirectives;
-	}
-	
-	public List<LinkDirective> links() {
-		return linkDirectives;
+	public <T extends Identified> MemberDirective<?> member(Defined<T> m) {
+		return memberDirectives.get(m.definition().id());
 	}
 	
 	public Codelist2TableDirectives mode(MappingMode mode) {
