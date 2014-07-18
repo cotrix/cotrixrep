@@ -11,8 +11,11 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -36,12 +39,17 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 	ToggleButton switchButton;
 	
 	@UiField
+	FocusPanel headerBox;
+	
+	@UiField
 	InlineLabel headerLabel;
 	
 	@UiField
-	ToggleButton expandButton;
+	SimpleCheckBox activationCheck;
 	
 	private HeaderListener listener; 
+	
+	private boolean clickEnabled = true;
 	
 	public MarkerPanelHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -51,17 +59,22 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 		switchButton.setDown(down);
 	}
 	
-	public void setExpandDown(boolean down) {
-		expandButton.setDown(down);
-	}
-	
-	public void setExpandVisible(boolean visible) {
-		expandButton.setVisible(visible);
-	}
-	
 	public void setSwitchEnabled(boolean enabled) {
 		switchButton.setEnabled(enabled);
 	}
+	
+	public void setActivationCheck(boolean checked) {
+		activationCheck.setValue(checked);
+	}
+	
+	public void setActivationCheckEnabled(boolean enabled) {
+		activationCheck.setEnabled(enabled);
+	}
+	
+	public void setClickEnabled(boolean enabled) {
+		this.clickEnabled = enabled;
+	}
+	
 
 	public void setListener(HeaderListener listener) {
 		this.listener = listener;
@@ -88,7 +101,7 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 		this.headerLabel.addStyleName(style);
 	}
 
-	@UiHandler("headerLabel")
+	@UiHandler("activationCheck")
 	void onHeaderLabel(ClickEvent event) {
 		if (listener!=null) listener.onHeaderClicked();
 	}
@@ -99,7 +112,13 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 	}
 
 	@Override
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return expandButton.addClickHandler(handler);
+	public HandlerRegistration addClickHandler(final ClickHandler handler) {
+		return headerBox.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if (clickEnabled) handler.onClick(event);
+			}
+		});
 	}
 }

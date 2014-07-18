@@ -14,10 +14,13 @@ import org.cotrix.web.common.client.async.AsyncUtils;
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.client.factory.UIFactories;
+import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.common.attribute.GroupFactory;
+import org.cotrix.web.manage.shared.AttributeGroup;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -35,7 +38,7 @@ public class MarkerTypeUtil {
 	private ManageServiceAsync service;
 	
 	private Map<String, MarkerType> definitionToMarker;
-	private EnumMap<MarkerType, String> markerToDefinition;
+	private EnumMap<MarkerType, UIAttributeType> markerToDefinition;
 	
 	@Inject
 	private UIDefaults defaults;
@@ -59,13 +62,13 @@ public class MarkerTypeUtil {
 		if (definitions.size()!=MarkerType.values().length) throw new IllegalStateException("The marker types and the definitions have not the same cardinality defs: "+definitions.size()+" markerTypes: "+MarkerType.values().length);
 		
 		definitionToMarker = new HashMap<String, MarkerType>();
-		markerToDefinition = new EnumMap<MarkerType, String>(MarkerType.class);
+		markerToDefinition = new EnumMap<MarkerType, UIAttributeType>(MarkerType.class);
 		
 		for (UIAttributeType definition:definitions) {
 			MarkerType type = MarkerType.fromDefinitionName(definition.getName().getLocalPart());
 			if (type==null) throw new IllegalStateException("No MarkerType found for definition "+definition);
 			definitionToMarker.put(definition.getId(), type);
-			markerToDefinition.put(type, definition.getId());
+			markerToDefinition.put(type, definition);
 		}
 		
 		if (definitionToMarker.size() != markerToDefinition.size() || definitionToMarker.size()!=MarkerType.values().length) throw new IllegalStateException("Markers not in sync");
@@ -88,7 +91,7 @@ public class MarkerTypeUtil {
 	}
 	
 	public UIAttribute findAttribute(List<UIAttribute> attributes, MarkerType type) {
-		String markerDefinitionId = markerToDefinition.get(type);
+		String markerDefinitionId = markerToDefinition.get(type).getId();
 		for (UIAttribute attribute:attributes) {
 			if (attribute.getDefinitionId()!=null && attribute.getDefinitionId().equals(markerDefinitionId)) return attribute;
 		}
@@ -98,11 +101,16 @@ public class MarkerTypeUtil {
 	public UIAttribute toAttribute(MarkerType type, String description) {
 		UIAttribute attribute = factories.createAttribute();
 		attribute.setName(new UIQName(defaults.defaultNameSpace(), type.getDefinitionName()));
-		attribute.setDefinitionId(markerToDefinition.get(type));
+		attribute.setDefinitionId(markerToDefinition.get(type).getId());
 		attribute.setType(defaults.systemType());
 		attribute.setDescription(description==null?"":description);
 		attribute.setValue(ACTIVE_MARKER_VALUE);
 		
 		return attribute;
+	}
+	
+	public AttributeGroup createGroup(MarkerType type, UIAttribute attribute) {
+		if (attribute != null) return GroupFactory.getGroup(attribute);
+		return new AttributeGroup(markerToDefinition.get(type).getName(), null, Language.NONE, true);
 	}
 }

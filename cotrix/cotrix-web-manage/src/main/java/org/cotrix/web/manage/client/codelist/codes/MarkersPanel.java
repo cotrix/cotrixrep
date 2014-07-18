@@ -19,7 +19,6 @@ import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel.MarkersEditingPanelListener;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel.SwitchState;
-import org.cotrix.web.manage.client.codelist.common.attribute.GroupFactory;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -98,7 +97,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			@Override
 			public void onMarkerSwitch(MarkerType type, UIAttribute attribute,
 					SwitchState state) {
-				switchMarker(attribute, state);
+				switchMarker(type, attribute, state);
 			}
 
 			@Override
@@ -268,9 +267,9 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 		header.setHTML(sb.toSafeHtml());
 	}
 
-	private void switchMarker(UIAttribute attribute, SwitchState attributeSwitchState)
+	private void switchMarker(MarkerType type, UIAttribute attribute, SwitchState attributeSwitchState)
 	{
-		AttributeGroup group = GroupFactory.getGroup(attribute);
+		AttributeGroup group = markerTypeResolver.createGroup(type, attribute);
 		group.calculatePosition(visualizedCode.getAttributes(), attribute);
 
 		switch (attributeSwitchState) {
@@ -278,7 +277,6 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			case DOWN: codelistBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
 		}
 	}
-
 	private void updateGroups(AttributeGroup group, GroupSwitchType state) {
 		switch (state) {
 			case TO_NORMAL: groupsAsColumn.remove(group); break;

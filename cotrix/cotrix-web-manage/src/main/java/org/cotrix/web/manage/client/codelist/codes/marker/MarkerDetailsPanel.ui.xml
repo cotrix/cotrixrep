@@ -17,7 +17,7 @@
 	<g:HTMLPanel>
 		<table width="100%">
 			<tr>
-				<td width="40px">
+				<td width="31px" style="border-right: 1px solid #cecece">
 				</td>
 
 				<td class="{style.valueCell}">

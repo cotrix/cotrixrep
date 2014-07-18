@@ -49,8 +49,11 @@
 		color: #5A5A5A;
 	}
 	
-	.buttons {
+	.checkbox {
 		float: right;
+		padding-right: 5px;
+		width: 20px;
+		height: 20px;
 	}
 	
 	.button {
@@ -75,12 +78,7 @@
 					</g:FocusPanel>
 				</td>
 				<td width="48px" style="vertical-align:middle;">
-					<g:FlowPanel styleName="{style.buttons}">
-						<g:ToggleButton ui:field="expandButton" styleName="{style.button}">
-							<g:upFace image="{resources.showMenu}" />
-							<g:downFace image="{resources.hideMenu}" />
-						</g:ToggleButton>
-					</g:FlowPanel>
+					<g:SimpleCheckBox ui:field="activationCheck" styleName="{style.checkbox}"/>
 				</td>
 			</tr>
 		</table>

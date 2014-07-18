@@ -5,12 +5,16 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
- *
+ * blue #d5eaff #2a4f74
+ * red #ffdede #771e1e
+ * green #d6ffd5 #2e5a2d
  */
 public enum MarkerType {
-	DELETED("DELETED", "#d5eaff", "#2a4f74", false, false, "deleted"),
+
+	
+	DELETED("DELETED", "#CBD8DD", "#2a4f74", false, false, "deleted"),
 	INVALID("INVALID", "#ffdede", "#771e1e", true, true, "invalid"),
-	ANOTHER_MARKER("ANOTHER MARKER", "#d6ffd5", "#2e5a2d", false, true, "another_marker")
+	ANOTHER_MARKER("ANOTHER MARKER", "#d6ffd5", "#2e5a2d", false, false, "another_marker")
 	
 	;
 	
