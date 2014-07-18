@@ -34,6 +34,7 @@ public enum CommonDefinition implements Named {
 	
 	DELETED				(make("deleted"),true),
 	INVALID				(make("invalid"),true),
+	ANOTHER_MARKER      (make("another_marker"),true),
 	
 	PREVIOUS_VERSION 		(make("previous_version"),VISIBLE),
 	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
