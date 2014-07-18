@@ -88,9 +88,15 @@ public class Codelist2SdmxTest {
 		directives.name("custom-name");
 		directives.version("2.0");
 		
-		directives.map("list-attr3",customNameType).to(SdmxElement.NAME).forCodes()
-				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION).forCodes()
-				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION).forCodes();
+		directives.map("list-attr3",customNameType).to(SdmxElement.NAME).forCodelist()
+				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION).forCodelist()
+				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION).forCodelist()
+				  
+				  .map("attr1",DESCRIPTION_TYPE.getLocalPart()).to(SdmxElement.NAME).forCodes()
+				  .map(q("attr2"),DESCRIPTION_TYPE).to(SdmxElement.DESCRIPTION).forCodes()
+				  .map(q("attr3"),NAME_TYPE).to(SdmxElement.ANNOTATION).forCodes()
+				  .map(q("attr4"),NAME_TYPE).to(SdmxElement.NAME).forCodes()
+				  ;
 		
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, directives);

@@ -27,7 +27,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.user.User;
 import org.cotrix.io.MapService;
 import org.cotrix.io.ParseService;
@@ -105,7 +105,7 @@ public class CodelistsStager {
 		for (Code continent : continents.codes())
 			cs.add(continent);
 	
-		CodelistLink link = listLink().name("Continent").target(continents).anchorTo(attribute().name("Name").build()).build();
+		LinkDefinition link = listLink().name("Continent").target(continents).anchorTo(attribute().name("Name").build()).build();
 
 		List<Code> codes = new ArrayList<>();
 		
@@ -136,9 +136,9 @@ public class CodelistsStager {
 		
 		target = ingester.ingest(target);
 		
-		CodelistLink nameLink = listLink().name("name-link").target(target).build();
+		LinkDefinition nameLink = listLink().name("name-link").target(target).build();
 		
-		Collection<CodelistLink> links = attributeLinks(target);
+		Collection<LinkDefinition> links = attributeLinks(target);
 		
 		//add name link
 		links.add(nameLink);
@@ -147,11 +147,11 @@ public class CodelistsStager {
 				
 		source = ingester.ingest(source);
 		
-		Map<QName,CodelistLink> linkmap = new HashMap<>();
+		Map<QName,LinkDefinition> linkmap = new HashMap<>();
 
 		QName nameLinkname = nameLink.qname();
 		
-		for (CodelistLink link : source.links())
+		for (LinkDefinition link : source.links())
 			if (link.qname().equals(nameLinkname))
 				nameLink = link;
 			else
@@ -166,7 +166,7 @@ public class CodelistsStager {
 	}
 
 	
-	private Code[] codes(Codelist target,CodelistLink nameLink, Map<QName,CodelistLink> links) {
+	private Code[] codes(Codelist target,LinkDefinition nameLink, Map<QName,LinkDefinition> links) {
 		
 		int i =1;
 		
@@ -185,7 +185,7 @@ public class CodelistsStager {
 				
 				QName name = new QName(a.qname()+"-link");
 				
-				CodelistLink attributeLink = links.get(name);
+				LinkDefinition attributeLink = links.get(name);
 				
 				Codelink link = link().instanceOf(attributeLink).target(code).build();
 				
@@ -203,9 +203,9 @@ public class CodelistsStager {
 				
 		
 	}
-	public static Collection<CodelistLink> attributeLinks(Codelist target) {
+	public static Collection<LinkDefinition> attributeLinks(Codelist target) {
 		
-		Collection<CodelistLink> links = new HashSet<>();
+		Collection<LinkDefinition> links = new HashSet<>();
 		
 		for (Code code : target.codes()) 
 			
@@ -218,7 +218,7 @@ public class CodelistsStager {
 				
 				Attribute template = attribute().name(a.qname()).ofType(a.type()).in(a.language()).build();
 			
-				CodelistLink link = listLink().name(name).target(target).anchorTo(template).build();		
+				LinkDefinition link = listLink().name(name).target(target).anchorTo(template).build();		
 				
 				links.add(link);
 				

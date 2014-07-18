@@ -9,10 +9,10 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
@@ -54,13 +54,13 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder definitions(Definition ... types) {
+	public CodelistBuilder definitions(AttributeDefinition ... types) {
 		return definitions(asList(types));
 	}
 	
 	@Override
-	public CodelistBuilder definitions(Iterable<Definition> types) {
-		state.definitions(reveal(types,Definition.Private.class));
+	public CodelistBuilder definitions(Iterable<AttributeDefinition> types) {
+		state.definitions(reveal(types,AttributeDefinition.Private.class));
 		return this;
 	}
 	
@@ -70,13 +70,13 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder links(CodelistLink... links) {
+	public CodelistBuilder links(LinkDefinition... links) {
 		return links(asList(links));
 	}
 	
 	@Override
-	public CodelistBuilder links(Collection<CodelistLink> links) {
-		state.links(reveal(links,CodelistLink.Private.class));
+	public CodelistBuilder links(Collection<LinkDefinition> links) {
+		state.links(reveal(links,LinkDefinition.Private.class));
 		return this;
 	}
 	

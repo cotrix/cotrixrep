@@ -96,7 +96,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 				
 				boolean matchesAttributes = attributeMatches.containsKey(col.name());
 				boolean matchesLinks = linkMatches.containsKey(col.name());
-				
+
 				if (matchesAttributes || matchesLinks) {
 					
 					if (values.containsKey(col.name()))
@@ -124,7 +124,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 	}
 	
 	private String valueOf(Codelink l) {
-		
+
 		List<Object> linkval = l.value();
 		return linkval.isEmpty()? null:
 							 	linkval.size()==1? linkval.get(0).toString() :
@@ -140,6 +140,6 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 	
 	private boolean matches(LinkDirective directive,Codelink link) {
 		
-		return directive==null? false:directive.definition().id().equals(link.type().id());
+		return directive==null? false:directive.definition().id().equals(link.definition().id());
 	}
 }

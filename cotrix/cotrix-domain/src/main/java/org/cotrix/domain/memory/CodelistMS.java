@@ -8,11 +8,11 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import java.util.Collection;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.Definition.State;
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.AttributeDefinition.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -23,9 +23,9 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 
 	private NamedStateContainer<Code.State> codes = new NamedStateContainer.Default<Code.State>();
 
-	private NamedStateContainer<CodelistLink.State> links = new NamedStateContainer.Default<CodelistLink.State>();
+	private NamedStateContainer<LinkDefinition.State> links = new NamedStateContainer.Default<LinkDefinition.State>();
 
-	private NamedStateContainer<Definition.State> defs = new NamedStateContainer.Default<Definition.State>();
+	private NamedStateContainer<AttributeDefinition.State> defs = new NamedStateContainer.Default<AttributeDefinition.State>();
 	
 	public CodelistMS() {
 	}
@@ -38,11 +38,11 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		super(state);
 		
-		for (Definition.State atype : state.definitions()) {
+		for (AttributeDefinition.State atype : state.definitions()) {
 			defs.add(new DefinitionMS(atype));
 		}
 		
-		for (CodelistLink.State link : state.links()) {
+		for (LinkDefinition.State link : state.links()) {
 			links.add(new CodelistLinkMS(link));
 		}
 		
@@ -66,23 +66,23 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		return defs;
 	}
 	
-	public NamedStateContainer<CodelistLink.State> links() {
+	public NamedStateContainer<LinkDefinition.State> links() {
 		return links;
 	}
 
-	public void definitions(Collection<Definition.State> types) {
+	public void definitions(Collection<AttributeDefinition.State> types) {
 
 		notNull("attribute types", types);
 		
-		for(Definition.State type : types)
+		for(AttributeDefinition.State type : types)
 			this.defs.add(type);
 	}
 	
-	public void links(Collection<CodelistLink.State> links) {
+	public void links(Collection<LinkDefinition.State> links) {
 
 		notNull("links", links);
 		
-		for(CodelistLink.State link : links)
+		for(LinkDefinition.State link : links)
 			this.links.add(link);
 	}
 

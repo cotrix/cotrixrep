@@ -3,7 +3,7 @@ package org.cotrix.domain.dsl.grammar;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
@@ -22,7 +22,7 @@ public class DefinitionGrammar {
 		
 	public static interface DefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
-	public static interface OptionalClause extends BuildClause<Definition> {
+	public static interface OptionalClause extends BuildClause<AttributeDefinition> {
 		
 		OptionalClause is(QName type);
 		

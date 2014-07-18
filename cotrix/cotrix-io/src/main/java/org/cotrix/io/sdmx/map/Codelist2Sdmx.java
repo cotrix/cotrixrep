@@ -7,13 +7,19 @@ import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.List;
 
 import org.cotrix.common.Report;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives.GetClause;
@@ -78,6 +84,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			codebean.setId(code.qname().getLocalPart());
 			
 			mapAttributes(code,codebean,directives.forCodes());
+			
+			mapCodelinks(code, codebean, directives.forCodes());
 			
 			codelistbean.addItem(codebean);
 		}
@@ -160,11 +168,70 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 					default:
 						
 				}
+			
+			
 		}
 		
 		if (!hasName)
 			bean.addName("en",attributed.qname().getLocalPart());
 			
+	}
+	
+	private void mapCodelinks(Code code, NameableMutableBean bean, GetClause directives) {
+		
+		boolean hasName = false;
+		
+		for (Codelink link : code.links()) {
+			
+			LinkValueType type = link.definition().valueType();
+			
+			if (!(type instanceof AttributeLink))
+				continue;
+			
+			AttributeTemplate template = AttributeLink.class.cast(type).template();
+			
+			Attribute a = Codes.attribute().name(link.qname()).ofType(template.type()).in(template.language()).build();
+
+			String val = valueOf(link);
+			String lang = a.language()==null?"en":a.language();
+			
+			SdmxElement element = directives.get(a);
+			
+			if (element!=null)
+				switch(element) {
+				
+					case NAME:
+						bean.addName(lang,val);
+						hasName = true;
+						break;
+					case DESCRIPTION:
+						bean.addDescription(lang,val);
+						break;
+					case ANNOTATION:
+						AnnotationMutableBean annotation = new AnnotationMutableBeanImpl();
+						annotation.setTitle(a.qname().getLocalPart());
+						annotation.addText(lang, val);
+						bean.addAnnotation(annotation);		
+						break;
+						
+					default:
+						
+				}
+			
+			
+		}
+		
+		if (!hasName)
+			bean.addName("en",code.qname().getLocalPart());
+			
+	}
+	
+	private String valueOf(Codelink l) {
+		
+		List<Object> linkval = l.value();
+		return linkval.isEmpty()? null:
+							 	linkval.size()==1? linkval.get(0).toString() :
+							 					   linkval.toString();
 	}
 	
 	@Override

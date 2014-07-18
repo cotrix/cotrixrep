@@ -6,10 +6,10 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import org.cotrix.common.async.CancelledTaskException;
 import org.cotrix.common.async.TaskContext;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
@@ -51,14 +51,14 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		
 		int total = state.codes().size()+state.definitions().size()+state.links().size();
 		
-		for (Definition.State def : state.definitions())
+		for (AttributeDefinition.State def : state.definitions())
 			node().createRelationshipTo(NeoDefinition.factory.nodeFrom(def),Relations.DEFINITION);
 		
 		progress = progress + state.definitions().size();
 		
 		context.save(update(progress/total, "added "+state.definitions().size()+" definitions"));
 		
-		for (CodelistLink.State l : state.links())
+		for (LinkDefinition.State l : state.links())
 			node().createRelationshipTo(NeoCodelistLink.factory.nodeFrom(l),Relations.LINK);
 		
 		progress = progress + state.links().size();
@@ -104,12 +104,12 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	}
 	
 	@Override
-	public NamedStateContainer<CodelistLink.State> links() {
+	public NamedStateContainer<LinkDefinition.State> links() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoCodelistLink.factory);
 	}
 	
 	@Override
-	public NamedStateContainer<Definition.State> definitions() {
+	public NamedStateContainer<AttributeDefinition.State> definitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoDefinition.factory);
 	}
 	

@@ -8,31 +8,31 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar;
 
-public class SharedDefinitionPool implements Iterable<Definition> {
+public class SharedDefinitionPool implements Iterable<AttributeDefinition> {
 
-	Map<DefinitionTemplate, Definition> defs = new HashMap<>();
+	Map<DefinitionTemplate, AttributeDefinition> defs = new HashMap<>();
 
 	
-	public Definition get(String name, String type, String language) {
+	public AttributeDefinition get(String name, String type, String language) {
 		
 		return get(q(name),q(type),language);
 
 	}
 
-	public Definition get(QName name, QName type) {
+	public AttributeDefinition get(QName name, QName type) {
 		
 		return get(name,type,null);
 
 	}
 	
-	public Definition get(QName name, QName type, String language) {
+	public AttributeDefinition get(QName name, QName type, String language) {
 		
 		DefinitionTemplate key = key(name,type,language);
 		
-		Definition def = defs.get(key);
+		AttributeDefinition def = defs.get(key);
 		
 		if (def==null) { 
 			
@@ -53,14 +53,14 @@ public class SharedDefinitionPool implements Iterable<Definition> {
 
 	}
 	
-	public Definition get(String name, String type) {
+	public AttributeDefinition get(String name, String type) {
 		
 		return get(name,type,null);
 
 	}
 	
 	@Override
-	public Iterator<Definition> iterator() {
+	public Iterator<AttributeDefinition> iterator() {
 		return defs.values().iterator();
 	}
 	

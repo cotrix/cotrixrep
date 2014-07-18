@@ -2,7 +2,7 @@ package org.cotrix.domain.dsl.builder;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
@@ -12,7 +12,7 @@ import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.values.ValueType;
 
 /**
- * Builds attribute {@link Definition}s.
+ * Builds attribute {@link AttributeDefinition}s.
  * 
  * @author Fabio Simeoni
  *
@@ -67,7 +67,7 @@ public class DefinitionBuilder implements DefinitionNewClause, DefinitionChangeC
 	}
 
 	@Override
-	public Definition build() {
+	public AttributeDefinition build() {
 		return state.entity();
 	}
 }

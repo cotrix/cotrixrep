@@ -10,7 +10,7 @@ import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistActions;
 import org.cotrix.repository.CodelistRepository;
@@ -44,7 +44,7 @@ public class AttributeTypeCommandHandler {
 		}
 		else {
 			
-			Definition definition = null;
+			AttributeDefinition definition = null;
 			
 			switch (command.getAction()) {
 				case ADD: definition = ChangesetUtil.addDefinition(command.getItem()); break;
@@ -62,7 +62,7 @@ public class AttributeTypeCommandHandler {
 		switch (command.getAction()) {
 			case REMOVE: return new UpdatedAttributeType();
 			default: {
-				Definition updatedDefinition = codelist.definitions().lookup(definitionId);
+				AttributeDefinition updatedDefinition = codelist.definitions().lookup(definitionId);
 				return new UpdatedAttributeType(AttributeTypes.toUIAttributeType(updatedDefinition));
 			}
 			

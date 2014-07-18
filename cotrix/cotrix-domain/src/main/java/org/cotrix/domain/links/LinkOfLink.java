@@ -12,13 +12,13 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 
 public class LinkOfLink implements LinkValueType {
 
-	private CodelistLink target;
+	private LinkDefinition target;
 	
-	public LinkOfLink(CodelistLink template) {
+	public LinkOfLink(LinkDefinition template) {
 		
 		notNull("template", template);
 		
@@ -28,7 +28,7 @@ public class LinkOfLink implements LinkValueType {
 		this.target=template;
 	}
 	
-	public CodelistLink target() {
+	public LinkDefinition target() {
 		return target;
 	}
 	
@@ -39,7 +39,7 @@ public class LinkOfLink implements LinkValueType {
 		
 		for (Codelink.State link : code.links()) {
 			
-			CodelistLink.State linktype = link.type();
+			LinkDefinition.State linktype = link.type();
 			
 			if (matches(linktype))
 				for (Object match : Codelink.Private.resolve(link,linktype,ids))
@@ -50,12 +50,12 @@ public class LinkOfLink implements LinkValueType {
  
 	}
 	
-	public boolean matches(CodelistLink link) {
+	public boolean matches(LinkDefinition link) {
 		
 		return matches(reveal(link).state());
 	}
 
-	public boolean matches(CodelistLink.State link) {
+	public boolean matches(LinkDefinition.State link) {
 		
 		QName name = target.qname();
 		String id = target.target() == null? null : target.target().id();

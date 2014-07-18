@@ -5,6 +5,7 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -16,16 +17,9 @@ import org.cotrix.domain.values.ValueType;
  * @author Fabio Simeoni
  * 
  */
-public interface Attribute extends Identified, Named {
+public interface Attribute extends Identified, Named, Defined<AttributeDefinition> {
 
 	//public read-only interface
-	
-	/**
-	 * Returns the definition of this attribute.
-	 * 
-	 * @return the definition
-	 */
-	Definition definition();
 	
 	/**
 	 * Returns the broad semantics of this attribute.
@@ -65,9 +59,9 @@ public interface Attribute extends Identified, Named {
 	
 	interface State extends Identified.State, Named.State, EntityProvider<Private> {
 
-		Definition.State definition();
+		AttributeDefinition.State definition();
 		
-		void definition(Definition.State definition);
+		void definition(AttributeDefinition.State definition);
 		
 		
 		QName type();
@@ -101,7 +95,7 @@ public interface Attribute extends Identified, Named {
 		}
 		
 		@Override
-		public Definition definition() {
+		public AttributeDefinition definition() {
 			return state().definition().entity();
 		}
 

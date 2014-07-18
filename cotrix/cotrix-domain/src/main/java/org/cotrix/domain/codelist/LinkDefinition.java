@@ -9,7 +9,7 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
 
 
-public interface CodelistLink extends Identified, Attributed, Named {
+public interface LinkDefinition extends Identified, Attributed, Named {
 
 	/**
 	 * Returns the target codelist.
@@ -58,12 +58,12 @@ public interface CodelistLink extends Identified, Attributed, Named {
 	}
 
 	/**
-	 * A {@link Named.Abstract} implementation of {@link CodelistLink}.
+	 * A {@link Named.Abstract} implementation of {@link LinkDefinition}.
 	 * 
 	 */
-	public class Private extends Named.Abstract<Private,State> implements CodelistLink {
+	public class Private extends Named.Abstract<Private,State> implements LinkDefinition {
 
-		public Private(CodelistLink.State state) {
+		public Private(LinkDefinition.State state) {
 			super(state);
 		}
 
@@ -89,7 +89,7 @@ public interface CodelistLink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public void update(CodelistLink.Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(LinkDefinition.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
 			

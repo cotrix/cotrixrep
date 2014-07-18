@@ -5,8 +5,8 @@ import static org.cotrix.common.CommonUtils.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.attributes.Definition.State;
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.AttributeDefinition.State;
 import org.cotrix.domain.trait.Status;
 
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
@@ -15,7 +15,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	private String description;
 	
 	//by default, attribute has 'private' definition
-	private Definition.State definition = new DefinitionMS(false);
+	private AttributeDefinition.State definition = new DefinitionMS(false);
 	
 	public AttributeMS() {
 	}

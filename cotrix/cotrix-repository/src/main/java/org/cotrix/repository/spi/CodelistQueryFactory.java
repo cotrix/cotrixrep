@@ -3,7 +3,7 @@ package org.cotrix.repository.spi;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;
@@ -43,6 +43,6 @@ public interface CodelistQueryFactory {
 
 	Criterion<Code> byAttribute(final Attribute template,int position);
 		
-	Criterion<Code> byLink(final CodelistLink template,int position);
+	Criterion<Code> byLink(final LinkDefinition template,int position);
 
 }

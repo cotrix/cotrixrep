@@ -45,9 +45,9 @@ public enum CommonDefinition implements Named {
 	
 	
 	
-	private final Definition def;
+	private final AttributeDefinition def;
 	
-	private CommonDefinition(Definition def) {
+	private CommonDefinition(AttributeDefinition def) {
 		this.def= def;
 	}
 	
@@ -57,12 +57,12 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//trust this is not going to be changed..if paranoia ensues, copy-construct..
-	public Definition get() {
+	public AttributeDefinition get() {
 		return def;
 	}
 	
 	//just handy, cleans client code
-	public Definition.State state() {
+	public AttributeDefinition.State state() {
 		return reveal(def).state();
 	}
 	
@@ -78,7 +78,7 @@ public enum CommonDefinition implements Named {
 	
 	
 	//helper
-	private static Definition make(String name) {
+	private static AttributeDefinition make(String name) {
 		return definition().name(q(NS,name)).is(SYSTEM_TYPE).build();
 	}
 }

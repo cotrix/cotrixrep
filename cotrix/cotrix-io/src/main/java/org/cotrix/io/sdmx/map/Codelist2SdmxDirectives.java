@@ -177,14 +177,14 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	
 	static AttributeTemplate template(QName name, QName type) {
 		AttributeTemplate template = new AttributeTemplate();
-		template.name=name;
-		template.type=type;
+		template.name=name.getLocalPart();
+		template.type=type.getLocalPart();
 		return template;
 	}
 	
 	static class AttributeTemplate {
 		
-		QName name, type;
+		String name, type;
 		
 		@Override
 		public int hashCode() {
@@ -194,6 +194,15 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 			result = prime * result + ((type == null) ? 0 : type.hashCode());
 			return result;
 		}
+		
+		
+
+		@Override
+		public String toString() {
+			return "[name=" + name + ", type=" + type + "]";
+		}
+
+
 
 		@Override
 		public boolean equals(Object obj) {
@@ -219,4 +228,5 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		
 	}
+	
 }
