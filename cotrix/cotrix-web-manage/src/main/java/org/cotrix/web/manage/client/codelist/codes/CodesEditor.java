@@ -191,6 +191,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
+		dataGrid.setLastColumnSpan(true);
 
 		AsyncHandler asyncHandler = new AsyncHandler(dataGrid);
 		dataGrid.addColumnSortHandler(asyncHandler);
@@ -262,8 +263,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			}
 		};
 		markerHeader.setHeaderStyleNames(resource.dataGridStyle().markerHeader());
-		dataGrid.addColumn(markerColumn, markerHeader);
-		dataGrid.setColumnWidth(markerColumn, "8px");
+		dataGrid.addFixedWidthColumn(markerColumn, markerHeader, 10);
 
 		nameColumn = new CodeColumn(createCell(true));
 
