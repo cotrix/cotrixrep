@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.impl.MapTask;
 import org.virtualrepository.tabular.Column;
@@ -56,6 +57,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			
 			//add other columns
 			columns.add(new Column(directive.columnName()));
+			
 		}
 		
 		
@@ -65,7 +67,9 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		for (Code code : list.codes()) {
 			
 			Map<QName,String> values = new HashMap<QName, String>();
-			Map<QName,Attribute> matches = new HashMap<QName,Attribute>();
+			
+			Map<QName,Attribute> attributeMatches = new HashMap<QName,Attribute>();
+			Map<QName,Codelink> linkMatches = new HashMap<QName,Codelink>();
 			
 			//map code
 			values.put(codeColumnName,code.qname().getLocalPart());
@@ -73,19 +77,37 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			//collect matches
 			for (Attribute a : code.attributes())
 				if (directiveMap.containsKey(a.qname()) && matches(directiveMap.get(a.qname()).template(),a))
-					matches.put(directiveMap.get(a.qname()).columnName(),a);
+					attributeMatches.put(directiveMap.get(a.qname()).columnName(),a);
+			
+			for (Codelink l : code.links())
+				if (directiveMap.containsKey(l.qname()) && matches(directiveMap.get(l.qname()).template(),l))
+					linkMatches.put(directiveMap.get(l.qname()).columnName(),l);
 			
 			//map match values in column order
 			for (Column col : columns) {
+				
 				String error = "transformation is ambiguous: code "+code.qname()+" has multiple attributes that map onto column "+col.name();
-				if (matches.containsKey(col.name())) {
+				
+				boolean matchesAttributes = attributeMatches.containsKey(col.name());
+				boolean matchesLinks = linkMatches.containsKey(col.name());
+				
+				System.out.println("col "+col.name()+" matches attributes:"+matchesAttributes);
+				System.out.println("col "+col.name()+" matches links:"+matchesLinks);
+				
+				if (matchesAttributes || matchesLinks) {
+					
 					if (values.containsKey(col.name()))
 						switch (directives.mode()) {
 							case STRICT:throw new IllegalStateException(error);
 							case LOG: report().log(error).as(WARN);
 							default:
 						}
-					values.put(col.name(),matches.get(col.name()).value());
+					
+					values.put(col.name(),
+									matchesAttributes?
+											attributeMatches.get(col.name()).value():
+											valueOf(linkMatches.get(col.name())));
+					
 				}
 			}
 			rows.add(new Row(values));
@@ -96,9 +118,14 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		return new DefaultTable(columns, rows);
 	}
 	
-	
-
-	
+	private String valueOf(Codelink l) {
+		
+		List<Object> linkval = l.value();
+		return linkval.isEmpty()? null:
+							 	linkval.size()==1? linkval.get(0).toString() :
+							 					   linkval.toString();
+	}
+		
 	private boolean matches(Attribute template,Attribute attribute) {
 		
 		if (!template.qname().equals(attribute.qname()))
@@ -108,6 +135,14 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			return false;
 		
 		if (template.language()!=null && !template.language().equals(attribute.language()))
+			return false;
+		
+		return true;
+	}
+	
+	private boolean matches(Attribute template,Codelink link) {
+		
+		if (!template.qname().equals(link.qname()))
 			return false;
 		
 		return true;
