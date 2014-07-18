@@ -16,7 +16,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.junit.Test;
 
@@ -26,14 +26,14 @@ public class CodelinkTest extends DomainTest {
 	public void linksCanBeFluentlyConstructed() {
 		
 		Code code = someTarget();
-		CodelistLink listLink = someCodelistLink();
+		LinkDefinition listLink = someCodelistLink();
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
 		
-		assertEquals(listLink,link.type());
-		assertEquals(link.type().qname(),link.qname());
+		assertEquals(listLink,link.definition());
+		assertEquals(link.definition().qname(),link.qname());
 		
 		assertEquals(a,link.attributes().lookup(a.qname()));
 	}
@@ -54,7 +54,7 @@ public class CodelinkTest extends DomainTest {
 		Code code = like(code().name("a").build());
 		Codelist list = like(codelist().name("A").build());  
 		
-		CodelistLink listLink = like(listLink().name("link").target(list).transformWith(lowercase).anchorToName().build());
+		LinkDefinition listLink = like(listLink().name("link").target(list).transformWith(lowercase).anchorToName().build());
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
@@ -72,7 +72,7 @@ public class CodelinkTest extends DomainTest {
 
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
-		CodelistLink listLink = like(listLink().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
+		LinkDefinition listLink = like(listLink().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(lowercase.apply(a.value())),link.value());
@@ -90,7 +90,7 @@ public class CodelinkTest extends DomainTest {
 
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
-		CodelistLink listLink = like(listLink().name("link").target(list).anchorTo(template).build());
+		LinkDefinition listLink = like(listLink().name("link").target(list).anchorTo(template).build());
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(a.value()),link.value());
@@ -104,7 +104,7 @@ public class CodelinkTest extends DomainTest {
 		Code code = like(code().name("c").build());
 		Codelist list = like(codelist().name("C").build());  
 		
-		CodelistLink listlink = like(listLink().name("link-to-c").target(list).build());
+		LinkDefinition listlink = like(listLink().name("link-to-c").target(list).build());
 		
 		Codelink link = like(link().instanceOf(listlink).target(code).build());
 		code = like(code().name("b").links(link).build());
@@ -151,7 +151,7 @@ public class CodelinkTest extends DomainTest {
 		Code code4 = someTarget("t4");
 		Code code5 = someTarget("t5");
 		
-		CodelistLink listLink = someCodelistLink();
+		LinkDefinition listLink = someCodelistLink();
 		
 		Codelink link1  = link().instanceOf(listLink).target(code1).build();
 		Codelink link2  = link().instanceOf(listLink).target(code1).build();
@@ -211,7 +211,7 @@ public class CodelinkTest extends DomainTest {
 		Code code3 = someTarget("t3");
 		
 		
-		CodelistLink listLink = someCodelistLink();
+		LinkDefinition listLink = someCodelistLink();
 		
 		Codelink link1  = link().instanceOf(listLink).target(code1).build();
 		Codelink link2  = link().instanceOf(listLink).target(code1).build();
@@ -249,12 +249,12 @@ public class CodelinkTest extends DomainTest {
 		Codelist list2 = like(codelist().name("list2").with(code2).build());
 
 		//first links to second's name
-		CodelistLink clLink1 = listLink().name("1-2").target(list2).build();
+		LinkDefinition clLink1 = listLink().name("1-2").target(list2).build();
 		Codelist changeset = modifyCodelist(list1.id()).links(clLink1).build();
 		reveal(list1).update(reveal(changeset));
 		
 		//second links to first's link
-		CodelistLink clLink2 = listLink().name("2-1").target(list1).anchorTo(clLink1).build();
+		LinkDefinition clLink2 = listLink().name("2-1").target(list1).anchorTo(clLink1).build();
 		changeset = modifyCodelist(list2.id()).links(clLink2).build();
 		reveal(list2).update(reveal(changeset));
 		
@@ -296,7 +296,7 @@ public class CodelinkTest extends DomainTest {
 		
 		Code code = someTarget();
 		
-		CodelistLink listLink = someCodelistLink();
+		LinkDefinition listLink = someCodelistLink();
 		
 		Codelink link  = link().instanceOf(listLink).target(code).build();
 		
@@ -316,7 +316,7 @@ public class CodelinkTest extends DomainTest {
 		
 		Code code = someTarget();
 		
-		CodelistLink listLink = someCodelistLink();
+		LinkDefinition listLink = someCodelistLink();
 		
 		Codelink link  = link().instanceOf(listLink).target(code).build();
 		
@@ -330,7 +330,7 @@ public class CodelinkTest extends DomainTest {
 		
 	}
 	
-	private CodelistLink someCodelistLink() {
+	private LinkDefinition someCodelistLink() {
 		
 		return like(listLink().name("link").target(someCodelist()).build());
 	}

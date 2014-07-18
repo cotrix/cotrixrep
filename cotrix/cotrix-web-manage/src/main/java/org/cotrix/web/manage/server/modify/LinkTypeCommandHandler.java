@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
 
 import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
@@ -44,14 +44,14 @@ public class LinkTypeCommandHandler {
 		switch (command.getAction()) {
 			case ADD: {
 				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
-				CodelistLink codelistChangeSet = ChangesetUtil.addCodelistLink(linkType, target);
+				LinkDefinition codelistChangeSet = ChangesetUtil.addCodelistLink(linkType, target);
 				update(codelistId, codelistChangeSet);
 				return new UpdatedLinkType(toUILinkType(lookupLinkType(codelistId, codelistChangeSet.id())));
 			}
 			case UPDATE: {
 				Codelist target = repository.lookup(linkType.getTargetCodelist().getId());
-				CodelistLink oldCodelistLink = lookupLinkType(codelistId, linkType.getId());
-				CodelistLink codelistChangeSet = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
+				LinkDefinition oldCodelistLink = lookupLinkType(codelistId, linkType.getId());
+				LinkDefinition codelistChangeSet = ChangesetUtil.updateCodelistLink(linkType, target, oldCodelistLink);
 				repository.update(modifyCodelist(codelistId).links(codelistChangeSet).build());
 				return new UpdatedLinkType(toUILinkType(lookupLinkType(codelistId, codelistChangeSet.id())));
 			}
@@ -64,11 +64,11 @@ public class LinkTypeCommandHandler {
 		throw new IllegalArgumentException("Unknown command "+command);
 	}
 	
-	private void update(String codelistId, CodelistLink codelistChangeSet) {
+	private void update(String codelistId, LinkDefinition codelistChangeSet) {
 		repository.update(modifyCodelist(codelistId).links(codelistChangeSet).build());
 	}
 	
-	private CodelistLink lookupLinkType(String codelistId, String typeId) {
+	private LinkDefinition lookupLinkType(String codelistId, String typeId) {
 		return repository.lookup(codelistId).links().lookup(typeId);
 	}
 }

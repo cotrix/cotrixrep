@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodeMS;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,13 +21,13 @@ public class CodeTest extends DomainTest {
 	
 	Attribute attr = attribute().name(name).build();
 	
-	Definition def = definition().name(name2).build();
+	AttributeDefinition def = definition().name(name2).build();
 	Attribute a1 = attribute().with(def).value("val1").build();
 	Attribute a2 = attribute().with(def).value("val2").build();
 	
 	Code targetcode = code().name(name2).build();
 	Codelist target = codelist().name(name).with(targetcode).build();
-	CodelistLink listlink = listLink().name(name).target(target).build();
+	LinkDefinition listlink = listLink().name(name).target(target).build();
 	Codelink link = link().instanceOf(listlink).target(targetcode).build();
 	
 	Code code = code()

@@ -18,7 +18,7 @@ import javax.inject.Singleton;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.IteratorAdapter;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -271,7 +271,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	}
 	
 	@Override
-	public Criterion<Code> byLink(final CodelistLink template, final int position) {
+	public Criterion<Code> byLink(final LinkDefinition template, final int position) {
 		
 		return new NeoCriterion<Code>() {
 			

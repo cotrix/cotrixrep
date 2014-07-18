@@ -15,7 +15,7 @@ import org.cotrix.domain.values.ValueType;
  * The definition of an attribute.
  * 
  */
-public interface Definition extends Identified, Named {
+public interface AttributeDefinition extends Identified, Named {
 
 	/**
 	 * Returns the broad semantics of instances.
@@ -82,9 +82,9 @@ public interface Definition extends Identified, Named {
 	}
 
 	//private implementation: delegates to state bean
-	public class Private extends Identified.Abstract<Private,State> implements Definition {
+	public class Private extends Identified.Abstract<Private,State> implements AttributeDefinition {
 
-		public Private(Definition.State state) {
+		public Private(AttributeDefinition.State state) {
 			super(state);
 		}
 		
@@ -126,7 +126,7 @@ public interface Definition extends Identified, Named {
 		}
 
 		@Override
-		public void update(Definition.Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(AttributeDefinition.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
 			

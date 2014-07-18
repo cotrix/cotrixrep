@@ -10,7 +10,7 @@ import java.util.Collection;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
@@ -72,9 +72,9 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 	public class NewClause implements CodelinkNewClause {
 		
 		@Override
-		public LinkTargetClause<Code,OptionalClause> instanceOf(CodelistLink linktype) {
+		public LinkTargetClause<Code,OptionalClause> instanceOf(LinkDefinition linktype) {
 			
-			CodelistLink.Private type = reveal(linktype);
+			LinkDefinition.Private type = reveal(linktype);
 			
 			if (type.isChangeset())
 				throw new IllegalArgumentException("invalid link: link type cannot be a changeset");

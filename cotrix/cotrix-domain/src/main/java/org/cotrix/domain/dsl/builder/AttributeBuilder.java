@@ -6,7 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.CommonDefinition;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
@@ -30,7 +30,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	}
 	
 	@Override
-	public ValueClause with(Definition def) {
+	public ValueClause with(AttributeDefinition def) {
 		
 		state.definition(reveal(def).state());
 		

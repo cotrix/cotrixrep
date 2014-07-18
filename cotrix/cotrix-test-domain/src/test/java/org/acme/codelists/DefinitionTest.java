@@ -9,7 +9,7 @@ import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.memory.DefinitionMS;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
@@ -18,7 +18,7 @@ import org.junit.Test;
 public class DefinitionTest extends DomainTest {
 	
 	ValueType vtype = valueType().with(max_length.instance("20"));
-	Definition def = definition().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
+	AttributeDefinition def = definition().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
 	
 	@Before
 	public void before() {
@@ -29,7 +29,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeFluentlyConstructed() {
 	
-		Definition minimal = definition().name(name).build();
+		AttributeDefinition minimal = definition().name(name).build();
 		
 		//defaults
 		
@@ -52,7 +52,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void changesetsCanBeFluentlyConstructed() {
 
-		Definition a;
+		AttributeDefinition a;
 		
 		 //change name
 		 a = modify(def).name(name).build();
@@ -79,7 +79,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		Definition.State state = reveal(def).state();
+		AttributeDefinition.State state = reveal(def).state();
 		DefinitionMS clone = new DefinitionMS(state);
 		
 		assertEquals(clone,state);
@@ -90,7 +90,7 @@ public class DefinitionTest extends DomainTest {
 	public void canBeUpdated() {
 
 		ValueType vtype2 = valueType().with(max_length.instance("10"));
-		Definition changeset = modify(def).name(name2).is(type2).valueIs(vtype2).in(language2).occurs(arbitrarily).build();
+		AttributeDefinition changeset = modify(def).name(name2).is(type2).valueIs(vtype2).in(language2).occurs(arbitrarily).build();
 		
 		reveal(def).update(reveal(changeset));
 
@@ -102,7 +102,7 @@ public class DefinitionTest extends DomainTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void cannotErasetName() {
 
-		Definition changeset = modify(def).name(NULL_QNAME).build();
+		AttributeDefinition changeset = modify(def).name(NULL_QNAME).build();
 		
 		reveal(def).update(reveal(changeset));
 		
@@ -112,7 +112,7 @@ public class DefinitionTest extends DomainTest {
 	@Test(expected=IllegalArgumentException.class)
 	public void cannotEraseType() {
 
-		Definition changeset = modify(def).is(NULL_QNAME).build();
+		AttributeDefinition changeset = modify(def).is(NULL_QNAME).build();
 		
 		reveal(def).update(reveal(changeset));
 	}
@@ -121,7 +121,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canEraseLanguage() {
 
-		Definition changeset = modify(def).in(NULL_STRING).build();
+		AttributeDefinition changeset = modify(def).in(NULL_STRING).build();
 		
 		reveal(def).update(reveal(changeset));
 		

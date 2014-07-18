@@ -10,11 +10,11 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -94,7 +94,7 @@ public class Codes {
 		return new DefinitionBuilder(new DefinitionMS(id,MODIFIED));
 	}
 	
-	public static DefinitionChangeClause modify(Definition def) {
+	public static DefinitionChangeClause modify(AttributeDefinition def) {
 		notNull("definition",def);
 		return modifyDefinition(def.id());
 	}
@@ -179,7 +179,7 @@ public class Codes {
 		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED)).new ChangeClause();
 	}
 	
-	public static CodelistLinkChangeClause modify(CodelistLink link) {
+	public static CodelistLinkChangeClause modify(LinkDefinition link) {
 		notNull("codelist link",link);
 		return modifyListLink(link.id());
 	}
@@ -227,9 +227,9 @@ public class Codes {
 		return CommonUtils.reveal(attribute,Attribute.Private.class);
 	}
 	
-	public static Definition.Private reveal(Definition definition) {
+	public static AttributeDefinition.Private reveal(AttributeDefinition definition) {
 		notNull("definition",definition);
-		return CommonUtils.reveal(definition,Definition.Private.class);
+		return CommonUtils.reveal(definition,AttributeDefinition.Private.class);
 	}
 	
 	public static Code.Private reveal(Code code) {
@@ -242,9 +242,9 @@ public class Codes {
 		return CommonUtils.reveal(codelist,Codelist.Private.class);
 	}
 	
-	public static CodelistLink.Private reveal(CodelistLink link) {
+	public static LinkDefinition.Private reveal(LinkDefinition link) {
 		notNull("codelist link",link);
-		return CommonUtils.reveal(link,CodelistLink.Private.class);
+		return CommonUtils.reveal(link,LinkDefinition.Private.class);
 	}
 	
 	public static Codelink.Private reveal(Codelink link) {

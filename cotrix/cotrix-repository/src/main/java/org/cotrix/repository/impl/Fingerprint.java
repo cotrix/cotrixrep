@@ -12,8 +12,8 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.utils.AttributeTemplate;
@@ -32,9 +32,9 @@ public class Fingerprint {
 	}
 	
 	
-	public Fingerprint addDefinitions(Iterable<? extends Definition> definitions) {
+	public Fingerprint addDefinitions(Iterable<? extends AttributeDefinition> definitions) {
 		
-		for (Definition def : definitions)
+		for (AttributeDefinition def : definitions)
 			if (!def.is(SYSTEM_TYPE))
 				addTo(typesFor(def.qname()), def.type(), def.language());
 			
@@ -42,9 +42,9 @@ public class Fingerprint {
 	}
 	
 	
-	public Fingerprint addLinks(Iterable<? extends CodelistLink> links) {
+	public Fingerprint addLinks(Iterable<? extends LinkDefinition> links) {
 
-		for (CodelistLink link : links) {
+		for (LinkDefinition link : links) {
 			
 			LinkValueType type = link.valueType();
 

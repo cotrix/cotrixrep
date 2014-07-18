@@ -15,7 +15,7 @@ import javax.inject.Inject;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.Role;
@@ -249,11 +249,11 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 	@Test
 	public void getSummary() {
 		
-		Definition d1 = definition().name("name1").is("t1").in("l1").build();
-		Definition d2 = definition().name("name2").is("t2").build();
-		Definition d3 = definition().name("name1").is("t2").in("l1").build();
-		Definition d4 = definition().name("name1").is("t1").in("l2").build();
-		Definition d5 = definition().name("name2").is("t2").build();
+		AttributeDefinition d1 = definition().name("name1").is("t1").in("l1").build();
+		AttributeDefinition d2 = definition().name("name2").is("t2").build();
+		AttributeDefinition d3 = definition().name("name1").is("t2").in("l1").build();
+		AttributeDefinition d4 = definition().name("name1").is("t1").in("l2").build();
+		AttributeDefinition d5 = definition().name("name2").is("t2").build();
 		
 		Attribute aa1 = attribute().name("name1").value("v1").ofType("t3").in("l3").build();
 		Attribute aa2 = attribute().name("name2").value("v2").ofType("t2").build();

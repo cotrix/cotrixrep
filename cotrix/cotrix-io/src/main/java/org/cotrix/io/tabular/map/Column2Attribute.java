@@ -5,7 +5,7 @@ import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.dsl.Codes.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.io.utils.SharedDefinitionPool;
 import org.virtualrepository.tabular.Row;
 
@@ -40,7 +40,7 @@ public class Column2Attribute {
 		if (!valid(codename,value))
 			return null;
 		
-		Definition def = defs.get(mapping.name(), mapping.type(),mapping.language());
+		AttributeDefinition def = defs.get(mapping.name(), mapping.type(),mapping.language());
 		
 		return attribute()
 					.with(def)

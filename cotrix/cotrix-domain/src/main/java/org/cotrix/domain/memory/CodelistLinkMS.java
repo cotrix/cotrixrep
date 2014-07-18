@@ -6,20 +6,20 @@ import static org.cotrix.domain.links.NameLink.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.codelist.CodelistLink.Private;
+import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.codelist.LinkDefinition.Private;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueFunction;
 
 /**
- * Initialisation parameters for {@link CodelistLink}s.
+ * Initialisation parameters for {@link LinkDefinition}s.
  * 
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
+public class CodelistLinkMS extends NamedMS implements LinkDefinition.State {
 
 	private Codelist.State target;
 	private LinkValueType type;
@@ -37,7 +37,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 		super(id,status);
 	}
 	
-	public CodelistLinkMS(CodelistLink.State state) {
+	public CodelistLinkMS(LinkDefinition.State state) {
 		super(state);
 		
 		target(state.target());
@@ -86,7 +86,7 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 	
 	@Override
 	public Private entity() {
-		return new CodelistLink.Private(this);
+		return new LinkDefinition.Private(this);
 	}
 
 	@Override
@@ -107,9 +107,9 @@ public class CodelistLinkMS extends NamedMS implements CodelistLink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof CodelistLink.State))
+		if (!(obj instanceof LinkDefinition.State))
 			return false;
-		CodelistLink.State other = (CodelistLink.State) obj;
+		LinkDefinition.State other = (LinkDefinition.State) obj;
 		if (function == null) {
 			if (other.function() != null)
 				return false;

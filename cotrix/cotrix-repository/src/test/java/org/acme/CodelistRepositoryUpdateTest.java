@@ -7,11 +7,11 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;
@@ -24,7 +24,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 	@Test
 	public void deleteAttributeDefinition() {
 		
-		Definition def = definition().name("name").build();
+		AttributeDefinition def = definition().name("name").build();
 		Attribute attr1 = attribute().with(def).value("value").build();
 		Attribute attr2 = attribute().with(def).value("value2").build();
 		Code code = code().name("name").attributes(attr1,attr2).build();
@@ -53,7 +53,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 		
 		repository.add(target);
 		
-		CodelistLink link = listLink().name("name").target(target).build();
+		LinkDefinition link = listLink().name("name").target(target).build();
 		
 		Codelink l1 = link().instanceOf(link).target(targetcode1).build();
 		Codelink l2 = link().instanceOf(link).target(targetcode2).build();
