@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.impl.MapTask;
 import org.virtualrepository.tabular.Column;
@@ -28,7 +29,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 	public Class<Codelist2TableDirectives> directedBy() {
 		return Codelist2TableDirectives.class;
 	}
-
+	
 	@Override
 	public Table map(Codelist list, Codelist2TableDirectives directives) throws Exception {
 		
@@ -37,57 +38,83 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		report().log("transforming codelist "+list.qname()+"("+list.id()+") to table");
 		report().log(Calendar.getInstance().getTime().toString());
 
-		//generate in memory for now
+		//------- add columns and prepare lookup structure (awkward to extrapolate)
+		
 		List<Column> columns = new ArrayList<Column>();
 		
 		QName codeColumnName = directives.codeColumnName()==null?
-								new QName(DEFAULT_CODE_COLUMN_NAME):
-								directives.codeColumnName();
-		
-		//add code column
+									new QName(DEFAULT_CODE_COLUMN_NAME):
+										directives.codeColumnName();		
 		columns.add(new Column(codeColumnName));
 		
-		Map<QName,AttributeDirectives> directiveMap = new HashMap<QName, AttributeDirectives>();
+		Map<QName,AttributeDirective> attributeDirectiveMap = new HashMap<QName, AttributeDirective>();
 		
-		for (AttributeDirectives directive : directives.attributes()) {
-			
-			//index templates
-			directiveMap.put(directive.template().qname(), directive);
-			
-			//add other columns
+		for (AttributeDirective directive : directives.attributes()) {
+		
+			attributeDirectiveMap.put(directive.template().qname(), directive);
 			columns.add(new Column(directive.columnName()));
+			
+		}
+		
+		Map<QName,LinkDirective> linkDirectivesMap = new HashMap<QName, LinkDirective>();
+		
+		for (LinkDirective directive : directives.links()) {
+		
+			linkDirectivesMap.put(directive.template().qname(), directive);
+			columns.add(new Column(directive.columnName()));
+			
 		}
 		
 		
-		//map rows
+		//-------- map rows
+		
 		List<Row> rows = new ArrayList<Row>();
 		
 		for (Code code : list.codes()) {
 			
 			Map<QName,String> values = new HashMap<QName, String>();
-			Map<QName,Attribute> matches = new HashMap<QName,Attribute>();
+			
+			Map<QName,Attribute> attributeMatches = new HashMap<QName,Attribute>();
+			Map<QName,Codelink> linkMatches = new HashMap<QName,Codelink>();
 			
 			//map code
 			values.put(codeColumnName,code.qname().getLocalPart());
 			
 			//collect matches
 			for (Attribute a : code.attributes())
-				if (directiveMap.containsKey(a.qname()) && matches(directiveMap.get(a.qname()).template(),a))
-					matches.put(directiveMap.get(a.qname()).columnName(),a);
+				if (matches(attributeDirectiveMap.get(a.qname()),a))
+					attributeMatches.put(attributeDirectiveMap.get(a.qname()).columnName(),a);
+			
+			for (Codelink l : code.links())
+				if (matches(linkDirectivesMap.get(l.qname()),l))
+					linkMatches.put(attributeDirectiveMap.get(l.qname()).columnName(),l);
 			
 			//map match values in column order
 			for (Column col : columns) {
+				
 				String error = "transformation is ambiguous: code "+code.qname()+" has multiple attributes that map onto column "+col.name();
-				if (matches.containsKey(col.name())) {
+				
+				boolean matchesAttributes = attributeMatches.containsKey(col.name());
+				boolean matchesLinks = linkMatches.containsKey(col.name());
+				
+				if (matchesAttributes || matchesLinks) {
+					
 					if (values.containsKey(col.name()))
+						
 						switch (directives.mode()) {
 							case STRICT:throw new IllegalStateException(error);
 							case LOG: report().log(error).as(WARN);
 							default:
 						}
-					values.put(col.name(),matches.get(col.name()).value());
+					
+					values.put(col.name(),
+									matchesAttributes?
+											attributeMatches.get(col.name()).value():
+											valueOf(linkMatches.get(col.name())));
+					
 				}
 			}
+			
 			rows.add(new Row(values));
 		}
 			
@@ -96,10 +123,20 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		return new DefaultTable(columns, rows);
 	}
 	
-	
-
-	
-	private boolean matches(Attribute template,Attribute attribute) {
+	private String valueOf(Codelink l) {
+		
+		List<Object> linkval = l.value();
+		return linkval.isEmpty()? null:
+							 	linkval.size()==1? linkval.get(0).toString() :
+							 					   linkval.toString();
+	}
+		
+	private boolean matches(AttributeDirective directive,Attribute attribute) {
+		
+		if (directive==null)
+			return false;
+		
+		Attribute template = directive.template();
 		
 		if (!template.qname().equals(attribute.qname()))
 			return false;
@@ -111,5 +148,10 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			return false;
 		
 		return true;
+	}
+	
+	private boolean matches(LinkDirective directive,Codelink link) {
+		
+		return directive==null?false:directive.template().matches(link.type());
 	}
 }

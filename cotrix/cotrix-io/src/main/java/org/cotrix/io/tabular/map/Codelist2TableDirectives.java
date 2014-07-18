@@ -6,6 +6,8 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.utils.LinkTemplate;
 import org.cotrix.io.MapService.MapDirectives;
 import org.virtualrepository.tabular.Table;
 
@@ -26,8 +28,9 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 
 	private QName codeColumnName;
 	
-	private List<AttributeDirectives> attributeDirectives = new ArrayList<AttributeDirectives>();
-
+	private List<AttributeDirective> attributeDirectives = new ArrayList<AttributeDirective>();
+	private List<LinkDirective> linkDirectives = new ArrayList<LinkDirective>();
+	
 	private MappingMode mode = MappingMode.STRICT;
 	
 
@@ -48,39 +51,37 @@ public class Codelist2TableDirectives implements MapDirectives<Table> {
 	}
 	
 	
-	public Codelist2TableDirectives add(AttributeDirectives directive) {
+	public Codelist2TableDirectives add(AttributeDirective directive) {
 		 attributeDirectives.add(directive);
 		 return this;
 	}
 	
-	public Codelist2TableDirectives add(Attribute template) {
-		 attributeDirectives.add(new AttributeDirectives(template));
+	public Codelist2TableDirectives add(LinkDirective directive) {
+		 linkDirectives.add(directive);
 		 return this;
 	}
 	
-	/**
-	 * Returns the {@link ColumnDirectives}s of these directives.
-	 * 
-	 * @return the column directives
-	 */
-	public List<AttributeDirectives> attributes() {
+	public Codelist2TableDirectives add(Attribute template) {
+		 return add(new AttributeDirective(template));
+	}
+	
+	public Codelist2TableDirectives add(CodelistLink link) {
+		return add(new LinkDirective(new LinkTemplate(link)));
+	}
+	
+	public List<AttributeDirective> attributes() {
 		return attributeDirectives;
 	}
 	
-	/**
-	 * Sets the mode for these directives, overriding the default {@link MappingMode#STRICT}.
-	 * @param mode the mode
-	 * @return these directives
-	 */
+	public List<LinkDirective> links() {
+		return linkDirectives;
+	}
+	
 	public Codelist2TableDirectives mode(MappingMode mode) {
 		this.mode = mode;
 		return this;
 	}
 	
-	/**
-	 * Returns the mode for these directives, {@link MappingMode#STRICT} by default.
-	 * @return the mode
-	 */
 	public MappingMode mode() {
 		return mode;
 	}

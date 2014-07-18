@@ -13,7 +13,7 @@ import org.cotrix.domain.attributes.Attribute;
  * @author Fabio Simeoni
  * 
  */
-public class AttributeDirectives {
+public class AttributeDirective {
 
 	private final Attribute template;
 	private QName columnName;
@@ -23,8 +23,8 @@ public class AttributeDirectives {
 	 * @param template the template
 	 * @return the directives
 	 */
-	public static AttributeDirectives map(Attribute template) {
-		return new AttributeDirectives(template);
+	public static AttributeDirective map(Attribute template) {
+		return new AttributeDirective(template);
 	}
 	
 	
@@ -32,7 +32,7 @@ public class AttributeDirectives {
 	 * Creates an instance for a given attribute template.
 	 * @param template the template
 	 */
-	public AttributeDirectives(Attribute template) {
+	public AttributeDirective(Attribute template) {
 		this.template = template;
 	}
 	
@@ -64,7 +64,7 @@ public class AttributeDirectives {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public AttributeDirectives to(QName name) {
+	public AttributeDirective to(QName name) {
 		this.columnName=name;
 		return this;
 	}
@@ -75,7 +75,7 @@ public class AttributeDirectives {
 	 * @param name the name
 	 * @return these directives
 	 */
-	public AttributeDirectives to(String name) {
+	public AttributeDirective to(String name) {
 		return to(new QName(name));
 	}
 	

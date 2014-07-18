@@ -2,7 +2,7 @@ package org.acme.map;
 
 import static org.acme.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.tabular.map.AttributeDirectives.*;
+import static org.cotrix.io.tabular.map.AttributeDirective.*;
 import static org.cotrix.io.tabular.map.Codelist2Table.*;
 import static org.junit.Assert.*;
 

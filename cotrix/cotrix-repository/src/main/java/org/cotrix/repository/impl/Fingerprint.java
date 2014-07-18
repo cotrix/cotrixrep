@@ -14,19 +14,18 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Definition;
 import org.cotrix.domain.codelist.CodelistLink;
-import org.cotrix.domain.links.AttributeLink;
-import org.cotrix.domain.links.LinkValueType;
-import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.LinkTemplate;
 
 public class Fingerprint {
 
 	private final Map<QName, Map<QName, Set<String>>> data = new HashMap<>();
+	private final Map<QName,Map<QName, Set<QName>>> linkdata = new HashMap<>();
 	
 	public Fingerprint addAttributes(Iterable<? extends Attribute> attributes) {
 		
 		for (Attribute a : attributes)
 			if (!a.is(SYSTEM_TYPE))
-			  addTo(typesFor(a.qname()), a.type(), a.language());
+			  addAttributeTo(typesFor(a.qname()), a.type(), a.language());
 		
 		return this;
 	}
@@ -36,7 +35,7 @@ public class Fingerprint {
 		
 		for (Definition def : definitions)
 			if (!def.is(SYSTEM_TYPE))
-				addTo(typesFor(def.qname()), def.type(), def.language());
+				addAttributeTo(typesFor(def.qname()), def.type(), def.language());
 			
 		return this;
 	}
@@ -45,24 +44,21 @@ public class Fingerprint {
 	public Fingerprint addLinks(Iterable<? extends CodelistLink> links) {
 
 		for (CodelistLink link : links) {
-			
-			LinkValueType type = link.valueType();
 
-			if (type instanceof AttributeLink) {
-	
-					Map<QName, Set<String>> types = typesFor(link.qname());
-	
-					AttributeTemplate template = ((AttributeLink) type).template();
-	
-					addTo(types, template.type(), template.language());
-	
-			}
+			LinkTemplate template = new LinkTemplate(link);
+			
+			addLinkTo(targetsFor(link.qname()),template.target(),template.anchor());
+
 		}
 		
 		return this;
 	}
 
 	
+	public Collection<QName> attributeNames() {
+		return data.keySet();
+	}
+
 	public Map<QName, Set<String>> typesFor(QName name) {
 
 		Map<QName, Set<String>> types = data.get(name);
@@ -77,10 +73,6 @@ public class Fingerprint {
 		return types;
 	}
 	
-	public Collection<QName> names() {
-		return data.keySet();
-	}
-	
 	public Collection<String> languagesFor(QName name, QName type) {
 		
 		if (data.containsKey(name) && data.get(name).containsKey(type))
@@ -88,11 +80,42 @@ public class Fingerprint {
 
 		return emptySet();
 	}
+
+	
+	
+	
+	
+	
+	public Collection<QName> linkNames() {
+		return linkdata.keySet();
+	}
+	
+	public Map<QName, Set<QName>> targetsFor(QName name) {
+
+		Map<QName, Set<QName>> targets = linkdata.get(name);
+
+		if (targets == null) {
+
+			targets = new HashMap<QName, Set<QName>>();
+			linkdata.put(name, targets);
+
+		}
+
+		return targets;
+	}
+	
+	public Collection<String> anchorsFor(QName name, QName target) {
+		
+		if (linkdata.containsKey(name) && linkdata.get(name).containsKey(target))
+				return typesFor(name).get(target);
+
+		return emptySet();
+	}
 	
 	
 	// helpers
 	
-	private static void addTo(Map<QName, Set<String>> types, QName type, String language) {
+	private static void addAttributeTo(Map<QName, Set<String>> types, QName type, String language) {
 
 		Set<String> langForType = types.get(type);
 
@@ -105,6 +128,23 @@ public class Fingerprint {
 
 		if (language != null)
 			langForType.add(language);
+
+	}
+
+	
+	private static void addLinkTo(Map<QName, Set<QName>> targets, QName target, QName anchor) {
+
+		Set<QName> anchorsForTarget = targets.get(target);
+
+		if (anchorsForTarget == null) {
+
+			anchorsForTarget = new HashSet<QName>();
+			targets.put(target, anchorsForTarget);
+
+		}
+
+		if (anchorsForTarget != null)
+			anchorsForTarget.add(anchor);
 
 	}
 
