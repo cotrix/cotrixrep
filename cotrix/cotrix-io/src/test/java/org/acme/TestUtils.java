@@ -72,14 +72,14 @@ public class TestUtils {
 		
 	}
 	
-	public static void assertEquals(Table table,String[][] data) {
+	public static void assertEquals(String[][] data,Table table) {
 		
 		int i = 0;
 		for (Row row : table) {
 			List<String> vals = new ArrayList<String>();
 			for (Column column : table.columns())
 				vals.add(row.get(column));
-			Assert.assertEquals(vals,asList(data[i]));
+			Assert.assertEquals(asList(data[i]),vals);
 			i++;
 		}
 		

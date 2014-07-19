@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.junit.Test;
@@ -27,11 +29,25 @@ public class Codelist2TableTest {
 	MapService mapper;
 	
 	
+	//---- codelist fixture
+	
+		Attribute ta = attribute().name("ta").value("tv").build();
+		Code tc = code().name("tc").attributes(ta).build();
+		Codelist tlist = codelist().name("t").with(tc).build();
+	
+	LinkDefinition nl = listLink().name("nl").target(tlist).build();
+	LinkDefinition al = listLink().name("al").target(tlist).anchorTo(ta).build();
+	
 	Attribute a = attribute().name("a").value("v").build();
+	Codelink l1 = link().instanceOf(nl).target(tc).build();
+	Codelink l2 = link().instanceOf(al).target(tc).build();
 	
-	Code c = code().name("c").attributes(a).build();
+	Code c = code().name("c").attributes(a).links(l1,l2).build();
 	
-	Codelist list = codelist().name("l").with(c).build();
+	
+	Codelist list = codelist().name("l").links(nl,al).with(c).build();
+	
+	//---------------------------------------------------------------------
 	
 	Codelist2TableDirectives directives = new Codelist2TableDirectives();
 	
@@ -46,13 +62,13 @@ public class Codelist2TableTest {
 		
 		String[][] expectedData = {{"c"}};
 		
-		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN);
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN);
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
@@ -68,7 +84,7 @@ public class Codelist2TableTest {
 		
 		assertEquals(expectedTable,outcome.result());
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
@@ -78,15 +94,15 @@ public class Codelist2TableTest {
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		String[][] expectedData = {{"c","val"}};
+		String[][] expectedData = {{"c","v"}};
 		
-		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN,"a1");
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"a");
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
@@ -98,13 +114,48 @@ public class Codelist2TableTest {
 
 		String[][] expectedData = {{"c","v"}};
 		
-		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN,"custom");
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"custom");
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 		
+	@Test
+	public void defaultNameLink() throws Exception {
+
+		directives.add(nl);
+		
+		Outcome<Table> outcome = mapper.map(list, directives);
+
+		String[][] expectedData = {{"c","tc"}};
+		
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"nl");
+		
+		assertEquals(expectedTable,outcome.result());
+		
+		//System.out.println(serialise(outcome.result()));
+
+		assertEquals(expectedData,outcome.result());
+	}
+	
+	@Test
+	public void defaultAttributeLink() throws Exception {
+		
+		directives.add(al);
+		
+		Outcome<Table> outcome = mapper.map(list, directives);
+
+		String[][] expectedData = {{"c","tv"}};
+		
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"al");
+		
+		assertEquals(expectedTable,outcome.result());
+		
+		//System.out.println(serialise(outcome.result()));
+
+		assertEquals(expectedData,outcome.result());
+	}
 }

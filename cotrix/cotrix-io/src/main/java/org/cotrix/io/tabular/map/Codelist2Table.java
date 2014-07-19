@@ -99,10 +99,11 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 							default:
 						}
 					
-					values.put(col.name(),
-									matchesAttributes?
-											attributeMatches.get(col.name()).value():
-											valueOf(linkMatches.get(col.name())));
+					String val = matchesAttributes?
+										attributeMatches.get(col.name()).value():
+										linkMatches.get(col.name()).valueAsString();
+					
+					values.put(col.name(),val);
 					
 				}
 			}
@@ -113,15 +114,6 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		report().log("transformed codelist "+list.qname()+"("+list.id()+") to table in "+(System.currentTimeMillis()-time)/1000);
 		
 		return new DefaultTable(columns, rows);
-	}
-	
-	
-	private String valueOf(Codelink l) {
-
-		List<Object> linkval = l.value();
-		return linkval.isEmpty()? null:
-							 	linkval.size()==1? linkval.get(0).toString() :
-							 					   linkval.toString();
 	}
 	
 	

@@ -30,6 +30,8 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 	List<Object> value();
 	
 	
+	String valueAsString();
+	
 	/**
 	 * Returns the target of this link.
 	 * @return the target, or <code>null</code> if the link is orphaned.
@@ -64,6 +66,26 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		public QName qname() {
 			//safe: type cannot be or become null
 			return state().type().name();
+		}
+		
+		@Override
+		public String valueAsString() {
+			
+			List<Object> linkval = value();
+			
+			if (linkval.isEmpty())
+				return null; 
+						
+			else 
+				
+				if (linkval.size()==1) {	
+				
+					Object val = linkval.get(0);
+					return val==null?null:val.toString();
+				
+				}
+				else
+			     	return linkval.toString();
 		}
 
 		@Override

@@ -53,7 +53,7 @@ public class Table2CsvTest {
 		System.out.println(parsed);
 
 		assertEquals(parsed,table);
-		assertEquals(parsed,data);
+		assertEquals(data,parsed);
 	}
 	
 	@Test
