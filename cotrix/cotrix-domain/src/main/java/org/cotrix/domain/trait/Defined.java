@@ -6,7 +6,7 @@ package org.cotrix.domain.trait;
  * 
  * @author Fabio Simeoni
  */
-public interface Defined<T> {
+public interface Defined<T extends Definition> {
 
 	/**
 	 * Returns the definition of this object.

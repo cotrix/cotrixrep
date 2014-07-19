@@ -5,6 +5,7 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -15,7 +16,7 @@ import org.cotrix.domain.values.ValueType;
  * The definition of an attribute.
  * 
  */
-public interface AttributeDefinition extends Identified, Named {
+public interface AttributeDefinition extends Definition {
 
 	/**
 	 * Returns the broad semantics of instances.
