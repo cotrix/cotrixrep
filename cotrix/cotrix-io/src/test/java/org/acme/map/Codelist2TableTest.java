@@ -26,23 +26,27 @@ public class Codelist2TableTest {
 	@Inject
 	MapService mapper;
 	
+	
+	Attribute a = attribute().name("a").value("v").build();
+	
+	Code c = code().name("c").attributes(a).build();
+	
+	Codelist list = codelist().name("l").with(c).build();
+	
+	Codelist2TableDirectives directives = new Codelist2TableDirectives();
+	
 	@Test
-	public void defaultCodeColumn() throws Exception {
+	public void defaultCode() throws Exception {
 
-		Code code = code().name("c").build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		//System.out.println(outcome.report());
 		
 		assertFalse(outcome.report().logs().isEmpty());
 		
 		String[][] expectedData = {{"c"}};
 		
-		Table expected = asTable(expectedData,DEFAULT_CODE_COLUMN_NAME);
+		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN);
 		
 		assertEquals(expected,outcome.result());
 		
@@ -52,47 +56,31 @@ public class Codelist2TableTest {
 	}
 	
 	@Test
-	public void customCodeColumn() throws Exception {
+	public void customCode() throws Exception {
 
-		Code code = code().name("c").build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
+		directives.codeColumn("mycode");
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
-		
 		String[][] expectedData = {{"c"}};
 		
-		Table expected = asTable(expectedData,"mycode");
+		Table expectedTable = asTable(expectedData,"mycode");
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 
 		assertEquals(outcome.result(),expectedData);
 	}
 	
 	@Test
-	public void attributeSelectedByName() throws Exception {
+	public void defaultAttribute() throws Exception {
 
-		Attribute a = attribute().name("a1").value("val").build();
-		
-		Code code = code().name("c").attributes(a).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		directives.add(a.definition());
+		directives.add(a);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
-		
 		String[][] expectedData = {{"c","val"}};
 		
-		Table expected = asTable(expectedData,"mycode","a1");
+		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN,"a1");
 		
 		assertEquals(expected,outcome.result());
 		
@@ -102,26 +90,15 @@ public class Codelist2TableTest {
 	}
 	
 	@Test
-	public void attributeSelectedByNameWithCustomisation() throws Exception {
+	public void customAttribute() throws Exception {
 
-		Attribute a = attribute().name("a1").value("val").build();
-		
-		Code code = code().name("c").attributes(a).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		
-		directives.codeColumnName("mycode");
-		
 		directives.add(map(a).to("custom"));
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		String[][] expectedData = {{"c","v"}};
 		
-		String[][] expectedData = {{"c","val"}};
-		
-		Table expected = asTable(expectedData,"mycode","custom");
+		Table expected = asTable(expectedData,DEFAULT_CODECOLUMN,"custom");
 		
 		assertEquals(expected,outcome.result());
 		
@@ -129,63 +106,5 @@ public class Codelist2TableTest {
 
 		assertEquals(outcome.result(),expectedData);
 	}
-	
-	
-	@Test
-	public void attributeSelectedByNameAndType() throws Exception {
-
-		Attribute a1 = attribute().name("a1").value("val1").build();
-		Attribute a2 = attribute().name("a2").value("val2").ofType("type").build();
 		
-		Code code = code().name("c").attributes(a1,a2).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		directives.add(map(a2).to("a2-type"));
-		
-		Outcome<Table> outcome = mapper.map(list, directives);
-
-		System.out.println(outcome.report());
-		
-		String[][] expectedData = {{"c","val2"}};
-		
-		Table expected = asTable(expectedData,"mycode","a2-type");
-		
-		assertEquals(expected,outcome.result());
-		
-		//System.out.println(serialise(outcome.result()));
-
-		assertEquals(outcome.result(),expectedData);
-	}
-	
-	@Test
-	public void attributeSelectedByNameAndLanguage() throws Exception {
-
-		Attribute a1 = attribute().name("a1").value("val1").in("en").build();
-		Attribute a2 = attribute().name("a1").value("val2").in("fr").build();
-		
-		Code code = code().name("c").attributes(a1,a2).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		directives.add(map(a2).to("a1-fr"));
-		
-		Outcome<Table> outcome = mapper.map(list, directives);
-
-		System.out.println(outcome.report());
-		
-		String[][] expectedData = {{"c","val2"}};
-		
-		Table expected = asTable(expectedData,"mycode","a1-fr");
-		
-		assertEquals(expected,outcome.result());
-		
-
-		assertEquals(outcome.result(),expectedData);
-	}
-	
 }

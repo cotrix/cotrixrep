@@ -23,7 +23,6 @@ import org.cotrix.io.tabular.map.MemberDirective;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.Language;
-import org.cotrix.web.publish.server.util.SdmxElements;
 import org.cotrix.web.publish.shared.AttributeDefinition;
 import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
@@ -85,9 +84,9 @@ public interface PublishMapper<T> {
 		{
 			if (mode == null) return null;
 			switch (mode) {
-				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.IGNORE;
-				case LOG: return org.cotrix.io.tabular.map.MappingMode.LOG;
-				case STRICT: return org.cotrix.io.tabular.map.MappingMode.STRICT;
+				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.ignore;
+				case LOG: return org.cotrix.io.tabular.map.MappingMode.log;
+				case STRICT: return org.cotrix.io.tabular.map.MappingMode.strict;
 				default: throw new IllegalArgumentException("Uncovertible mapping mode "+mode);
 			}
 		}
@@ -120,10 +119,14 @@ public interface PublishMapper<T> {
 					
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
 					UISdmxElement element = (UISdmxElement) mapping.getMapping();
+					
 					logger.trace("mapping {} to {}", attributeDefinition, element);
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
-							   to(SdmxElements.toSdmxElement(element))
-							   .forCodelist();
+					
+					//FIXME pass to definitions
+					
+					//directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+					//		   to(SdmxElements.toSdmxElement(element))
+					//		   .forCodelist();
 				}
 			}
 			
@@ -133,9 +136,12 @@ public interface PublishMapper<T> {
 					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
 					UISdmxElement element = (UISdmxElement) mapping.getMapping();
 					logger.trace("mapping {} to {}", attributeDefinition, element);
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
-							   to(SdmxElements.toSdmxElement(element))
-							   .forCodes();
+					
+					//FIXME pass to definitions
+					
+					//directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
+					//		   to(SdmxElements.toSdmxElement(element))
+					//		   .forCodes();
 				}
 			}
 			

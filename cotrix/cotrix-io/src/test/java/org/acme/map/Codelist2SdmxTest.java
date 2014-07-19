@@ -53,29 +53,29 @@ public class Codelist2SdmxTest {
 		SdmxServiceFactory.init();
 	}
 	
+	Attribute la1 = attribute().name("list-attr1").value("value1").build();
+	Attribute la2 = attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("es").build();
+	Attribute la3 = attribute().name("list-attr3").value("value3").ofType(customNameType).in("fr").build();
+	Attribute la4 = attribute().name("list-attr4").value("value4").ofType(NAME_TYPE).build();
+	Attribute la5 = attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("es").build();
+	Attribute la6 = attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("es").build();
+	Attribute la7 = attribute().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build();
+	Attribute la8 = attribute().name("list-attr8").value("value8").ofType("unmappedtype").build();
+	Attribute la9 = attribute().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build();
+	Attribute la10 = attribute().name(VALID_TO.defaultName()).value("bad").build();
 	
-	Codelist list = codelist().name("cotrix-testlist").
-			with(
-					code().name("code1").build()
-					,code().name("code2").attributes(
-							attribute().name("attr1").value("value1").build()
-						   , attribute().name("attr2").value("value2").in("fr").build()
-						   ,attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
-							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
-				).build()).
-				attributes(
-							attribute().name("list-attr1").value("value1").build()
-							,attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("es").build()
-						    ,attribute().name("list-attr3").value("value3").ofType(customNameType).in("fr").build()
-						   ,attribute().name("list-attr4").value("value4").ofType(NAME_TYPE).build()
-							,attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("es").build()
-							,attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("es").build()
-							,attribute().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build()
-							,attribute().name("list-attr8").value("value8").ofType("unmappedtype").build()
-							,attribute().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build()
-							,attribute().name(VALID_TO.defaultName()).value("bad").build()
-				)
-				.version("1.0").build();
+	Attribute a1 = attribute().name("attr1").value("value1").build();
+	Attribute a2 = attribute().name("attr2").value("value2").in("fr").build();
+	Attribute a3 = attribute().name("attr3").value("value3").ofType(NAME_TYPE).build();
+	Attribute a4 = attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build();
+	
+	Codelist list = codelist().name("cotrix-testlist").with(
+						 code().name("code1").build()
+						,code().name("code2").attributes(a1,a2,a3,a4).build()).
+						
+						 attributes(la1,la2,la3,la4,la5,la6,la7,la8,la9,la10)
+						.version("1.0")
+						.build();
 	
 	@Test 
 	public void codelist2Sdmx2Xml() {
@@ -88,14 +88,14 @@ public class Codelist2SdmxTest {
 		directives.name("custom-name");
 		directives.version("2.0");
 		
-		directives.map("list-attr3",customNameType).to(SdmxElement.NAME).forCodelist()
-				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION).forCodelist()
-				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION).forCodelist()
+		directives.map(la3).to(SdmxElement.NAME).forCodelist()
+				  .map(la2).to(SdmxElement.DESCRIPTION).forCodelist()
+				  .map(la7).to(SdmxElement.ANNOTATION).forCodelist()
 				  
-				  .map("attr1",DESCRIPTION_TYPE.getLocalPart()).to(SdmxElement.NAME).forCodes()
-				  .map(q("attr2"),DESCRIPTION_TYPE).to(SdmxElement.DESCRIPTION).forCodes()
-				  .map(q("attr3"),NAME_TYPE).to(SdmxElement.ANNOTATION).forCodes()
-				  .map(q("attr4"),NAME_TYPE).to(SdmxElement.NAME).forCodes()
+				  .map(a1).to(SdmxElement.NAME).forCodes()
+				  .map(a2).to(SdmxElement.DESCRIPTION).forCodes()
+				  .map(a3).to(SdmxElement.ANNOTATION).forCodes()
+				  .map(a4).to(SdmxElement.NAME).forCodes()
 				  ;
 		
 		
@@ -171,9 +171,9 @@ public class Codelist2SdmxTest {
 		
 		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
 		
-		directives.map("a",customDescriptionType).to(DESCRIPTION).forCodelist()
-				  .map("b", customNameType).to(SdmxElement.NAME).forCodelist()
-				  .map("a", customAnnotationType).to(ANNOTATION).forCodelist();
+		directives.map(a1).to(DESCRIPTION).forCodelist()
+				  .map(a2).to(SdmxElement.NAME).forCodelist()
+				  .map(a3).to(ANNOTATION).forCodelist();
 		
 		Outcome<CodelistBean> outcome = mapper.map(list,directives);
 		

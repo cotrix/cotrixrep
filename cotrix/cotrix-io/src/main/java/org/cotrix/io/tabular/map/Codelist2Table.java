@@ -25,7 +25,7 @@ import org.virtualrepository.tabular.Table;
 
 public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDirectives> {
 
-	public static final String DEFAULT_CODE_COLUMN_NAME = "code";
+	public static final String DEFAULT_CODECOLUMN = "code";
 
 	@Override
 	public Class<Codelist2TableDirectives> directedBy() {
@@ -45,13 +45,13 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 		List<Column> columns = new ArrayList<Column>();
 		
 		QName codeColumnName = directives.codeColumnName()==null?
-									new QName(DEFAULT_CODE_COLUMN_NAME):
+									new QName(DEFAULT_CODECOLUMN):
 										directives.codeColumnName();		
 		
 		columns.add(new Column(codeColumnName));
 		
 		for (MemberDirective<?> directive : directives.members())
-			columns.add(new Column(directive.columnName()));
+			columns.add(new Column(directive.column()));
 		
 		
 		//-------- map rows
@@ -71,14 +71,14 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			for (Attribute a : code.attributes()) {
 				MemberDirective<?> d = directives.member(a);
 				if (d!=null)
-					attributeMatches.put(d.columnName(),a);
+					attributeMatches.put(d.column(),a);
 			}
 			
 			
 			for (Codelink l : code.links()) {
 				MemberDirective<?> d = directives.member(l);
 				if (matches(d,l))
-					linkMatches.put(d.columnName(),l);
+					linkMatches.put(d.column(),l);
 			}
 			
 			//map match values in column order
@@ -94,8 +94,8 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 					if (values.containsKey(col.name()))
 						
 						switch (directives.mode()) {
-							case STRICT:throw new IllegalStateException(error);
-							case LOG: report().log(error).as(WARN);
+							case strict:throw new IllegalStateException(error);
+							case log: report().log(error).as(WARN);
 							default:
 						}
 					

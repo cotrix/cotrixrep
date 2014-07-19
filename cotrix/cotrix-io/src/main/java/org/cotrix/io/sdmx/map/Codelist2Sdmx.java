@@ -149,6 +149,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			SdmxElement element = directives.get(a);
 			
 			if (element!=null)
+				
 				switch(element) {
 				
 					case NAME:

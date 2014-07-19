@@ -128,9 +128,9 @@ public class Table2Codelist {
 			String msg = "missing code in '"+directives.name()+"'";
 			
 			switch(directives.mode()) {
-				case STRICT:
+				case strict:
 					report().log(msg).as(ERROR);break;
-				case LOG:
+				case log:
 					report().log(msg).as(WARN);break;
 				default:
 			}

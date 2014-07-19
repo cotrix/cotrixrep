@@ -55,9 +55,9 @@ public class Column2Attribute {
 			String msg = "code "+codename+" has no value for attribute '"+mapping.name()+"'";
 			
 			switch(mapping.mode()) {
-				case STRICT:
+				case strict:
 					report().log(msg).as(ERROR);break;
-				case LOG:
+				case log:
 					report().log(msg).as(WARN);break;
 				default:
 			}

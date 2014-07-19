@@ -1,66 +1,59 @@
 package org.cotrix.io.tabular.map;
 
 
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Defined;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.Definition;
 
 /**
- * Directives to map codelist attributes onto table columns.
+ * Directives to map definitions onto table columns.
  * 
  * @author Fabio Simeoni
  * 
  */
-public class MemberDirective<T extends Named & Identified> {
+public class MemberDirective<T extends Definition> {
 
+	//------ factory methods
+	
+	public static <T extends Definition> MemberDirective<T> map(Defined<T> defined) { //test convenience
+		return map(defined.definition());
+	}
+	
+	/**
+	 * Creates a directive from a definition.
+	 * @param definition the definition
+	 * @return the directive
+	 */
+	public static <T extends Definition> MemberDirective<T> map(T definition) {
+		return new MemberDirective<T>(definition);
+	}
+	
+	//------------------------------------------------
+	
+	
+	
 	private final T def;
 	private QName columnName;
 	
 	
-	public static <T extends Named & Identified> MemberDirective<T> map(Defined<T> defined) {
-		return mapdef(defined.definition());
+	private MemberDirective(T definition) {
+		this.def = definition;
 	}
 	
-	public static <T extends Named & Identified> MemberDirective<T> mapdef(T def) {
-		return new MemberDirective<T>(def);
-	}
-	
-	
-	/**
-	 * Creates an instance for a given definition.
-	 * @param def the definition
-	 */
-	public MemberDirective(T def) {
-		this.def = def;
-	}
-	
-	
-	/**
-	 * Returns the definition for this directives.
-	 * @return the definition
-	 */
+
 	public T definition() {
 		return def;
 	}
 	
 	
-	/**
-	 * Returns the name of the target column.
-	 * <p>
-	 * By default, this is the name in the underlying definition.
-	 * 
-	 * @return the name of the target column
-	 */
-	public QName columnName() {
+	public QName column() {
 		return columnName==null?def.qname():columnName;
 	}
 	
 	
 	/**
-	 * Sets the name of the target column.
+	 * Sets the name of the column.
 	 * 
 	 * @param name the name
 	 * @return these directives
@@ -71,7 +64,7 @@ public class MemberDirective<T extends Named & Identified> {
 	}
 	
 	/**
-	 * Sets the name of the target column
+	 * Sets the name of the column
 	 * 
 	 * @param name the name
 	 * @return these directives
