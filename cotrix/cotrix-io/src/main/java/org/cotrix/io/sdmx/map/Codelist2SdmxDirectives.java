@@ -14,6 +14,9 @@ import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
+	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
+
+
 	//API support clauses
 	
 	public static interface GetClause {
@@ -33,48 +36,47 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		TargetClause to(SdmxElement e);
 	}
-	
-	
-	
-	
-	
-	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
 
+	
 	private final Map<String,SdmxElement> codelistDirectives = new HashMap<>();
 	private final Map<String,SdmxElement> codeDirectives = new HashMap<>();
 	
 	private String agency = DEFAULT_SDMX_AGENCY;
-	private String name;
+	private String id;
 	private String version;
 	private Boolean isFinal;
 	
 	
-	public void name(String name) {
-		this.name = name;
+	public Codelist2SdmxDirectives id(String id) {
+		this.id = id;
+		return this;
 	}
 	
 	public Boolean isFinal() {
 		return isFinal;
 	}
 	
-	public void isFinal(Boolean isfinal) {
+	public Codelist2SdmxDirectives isFinal(Boolean isfinal) {
 		this.isFinal = isfinal;
+		return this;
 	}
 	
-	public String name() {
-		return name;
+	public String id() {
+		return id;
 	}
 	
 	public String agency() {
 		return agency;
 	}
 	
-	public void agency(String agency) {
+	public Codelist2SdmxDirectives agency(String agency) {
 		this.agency = agency;
+		return this;
 	}
 	
-	public void version(String version) {
+	public Codelist2SdmxDirectives version(String version) {
 		this.version = version;
+		return this;
 	}
 	
 	public String version() {
@@ -108,7 +110,7 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 	
 	/**
 	 * Maps a definition name and type onto a SDMX element type
-	 * @param name the name
+	 * @param id the name
 	 * @param type the type
 	 * @return the mapping clause
 	 */
