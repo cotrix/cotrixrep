@@ -15,6 +15,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.users.client.UsersBus;
 import org.cotrix.web.users.client.UsersServiceAsync;
 import org.cotrix.web.users.client.matrix.RolesRowUpdatedEvent;
@@ -101,13 +102,11 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 
 			@Override
 			public void onButtonClick(DialogButton button) {
-				switch (button) {
-					case CONTINUE: updateRole(row, role, action, rowIndex); break;
-					case CANCEL: {
-						row.setLoading(false);
-						System.out.println("redraw "+rowIndex);
-						usersRolesMatrix.redrawRow(rowIndex);
-					} break;
+				if (button == DialogButtonDefaultSet.CONTINUE) updateRole(row, role, action, rowIndex);
+				if (button == DialogButtonDefaultSet.CANCEL) {
+					row.setLoading(false);
+					System.out.println("redraw "+rowIndex);
+					usersRolesMatrix.redrawRow(rowIndex);
 				}
 			}
 		});
@@ -151,7 +150,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 
 				@Override
 				public void onButtonClick(DialogButton button) {
-					if (button == DialogButton.CONTINUE) removeUser(row.getUser().getId());
+					if (button == DialogButtonDefaultSet.CONTINUE) removeUser(row.getUser().getId());
 				}
 			});
 		}
