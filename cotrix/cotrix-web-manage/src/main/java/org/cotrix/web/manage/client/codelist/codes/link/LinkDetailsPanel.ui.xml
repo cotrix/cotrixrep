@@ -16,9 +16,9 @@
 				</t:cell>
 				<t:cell>
 					<g:FlowPanel>
-							<cc:SuggestListBox ui:field="typeBox" title="The definition of this link"/>
+							<cc:SuggestListBox ui:field="definitionBox" title="The definition of this link"/>
 							<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
-								<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="typeBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
+								<g:Image resource="{commonresources.dataLoader}" visible="false" ui:field="definitionBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
 						</g:FlowPanel>
 					</g:FlowPanel>
 				</t:cell>

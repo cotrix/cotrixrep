@@ -1,87 +1,87 @@
 package org.cotrix.io.tabular.map;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.cotrix.io.tabular.map.MappingMode.*;
+import static org.cotrix.io.tabular.map.MemberDirective.*;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.io.MapService.MapDirectives;
 import org.virtualrepository.tabular.Table;
 
 /**
- * Directives for mapping codelists into tables.
- * <p>
- * The mapping is defined by:
+ * Directives for mapping codelists onto tables.
  * 
- * <ul>
- * <li>(optional) the <b>name</b> of the target codelist. If unspecified, the codelist is named after the code column.
- * <li>(optional) the <b>attributes</b> of the target codelist.
- * <li>(optional) <b>column directives</b>, the directives for mapping other columns.
- * <li> (optional) the <b>mapping mode</b> for missing values in the code column, {@link MappingMode#STRICT} by default (#cf {@link MappingMode}).
- * </ul>
+ * @author Fabio Simeoni
  */
 public class Codelist2TableDirectives implements MapDirectives<Table> {
 
 
-	private QName codeColumnName;
+	private QName codecol;
+	private MappingMode mode = strict;
 	
-	private List<AttributeDirectives> attributeDirectives = new ArrayList<AttributeDirectives>();
+	private Map<String, MemberDirective<?>> memberDirectives = new HashMap<>();
 
-	private MappingMode mode = MappingMode.STRICT;
 	
+	//------ API
 
 	public Codelist2TableDirectives() {}
 
 
-	public QName codeColumnName() {
-		return codeColumnName;
-	}
-
-	public Codelist2TableDirectives codeColumnName(String name) {
-		return codeColumnName(new QName(name));
+	public Codelist2TableDirectives codeColumn(String name) {
+		return codeColumn(new QName(name));
 	}
 	
-	public Codelist2TableDirectives codeColumnName(QName name) {
-		this.codeColumnName=name;
+	public Codelist2TableDirectives codeColumn(QName name) {
+		this.codecol=name;
 		return this;
 	}
 	
-	
-	public Codelist2TableDirectives add(AttributeDirectives directive) {
-		 attributeDirectives.add(directive);
-		 return this;
-	}
-	
-	public Codelist2TableDirectives add(Attribute template) {
-		 attributeDirectives.add(new AttributeDirectives(template));
-		 return this;
-	}
-	
-	/**
-	 * Returns the {@link ColumnDirectives}s of these directives.
-	 * 
-	 * @return the column directives
-	 */
-	public List<AttributeDirectives> attributes() {
-		return attributeDirectives;
-	}
-	
-	/**
-	 * Sets the mode for these directives, overriding the default {@link MappingMode#STRICT}.
-	 * @param mode the mode
-	 * @return these directives
-	 */
 	public Codelist2TableDirectives mode(MappingMode mode) {
 		this.mode = mode;
 		return this;
 	}
 	
-	/**
-	 * Returns the mode for these directives, {@link MappingMode#STRICT} by default.
-	 * @return the mode
-	 */
-	public MappingMode mode() {
+	public Codelist2TableDirectives add(MemberDirective<?> directive) {
+		 memberDirectives.put(directive.definition().id(),directive);
+		 return this;
+	}
+	
+	
+	//------ SPI
+	
+	
+	QName codeColumnName() {
+		return codecol;
+	}
+
+	
+	Collection<MemberDirective<?>> members() {
+		return memberDirectives.values();
+	}
+	
+	MemberDirective<?> member(Defined<?> m) {
+		return memberDirectives.get(m.definition().id());
+	}
+	
+	
+	MappingMode mode() {
 		return mode;
+	}
+	
+	//----------- test API: conveniences for default mappings
+	
+	public Codelist2TableDirectives add(Definition definition) {
+		 return add(map(definition));
+	}
+	
+	public Codelist2TableDirectives add(Defined<?> defined) {
+
+		 return add(defined.definition());
 	}
 }

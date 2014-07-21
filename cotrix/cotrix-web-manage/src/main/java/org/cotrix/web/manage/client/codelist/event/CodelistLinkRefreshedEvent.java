@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.codelist.event;
 
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -25,9 +25,9 @@ public class CodelistLinkRefreshedEvent extends GwtEvent<CodelistLinkRefreshedEv
 	}
 
 	private String codelistId;
-	private UILinkType linkType;
+	private UILinkDefinition linkType;
 
-	public CodelistLinkRefreshedEvent(String codelistId, UILinkType linkType) {
+	public CodelistLinkRefreshedEvent(String codelistId, UILinkDefinition linkType) {
 		this.codelistId = codelistId;
 		this.linkType = linkType;
 	}	
@@ -36,7 +36,7 @@ public class CodelistLinkRefreshedEvent extends GwtEvent<CodelistLinkRefreshedEv
 		return codelistId;
 	}
 
-	public UILinkType getLinkType() {
+	public UILinkDefinition getLinkType() {
 		return linkType;
 	}
 

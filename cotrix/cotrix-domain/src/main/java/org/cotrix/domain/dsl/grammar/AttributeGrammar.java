@@ -4,7 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.CommonDefinition;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 
@@ -19,7 +19,7 @@ public class AttributeGrammar {
 	
 	public static interface AttributeNewClause extends NameClause<OptionalClause>, DefinitionClause {	
 		
-		ValueClause with(Definition definition);
+		ValueClause with(AttributeDefinition definition);
 	}
 		
 	
@@ -31,7 +31,7 @@ public class AttributeGrammar {
 	
 	public static interface DefinitionClause {
 		
-		ValueClause with(Definition definition);
+		ValueClause with(AttributeDefinition definition);
 		
 		ValueClause with(CommonDefinition definition);
 	}

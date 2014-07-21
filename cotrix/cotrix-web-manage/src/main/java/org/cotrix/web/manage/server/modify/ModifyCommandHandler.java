@@ -9,10 +9,10 @@ import javax.inject.Singleton;
 
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
-import org.cotrix.web.manage.shared.modify.attributetype.AttributeTypeCommand;
+import org.cotrix.web.manage.shared.modify.attributedefinition.AttributeDefinitionCommand;
 import org.cotrix.web.manage.shared.modify.code.CodeTargetedCommand;
 import org.cotrix.web.manage.shared.modify.code.CodeCommand;
-import org.cotrix.web.manage.shared.modify.linktype.LinkTypeCommand;
+import org.cotrix.web.manage.shared.modify.linkdefinition.LinkDefinitionCommand;
 import org.cotrix.web.manage.shared.modify.metadata.MetadataAttributeCommand;
 import org.cotrix.web.manage.shared.modify.metadata.MetadataCommand;
 
@@ -37,10 +37,10 @@ public class ModifyCommandHandler {
 	private MetadataCommandHandler metadataCommandHandler;
 	
 	@Inject
-	private LinkTypeCommandHandler linkTypeCommandHandler;
+	private LinkDefinitionCommandHandler linkTypeCommandHandler;
 	
 	@Inject
-	private AttributeTypeCommandHandler attributeTypeCommandHandler;
+	private AttributeDefinitionCommandHandler attributeTypeCommandHandler;
 	
 	public ModifyCommandResult handle(String codelistId, ModifyCommand command)
 	{
@@ -48,8 +48,8 @@ public class ModifyCommandHandler {
 		if (command instanceof MetadataAttributeCommand) return metadataAttributeCommandHandler.handle(codelistId, (MetadataAttributeCommand) command);
 		if (command instanceof CodeCommand) return codeCommandHandler.handle(codelistId, (CodeCommand) command);
 		if (command instanceof MetadataCommand) return metadataCommandHandler.handle(codelistId, (MetadataCommand) command);
-		if (command instanceof LinkTypeCommand) return linkTypeCommandHandler.handle(codelistId, (LinkTypeCommand) command);
-		if (command instanceof AttributeTypeCommand) return attributeTypeCommandHandler.handle(codelistId, (AttributeTypeCommand) command);
+		if (command instanceof LinkDefinitionCommand) return linkTypeCommandHandler.handle(codelistId, (LinkDefinitionCommand) command);
+		if (command instanceof AttributeDefinitionCommand) return attributeTypeCommandHandler.handle(codelistId, (AttributeDefinitionCommand) command);
 		
 		throw new IllegalArgumentException("Unknown command "+command);
 	}

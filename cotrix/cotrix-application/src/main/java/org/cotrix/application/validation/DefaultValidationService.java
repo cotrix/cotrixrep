@@ -18,7 +18,7 @@ import org.cotrix.common.Report;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 
 @Singleton
 public class DefaultValidationService implements ValidationService {
@@ -74,9 +74,9 @@ public class DefaultValidationService implements ValidationService {
 	
 		Codelist.Private list = reveal(codelist);
 
-		Map<String,CodelistLink> links = new HashMap<>();
+		Map<String,LinkDefinition> links = new HashMap<>();
 		
-		for (CodelistLink link : list.links())
+		for (LinkDefinition link : list.links())
 			links.put(link.id(),link);
 		
 		for (Code code : codes)
@@ -84,14 +84,14 @@ public class DefaultValidationService implements ValidationService {
 		
 	}
 	
-	private void validateLinks(Code.Private code, Map<String,CodelistLink> linktypes, Report report) {
+	private void validateLinks(Code.Private code, Map<String,LinkDefinition> linktypes, Report report) {
 		
 		//count link type occurrences
 		Map<String,Integer> counts = new HashMap<>();
 		
 		for (Codelink link : code.links()) {
 			
-			CodelistLink type = linktypes.get(link.type().id());
+			LinkDefinition type = linktypes.get(link.definition().id());
 	
 			if (type==null)
 					continue;
@@ -101,7 +101,7 @@ public class DefaultValidationService implements ValidationService {
 		
 		}
 		
-		for (CodelistLink type : linktypes.values()) {
+		for (LinkDefinition type : linktypes.values()) {
 			int count = counts.containsKey(type.id())? counts.get(type.id()) : 0;  
 			if (!type.range().inRange(count))
 				report.log(

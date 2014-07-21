@@ -10,7 +10,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.repository.CodelistRepository;
@@ -41,7 +42,7 @@ public class CodeAttributeCommandHandler {
 		
 		Codelist codelist = repository.lookup(codelistId);
 		
-		Definition definition = getDefinition(codelist, command.getItem());
+		AttributeDefinition definition = getDefinition(codelist, command.getItem());
 		
 		Attribute attribute = AttributeCommandUtil.handle(command, definition);
 
@@ -54,9 +55,10 @@ public class CodeAttributeCommandHandler {
 		return new UpdatedCode(attribute.id(), updatedCode);
 	}
 	
-	private Definition getDefinition(Codelist codelist, UIAttribute attribute) {
+	private AttributeDefinition getDefinition(Codelist codelist, UIAttribute attribute) {
 		if (attribute.getDefinitionId() == null) return null;
 		if (codelist.definitions().contains(attribute.getDefinitionId())) return codelist.definitions().lookup(attribute.getDefinitionId());
+		for (CommonDefinition marker:CommonDefinition.markers()) if (marker.get().id().equals(attribute.getDefinitionId())) return marker.get();
 		return null;
 	}
 }

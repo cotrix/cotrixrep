@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
@@ -107,7 +107,7 @@ public class Table2Codelist {
 	 * <p>
 	 * @return the mapped codelist
 	 */
-	Codelist list(Iterable<Definition> defs) {
+	Codelist list(Iterable<AttributeDefinition> defs) {
 		
 		boolean hasVersion = directives.version()!=null;
 		SecondClause clause= codelist().
@@ -128,9 +128,9 @@ public class Table2Codelist {
 			String msg = "missing code in '"+directives.name()+"'";
 			
 			switch(directives.mode()) {
-				case STRICT:
+				case strict:
 					report().log(msg).as(ERROR);break;
-				case LOG:
+				case log:
 					report().log(msg).as(WARN);break;
 				default:
 			}

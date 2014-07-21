@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attribute.Private;
 import org.cotrix.domain.attributes.Attribute.State;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -45,7 +45,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	}
 	
 	@Override
-	public Definition.State definition() {
+	public AttributeDefinition.State definition() {
 		
 		if (node().hasProperty(cdef_prop))
 			return commonDefinitionFor((String) node().getProperty(cdef_prop)).state();
@@ -61,7 +61,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	}
 
 	@Override
-	public void definition(Definition.State state) {
+	public void definition(AttributeDefinition.State state) {
 		
 		//common definitions are named in a property and then reconsituted in memory
 		if (isCommon(state.name().getLocalPart()))

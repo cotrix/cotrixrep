@@ -12,7 +12,7 @@ import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 import org.cotrix.web.manage.shared.UICodeInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.dom.client.Document;
@@ -143,9 +143,9 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	}
 
 	private void readLink() {
-		UILinkTypeInfo type = detailsPanel.getLinkType();
-		link.setTypeId(type!=null?type.getId():null);
-		link.setTypeName(type!=null?type.getName():null);
+		UILinkDefinitionInfo type = detailsPanel.getLinkDefinition();
+		link.setDefinitionId(type!=null?type.getId():null);
+		link.setDefinitionName(type!=null?type.getName():null);
 		
 		UICodeInfo code = detailsPanel.getCode();
 		link.setTargetId(code!=null?code.getId():null);
@@ -181,7 +181,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	}
 
 	private void writeLink() {
-		detailsPanel.setLinkType(link.getTypeId(), link.getTypeName());
+		detailsPanel.setLinkDefinition(link.getDefinitionId(), link.getDefinitionName());
 		detailsPanel.setCode(link.getTargetId(), link.getTargetName());
 		detailsPanel.setValue(link.getValue());
 		detailsPanel.setValueVisible(link.getValue()!=null);
@@ -190,7 +190,7 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	}
 	
 	private void updateHeaderLabel() {
-		header.setHeaderLabel(ValueUtils.getLocalPart(link.getTypeName()));
+		header.setHeaderLabel(ValueUtils.getLocalPart(link.getDefinitionName()));
 	}
 
 	private void updateHeaderButtons() {
@@ -210,9 +210,9 @@ public class LinkPanel extends Composite implements ItemEditingPanel<UILink> {
 	private void validate() {
 		boolean valid = true;
 
-		UILinkTypeInfo linkType = detailsPanel.getLinkType();
+		UILinkDefinitionInfo linkType = detailsPanel.getLinkDefinition();
 		boolean linkTypeValid = linkType!=null;
-		detailsPanel.setValidLinkType(linkTypeValid);
+		detailsPanel.setValidLinkDefinition(linkTypeValid);
 		valid &= linkTypeValid;
 		
 		UICodeInfo code = detailsPanel.getCode();

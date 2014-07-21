@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;
@@ -46,13 +46,13 @@ public class CodeLinkCommandHandler {
 		
 		switch (command.getAction()) {
 			case ADD: {
-				CodelistLink linkType = repository.lookup(codelistId).links().lookup(link.getTypeId());
+				LinkDefinition linkType = repository.lookup(codelistId).links().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				changeset = ChangesetUtil.addCodelink(link, linkType, code);
 			} break;
 			case UPDATE: {
 				Codelist codelist = repository.lookup(codelistId);
-				CodelistLink linkType = codelist.links().lookup(link.getTypeId());
+				LinkDefinition linkType = codelist.links().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				Codelink oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
 				changeset = ChangesetUtil.updateCodelink(link, oldLink, linkType, code);

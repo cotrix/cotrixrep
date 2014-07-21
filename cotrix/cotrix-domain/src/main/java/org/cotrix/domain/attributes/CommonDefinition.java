@@ -34,6 +34,7 @@ public enum CommonDefinition implements Named {
 	
 	DELETED				(make("deleted"),true),
 	INVALID				(make("invalid"),true),
+	ANOTHER_MARKER      (make("another_marker"),true),
 	
 	PREVIOUS_VERSION 		(make("previous_version"),VISIBLE),
 	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
@@ -65,16 +66,16 @@ public enum CommonDefinition implements Named {
 	
 	
 	
-	private final Definition def;
+	private final AttributeDefinition def;
 	private final boolean marker;
 	private final List<Facet> facets = new ArrayList<Facet>();
 	
 	
-	private CommonDefinition(Definition def,Facet ... facets) {
+	private CommonDefinition(AttributeDefinition def,Facet ... facets) {
 		this(def,false,facets);
 	}
 	
-	private CommonDefinition(Definition def, boolean marker, Facet ... facets) {
+	private CommonDefinition(AttributeDefinition def, boolean marker, Facet ... facets) {
 		
 		this.def= def;
 		this.marker=marker;
@@ -94,7 +95,7 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//trust this is not going to be changed..if paranoia ensues, copy-construct..
-	public Definition get() {
+	public AttributeDefinition get() {
 		return def;
 	}
 	
@@ -103,7 +104,7 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//just handy, cleans client code
-	public Definition.State state() {
+	public AttributeDefinition.State state() {
 		return reveal(def).state();
 	}
 	
@@ -135,12 +136,12 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//helper
-	private static Definition make(String name) {
+	private static AttributeDefinition make(String name) {
 		return make(name,atmostonce);
 	}
 	
 	//helper
-	private static Definition make(String name,Range range) {
+	private static AttributeDefinition make(String name,Range range) {
 		return definition().name(q(NS,name)).is(SYSTEM_TYPE).occurs(range).build();
 	}
 	

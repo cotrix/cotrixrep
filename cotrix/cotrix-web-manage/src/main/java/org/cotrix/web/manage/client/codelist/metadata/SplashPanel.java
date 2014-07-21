@@ -55,10 +55,10 @@ public class SplashPanel extends LoadingPanel {
 	@UiField PushButton unseal;
 	
 	@Inject
-	@UiField(provided=true) AttributeTypesPanel attributeTypesPanel;
+	@UiField(provided=true) AttributeDefinitionsPanel attributeDefinitionsPanel;
 	
 	@Inject
-	@UiField(provided=true) LinkTypesPanel linkTypesPanel;
+	@UiField(provided=true) LinkDefinitionsPanel linkDefinitionsPanel;
 	
 	@Inject
 	private AlertDialog alertDialog;
@@ -79,9 +79,6 @@ public class SplashPanel extends LoadingPanel {
 		name.setTitle(codelist.getName().getLocalPart());
 		version.setText(codelist.getVersion());
 		state.setText(codelist.getState()!=null?codelist.getState().toString():"");
-		
-		attributeTypesPanel.loadData();
-		linkTypesPanel.loadData();
 	}
 	
 	@EventHandler
@@ -95,12 +92,12 @@ public class SplashPanel extends LoadingPanel {
 		eventBinder.bindEventHandlers(this, bus);
 	}
 
-	public HasEditing getAttributeTypesPanel() {
-		return attributeTypesPanel;
+	public HasEditing getAttributeDefinitionsPanel() {
+		return attributeDefinitionsPanel;
 	}
 
-	public HasEditing getLinkTypesPanel() {
-		return linkTypesPanel;
+	public HasEditing getLinkDefinitionsPanel() {
+		return linkDefinitionsPanel;
 	}
 	
 	

@@ -4,7 +4,7 @@ package org.cotrix.domain.dsl.grammar;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
@@ -29,10 +29,10 @@ public class CodelistLinkGrammar {
 		
 		OptionalClause anchorTo(Attribute template);
 		
-		OptionalClause anchorTo(CodelistLink template);
+		OptionalClause anchorTo(LinkDefinition template);
 	}
 
-	public static interface OptionalClause extends ValueTypeClause, AttributeClause<CodelistLink, OptionalClause> {
+	public static interface OptionalClause extends ValueTypeClause, AttributeClause<LinkDefinition, OptionalClause> {
 		
 		OptionalClause transformWith(ValueFunction function);
 		

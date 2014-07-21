@@ -9,18 +9,18 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
-import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
+import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -56,15 +56,17 @@ public interface ManageService extends RemoteService {
 	
 	UICodelistInfo createNewCodelist(String name, String version) throws ServiceException;
 	
-	DataWindow<UILinkType> getCodelistLinkTypes(String codelistId) throws ServiceException;
+	DataWindow<UILinkDefinition> getCodelistLinkTypes(String codelistId) throws ServiceException;
 	List<UICodelist> getCodelists() throws ServiceException;
 	CodelistValueTypes getCodelistValueTypes(String codelistId) throws ServiceException;
 	
-	List<UILinkTypeInfo> getLinkTypes(String codelistId) throws ServiceException;
+	List<UILinkDefinitionInfo> getLinkTypes(String codelistId) throws ServiceException;
 	List<UICodeInfo> getCodes(String codelistId, String linkTypeId) throws ServiceException;
 	
 	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException;
 	
-	DataWindow<UIAttributeType> getCodelistAttributeTypes(String codelistId) throws ServiceException;
+	DataWindow<UIAttributeDefinition> getCodelistAttributeTypes(String codelistId) throws ServiceException;
+	
+	List<UIAttributeDefinition> getMarkersAttributeTypes() throws ServiceException;
 
 }

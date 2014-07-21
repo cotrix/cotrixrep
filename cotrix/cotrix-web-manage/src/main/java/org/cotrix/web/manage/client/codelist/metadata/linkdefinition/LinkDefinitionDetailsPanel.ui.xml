@@ -1,0 +1,70 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.metadata.linkdefinition"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets"
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table"
+	xmlns:cc="urn:import:org.cotrix.web.manage.client.codelist.common">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<t:Table ui:field="table" styleName="{resources.detailsPanelStyle.table}">
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The name of this link.">Name</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedTextBox ui:field="nameBox" styleName="{resources.detailsPanelStyle.textbox}" placeholder="Type a name..." />
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The codelist you want to link to.">Target</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:FlowPanel>
+						<cc:SuggestListBox ui:field="codelistBox" placeholder="Pick a codelist..."/>
+						<g:FlowPanel styleName="{resources.detailsPanelStyle.loaderContainer}">
+							<g:Image resource="{commonresources.dataLoader}" visible="false"
+								ui:field="codelistBoxLoader" styleName="{resources.detailsPanelStyle.loader}" />
+						</g:FlowPanel>
+					</g:FlowPanel>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The value of target codes you want to link to.">Anchor</g:Label>
+				</t:cell>
+				<t:cell>
+					<l:ValueTypePanel ui:field="valueTypePanel" title="The value of target codes you want to link to."/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The transformation you want to apply to the value of this link.">Transform</g:Label>
+				</t:cell>
+				<t:cell>
+					<g:ListBox multipleSelect="false" ui:field="valueFunction" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="functionArgumentsRow">
+				<t:cell>
+					<g:Label ui:field="functionArgumentLabel" />
+				</t:cell>
+				<t:cell>
+					<g:TextBox ui:field="functionArgumentBox" styleName="{resources.detailsPanelStyle.textbox}" />
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+	</t:Table>
+</ui:UiBinder> 

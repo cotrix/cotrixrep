@@ -28,8 +28,7 @@ public class CodelistSummary {
 		this.size = list.codes().size();
 		
 		this.codeFingerprint = new Fingerprint()
-								.addDefinitions(list.definitions())
-								.addLinks(list.links());
+								.addDefinitions(list.definitions());
 		
 		this.codelistFingerprint = new Fingerprint().addAttributes(list.attributes());
 		
@@ -46,8 +45,8 @@ public class CodelistSummary {
 
 	
 	public Collection<QName> allNames() {
-		Collection<QName> names = new HashSet<>(codeFingerprint.names());
-		names.addAll(codelistFingerprint.names());
+		Collection<QName> names = new HashSet<>(codeFingerprint.attributeNames());
+		names.addAll(codelistFingerprint.attributeNames());
 		return names;
 	}
 
@@ -62,11 +61,11 @@ public class CodelistSummary {
 	}
 
 	public Collection<QName> codeNames() {
-		return codeFingerprint.names();
+		return codeFingerprint.attributeNames();
 	}
 
 	public Collection<QName> codelistNames() {
-		return codelistFingerprint.names();
+		return codelistFingerprint.attributeNames();
 	}
 
 	public Collection<QName> codeTypesFor(QName name) {

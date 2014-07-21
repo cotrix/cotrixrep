@@ -10,7 +10,7 @@ import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
@@ -37,7 +37,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);
 
@@ -58,7 +58,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 		directives.name("custom");
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);
@@ -80,7 +80,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 		directives.version("2");
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);
@@ -152,7 +152,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		assertEquals(1,list.definitions().size());
 		
-		Definition def = list.definitions().iterator().next();
+		AttributeDefinition def = list.definitions().iterator().next();
 		
 		Code code1 = list.codes().lookup(q("1"));
 		Code code2 = list.codes().lookup(q("3"));

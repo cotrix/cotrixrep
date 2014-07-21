@@ -1,0 +1,84 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:l="urn:import:org.cotrix.web.manage.client.codelist.metadata.linkdefinition"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets" 
+	xmlns:t="urn:import:org.cotrix.web.common.client.widgets.table"
+	xmlns:cc="urn:import:org.cotrix.web.manage.client.codelist.common">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='commonresources'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<t:Table ui:field="table" styleName="{resources.detailsPanelStyle.table}">
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The name of this attribute.">Name</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedTextBox ui:field="nameBox" styleName="{resources.detailsPanelStyle.textbox}" placeholder="Type a name..."/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The type of this attribute.">Type</g:Label>
+				</t:cell>
+				<t:cell>
+					<cc:SuggestListBox ui:field="typeBox" />
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The language of this attribute.">Language</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:LanguageListBox ui:field="languageBox" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The default value of this attribute.">Default</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedTextBox ui:field="defaultBox" styleName="{resources.detailsPanelStyle.textbox}" placeholder="&lt;none&gt;"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="The number of times this attribute can occur within each code.">Occurs</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:EnumListBox ui:field="occurrencesBox" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="occurrencesMinRow">
+				<t:cell>
+					<g:Label>Min</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedIntegerBox ui:field="occurrencesMin" placeholder="min" styleName="{resources.detailsPanelStyle.textbox}"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="occurrencesMaxRow">
+				<t:cell>
+					<g:Label>Max</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedIntegerBox ui:field="occurrencesMax" placeholder="max" styleName="{resources.detailsPanelStyle.textbox}"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+	</t:Table>
+</ui:UiBinder> 

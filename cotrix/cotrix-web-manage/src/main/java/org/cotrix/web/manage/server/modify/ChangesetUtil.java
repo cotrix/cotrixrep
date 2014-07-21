@@ -14,11 +14,11 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
@@ -35,15 +35,15 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
-import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
-import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
-import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
+import org.cotrix.web.common.shared.codelist.linkdefinition.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.LinkValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition.UIValueType;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -51,7 +51,7 @@ import org.cotrix.web.common.shared.codelist.linktype.UIValueFunction;
  */
 public class ChangesetUtil {
 
-	public static Attribute addAttribute(UIAttribute uiAttribute, Definition definition) {
+	public static Attribute addAttribute(UIAttribute uiAttribute, AttributeDefinition definition) {
 		
 		if (definition!=null) {
 			return attribute()
@@ -71,7 +71,7 @@ public class ChangesetUtil {
 		}
 	}
 
-	public static Attribute updateAttribute(UIAttribute uiAttribute, Definition definition) {
+	public static Attribute updateAttribute(UIAttribute uiAttribute, AttributeDefinition definition) {
 		
 		if (definition!=null) {
 			return modifyAttribute(uiAttribute.getId())
@@ -125,12 +125,12 @@ public class ChangesetUtil {
 		return modifyCodelist(id).name(convert(name)).build();
 	}
 	
-	public static Codelink addCodelink(UILink link, CodelistLink linkType, Code code) {
+	public static Codelink addCodelink(UILink link, LinkDefinition linkType, Code code) {
 		List<Attribute> attributes = addAttributes(link.getAttributes());
 		return link().instanceOf(linkType).target(code).attributes(attributes).build();
 	}
 	
-	public static Codelink updateCodelink(UILink link, Codelink oldLink, CodelistLink linkType, Code code) {
+	public static Codelink updateCodelink(UILink link, Codelink oldLink, LinkDefinition linkType, Code code) {
 		List<Attribute> attributes = buildChangeSet(link.getAttributes(), oldLink.attributes());
 		return modifyLink(link.getId()).target(code).attributes(attributes).build();
 	}
@@ -139,7 +139,7 @@ public class ChangesetUtil {
 		return deleteLink(link.getId());
 	}
 	
-	public static CodelistLink addCodelistLink(UILinkType linkType, Codelist target) {
+	public static LinkDefinition addCodelistLink(UILinkDefinition linkType, Codelist target) {
 		UIValueType valueType = linkType.getValueType();
 		
 		OptionalClause clause = null;
@@ -156,7 +156,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
-			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
+			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
 		
@@ -190,7 +190,7 @@ public class ChangesetUtil {
 		return arguments.get(0);
 	}
 
-	public static CodelistLink updateCodelistLink(UILinkType linkType, Codelist target, CodelistLink oldCodelistLink) {
+	public static LinkDefinition updateCodelistLink(UILinkDefinition linkType, Codelist target, LinkDefinition oldCodelistLink) {
 		
 		UIValueType valueType = linkType.getValueType();
 		
@@ -208,7 +208,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
-			CodelistLink codelistLink = findCodelistLink(link.getLinkId(), target.links());
+			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
 			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
 		
@@ -270,13 +270,13 @@ public class ChangesetUtil {
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
 	}
 	
-	private static CodelistLink findCodelistLink(String id, NamedContainer<? extends CodelistLink> namedContainer) {
-		for (CodelistLink codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
+	private static LinkDefinition findCodelistLink(String id, NamedContainer<? extends LinkDefinition> namedContainer) {
+		for (LinkDefinition codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
 		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}
 	
 	
-	public static Definition addDefinition(UIAttributeType attributeType) {
+	public static AttributeDefinition addDefinition(UIAttributeDefinition attributeType) {
 		return definition().name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
@@ -285,7 +285,7 @@ public class ChangesetUtil {
 				.build();
 	}
 	
-	public static Definition updateDefinition(UIAttributeType attributeType) {
+	public static AttributeDefinition updateDefinition(UIAttributeDefinition attributeType) {
 		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))

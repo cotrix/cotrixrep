@@ -21,10 +21,11 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
+import org.cotrix.web.common.client.widgets.cell.SafeHtmlRendererCell;
 import org.cotrix.web.common.client.widgets.cell.StyledSafeHtmlRenderer;
-import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
@@ -33,13 +34,14 @@ import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.data.event.EditType;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
@@ -50,12 +52,14 @@ import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -70,6 +74,7 @@ import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
+import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -96,7 +101,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	interface DataGridStyle extends PatchedDataGrid.Style {
 
-		String groupHeaderCell();
+		String headerCell();
+		
+		String markerHeader();
 
 		String textCell();
 
@@ -152,6 +159,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private UIFactories factories;
+	
+	@Inject
+	private MarkerRenderer markerRenderer;
 
 	@Inject
 	private void init() {
@@ -181,6 +191,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
+		dataGrid.setLastColumnSpan(true);
 
 		AsyncHandler asyncHandler = new AsyncHandler(dataGrid);
 		dataGrid.addColumnSortHandler(asyncHandler);
@@ -235,6 +246,24 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	private void setupColumns() {
+		
+		Column<UICode, UICode> markerColumn = new Column<UICode, UICode>(new SafeHtmlRendererCell<UICode>(markerRenderer)) {
+			
+			@Override
+			public UICode getValue(UICode object) {
+				return object;
+			}
+		};
+		
+		Header<ImageResource> markerHeader = new Header<ImageResource>(new ImageResourceCell()) {
+			
+			@Override
+			public ImageResource getValue() {
+				return CotrixManagerResources.INSTANCE.markersHeader();
+			}
+		};
+		markerHeader.setHeaderStyleNames(resource.dataGridStyle().markerHeader());
+		dataGrid.addFixedWidthColumn(markerColumn, markerHeader, 10);
 
 		nameColumn = new CodeColumn(createCell(true));
 
@@ -249,7 +278,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			}
 		});
 
-		dataGrid.addColumn(nameColumn, "Code");
+		TextHeader nameColumnHeader = new TextHeader("Code");
+		nameColumnHeader.setHeaderStyleNames(resource.dataGridStyle().headerCell());
+		dataGrid.addColumn(nameColumn, nameColumnHeader);
+		
+
 	}
 
 	public void showAllGroupsAsColumn(final boolean reloadData)
@@ -280,17 +313,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	{
 		this.editable = editable;
 		for (DoubleClickEditTextCell cell:editableCells) cell.setReadOnly(!editable);
-	}
-
-	private DoubleClickEditTextCell createCell(boolean isEditable)
-	{
-		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
-		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
-		if (isEditable) {
-			cell.setReadOnly(!editable);
-			editableCells.add(cell);
-		}
-		return cell;
 	}
 
 	@Inject
@@ -369,6 +391,17 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		selectionModel.setSelected(code, true);
 		codeEditor.added(code);
 	}
+	
+	private DoubleClickEditTextCell createCell(boolean isEditable)
+	{
+		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
+		DoubleClickEditTextCell cell = new DoubleClickEditTextCell(editorStyle, cellRenderer);
+		if (isEditable) {
+			cell.setReadOnly(!editable);
+			editableCells.add(cell);
+		}
+		return cell;
+	}
 
 	private Column<UICode, String> getGroupColumn(final Group group)
 	{
@@ -427,7 +460,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		Column<UICode, String> column = getGroupColumn(group);
 		groupsAsColumn.add(group);
 
-		dataGrid.addColumn(column, new GroupHeader(group));
+		GroupHeader header = new GroupHeader(group);
+		header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
+		dataGrid.addColumn(column, header);
 	}
 
 	private void switchToNormal(Group group)

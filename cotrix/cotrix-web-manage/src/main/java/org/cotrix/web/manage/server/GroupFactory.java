@@ -77,7 +77,7 @@ public class GroupFactory {
 
 		@Override
 		public LinkGroup generate(Codelink link) {
-			boolean isSystemGroup = link.type()!=null?link.type().equals(Constants.SYSTEM_TYPE):false;
+			boolean isSystemGroup = link.definition()!=null?link.definition().equals(Constants.SYSTEM_TYPE):false;
 			return new LinkGroup(ValueUtils.safeValue(link.qname()), isSystemGroup);
 		}
 	};

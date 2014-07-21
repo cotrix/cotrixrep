@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
@@ -20,7 +20,7 @@ public class AttributeTest extends DomainTest {
 
 	ValueType valuetype = valueType().defaultsTo("mydef");
 	
-	Definition def = definition().name(name).build();
+	AttributeDefinition def = definition().name(name).build();
 	
 	Attribute typed = attribute().with(def).value(value).build();
 
@@ -48,7 +48,7 @@ public class AttributeTest extends DomainTest {
 
 		// defaults, typed
 
-		Definition def = definition().name(name).valueIs(valuetype).build();
+		AttributeDefinition def = definition().name(name).valueIs(valuetype).build();
 		Attribute minimalTyped = attribute().with(def).build();
 
 		assertEquals(def, minimalTyped.definition());
@@ -76,7 +76,7 @@ public class AttributeTest extends DomainTest {
 		//change description
 		modify(untyped).description(description).build();
 	
-		Definition newdef = definition().name(name).build();
+		AttributeDefinition newdef = definition().name(name).build();
 
 		//change definition
 		modify(typed).with(newdef).build();
@@ -120,7 +120,7 @@ public class AttributeTest extends DomainTest {
 		
 		//typed
 		
-		Definition newdef = definition().name(name2).build();
+		AttributeDefinition newdef = definition().name(name2).build();
 
 		Attribute changesetTyped = modify(typed).with(newdef).value(value2).build();
 
@@ -184,7 +184,7 @@ public class AttributeTest extends DomainTest {
 		//definition becomes more restrictive
 		ValueType newtype = valueType().with(max_length.instance(2));
 
-		Definition defChangeset = modify(typed.definition()).valueIs(newtype).build();
+		AttributeDefinition defChangeset = modify(typed.definition()).valueIs(newtype).build();
 
 		reveal(typed.definition()).update(reveal(defChangeset));
 

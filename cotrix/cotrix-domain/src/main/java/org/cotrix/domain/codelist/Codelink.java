@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -14,19 +15,12 @@ import org.cotrix.domain.values.ValueFunction;
 
 /**
  * An {@link Identified} and {@link Attributed} instance of a
- * {@link CodelistLink}.
+ * {@link LinkDefinition}.
  * 
  * @author Fabio Simeoni
  * 
  */
-public interface Codelink extends Identified, Attributed, Named {
-
-	/**
-	 * Returns the type of this link.
-	 * 
-	 * @return the type
-	 */
-	CodelistLink type();
+public interface Codelink extends Identified, Attributed, Named, Defined<LinkDefinition> {
 
 	/**
 	 * Returns the value of this link.
@@ -35,6 +29,8 @@ public interface Codelink extends Identified, Attributed, Named {
 	 */
 	List<Object> value();
 	
+	
+	String valueAsString();
 	
 	/**
 	 * Returns the target of this link.
@@ -46,9 +42,9 @@ public interface Codelink extends Identified, Attributed, Named {
 
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		CodelistLink.State type();
+		LinkDefinition.State type();
 
-		void type(CodelistLink.State state);
+		void type(LinkDefinition.State state);
 
 		Code.State target();
 
@@ -71,11 +67,31 @@ public interface Codelink extends Identified, Attributed, Named {
 			//safe: type cannot be or become null
 			return state().type().name();
 		}
+		
+		@Override
+		public String valueAsString() {
+			
+			List<Object> linkval = value();
+			
+			if (linkval.isEmpty())
+				return null; 
+						
+			else 
+				
+				if (linkval.size()==1) {	
+				
+					Object val = linkval.get(0);
+					return val==null?null:val.toString();
+				
+				}
+				else
+			     	return linkval.toString();
+		}
 
 		@Override
 		public List<Object> value() {
 
-			return resolve(this.state(), this.type().state(),new ArrayList<String>());
+			return resolve(this.state(), this.definition().state(),new ArrayList<String>());
 
 		}
 		
@@ -85,8 +101,8 @@ public interface Codelink extends Identified, Attributed, Named {
 		}
 
 		@Override
-		public CodelistLink.Private type() {
-			return new CodelistLink.Private(state().type());
+		public LinkDefinition.Private definition() {
+			return new LinkDefinition.Private(state().type());
 		}
 
 		@Override
@@ -111,7 +127,7 @@ public interface Codelink extends Identified, Attributed, Named {
 		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
-		public static List<Object> resolve(Codelink.State link, CodelistLink.State type, List<String> ids) {
+		public static List<Object> resolve(Codelink.State link, LinkDefinition.State type, List<String> ids) {
 
 			if (ids.contains(link.id())) {
 				StringBuilder cycle = new StringBuilder();

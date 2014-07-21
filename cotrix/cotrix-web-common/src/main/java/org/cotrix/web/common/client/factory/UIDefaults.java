@@ -6,7 +6,7 @@ package org.cotrix.web.common.client.factory;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 
 import com.google.inject.Singleton;
 

@@ -9,7 +9,7 @@ import static org.sdmx.CodelistBuilder.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
@@ -47,9 +47,9 @@ public class Sdmx2CodelistTest extends DomainTest {
 		Code c2 = codelist.codes().lookup(q("c2"));
 		Code c3 = codelist.codes().lookup(q("c3"));
 		
-		Definition d1 = c1.attributes().lookup(DEFAULT.get(NAME)).definition();
-		Definition d2 = c2.attributes().lookup(DEFAULT.get(NAME)).definition();
-		Definition d3 = c3.attributes().lookup(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d1 = c1.attributes().lookup(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d2 = c2.attributes().lookup(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d3 = c3.attributes().lookup(DEFAULT.get(NAME)).definition();
 		
 		assertEquals(d1,d2);
 		assertNotEquals(d1,d3);

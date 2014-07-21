@@ -109,7 +109,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	
 	private boolean accept(UILink link)
 	{
-		if (name!=null && !name.equals(link.getTypeName())) return false;
+		if (name!=null && !name.equals(link.getDefinitionName())) return false;
 		return true;
 	}
 	

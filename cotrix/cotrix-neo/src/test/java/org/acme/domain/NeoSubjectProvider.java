@@ -10,12 +10,12 @@ import javax.enterprise.inject.Alternative;
 
 import org.acme.SubjectProvider;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Attribute.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
@@ -64,11 +64,11 @@ public class NeoSubjectProvider implements SubjectProvider {
 		else if (object instanceof Attribute)
 			provided = new Attribute.Private(like(object, Attribute.Private.class,NeoAttribute.factory));
 		
-		else if (object instanceof Definition)
-			provided = new Definition.Private(like(object, Definition.Private.class,NeoDefinition.factory));
+		else if (object instanceof AttributeDefinition)
+			provided = new AttributeDefinition.Private(like(object, AttributeDefinition.Private.class,NeoDefinition.factory));
 
-		else if (object instanceof CodelistLink)
-			provided = new CodelistLink.Private(like(object,CodelistLink.Private.class,NeoCodelistLink.factory)); 
+		else if (object instanceof LinkDefinition)
+			provided = new LinkDefinition.Private(like(object,LinkDefinition.Private.class,NeoCodelistLink.factory)); 
 
 		else if (object instanceof Codelink)
 			provided = new Codelink.Private(like(object, Codelink.Private.class,NeoCodelink.factory));

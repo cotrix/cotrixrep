@@ -1,9 +1,9 @@
 package org.cotrix.domain.dsl.grammar;
 
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinksClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
@@ -26,16 +26,16 @@ public class CodelistGrammar {
 	
 	//all the other are optionals (collections or defaultable)
 	public static interface SecondClause extends WithManyClause<Code,SecondClause>,
-												 LinksClause<CodelistLink,SecondClause>,
+												 LinksClause<LinkDefinition,SecondClause>,
 												 AttributeClause<Codelist,SecondClause>,
 												 VersionClause<Codelist> {
 		
 		
 		
-		SecondClause definitions(Definition ... types);
+		SecondClause definitions(AttributeDefinition ... types);
 		
 		
-		SecondClause definitions(Iterable<Definition> types);
+		SecondClause definitions(Iterable<AttributeDefinition> types);
 	}
 
 	

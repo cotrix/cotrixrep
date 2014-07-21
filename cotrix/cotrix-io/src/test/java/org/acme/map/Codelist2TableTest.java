@@ -2,8 +2,8 @@ package org.acme.map;
 
 import static org.acme.TestUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.io.tabular.map.AttributeDirectives.*;
 import static org.cotrix.io.tabular.map.Codelist2Table.*;
+import static org.cotrix.io.tabular.map.MemberDirective.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.io.MapService;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
 import org.junit.Test;
@@ -26,173 +28,134 @@ public class Codelist2TableTest {
 	@Inject
 	MapService mapper;
 	
+	
+	//---- codelist fixture
+	
+		Attribute ta = attribute().name("ta").value("tv").build();
+		Code tc = code().name("tc").attributes(ta).build();
+		Codelist tlist = codelist().name("t").with(tc).build();
+	
+	LinkDefinition nl = listLink().name("nl").target(tlist).build();
+	LinkDefinition al = listLink().name("al").target(tlist).anchorTo(ta).build();
+	
+	Attribute a = attribute().name("a").value("v").build();
+	Codelink l1 = link().instanceOf(nl).target(tc).build();
+	Codelink l2 = link().instanceOf(al).target(tc).build();
+	
+	Code c = code().name("c").attributes(a).links(l1,l2).build();
+	
+	
+	Codelist list = codelist().name("l").links(nl,al).with(c).build();
+	
+	//---------------------------------------------------------------------
+	
+	Codelist2TableDirectives directives = new Codelist2TableDirectives();
+	
 	@Test
-	public void defaultCodeColumn() throws Exception {
+	public void defaultCode() throws Exception {
 
-		Code code = code().name("c").build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		//System.out.println(outcome.report());
 		
 		assertFalse(outcome.report().logs().isEmpty());
 		
 		String[][] expectedData = {{"c"}};
 		
-		Table expected = asTable(expectedData,DEFAULT_CODE_COLUMN_NAME);
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN);
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
-	public void customCodeColumn() throws Exception {
+	public void customCode() throws Exception {
 
-		Code code = code().name("c").build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
+		directives.codeColumn("mycode");
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
-		
 		String[][] expectedData = {{"c"}};
 		
-		Table expected = asTable(expectedData,"mycode");
+		Table expectedTable = asTable(expectedData,"mycode");
 		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
-	public void attributeSelectedByName() throws Exception {
+	public void defaultAttribute() throws Exception {
 
-		Attribute a = attribute().name("a1").value("val").build();
-		
-		Code code = code().name("c").attributes(a).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		Attribute template = attribute().name("a1").build();
-		directives.add(template);
+		directives.add(a);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		String[][] expectedData = {{"c","v"}};
 		
-		String[][] expectedData = {{"c","val"}};
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"a");
 		
-		Table expected = asTable(expectedData,"mycode","a1");
-		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
-	public void attributeSelectedByNameWithCustomisation() throws Exception {
+	public void customAttribute() throws Exception {
 
-		Attribute a = attribute().name("a1").value("val").build();
-		
-		Code code = code().name("c").attributes(a).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		Attribute template = attribute().name("a1").build();
-		
-		directives.add(map(template).to("custom"));
+		directives.add(map(a).to("custom"));
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		String[][] expectedData = {{"c","v"}};
 		
-		String[][] expectedData = {{"c","val"}};
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"custom");
 		
-		Table expected = asTable(expectedData,"mycode","custom");
-		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
-	
-	
+		
 	@Test
-	public void attributeSelectedByNameAndType() throws Exception {
+	public void defaultNameLink() throws Exception {
 
-		Attribute a1 = attribute().name("a1").value("val1").build();
-		Attribute a2 = attribute().name("a2").value("val2").ofType("type").build();
-		
-		Code code = code().name("c").attributes(a1,a2).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		Attribute template = attribute().name("a2").value("..").ofType("type").build();
-		
-		directives.add(map(template).to("a2-type"));
+		directives.add(nl);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		String[][] expectedData = {{"c","tc"}};
 		
-		String[][] expectedData = {{"c","val2"}};
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"nl");
 		
-		Table expected = asTable(expectedData,"mycode","a2-type");
-		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
 	
 	@Test
-	public void attributeSelectedByNameAndLanguage() throws Exception {
-
-		Attribute a1 = attribute().name("a1").value("val1").in("en").build();
-		Attribute a2 = attribute().name("a1").value("val2").in("fr").build();
+	public void defaultAttributeLink() throws Exception {
 		
-		Code code = code().name("c").attributes(a1,a2).build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Codelist2TableDirectives directives = new Codelist2TableDirectives();
-		directives.codeColumnName("mycode");
-		
-		Attribute template = attribute().name("a1").value("..").in("fr").build();
-		
-		directives.add(map(template).to("a1-fr"));
+		directives.add(al);
 		
 		Outcome<Table> outcome = mapper.map(list, directives);
 
-		System.out.println(outcome.report());
+		String[][] expectedData = {{"c","tv"}};
 		
-		String[][] expectedData = {{"c","val2"}};
+		Table expectedTable = asTable(expectedData,DEFAULT_CODECOLUMN,"al");
 		
-		Table expected = asTable(expectedData,"mycode","a1-fr");
-		
-		assertEquals(expected,outcome.result());
+		assertEquals(expectedTable,outcome.result());
 		
 		//System.out.println(serialise(outcome.result()));
 
-		assertEquals(outcome.result(),expectedData);
+		assertEquals(expectedData,outcome.result());
 	}
-	
 }

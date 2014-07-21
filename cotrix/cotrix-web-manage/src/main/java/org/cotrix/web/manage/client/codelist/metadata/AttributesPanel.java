@@ -15,8 +15,10 @@ import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
 import org.cotrix.web.manage.client.codelist.common.attribute.CodelistAttributeEditingPanelFactory;
+import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.MetadataProvider;
+import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -29,6 +31,9 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.google.web.bindery.event.shared.EventBus;
+import com.google.web.bindery.event.shared.binder.EventBinder;
+import com.google.web.bindery.event.shared.binder.EventHandler;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -36,6 +41,7 @@ import com.google.inject.Inject;
  */
 public class AttributesPanel extends LoadingPanel implements HasEditing {
 
+	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {};
 	interface MetadataPanelUiBinder extends UiBinder<Widget, AttributesPanel> {}
 	
 	private static MetadataPanelUiBinder uiBinder = GWT.create(MetadataPanelUiBinder.class);
@@ -119,6 +125,11 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
+	
+	@Inject
+	protected void bind(@CodelistBus EventBus codelistBus, AttributesPanelEventBinder eventBinder) {
+		eventBinder.bindEventHandlers(this, codelistBus);
+	}
 
 	protected void addNewAttribute()
 	{
@@ -148,8 +159,11 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 		//workaround issue #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
 		onResize();
-
-		if (metadata == null) loadData();
+	}
+	
+	@EventHandler
+	public void onReady(ReadyEvent event) {
+		loadData();
 	}
 
 	public void loadData()

@@ -7,10 +7,10 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Definition;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.CodelistLink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodelistMS;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +18,10 @@ import org.junit.Test;
 public class CodelistTest extends DomainTest {
 	
 	Attribute attr = attribute().name(name).build();
-	Definition def = definition().name(name).build();
+	AttributeDefinition def = definition().name(name).build();
 	Code code = code().name(name).build();
 	Codelist target = codelist().name(name).build();
-	CodelistLink link = listLink().name(name).target(target).build();
+	LinkDefinition link = listLink().name(name).target(target).build();
 	String version = "0.1";
 	
 	Codelist list = codelist()
@@ -131,8 +131,8 @@ public class CodelistTest extends DomainTest {
 		//don't need to re-test containers here
 		//the simplest proof that update reaches them will do
 
-		Definition newdef = modify(def).name("newname").build();
-		CodelistLink newlink = modify(link).name("newname").build();
+		AttributeDefinition newdef = modify(def).name("newname").build();
+		LinkDefinition newlink = modify(link).name("newname").build();
 		
 		Codelist changeset = modify(list)
 				.name(name2)

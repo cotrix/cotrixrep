@@ -1,10 +1,10 @@
 package org.acme.map;
 
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.io.sdmx.Constants.*;
 import static org.cotrix.io.sdmx.SdmxElement.*;
 import static org.junit.Assert.*;
+import static org.sdmxsource.sdmx.util.date.DateUtil.*;
 
 import java.util.Calendar;
 import java.util.Collection;
@@ -14,21 +14,21 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.io.MapService;
 import org.cotrix.io.SerialisationService;
-import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
 import org.cotrix.io.sdmx.serialise.Sdmx2XmlDirectives;
-import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.sdmx.SdmxServiceFactory;
 import org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL;
 import org.sdmxsource.sdmx.api.model.beans.base.AnnotationBean;
 import org.sdmxsource.sdmx.api.model.beans.base.TextTypeWrapper;
+import org.sdmxsource.sdmx.api.model.beans.codelist.CodeBean;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
-import org.sdmxsource.sdmx.util.date.DateUtil;
 
 import com.googlecode.jeeunit.JeeunitRunner;
 
@@ -37,168 +37,343 @@ import com.googlecode.jeeunit.JeeunitRunner;
 @RunWith(JeeunitRunner.class)
 public class Codelist2SdmxTest {
 
-	String customNameType = "customname";
-	String customDescriptionType = "customdescription";
-	String customAnnotationType = "customannotation";
-	
 	@Inject
 	MapService mapper;
 	
 	@Inject
 	SerialisationService serialiser;
+
 	
-	@BeforeClass
-	public static void init() {
+	//---- codelist fixture
+	
+	Attribute from = attribute().name("from").value(formatDate(Calendar.getInstance().getTime())).build();
+	Attribute not_a_date = attribute().name("to").value("bad").build();
+	
+	Code ttc = code().name("ttc").build();
+	Codelist ttlist = codelist().name("tt").with(ttc).build();
+
+	LinkDefinition nnl = listLink().name("nnl").target(ttlist).build();
+	
+	Codelink ll1 = link().instanceOf(nnl).target(ttc).build();
+	Attribute ta = attribute().name("ta").value("tv").build();
+	Code tc = code().name("tc").attributes(ta).links(ll1).build();
+	Codelist tlist = codelist().name("t").links(nnl).with(tc).build();
+
+	LinkDefinition nl = listLink().name("nl").target(tlist).build();
+	LinkDefinition al = listLink().name("al").target(tlist).anchorTo(ta).build();
+	LinkDefinition ll = listLink().name("ll").target(tlist).anchorTo(nnl).build();
+
+	Codelink l1 = link().instanceOf(nl).target(tc).build();
+	Codelink l2 = link().instanceOf(al).target(tc).build();
+	Codelink l3 = link().instanceOf(ll).target(tc).build();
+	
+	Attribute a1 = attribute().name("a1").value("v1").build();
+	Attribute a2 = attribute().name("a2").value("v2").in("es").build();
+	Attribute a3 = attribute().name("a3").value("v3").in("en").build();
+	
+	Code c1 = code().name("c1").links(l1).build();
+	Code c2 = code().name("c2").attributes(a1,a2,from,not_a_date).links(l2).build();
+	Code c3 = code().name("c3").links(l3).build();
+	
+	Codelist list = codelist().name("cotrix-testlist").with(c1,c2,c3)
+						
+						.links(nl,al,ll)
+						.attributes(a1,a2,from,not_a_date)
+						.version("1.0")
+						.build();
+
+	Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
+
+	@Test 
+	public void codelistDefaults() {
 		
-		SdmxServiceFactory.init();
+		CodelistBean bean = mapper.map(list,directives).result();
+		
+		assertEquals(list.qname().getLocalPart(),bean.getId());
+		assertEquals(list.qname().getLocalPart(),bean.getName());
+		assertEquals(DEFAULT_SDMX_AGENCY,bean.getAgencyId());
+		assertEquals(list.version(),bean.getVersion());
+		assertEquals(TERTIARY_BOOL.UNSET,bean.isFinal());
+	}
+	
+	@Test 
+	public void codeDefaults() {
+		
+		CodelistBean bean = mapper.map(list,directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c1.qname().getLocalPart());
+		
+		assertNotNull(codebean);
+		
+		assertEquals(c1.qname().getLocalPart(),codebean.getName());
+	}
+
+	
+	@Test 
+	public void codelistGlobals() {
+
+		directives.agency("a").id("n").version("2").isFinal(true);
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+
+		assertEquals("a",bean.getAgencyId());
+		assertEquals("n",bean.getId());
+		assertEquals("2",bean.getVersion());
+		assertTrue(bean.isFinal().isTrue());
+
 	}
 	
 	
-	Codelist list = codelist().name("cotrix-testlist").
-			with(
-					code().name("code1").build()
-					,code().name("code2").attributes(
-							attribute().name("attr1").value("value1").build()
-						   , attribute().name("attr2").value("value2").in("fr").build()
-						   ,attribute().name("attr3").value("value3").ofType(NAME_TYPE).build()
-							,attribute().name("attr4").value("value4").ofType(NAME_TYPE).in("es").build()
-				).build()).
-				attributes(
-							attribute().name("list-attr1").value("value1").build()
-							,attribute().name("list-attr2").value("value2").ofType(customDescriptionType).in("es").build()
-						    ,attribute().name("list-attr3").value("value3").ofType(customNameType).in("fr").build()
-						   ,attribute().name("list-attr4").value("value4").ofType(NAME_TYPE).build()
-							,attribute().name("list-attr5").value("value5").ofType(NAME_TYPE).in("es").build()
-							,attribute().name("list-attr6").value("value6").ofType(ANNOTATION_TYPE).in("es").build()
-							,attribute().name("list-attr7").value("value7").ofType(customAnnotationType).in("fr").build()
-							,attribute().name("list-attr8").value("value8").ofType("unmappedtype").build()
-							,attribute().name(VALID_FROM.defaultName()).value(DateUtil.formatDate(Calendar.getInstance().getTime())).build()
-							,attribute().name(VALID_TO.defaultName()).value("bad").build()
-				)
-				.version("1.0").build();
+	@Test 
+	public void codelistNames() {
+		
+		directives.map(a1).to(NAME).forCodelist()
+			      .map(a2).to(NAME).forCodelist();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		assertTrue(contains(bean.getNames(),a1.value(),"en"));
+		assertTrue(contains(bean.getNames(),a2.value(),a2.language()));
+		
+	}
 	
 	@Test 
+	public void codelistNamesWithSameLangCheck() {
+		
+		directives.map(a1).to(NAME).forCodelist()
+			      .map(a3).to(NAME).forCodelist();
+		
+		System.out.println(directives.errors());
+
+		assertFalse(directives.errors().isEmpty());
+		
+	}
+	
+	@Test 
+	public void codelistWithoutNamesCheck() {
+		
+		assertFalse(directives.errors().isEmpty());
+		
+	}
+	
+	@Test 
+	public void codeNames() {
+		
+		directives.map(a1).to(NAME).forCodes()
+			      .map(a2).to(NAME).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getNames(),a1.value(),"en"));
+		assertTrue(contains(codebean.getNames(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codeNameViaNameLink() {
+		
+		directives.map(l1).to(NAME).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c1.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getNames(),tc.qname().getLocalPart(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeDescriptionViaNameLink() {
+		
+		directives.map(l1).to(DESCRIPTION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c1.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getDescriptions(),tc.qname().getLocalPart(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeAnnotationViaNameLink() {
+		
+		directives.map(l1).to(ANNOTATION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c1.qname().getLocalPart());
+		
+		assertTrue(containsAnnotation(codebean.getAnnotations(),tc.qname().getLocalPart(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeNameViaAtttributeLink() {
+		
+		directives.map(l2).to(NAME).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getNames(),ta.value(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeDescriptionViaAtttributeLink() {
+		
+		directives.map(l2).to(DESCRIPTION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getDescriptions(),ta.value(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeAnnotationViaAtttributeLink() {
+		
+		directives.map(l2).to(ANNOTATION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(containsAnnotation(codebean.getAnnotations(),ta.value(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeNameViaLinkofLink() {
+		
+		directives.map(l3).to(NAME).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c3.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getNames(),ttc.qname().getLocalPart(),"en"));
+		
+	}
+	
+	@Test 
+	public void codeDescriptionViaLinkofLink() {
+		
+		directives.map(l3).to(DESCRIPTION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c3.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getDescriptions(),ttc.qname().getLocalPart(),"en"));
+		
+	}
+
+	@Test 
+	public void codeAnnotationViaLinkofLink() {
+		
+		directives.map(l3).to(ANNOTATION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c3.qname().getLocalPart());
+		
+		assertTrue(containsAnnotation(codebean.getAnnotations(),ttc.qname().getLocalPart(),"en"));
+		
+	}
+
+	@Test 
+	public void codelistDescriptions() {
+		
+		directives.map(a1).to(DESCRIPTION).forCodelist()
+				  .map(a2).to(DESCRIPTION).forCodelist();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		assertTrue(contains(bean.getDescriptions(),a1.value(),"en"));
+		assertTrue(contains(bean.getDescriptions(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codeDescriptions() {
+		
+		directives.map(a1).to(DESCRIPTION).forCodes()
+				  .map(a2).to(DESCRIPTION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(contains(codebean.getDescriptions(),a1.value(),"en"));
+		assertTrue(contains(codebean.getDescriptions(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codelistAnnotations() {
+		
+		directives.map(a1).to(ANNOTATION).forCodelist()
+		          .map(a2).to(ANNOTATION).forCodelist();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		assertTrue(containsAnnotation(bean.getAnnotations(),a1.value(),"en"));
+		assertTrue(containsAnnotation(bean.getAnnotations(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codeAnnotations() {
+		
+		directives.map(a1).to(ANNOTATION).forCodes()
+		          .map(a2).to(ANNOTATION).forCodes();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		CodeBean codebean = bean.getCodeById(c2.qname().getLocalPart());
+		
+		assertTrue(containsAnnotation(codebean.getAnnotations(),a1.value(),"en"));
+		assertTrue(containsAnnotation(codebean.getAnnotations(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codelistValidity() throws Exception {
+		
+		directives.map(from).to(VALID_FROM).forCodelist()
+		          .map(not_a_date).to(VALID_TO).forCodelist();
+		
+		CodelistBean bean = mapper.map(list, directives).result();
+		
+		assertNotNull(bean.getStartDate());
+		assertNull(bean.getEndDate());
+	}
+	
+	
+	
+	@Ignore @Test //enable interactively 
 	public void codelist2Sdmx2Xml() {
 		
-		//a poor test, but cannot possibly work with smdx-source API!
-		
-		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
-		
-		directives.agency("myagency");
-		directives.name("custom-name");
-		directives.version("2.0");
-		
-		directives.map("list-attr3",customNameType).to(SdmxElement.NAME).forCodes()
-				  .map("list-attr2",customDescriptionType).to(SdmxElement.DESCRIPTION).forCodes()
-				  .map("list-attr7",customAnnotationType).to(SdmxElement.ANNOTATION).forCodes();
-		
+		directives.agency("a").id("n").version("2").isFinal(true)
+				  .map(a1).to(NAME).forCodelist()
+				  .map(a2).to(DESCRIPTION).forCodelist()
+				  
+				  .map(a1).to(NAME).forCodes()
+				  .map(a2).to(DESCRIPTION).forCodes();
+				  
 		
 		Outcome<CodelistBean> outcome = mapper.map(list, directives);
 		
 		serialiser.serialise(outcome.result(),System.out,Sdmx2XmlDirectives.DEFAULT);	
 		
 		System.out.println(outcome.report());
-		
-	}
-	
-	@Test 
-	public void emptyCodelistWithDefaults() {
-		
-		Codelist list = codelist().name("list").build();
-		
-		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
-		
-		System.out.println(outcome.report());
-		
-		CodelistBean bean = outcome.result();
-		
-		//default id is codelist name
-		assertEquals("list",bean.getId());
-		
-		//name is also a name in default locale
-		assertEquals("list",bean.getName());
-		
-		//default agency
-		assertEquals(DEFAULT_SDMX_AGENCY,bean.getAgencyId());
-		
-		//inherits list version
-		assertEquals(list.version(),bean.getVersion());
-		
-		//status is undefined
-		assertEquals(TERTIARY_BOOL.UNSET,bean.isFinal());
-	}
-	
-	@Test 
-	public void emptyCodelistWithCustomisations() {
-		
-		Codelist list = codelist().name("list").build();
-		
-		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
-		directives.agency("agency");
-		directives.version("2");
-		directives.isFinal(false);
-		directives.name("name");
-		
-		
-		Outcome<CodelistBean> outcome = mapper.map(list, directives);
-		
-		System.out.println(outcome.report());
-		
-		CodelistBean bean = outcome.result();
-		
-		assertEquals("name",bean.getId());
-		
-		assertEquals("agency",bean.getAgencyId());
-		
-		assertEquals("2",bean.getVersion());
-		
-		assertEquals(TERTIARY_BOOL.FALSE,bean.isFinal());
-	}
-	
-	@Test 
-	public void codelistAttributesWithCustomisation() {
-		
-		Attribute a1 = attribute().name("a").value("val").ofType(customDescriptionType).build();
-		Attribute a2 = attribute().name("b").value("val-b").ofType(customNameType).in("fr").build();
-		Attribute a3 = attribute().name("a").value("val-c").ofType(customAnnotationType).in("es").build();
-		Codelist list = codelist().name("list").attributes(a1,a2,a3).build();
-		
-		Codelist2SdmxDirectives directives = new Codelist2SdmxDirectives();
-		
-		directives.map("a",customDescriptionType).to(DESCRIPTION).forCodelist()
-				  .map("b", customNameType).to(SdmxElement.NAME).forCodelist()
-				  .map("a", customAnnotationType).to(ANNOTATION).forCodelist();
-		
-		Outcome<CodelistBean> outcome = mapper.map(list,directives);
-		
-		System.out.println(outcome.report());
-		
-		CodelistBean bean = outcome.result();
-		
-		serialise(bean);
-		
-		assertTrue(contains(bean.getDescriptions(),"val","en"));
-		assertTrue(contains(bean.getNames(),"val-b","fr"));
-		assertTrue(containsAnnotation(bean.getAnnotations(),"val-c","es"));
-		
-
-	}
-	
-	@Test 
-	public void codeWithDefaults() {
-		
-		Code code = code().name("c").build();
-		Codelist list = codelist().name("list").with(code).build();
-		
-		Outcome<CodelistBean> outcome = mapper.map(list, Codelist2SdmxDirectives.DEFAULT);
-		
-		System.out.println(outcome.report());
-		
-		CodelistBean bean = outcome.result();
-		
-		serialise(bean);
-		
-		assertNotNull(bean.getCodeById("c"));
 		
 	}
 	
