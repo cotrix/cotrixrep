@@ -67,8 +67,9 @@ public class Codelist2SdmxTest {
 	Codelink l2 = link().instanceOf(al).target(tc).build();
 	Codelink l3 = link().instanceOf(ll).target(tc).build();
 	
-	Attribute a1 = attribute().name("list-attr1").value("v1").build();
-	Attribute a2 = attribute().name("list-attr2").value("v2").in("es").build();
+	Attribute a1 = attribute().name("a1").value("v1").build();
+	Attribute a2 = attribute().name("a2").value("v2").in("es").build();
+	Attribute a3 = attribute().name("a3").value("v3").in("en").build();
 	
 	Code c1 = code().name("c1").links(l1).build();
 	Code c2 = code().name("c2").attributes(a1,a2,from,not_a_date).links(l2).build();
@@ -133,6 +134,25 @@ public class Codelist2SdmxTest {
 		
 		assertTrue(contains(bean.getNames(),a1.value(),"en"));
 		assertTrue(contains(bean.getNames(),a2.value(),a2.language()));
+		
+	}
+	
+	@Test 
+	public void codelistNamesWithSameLangCheck() {
+		
+		directives.map(a1).to(NAME).forCodelist()
+			      .map(a3).to(NAME).forCodelist();
+		
+		System.out.println(directives.errors());
+
+		assertFalse(directives.errors().isEmpty());
+		
+	}
+	
+	@Test 
+	public void codelistWithoutNamesCheck() {
+		
+		assertFalse(directives.errors().isEmpty());
 		
 	}
 	

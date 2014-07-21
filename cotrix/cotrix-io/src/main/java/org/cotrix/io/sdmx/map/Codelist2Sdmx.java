@@ -7,19 +7,15 @@ import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.List;
 
 import org.cotrix.common.Report;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.links.AttributeLink;
-import org.cotrix.domain.links.LinkOfLink;
-import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.DomainUtils;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives.GetClause;
@@ -207,8 +203,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		for (Codelink link : code.links()) {
 			
-			String val = valueOf(link);
-			String lang = languageOf(link);
+			String val = link.valueAsString();
+			String lang = DomainUtils.languageOf(link.definition());
 			
 			SdmxElement element = directives.get(link);
 			
@@ -235,32 +231,6 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 		}
 			
-	}
-	
-	private String valueOf(Codelink l) {
-		
-		List<Object> linkval = l.value();
-		return linkval.isEmpty()? null:
-							 	linkval.size()==1? linkval.get(0).toString() :
-							 					   linkval.toString();
-	}
-	
-	private String languageOf(Codelink l) {
-	
-		AttributeTemplate template = templateFrom(l.definition().valueType());
-		
-		return template==null || template.language()==null? "en":template.language();
-	}
-	
-	private AttributeTemplate templateFrom(LinkValueType type) {
-		
-		if (type instanceof AttributeLink)
-			return AttributeLink.class.cast(type).template();
-		
-		if (type instanceof LinkOfLink)
-			return templateFrom(LinkOfLink.class.cast(type).target().valueType());
-		
-		return null;
 	}
 	
 	@Override

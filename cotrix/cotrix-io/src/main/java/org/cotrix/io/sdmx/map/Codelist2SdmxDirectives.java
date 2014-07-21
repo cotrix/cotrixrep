@@ -1,9 +1,14 @@
 package org.cotrix.io.sdmx.map;
 
+import static java.lang.String.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.io.sdmx.Constants.*;
+import static org.cotrix.io.sdmx.SdmxElement.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.cotrix.domain.trait.Defined;
@@ -39,7 +44,10 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
 	
 	private final Map<String,SdmxElement> codelistDirectives = new HashMap<>();
+	private final Map<SdmxElement,List<Definition>> codelistDefs = new HashMap<>();
+	
 	private final Map<String,SdmxElement> codeDirectives = new HashMap<>();
+	private final Map<SdmxElement,List<Definition>> codeDefs = new HashMap<>();
 	
 	private String agency = DEFAULT_SDMX_AGENCY;
 	private String id;
@@ -132,6 +140,11 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
 						codeDirectives.put(def.id(),element);
 						
+						if (codeDefs.get(element)==null)
+							codeDefs.put(element,new ArrayList<Definition>());
+						
+						codeDefs.get(element).add(def);
+						
 						return Codelist2SdmxDirectives.this;
 					}
 					
@@ -139,6 +152,11 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 					public Codelist2SdmxDirectives forCodelist() {
 						
 						codelistDirectives.put(def.id(),element);
+						
+						if (codelistDefs.get(element)==null)
+							codelistDefs.put(element,new ArrayList<Definition>());
+						
+						codelistDefs.get(element).add(def);
 						
 						return Codelist2SdmxDirectives.this;
 					}
@@ -158,6 +176,54 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		return map(m.definition());
 		
+	}
+	
+	///////////////
+	
+	private static String langError = "two or more attributes or links map onto %s with the same language";
+	private static String noNameError = "no attribute or link maps onto a NAME for %s";
+	
+	
+	public List<String> errors() {
+		
+		List<String> errors = new ArrayList<>();	
+		
+		List<Definition> names = codelistDefs.get(NAME);
+		if (names==null || names.isEmpty())
+			errors.add(format(noNameError,"the codelist"));
+		
+		names = codeDefs.get(NAME);
+		if (names==null || names.isEmpty())
+			errors.add(format(noNameError,"codes"));
+		
+		addSingleLanguageErrors(errors,NAME,codelistDefs.get(NAME));
+		addSingleLanguageErrors(errors,NAME,codeDefs.get(NAME));
+		addSingleLanguageErrors(errors,DESCRIPTION,codelistDefs.get(DESCRIPTION));
+		addSingleLanguageErrors(errors,DESCRIPTION,codeDefs.get(DESCRIPTION));
+		
+		return errors;
+	}
+	
+	
+	private void addSingleLanguageErrors(List<String> errors, SdmxElement element,List<Definition> defs) {
+
+		if (defs==null || defs.isEmpty())
+			return;
+		
+		List<String> langs = new ArrayList<>();
+
+		for (Definition def : defs) {
+			
+			String lang = languageOf(def);
+			
+			if (lang==null)
+				lang="en";
+			
+			if (langs.contains(lang))
+				errors.add(format(langError,element.toString()));
+			else
+				langs.add(lang);
+		}
 	}
 	
 }
