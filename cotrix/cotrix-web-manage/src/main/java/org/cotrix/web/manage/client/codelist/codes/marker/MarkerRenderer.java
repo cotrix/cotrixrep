@@ -29,10 +29,10 @@ public class MarkerRenderer implements SafeHtmlRenderer<UICode> {
 		@Template("<table style=\"border-collapse:collapse;width:100%;\" height=\"38px\" title=\"{1}\">{0}</table>")
 		SafeHtml table(SafeHtml value, String tooltip);
 		
-		@Template("<tr style=\"{0};\"><td></td></tr>")
+		@Template("<tr style=\"{0}\"><td></td></tr>")
 		SafeHtml row(SafeStyles color);
 		
-		@Template("<div style=\"width:100%;height:38px;background-color:#F1F1F1;\"></div>")
+		@Template("<div style=\"width:100%;height:38px;background-color:#F1F1F1;\">&nbsp;</div>")
 		SafeHtml empty();
 	}
 	
