@@ -6,6 +6,8 @@ package org.cotrix.web.common.client.widgets;
 
 
 import com.google.gwt.animation.client.Animation;
+import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -16,7 +18,6 @@ import com.google.gwt.event.logical.shared.HasOpenHandlers;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.HasAnimation;
@@ -122,7 +123,7 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 			if (!opening) {
 				curPanel.contentWrapper.setVisible(false);
 			}
-			DOM.setStyleAttribute(curPanel.contentWrapper.getElement(), "height",
+			curPanel.contentWrapper.getElement().getStyle().setProperty("height",
 					"auto");
 			curPanel = null;
 		}
@@ -139,17 +140,14 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 
 		@Override
 		protected void onUpdate(double progress) {
-			int scrollHeight = DOM.getElementPropertyInt(
-					curPanel.contentWrapper.getElement(), "scrollHeight");
+			int scrollHeight = curPanel.contentWrapper.getElement().getScrollHeight();
 			int height = (int) (progress * scrollHeight);
 			if (!opening) {
 				height = scrollHeight - height;
 			}
 			height = Math.max(height, 1);
-			DOM.setStyleAttribute(curPanel.contentWrapper.getElement(), "height",
-					height + "px");
-			DOM.setStyleAttribute(curPanel.contentWrapper.getElement(), "width",
-					"auto");
+			curPanel.contentWrapper.getElement().getStyle().setHeight(height, Unit.PX);
+			curPanel.contentWrapper.getElement().getStyle().setProperty("width", "auto");
 		}
 	}
 
@@ -208,8 +206,9 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 		initWidget(mainPanel);
 		mainPanel.add(header);
 		mainPanel.add(contentWrapper);
-		DOM.setStyleAttribute(contentWrapper.getElement(), "padding", "0px");
-		DOM.setStyleAttribute(contentWrapper.getElement(), "overflow", "hidden");
+		contentWrapper.getElement().getStyle().setPadding(0, Unit.PX);
+		contentWrapper.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+
 		//setStyleName(STYLENAME_DEFAULT);
 		setContentDisplay(false);
 	}

@@ -15,7 +15,9 @@
  */
 package com.google.gwt.user.cellview.client;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -528,9 +530,11 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private final SimplePanel tableHeaderContainer;
 	private final Element tableHeaderScroller;
 	private Map<Column<T, ?>, Double> columnWidths = new HashMap<Column<T, ?>, Double>();
+	private List<Column<T, ?>> fixedWidthColumns = new ArrayList<Column<T, ?>>();
 	private Element measuringElement;
 	private boolean autoAdjust = false;
 	private LoadingState previousLoadingState;
+	private boolean lastColumnSpan = false;
 
 	/**
 	 * Constructs a table with a default page size of 50.
@@ -705,6 +709,16 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	public void setAutoAdjust(boolean autoAdjust) {
 		this.autoAdjust = autoAdjust;
 	}
+	
+	public void setLastColumnSpan(boolean lastColumnSpan) {
+		this.lastColumnSpan = lastColumnSpan;
+	}
+
+	public void addFixedWidthColumn(Column<T, ?> col, Header<?> header, double width) {
+		fixedWidthColumns.add(col);
+		columnWidths.put(col, width);
+		addColumn(col, header);
+	}
 
 	public void insertColumn(int beforeIndex, Column<T, ?> col, Header<?> header, Header<?> footer) {
 		//Log.trace("insertColumn "+header.getValue());
@@ -717,7 +731,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		
 		super.insertColumn(beforeIndex, col, header, footer);
 		if (autoAdjust) {
-			double width = getRequiredSize(col);
+			double width = getColumnSize(col);
 			setColumnWidth(col, width, Unit.PX);
 			columnWidths.put(col, width);
 			updateTableWidth();
@@ -727,8 +741,10 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	public void removeColumn(int index) {
 		Log.trace("removeColumn "+index);
 		if (autoAdjust) {
+			Log.trace("removing form autosize");
 			Column<T, ?> column = getColumn(index);
 			columnWidths.remove(column);
+			fixedWidthColumns.remove(column);
 		}
 		
 		super.removeColumn(index);
@@ -737,27 +753,32 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		}
 	}
 	
-	
+	private double getColumnSize(Column<T, ?> col) {
+		if (fixedWidthColumns.contains(col)) return columnWidths.get(col);
+		return getRequiredSize(col);
+	}
 	
 	public void refreshColumnSizes() {
 		Log.trace("refreshColumnSizes");
 		
 		for (int i = 0; i < getColumnCount(); i++) {
 			Column<T, ?> column = getColumn(i);
-			double width = getRequiredSize(column);
+			double width = getColumnSize(column);
 			setColumnWidth(column, width, Unit.PX);
 			columnWidths.put(column, width);
 		}
+		
 		updateTableWidth();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected <D> double getRequiredSize(Column<T, D> column)
 	{
+		Log.trace("getRequiredSize");
 		startMeasuring();
 		int colIndex = getColumnIndex(column);
 		Header header = getHeader(colIndex);
-		double max = measureHeaderCell(header.getCell(), header.getValue());
+		double max = measureHeaderCell(header.getCell(), header.getValue(), header.getHeaderStyleNames());
 		int absRow = 0;
 		for (T t : getVisibleItems()) {
 			D value = column.getValue(t);
@@ -777,23 +798,42 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		setColumnWidth(column, width, Unit.PX);
 		columnWidths.put(column, width);
 	}
-
-	protected void updateTableWidth()
-	{
-		//Log.trace("updateTableWidth");
+	
+	private double columnsWidth() {
 		double columnsWidth = 0;
 		for (Double colWidth:columnWidths.values()) {
 			//Log.trace("colWidth "+colWidth);
 			columnsWidth += colWidth;
 		}
+		return columnsWidth;
+	}
+
+	protected void updateTableWidth()
+	{
+		//Log.trace("updateTableWidth");
+		double columnsWidth = columnsWidth();
 		//Log.trace("TOTAL columns width: "+columnsWidth);
 		int widgetWidth = getTableWidth();
 		//Log.trace("widgetWidth: "+widgetWidth);
+		
+		if (columnsWidth<widgetWidth && lastColumnSpan) spanLastColumn(widgetWidth-columnsWidth);
 		
 		double tableWidth = Math.max(columnsWidth, widgetWidth);
 		//Log.trace("new tableWidth: "+tableWidth);
 		
 		setTableWidth(tableWidth, Unit.PX);
+	}
+	
+	private void spanLastColumn(double span) {
+		Log.trace("spanLastColumn");
+
+		Column<T, ?> lastColumn = getColumn(getColumnCount()-1);
+		
+		//FIXME -1px added as workaround
+		double width = getColumnSize(lastColumn) + span - 1;
+			
+		setColumnWidth(lastColumn, width, Unit.PX);
+		columnWidths.put(lastColumn, width);
 	}
 	
 	protected int getTableWidth() {
@@ -809,11 +849,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		document.getBody().appendChild(measuringElement);
 	}
 	
-	private <D> double measureHeaderCell(Cell<D> cell, D value)
+	private <D> double measureHeaderCell(Cell<D> cell, D value, String headerStyle)
 	{
 		//FIXME 4px added as workaround
 		Context context = new Context(0, 0, "");
-		return 4 + measureCell(cell, value, context, getResources().style().header());
+		String style = getResources().style().header() + " "+ headerStyle;
+		return 4 + measureCell(cell, value, context, style);
 	}
 	
 	private <D> double measureCell(Cell<D> cell, D value, Context context)

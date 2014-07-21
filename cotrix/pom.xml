@@ -173,6 +173,15 @@
 
 			<dependency>
 				<groupId>org.cotrix</groupId>
+				<artifactId>cotrix-application</artifactId>
+				<version>${project.version}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+			
+			
+			<dependency>
+				<groupId>org.cotrix</groupId>
 				<artifactId>cotrix-security</artifactId>
 				<version>${project.version}</version>
 				<type>test-jar</type>

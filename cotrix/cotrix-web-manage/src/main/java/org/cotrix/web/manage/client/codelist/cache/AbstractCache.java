@@ -23,17 +23,17 @@ import com.google.web.bindery.event.shared.EventBus;
  *
  */
 public abstract class AbstractCache<T extends Identifiable> {
-	
+
 	private Class<T> type;
-	
+
 	@Inject
 	private ManageServiceAsync service;
-	
+
 	@Inject @CurrentCodelist
 	private String codelistId;
-	
+
 	private Map<String, T> cache = null;
-	
+
 	public AbstractCache(Class<T> type) {
 		this.type = type;
 	}
@@ -54,41 +54,45 @@ public abstract class AbstractCache<T extends Identifiable> {
 			}
 		});
 	}
-	
-	public void getItems(final AsyncCallback<Collection<T>> callback) {
-		if (cache != null) callback.onSuccess(cache.values());
-		else {
-			retrieveItems(codelistId, new AsyncCallback<Collection<T>>() {
 
-				@Override
-				public void onFailure(Throwable caught) {
-					Log.error("cache "+type+" filling failed ", caught);
-					callback.onFailure(caught);
-				}
-
-				@Override
-				public void onSuccess(Collection<T> result) {
-					Log.trace("cache "+type+" filled cache with "+result);
-					setCache(result);
-					callback.onSuccess(result);
-				}
-			});
-		}
+	public Collection<T> getItems() {
+		if (cache == null) throw new IllegalStateException("Cache for type "+type+" not ready!");
+		return cache.values();
 	}
-	
+
+	public void setup(final AsyncCallback<Void> callback) {
+
+		retrieveItems(codelistId, new AsyncCallback<Collection<T>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Log.error("cache "+type+" filling failed ", caught);
+				callback.onFailure(caught);
+			}
+
+			@Override
+			public void onSuccess(Collection<T> result) {
+				Log.trace("cache "+type+" filled cache with "+result);
+				setCache(result);
+				callback.onSuccess(null);
+			}
+		});
+
+	}
+
 	private void setCache(Collection<T> items) {
 		if (cache == null) cache = new HashMap<String, T>();
 		cache.clear();
 		for (T item:items) addItem(item);
 	}
-	
+
 	private void addItem(T item) {
 		cache.put(item.getId(), item);
 	}
-	
+
 	public T getItem(String id) {
 		return cache.get(id);
 	}
-	
+
 	protected abstract void retrieveItems(String codelistId, AsyncCallback<Collection<T>> callback);
 }

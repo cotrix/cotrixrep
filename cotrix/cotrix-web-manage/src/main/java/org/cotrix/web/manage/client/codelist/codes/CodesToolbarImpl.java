@@ -72,6 +72,7 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 		state.setVisible(!visible);
 	}
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void setEnabled(Action action, boolean enabled) {
 		switch (action) {

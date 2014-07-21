@@ -23,6 +23,7 @@ public interface DetailsPanelStyle extends CssResource {
 	String textbox();
 	String textboxError();
 	String listbox();
+	String textarea();
 	
 	String loaderContainer();
 	String loader();

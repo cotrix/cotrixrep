@@ -6,6 +6,7 @@ import static org.cotrix.common.Log.*;
 import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.fao.fi.comet.mapping.dsl.DataProviderDSL.*;
 import static org.fao.fi.comet.mapping.dsl.MappingDataDSL.*;
@@ -166,7 +167,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		List<Property> properties = new ArrayList<>();
 		
 		for (Attribute a : attributes)
-			if (!a.is(SYSTEM_TYPE))
+			if (a.is(PUSBLISHEABLE))
 				properties.add(propertyOf(a));
 		
 		return new PropertyList(properties);

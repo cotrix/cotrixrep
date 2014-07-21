@@ -1,10 +1,12 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
@@ -76,6 +78,12 @@ public final class DefinitionMS extends IdentifiedMS implements AttributeDefinit
 	@Override
 	public boolean is(QName name) {
 		return type.equals(name);
+	}
+	
+	@Override
+	public boolean is(Facet facet) {
+		//temporarily only on common defs, supported by default on domain defs
+		return !isCommon(name) || isCommon(name,facet);
 	}
 
 	public String language() {

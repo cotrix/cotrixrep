@@ -11,6 +11,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attribute.Private;
 import org.cotrix.domain.attributes.Attribute.State;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.Facet;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
@@ -102,7 +103,12 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	public boolean is(QName name) {
 		return definition().is(name);
 	}
-
+	
+	@Override
+	public boolean is(Facet facet) {
+		return definition().is(facet);
+	}
+	
 	@Override
 	public void type(QName type) {
 		

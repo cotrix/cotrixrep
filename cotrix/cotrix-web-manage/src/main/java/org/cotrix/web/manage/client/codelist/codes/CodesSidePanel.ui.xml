@@ -64,6 +64,14 @@
 						<g:downFace image="{resources.filter}" />
 						<g:upHoveringFace image="{resources.filter}" />
 					</g:ToggleButton>
+					<g:ToggleButton ui:field="markersButton" width="32px"
+						styleName="{style.button}" title="Code Markers">
+						<g:downDisabledFace image="{resources.markersDisabled}" />
+						<g:upDisabledFace image="{resources.markersDisabled}" />
+						<g:upFace image="{resources.markersUnselected}" />
+						<g:downFace image="{resources.markersSelected}" />
+						<g:upHoveringFace image="{resources.markersSelected}" />
+					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</g:north>
@@ -72,6 +80,7 @@
 				<v:AttributesPanel ui:field="attributesPanel" />
 				<v:FiltersPanel ui:field="filtersPanel" />
 				<v:LinksPanel ui:field="linksPanel" />
+				<v:MarkersPanel ui:field="markersPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
