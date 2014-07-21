@@ -72,11 +72,11 @@ public class MetadataPanelViewImpl extends ResizeComposite implements MetadataPa
 
 	@Override
 	public HasEditing getLinkTypesEditor() {
-		return splashPanel.getLinkTypesPanel();
+		return splashPanel.getLinkDefinitionsPanel();
 	}
 	
 	@Override
 	public HasEditing getAttributeTypesPanel() {
-		return splashPanel.getAttributeTypesPanel();
+		return splashPanel.getAttributeDefinitionsPanel();
 	}
 }

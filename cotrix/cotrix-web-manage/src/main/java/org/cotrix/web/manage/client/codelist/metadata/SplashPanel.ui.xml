@@ -62,7 +62,7 @@
 		cursor: pointer;
 	}
 
-	.attributeTypes {
+	.attributeDefinitions {
 		margin-left: 100px;
 		margin-right: 100px;
 		
@@ -70,7 +70,7 @@
 		margin-bottom: 40px;
 	}
 	
-	.linkTypesPanel {
+	.linkDefinitionsPanel {
 		margin-left: 100px;
 		margin-right: 100px;
 		
@@ -132,8 +132,8 @@
 						</tr>
 					</table>
 				</g:HTMLPanel>
-				<v:AttributeTypesPanel ui:field="attributeTypesPanel" styleName="{style.attributeTypes}" />
-				<v:LinkTypesPanel ui:field="linkTypesPanel" styleName="{style.linkTypesPanel}"/>
+				<v:AttributeDefinitionsPanel ui:field="attributeDefinitionsPanel" styleName="{style.attributeDefinitions}" />
+				<v:LinkDefinitionsPanel ui:field="linkDefinitionsPanel" styleName="{style.linkDefinitionsPanel}"/>
 			</g:VerticalPanel>
 		</g:ScrollPanel>
 	</g:SimpleLayoutPanel>

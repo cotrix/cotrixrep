@@ -269,7 +269,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void groupSwitch(UILink link, SwitchState state) {
-		LinkGroup group = new LinkGroup(link.getTypeName(), false);
+		LinkGroup group = new LinkGroup(link.getDefinitionName(), false);
 		group.calculatePosition(visualizedCode.getLinks(), link);
 		
 		//updateGroups(group, state);

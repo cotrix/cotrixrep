@@ -10,12 +10,12 @@ import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.shared.Language;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributeTypeSuggestOracle.AttributeTypeSuggestion;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDefinitionSuggestOracle.AttributeTypeSuggestion;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -54,7 +54,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	@UiField(provided=true) SuggestListBox definitionBox;
 	@UiField Image definitionBoxLoader;
-	private UIAttributeType selectedDefinition;
+	private UIAttributeDefinition selectedDefinition;
 	@UiField CellContainer definitionRow;
 
 	@UiField AdvancedTextBox nameBox;
@@ -72,20 +72,20 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	private DetailsPanelStyle style = CotrixManagerResources.INSTANCE.detailsPanelStyle();
 	
-	private AttributeTypesCache attributeTypesCache;
-	private AttributeTypeSuggestOracle attributeTypeSuggestOracle;
+	private AttributeDefinitionsCache attributeDefinitionsCache;
+	private AttributeDefinitionSuggestOracle attributeDefinitionSuggestOracle;
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 	
 	private boolean readOnly = false;
 
-	public AttributeDetailsPanel(AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle, AttributeTypesCache attributeTypesCache) {
+	public AttributeDetailsPanel(AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle, AttributeDefinitionsCache attributeDefinitionsCache) {
 
 		this.attributeDescriptionSuggestOracle = attributeDescriptionSuggestOracle;
 		typeBox = new SuggestListBox(attributeDescriptionSuggestOracle);
 		
-		this.attributeTypesCache = attributeTypesCache;
-		this.attributeTypeSuggestOracle = new AttributeTypeSuggestOracle();
-		definitionBox = new SuggestListBox(attributeTypeSuggestOracle);
+		this.attributeDefinitionsCache = attributeDefinitionsCache;
+		this.attributeDefinitionSuggestOracle = new AttributeDefinitionSuggestOracle();
+		definitionBox = new SuggestListBox(attributeDefinitionSuggestOracle);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		
@@ -104,7 +104,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
 				AttributeTypeSuggestion suggestion = (AttributeTypeSuggestion) event.getSelectedItem();
-				if (suggestion == AttributeTypeSuggestOracle.NONE) setDefinitionNone();
+				if (suggestion == AttributeDefinitionSuggestOracle.NONE) setDefinitionNone();
 				else setDefinition(suggestion.getAttributeType());
 				fireChange();
 			}
@@ -118,11 +118,11 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	private void loadDefinitions(final String definitionId) {
 		setDefinitionLoader(true);
-		attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
+		attributeDefinitionsCache.getItems(new AsyncCallback<Collection<UIAttributeDefinition>>() {
 			
 			@Override
-			public void onSuccess(Collection<UIAttributeType> result) {
-				attributeTypeSuggestOracle.loadCache(result);
+			public void onSuccess(Collection<UIAttributeDefinition> result) {
+				attributeDefinitionSuggestOracle.loadCache(result);
 				selectDefinition(definitionId);
 				setDefinitionLoader(false);
 			}
@@ -134,7 +134,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void setDefinitionNone() {
-		definitionBox.setValue(AttributeTypeSuggestOracle.NONE.getDisplayString());
+		definitionBox.setValue(AttributeDefinitionSuggestOracle.NONE.getDisplayString());
 		selectedDefinition = null;
 		
 		setName("");
@@ -156,7 +156,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	}
 	
 	private void selectDefinition(String definitionId) {
-		UIAttributeType definition = attributeTypesCache.getItem(definitionId);
+		UIAttributeDefinition definition = attributeDefinitionsCache.getItem(definitionId);
 		if (definition == null) setDefinitionNone();
 		else {
 			definitionBox.setValue(AttributeTypeSuggestion.toDisplayString(definition));
@@ -164,7 +164,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		}
 	}
 	
-	private void setDefinition(UIAttributeType definition) {
+	private void setDefinition(UIAttributeDefinition definition) {
 		Log.trace("setting definition to "+definition);
 		
 		selectedDefinition = definition;
@@ -286,7 +286,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		definitionRow.setVisible(visible);
 	}
 	
-	public UIAttributeType getDefinition() {
+	public UIAttributeDefinition getDefinition() {
 		return selectedDefinition;
 	}
 	

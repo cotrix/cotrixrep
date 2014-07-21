@@ -9,16 +9,16 @@ import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.codes.link.CodeSuggestOracle.CodeSuggestion;
-import org.cotrix.web.manage.client.codelist.codes.link.LinkTypeSuggestOracle.LinkTypeSuggestion;
+import org.cotrix.web.manage.client.codelist.codes.link.LinkDefinitionSuggestOracle.LinkDefinitionSuggestion;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.UICodeInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
@@ -56,10 +56,10 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	@UiField Table table;
 
-	@UiField(provided=true) SuggestListBox typeBox;
-	@UiField Image typeBoxLoader;
-	private LinkTypeSuggestOracle linkTypeSuggestOracle;
-	private UILinkTypeInfo selectedLinkType;
+	@UiField(provided=true) SuggestListBox definitionBox;
+	@UiField Image definitionBoxLoader;
+	private LinkDefinitionSuggestOracle linkDefinitionSuggestOracle;
+	private UILinkDefinitionInfo selectedLinkDefinition;
 
 	@UiField(provided=true) SuggestListBox targetCodeBox;
 	@UiField Image targetCodeBoxLoader;
@@ -79,10 +79,10 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 	public LinkDetailsPanel(LinksCodelistInfoProvider codelistInfoProvider) {
 
 		this.codelistInfoProvider = codelistInfoProvider;
-		linkTypeSuggestOracle = new LinkTypeSuggestOracle();
+		linkDefinitionSuggestOracle = new LinkDefinitionSuggestOracle();
 		codeSuggestOracle = new CodeSuggestOracle();
 
-		createLinkTypesBox();
+		createLinkDefinitionBox();
 		createTargetCodeBox();
 
 		initWidget(uiBinder.createAndBindUi(this));
@@ -93,62 +93,62 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 			@Override
 			public void execute() {
-				loadLinkTypes();
+				loadLinkDefinitions();
 			}
 		});
 	}	
 
-	private void createLinkTypesBox() {
-		typeBox = new SuggestListBox(linkTypeSuggestOracle);
-		typeBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+	private void createLinkDefinitionBox() {
+		definitionBox = new SuggestListBox(linkDefinitionSuggestOracle);
+		definitionBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
-				selectedLinkType = null;
+				selectedLinkDefinition = null;
 				fireChange();
 			}
 		});
 
-		typeBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+		definitionBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
 
 			@Override
 			public void onSelection(SelectionEvent<Suggestion> event) {
-				LinkTypeSuggestion suggestion = (LinkTypeSuggestion) event.getSelectedItem();
-				selectedLinkType = suggestion.getLinkType();
-				loadCodes(selectedLinkType.getId());
+				LinkDefinitionSuggestion suggestion = (LinkDefinitionSuggestion) event.getSelectedItem();
+				selectedLinkDefinition = suggestion.getLinkDefinition();
+				loadCodes(selectedLinkDefinition.getId());
 				fireChange();
 			}
 		});
 	}
 
-	public void setLinkType(String typeId, UIQName name) {
-		if (typeId!=null) {
-			selectedLinkType = new UILinkTypeInfo(typeId, name);
-			typeBox.getValueBox().setValue(LinkTypeSuggestion.toDisplayString(selectedLinkType), false);
-			loadCodes(typeId);
+	public void setLinkDefinition(String definitionId, UIQName name) {
+		if (definitionId!=null) {
+			selectedLinkDefinition = new UILinkDefinitionInfo(definitionId, name);
+			definitionBox.getValueBox().setValue(LinkDefinitionSuggestion.toDisplayString(selectedLinkDefinition), false);
+			loadCodes(definitionId);
 		}
 	}
 
-	public UILinkTypeInfo getLinkType() {
-		return selectedLinkType;
+	public UILinkDefinitionInfo getLinkDefinition() {
+		return selectedLinkDefinition;
 	}
 
-	public void setValidLinkType(boolean valid) {
-		typeBox.setStyleName(style.textboxError(), !valid);
+	public void setValidLinkDefinition(boolean valid) {
+		definitionBox.setStyleName(style.textboxError(), !valid);
 	}
 
-	public void setLinkTypeReadonly(boolean readOnly) {
-		typeBox.setEnabled(!readOnly);
-		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
+	public void setLinkDefinitionReadonly(boolean readOnly) {
+		definitionBox.setEnabled(!readOnly);
+		if (readOnly) definitionBox.setStyleName(style.textboxError(), false);
 	}
 
-	private final AsyncCallback<List<UILinkTypeInfo>> linkTypesCallBack = new AsyncCallback<List<UILinkTypeInfo>>() {
+	private final AsyncCallback<List<UILinkDefinitionInfo>> linkDefinitionCallBack = new AsyncCallback<List<UILinkDefinitionInfo>>() {
 
 		@Override
-		public void onSuccess(List<UILinkTypeInfo> result) {
-			linkTypeSuggestOracle.loadCache(result);
-			typeBoxLoader.setVisible(false);
-			typeBox.setVisible(true);
+		public void onSuccess(List<UILinkDefinitionInfo> result) {
+			linkDefinitionSuggestOracle.loadCache(result);
+			definitionBoxLoader.setVisible(false);
+			definitionBox.setVisible(true);
 		}
 
 		@Override
@@ -157,10 +157,10 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 		}
 	};
 
-	private void loadLinkTypes() {
-		typeBoxLoader.setVisible(true);
-		typeBox.setVisible(false);
-		codelistInfoProvider.getCodelistLinkTypes(linkTypesCallBack);
+	private void loadLinkDefinitions() {
+		definitionBoxLoader.setVisible(true);
+		definitionBox.setVisible(false);
+		codelistInfoProvider.getCodelistLinkDefinitions(linkDefinitionCallBack);
 	}
 
 
@@ -271,8 +271,8 @@ public class LinkDetailsPanel extends Composite implements HasValueChangeHandler
 
 	public void setReadOnly(boolean readOnly) {
 
-		typeBox.setEnabled(!readOnly);
-		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
+		definitionBox.setEnabled(!readOnly);
+		if (readOnly) definitionBox.setStyleName(style.textboxError(), false);
 
 		targetCodeBox.setEnabled(!readOnly);
 		if (readOnly) targetCodeBox.setStyleName(style.textboxError(), false);

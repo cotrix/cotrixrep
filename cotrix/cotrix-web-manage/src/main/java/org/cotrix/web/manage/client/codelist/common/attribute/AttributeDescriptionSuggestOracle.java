@@ -11,8 +11,8 @@ import java.util.TreeSet;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -32,7 +32,7 @@ public class AttributeDescriptionSuggestOracle extends SuggestOracle {
 	private Set<Suggestion> defaultSuggestions;
 	
 	@Inject @CurrentCodelist
-	private AttributeTypesCache attributeTypesCache;
+	private AttributeDefinitionsCache attributeTypesCache;
 	
 	private boolean onlyDefaults;
 
@@ -45,7 +45,7 @@ public class AttributeDescriptionSuggestOracle extends SuggestOracle {
 		
 		if (onlyDefaults) callback.onSuggestionsReady(request, new Response(filter(getDefaultSuggestions(), request.getQuery(), request.getLimit())));
 		else {
-			attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeType>>() {
+			attributeTypesCache.getItems(new AsyncCallback<Collection<UIAttributeDefinition>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
@@ -55,9 +55,9 @@ public class AttributeDescriptionSuggestOracle extends SuggestOracle {
 				}
 
 				@Override
-				public void onSuccess(Collection<UIAttributeType> result) {
+				public void onSuccess(Collection<UIAttributeDefinition> result) {
 					Set<Suggestion> suggestions = new TreeSet<Suggestion>(getDefaultSuggestions());
-					for (UIAttributeType type:result) suggestions.add(new AttributeDescriptionSuggestion(type.getType()));
+					for (UIAttributeDefinition type:result) suggestions.add(new AttributeDescriptionSuggestion(type.getType()));
 					
 					Set<Suggestion> filteredSuggestions =filter(suggestions, request.getQuery(), request.getLimit());
 					callback.onSuggestionsReady(request, new Response(filteredSuggestions));

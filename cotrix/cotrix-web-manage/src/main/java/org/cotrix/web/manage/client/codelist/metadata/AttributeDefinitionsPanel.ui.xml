@@ -1,0 +1,108 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	<ui:with field='attributesresources'
+		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:with field='common'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:style>
+	
+	.cell {
+		vertical-align: middle;
+		padding: 5px;
+	}
+	
+	.icon {
+		
+	}
+	
+	.label {
+		font-size: 35px;
+		height: 60px;
+		color: #5674b9;
+	}
+	
+	.container {
+		border: 1px solid lightgray;
+		border-radius: 5px;
+	}
+	
+	.itemsContainer {
+		min-height: 300px;
+	}
+	
+	.items {
+	}
+	
+	.loaderContainer {
+		min-height: 100px;
+	}
+	
+	.loaderTable {
+		height:100%;
+		min-height: 100px;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		border: 0;
+	}
+	
+	.loaderCell {
+		vertical-align: middle;
+		text-align: center;
+	}
+	
+	.toolbarContainer {
+		height: 28px;
+		margin-top: 5px;
+	}
+	
+	.toolbar {
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table width="100%">
+			<tr height="60px">
+				<td>
+					<table>
+						<tr title="Common code attributes">
+							<td class="{style.cell}">
+								<g:Image resource="{resources.attributeTypes}" styleName="{style.icon}" />
+							</td>
+							<td class="{style.cell}">
+								<span class="{style.label}">Attributes</span>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<div class="{style.container}">
+						<g:FlowPanel ui:field="itemsContainer" styleName="{style.itemsContainer}">
+							<v:ItemsEditingPanel ui:field='attributeDefinitionsPanel' addStyleNames="{style.items}"/>
+						</g:FlowPanel>
+				
+						<g:HTMLPanel ui:field="loaderContainer" styleName="{style.loaderContainer}">
+							<table class="{style.loaderTable}">
+								<tr>
+									<td class="{style.loaderCell}">
+										<g:Image ui:field="stateLoader" resource="{common.dataLoader}" />
+									</td>
+								</tr>
+							</table>
+						</g:HTMLPanel>
+			
+						<div class="{style.toolbarContainer}">
+							<c:ItemToolbar ui:field="toolBar" addStyleNames="{style.toolbar}"/>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder>

@@ -1,7 +1,7 @@
 package org.cotrix.web.manage.client;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.codelist.common.AttributesPanel;
 import org.cotrix.web.manage.client.di.AttributeTypesCacheProvider;
@@ -35,7 +35,7 @@ public class CotrixManageGinModule extends AbstractGinModule {
 		bind(UICodelist.class).annotatedWith(CurrentCodelist.class).toProvider(CodelistProvider.class);
 		
 		bind(LinkTypesCache.class).annotatedWith(CurrentCodelist.class).toProvider(LinkTypesCacheProvider.class);
-		bind(AttributeTypesCache.class).annotatedWith(CurrentCodelist.class).toProvider(AttributeTypesCacheProvider.class);
+		bind(AttributeDefinitionsCache.class).annotatedWith(CurrentCodelist.class).toProvider(AttributeTypesCacheProvider.class);
 		
 		requestStaticInjection(AttributesPanel.class);
 		requestStaticInjection(Attributes.class);
