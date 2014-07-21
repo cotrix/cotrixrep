@@ -36,6 +36,7 @@ public interface CommonCss extends CssResource {
 	
 	String blueButton();
 	String grayButton();
+	String buttonWidth();
 	
 	String propertiesTable();
 	String propertiesTableHeader();

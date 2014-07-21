@@ -26,6 +26,10 @@ import org.cotrix.web.common.client.widgets.PageSizer;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.cell.SafeHtmlRendererCell;
 import org.cotrix.web.common.client.widgets.cell.StyledSafeHtmlRenderer;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
@@ -35,6 +39,8 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
@@ -59,6 +65,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
@@ -92,6 +99,15 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodesEditor> {}
 	interface CodelistEditorEventBinder extends EventBinder<CodesEditor> {}
+	
+	private DialogButton CONTINUE_BUTTON ;
+	private DialogButton MARK_BUTTON;
+	private DialogButton CANCEL_BUTTON;
+	
+	interface EditorStyle extends CssResource {
+		String dialogButton();
+		String cancelButton();
+	}
 
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
@@ -124,6 +140,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	PageSizer pageSizer;
 
 	@UiField ItemToolbar toolBar;
+	
+	@UiField EditorStyle style;
 
 	private static DataGridResources resource = GWT.create(DataGridResources.class);
 
@@ -162,6 +180,12 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private MarkerRenderer markerRenderer;
+	
+	@Inject
+	private ConfirmDialog confirmDialog;
+	
+	@Inject
+	private MarkerTypeUtil markerTypeResolver;
 
 	@Inject
 	private void init() {
@@ -233,6 +257,45 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				}
 			}
 		});
+		
+		CONTINUE_BUTTON = new DialogButton() {
+			
+			@Override
+			public String getStyleName() {
+				return CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton();
+			}
+			
+			@Override
+			public String getLabel() {
+				return "Continue And Remove";
+			}
+		};
+		
+		MARK_BUTTON = new DialogButton() {
+			
+			@Override
+			public String getStyleName() {
+				return CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton();
+			}
+			
+			@Override
+			public String getLabel() {
+				return "Mark Deleted Instead";
+			}
+		};
+		
+		CANCEL_BUTTON = new DialogButton() {
+			
+			@Override
+			public String getStyleName() {
+				return DialogButtonDefaultSet.CANCEL.getStyleName() + " " + style.cancelButton();
+			}
+			
+			@Override
+			public String getLabel() {
+				return DialogButtonDefaultSet.CANCEL.getLabel();
+			}
+		};
 	}
 
 	@Inject
@@ -376,11 +439,30 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	private void removeSelectedCode()
 	{
 		Log.trace("removeSelectedCode");
-		UICode code = selectionModel.getSelectedObject();
+		final UICode code = selectionModel.getSelectedObject();
 		if (code!=null) {
-			dataProvider.remove(code);
-			codeEditor.removed(code);
+			
+			confirmDialog.center("Do you want to go ahead, or just mark the code as DELETED (reccomended)?", new ConfirmDialogListener() {
+				
+				@Override
+				public void onButtonClick(DialogButton button) {
+					if (button == CONTINUE_BUTTON) doRemoveCode(code);
+					if (button == MARK_BUTTON) doMarkCodeDeleted(code);
+				}
+			}, CONTINUE_BUTTON, MARK_BUTTON, CANCEL_BUTTON);
+
 		}
+	}
+	
+	private void doRemoveCode(UICode code) {
+		dataProvider.remove(code);
+		codeEditor.removed(code);
+	}
+	
+	private void doMarkCodeDeleted(UICode code) {
+		UIAttribute attribute = markerTypeResolver.toAttribute(MarkerType.DELETED, "");
+		code.addAttribute(attribute);
+		attributeEditor.added(new CodeAttribute(code, attribute));
 	}
 
 	private void addNewCode()

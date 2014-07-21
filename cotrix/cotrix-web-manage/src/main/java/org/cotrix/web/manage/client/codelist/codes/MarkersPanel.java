@@ -140,24 +140,23 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			}
 		});
 
-		/*codelistBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
+		codelistBus.addHandler(DataEditEvent.getType(CodeAttribute.class), new DataEditHandler<CodeAttribute>() {
 
+			@SuppressWarnings("incomplete-switch")
 			@Override
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
-				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
+				if (event.getSource() != MarkersPanel.this && visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
 					UIAttribute attribute = event.getData().getAttribute();
-					switch (event.getEditType()) {
-						case ADD: {
-							if (event.getSource() != MarkersPanel.this) {
-								//attributesGrid.addItemPanel(attribute);
-							}
-						} break;
-						case UPDATE: attributesGrid.synchWithModel(attribute); break;
-						default:
+					MarkerType markerType = markerTypeResolver.resolve(attribute);
+					if (markerType!=null) {
+						switch (event.getEditType()) {
+							case ADD: markersPanel.setMarkerActive(markerType, attribute, attribute.getDescription()); break;
+							case REMOVE: markersPanel.setMarkerUnactive(markerType); break;
+						}
 					}
 				}
 			}
-		});*/
+		});
 
 	}
 
@@ -277,6 +276,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			case DOWN: codelistBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
 		}
 	}
+
 	private void updateGroups(AttributeGroup group, GroupSwitchType state) {
 		switch (state) {
 			case TO_NORMAL: groupsAsColumn.remove(group); break;

@@ -17,8 +17,8 @@ public interface ConfirmDialog {
 	}
 	
 	public enum DialogButtonDefaultSet implements DialogButton {
-		CONTINUE("Continue", CommonResources.INSTANCE.css().blueButton()), 
-		CANCEL("Cancel", CommonResources.INSTANCE.css().grayButton());
+		CONTINUE("Continue", CommonResources.INSTANCE.css().blueButton() + " " +CommonResources.INSTANCE.css().buttonWidth()), 
+		CANCEL("Cancel", CommonResources.INSTANCE.css().grayButton() + " " +CommonResources.INSTANCE.css().buttonWidth());
 		
 		private String label;
 		private String styleName;

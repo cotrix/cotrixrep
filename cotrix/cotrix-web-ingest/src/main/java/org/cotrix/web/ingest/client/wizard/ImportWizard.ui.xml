@@ -87,15 +87,15 @@
 		<g:south size="95">
 			<g:HTMLPanel styleName="{style.buttonPanel}">
 				<div class="{style.leftButton}">
-					<g:Button ui:field="backButton" styleName="{common.css.grayButton}"
+					<g:Button ui:field="backButton" styleName="{common.css.grayButton} {common.css.buttonWidth}"
 						text="BACK" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="nextButton" styleName="{common.css.blueButton}"
+					<g:Button ui:field="nextButton" styleName="{common.css.blueButton} {common.css.buttonWidth}"
 						text="NEXT" />
 				</div>
 				<div class="{style.rightButton}">
-					<g:Button ui:field="importButton" styleName="{common.css.blueButton}"
+					<g:Button ui:field="importButton" styleName="{common.css.blueButton} {common.css.buttonWidth}"
 						text="IMPORT" />
 				</div>
 				<div class="{style.rightButton}">
