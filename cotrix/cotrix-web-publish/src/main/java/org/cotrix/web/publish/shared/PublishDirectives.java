@@ -19,7 +19,7 @@ public class PublishDirectives implements IsSerializable {
 	protected Format format;
 	protected Destination destination;
 	protected PublishMetadata metadata;
-	protected AttributesMappings mappings;
+	protected DefinitionsMappings mappings;
 	protected MappingMode mappingMode;
 	protected CsvConfiguration csvConfiguration;
 	protected UIQName repositoryId;
@@ -55,14 +55,14 @@ public class PublishDirectives implements IsSerializable {
 	/**
 	 * @return the mappings
 	 */
-	public AttributesMappings getMappings() {
+	public DefinitionsMappings getMappings() {
 		return mappings;
 	}
 	
 	/**
 	 * @param mappings the mappings to set
 	 */
-	public void setMappings(AttributesMappings mappings) {
+	public void setMappings(DefinitionsMappings mappings) {
 		this.mappings = mappings;
 	}
 	

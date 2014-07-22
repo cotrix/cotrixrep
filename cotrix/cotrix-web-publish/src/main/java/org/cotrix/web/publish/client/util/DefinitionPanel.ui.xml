@@ -1,0 +1,64 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with type="org.cotrix.web.common.client.resources.CommonResources"
+		field="common" />
+	<ui:style
+		type="org.cotrix.web.publish.client.util.DefinitionPanel.Style">
+		
+		.table {
+			width:100%;
+			border-collapse:collapse;
+			margin-top:10px;
+			margin-left:10px;
+		}
+		
+		.listBoxError {
+			float: left;
+			border: 2px solid #df484f;
+		}
+		
+		.imageCell {
+			vertical-align: top;
+			padding-right: 5px;
+			width: 45px;
+		}
+		
+		.titlesCell {
+			vertical-align: top;
+			padding-right: 5px;
+		}
+		
+		.title {
+			color: #f60;
+			font-size: 18px;
+		}
+		
+		.titleDisabled {
+			color: #ACABAB;
+		}
+		
+		.subtitle {
+			color: #464545;
+			font-size: 14px;
+			padding-top: 5px;
+		}
+		
+		.subtitleDisabled {
+			color: #ACABAB;
+		}
+		</ui:style>
+	<g:HTMLPanel>
+		<table class="{style.table}">
+			<tr>
+				<td class="{style.imageCell}">
+					<g:Image ui:field="icon" />
+				</td>
+				<td class="{style.titlesCell}">
+					<g:Label ui:field="title" styleName="{style.title}"/>
+					<g:Label ui:field="subtitle" styleName="{style.subtitle}"/>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

@@ -5,11 +5,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.common.shared.Language;
-import org.cotrix.web.publish.shared.AttributeDefinition;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.UIDefinition;
+import org.cotrix.web.publish.shared.DefinitionMapping;
+import org.cotrix.web.publish.shared.DefinitionMapping.MappingTarget;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.MappingMode;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -73,7 +72,7 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 		}
 	}	
 	
-	public void setMapping(AttributesMappings mappings)
+	public void setMapping(DefinitionsMappings mappings)
 	{
 		setMapping(mappings.getCodelistAttributesMapping(), codelistMappingsTable);
 		panel.getRowFormatter().setVisible(CODELIST_MAPPINGS_FIELD_ROW, !mappings.getCodelistAttributesMapping().isEmpty());
@@ -81,29 +80,28 @@ public class SummaryStepViewImpl extends ResizeComposite implements SummaryStepV
 		setMapping(mappings.getCodesAttributesMapping(), codesMappingsTable);
 	}
 
-	private void setMapping(List<AttributeMapping> mappings, FlexTable targetTable)
+	private void setMapping(List<DefinitionMapping> mappings, FlexTable targetTable)
 	{
 		Log.trace("Setting "+mappings.size()+" mappings");
 
 		targetTable.removeAllRows();
 		int row = 0;
-		for (AttributeMapping attributeMapping:mappings) {
+		for (DefinitionMapping attributeMapping:mappings) {
 			Log.trace("setting "+attributeMapping);
 			Log.trace("row "+row);
 			StringBuilder mappingDescription = new StringBuilder();
 
-			AttributeDefinition definition = attributeMapping.getAttributeDefinition();
+			UIDefinition definition = attributeMapping.getDefinition();
 
 			if (attributeMapping.isMapped()) {
 
-				mappingDescription.append("map [<span style=\"font-weight: 44;\">").append(definition.getName().getLocalPart()).append("</span>");
+				mappingDescription.append("map [<span style=\"font-weight: 44;\">").append(definition.getTitle()).append("</span>");
 
-				mappingDescription.append(",").append(definition.getType().getLocalPart());
-				if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) mappingDescription.append(",").append(definition.getLanguage().getName());
+				mappingDescription.append(",").append(definition.getSubTitle());
 				mappingDescription.append("]");
-				Mapping mapping = attributeMapping.getMapping();
+				MappingTarget mapping = attributeMapping.getTarget();
 				if (mapping!=null) mappingDescription.append(" to <span style=\"color: #097bfb;\">").append(mapping.getLabel()).append("</span>");
-			} else mappingDescription.append("ignore <b>").append(definition.getName().getLocalPart()).append("</b>");
+			} else mappingDescription.append("ignore <b>").append(definition.getTitle()).append("</b>");
 
 			//Log.trace("label "+mappingDescription.toString());
 

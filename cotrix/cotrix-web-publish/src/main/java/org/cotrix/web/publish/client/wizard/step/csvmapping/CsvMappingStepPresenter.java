@@ -8,8 +8,8 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionMapping;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Column;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishMetadata;
@@ -32,7 +32,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	private CsvMappingStepView view;
 	private EventBus publishBus;
 	private PublishMetadata metadata;
-	private AttributesMappings mappings;
+	private DefinitionsMappings mappings;
 	private Format formatType;
 	private boolean showMetadata = false;
 	
@@ -98,7 +98,7 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 	public boolean leave() {
 		Log.trace("checking csv mapping");
 
-		AttributesMappings mappings = view.getMappings();
+		DefinitionsMappings mappings = view.getMappings();
 
 		boolean valid = validateMappings(mappings);
 
@@ -137,21 +137,21 @@ public class CsvMappingStepPresenter extends AbstractVisualWizardStep implements
 		return true;
 	}
 
-	protected boolean validateMappings(AttributesMappings mappings)
+	protected boolean validateMappings(DefinitionsMappings mappings)
 	{
 
-		for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {
+		for (DefinitionMapping mapping:mappings.getCodelistAttributesMapping()) {
 			//Log.trace("checking mapping: "+mapping);
-			Column column = (Column) mapping.getMapping();
+			Column column = (Column) mapping.getTarget();
 			if (mapping.isMapped() && column.getName().isEmpty()) {
 				alertDialog.center("don't leave columns blank, bin them instead");
 				return false;
 			}
 		}
 		
-		for (AttributeMapping mapping:mappings.getCodesAttributesMapping()) {
+		for (DefinitionMapping mapping:mappings.getCodesAttributesMapping()) {
 			//Log.trace("checking mapping: "+mapping);
-			Column column = (Column) mapping.getMapping();
+			Column column = (Column) mapping.getTarget();
 			if (mapping.isMapped() && column.getName().isEmpty()) {
 				alertDialog.center("don't leave columns blank, bin them instead");
 				return false;

@@ -8,8 +8,7 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
@@ -31,7 +30,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	private SdmxMappingStepView view;
 	private EventBus publishBus;
 	private PublishMetadata metadata;
-	private AttributesMappings mappings;
+	private DefinitionsMappings mappings;
 	private Format formatType;
 	private boolean showMetadata = false;
 	
@@ -97,7 +96,7 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 	public boolean leave() {
 		Log.trace("checking sdmx mapping");
 
-		AttributesMappings mappings = view.getMappings();
+		DefinitionsMappings mappings = view.getMappings();
 
 		boolean valid = validateMappings(mappings);
 
@@ -138,22 +137,8 @@ public class SdmxMappingStepPresenter extends AbstractVisualWizardStep implement
 		return true;
 	}
 
-	protected boolean validateMappings(AttributesMappings mappings)
+	protected boolean validateMappings(DefinitionsMappings mappings)
 	{
-
-		for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
-				alertDialog.center("don't leave elements blank, bin them instead");
-				return false;
-			}
-		}
-		
-		for (AttributeMapping mapping:mappings.getCodesAttributesMapping()) {
-			if (mapping.isMapped() && mapping.getAttributeDefinition().getName().getLocalPart().isEmpty()) {
-				alertDialog.center("don't leave elements blank, bin them instead");
-				return false;
-			}
-		}
 
 		return true;
 	}

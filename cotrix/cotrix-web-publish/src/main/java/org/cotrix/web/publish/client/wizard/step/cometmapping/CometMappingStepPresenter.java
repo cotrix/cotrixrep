@@ -8,7 +8,7 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardStepButtons;
 import org.cotrix.web.publish.client.wizard.step.TrackerLabels;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishMetadata;
 import org.cotrix.web.wizard.client.step.AbstractVisualWizardStep;
@@ -30,7 +30,7 @@ public class CometMappingStepPresenter extends AbstractVisualWizardStep implemen
 	private CometMappingStepView view;
 	private EventBus publishBus;
 	private PublishMetadata metadata;
-	private AttributesMappings mappings;
+	private DefinitionsMappings mappings;
 	private Format formatType;
 	private boolean showMetadata = false;
 	
@@ -96,7 +96,7 @@ public class CometMappingStepPresenter extends AbstractVisualWizardStep implemen
 	public boolean leave() {
 		Log.trace("checking csv mapping");
 
-		AttributesMappings mappings = view.getMappings();
+		DefinitionsMappings mappings = view.getMappings();
 
 		boolean valid = validateMappings(mappings);
 
@@ -135,7 +135,7 @@ public class CometMappingStepPresenter extends AbstractVisualWizardStep implemen
 		return true;
 	}
 
-	protected boolean validateMappings(AttributesMappings mappings)
+	protected boolean validateMappings(DefinitionsMappings mappings)
 	{
 
 		/*for (AttributeMapping mapping:mappings.getCodelistAttributesMapping()) {

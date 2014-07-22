@@ -1,7 +1,5 @@
 package org.cotrix.web.publish.server;
 
-import static org.cotrix.repository.CodelistQueries.summary;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,12 +8,11 @@ import javax.servlet.ServletException;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.CloudService;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.common.server.util.Codelists;
 import org.cotrix.web.common.server.util.Encodings;
 import org.cotrix.web.common.server.util.Ranges;
-import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.server.util.Ranges.Predicate;
+import org.cotrix.web.common.server.util.Repositories;
 import org.cotrix.web.common.shared.ColumnSortInfo;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.DataWindow;
@@ -34,7 +31,7 @@ import org.cotrix.web.publish.server.util.Mappings;
 import org.cotrix.web.publish.server.util.Mappings.MappingProvider;
 import org.cotrix.web.publish.server.util.PublishSession;
 import org.cotrix.web.publish.server.util.RepositoryFilter;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishProgress;
@@ -124,22 +121,22 @@ public class PublishServiceImpl extends RemoteServiceServlet implements PublishS
 	}
 
 	@Override
-	public AttributesMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
+	public DefinitionsMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException {
 		logger.trace("getMappings codelistId{} destination {} type {}", codelistId, destination, type);
 
-		CodelistSummary summary = repository.get(summary(codelistId));
+		Codelist codelist = repository.lookup(codelistId);
 		
 		MappingProvider<?> provider = null;
 		switch (type) {
 			case CSV: provider = Mappings.COLUMN_PROVIDER; break;
 			case SDMX: provider = Mappings.SDMX_PROVIDER; break;
 			case COMET: provider = Mappings.COMET_PROVIDER; break;
-			default: return new AttributesMappings();
+			default: return new DefinitionsMappings();
 		}
 		
 		boolean includeCodelistsMappings = type == Format.SDMX;
 		
-		return Mappings.getMappings(summary, provider, includeCodelistsMappings);
+		return Mappings.getMappings(codelist, provider, includeCodelistsMappings);
 	}
 
 	@Override

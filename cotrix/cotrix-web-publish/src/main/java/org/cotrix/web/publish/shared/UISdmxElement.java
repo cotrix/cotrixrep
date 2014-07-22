@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.publish.shared;
 
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
+import org.cotrix.web.publish.shared.DefinitionMapping.MappingTarget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public enum UISdmxElement implements Mapping {
+public enum UISdmxElement implements MappingTarget {
 	FINAL("final"), 
 	AGENCY("agency"), 
 	VALID_FROM("validFrom"), 

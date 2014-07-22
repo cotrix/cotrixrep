@@ -5,19 +5,18 @@ package org.cotrix.web.common.shared.codelist.linkdefinition;
 
 import java.util.List;
 
+import org.cotrix.web.common.shared.codelist.Definition;
 import org.cotrix.web.common.shared.codelist.HasAttributes;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
-import com.google.gwt.user.client.rpc.IsSerializable;
-
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UILinkDefinition implements Identifiable, HasAttributes, IsSerializable {
+public class UILinkDefinition implements Identifiable, HasAttributes, Definition {
 	
 	private String id;
 	private UIQName name;

@@ -1,9 +1,9 @@
 package org.cotrix.web.publish.client.wizard.step.cometmapping;
 
-import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
+import org.cotrix.web.publish.client.util.DefinitionsMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Column;
 
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -20,7 +20,7 @@ public class CometMappingStepViewImpl extends ResizeComposite implements CometMa
 	public static final DefinitionWidgetProvider<Column> PROVIDER = new DefinitionWidgetProvider<Column>() {
 
 		@Override
-		public Widget getWidget(Column mapping) {
+		public Widget getTargetWidget(Column mapping) {
 			return null;
 		}
 
@@ -29,7 +29,7 @@ public class CometMappingStepViewImpl extends ResizeComposite implements CometMa
 		}
 
 		@Override
-		public Column getMapping(Widget widget) {
+		public Column getTarget(Widget widget) {
 			return null;
 		}
 
@@ -112,7 +112,7 @@ public class CometMappingStepViewImpl extends ResizeComposite implements CometMa
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMappings(AttributesMappings mapping)
+	public void setMappings(DefinitionsMappings mapping)
 	{
 		mappingPanel.setMapping(mapping);
 	}
@@ -127,7 +127,7 @@ public class CometMappingStepViewImpl extends ResizeComposite implements CometMa
 		mappingPanel.cleanStyle();
 	}
 
-	public AttributesMappings getMappings()
+	public DefinitionsMappings getMappings()
 	{
 		return mappingPanel.getMappings();
 	}

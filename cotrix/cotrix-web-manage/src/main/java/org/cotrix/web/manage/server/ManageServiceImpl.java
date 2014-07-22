@@ -435,7 +435,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
 		List<UIAttributeDefinition> types = new ArrayList<>();
 		Codelist codelist = repository.lookup(codelistId);
-		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeDefinitions.toUIAttributeType(definition));		
+		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition));		
 		return new DataWindow<UIAttributeDefinition>(types);
 	}
 

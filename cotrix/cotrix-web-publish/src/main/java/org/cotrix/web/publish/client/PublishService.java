@@ -10,7 +10,7 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.exception.ServiceException;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishProgress;
@@ -34,7 +34,7 @@ public interface PublishService extends RemoteService {
 
 	public CsvConfiguration getCsvWriterConfiguration(String codelistid) throws ServiceException;
 
-	public AttributesMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException;
+	public DefinitionsMappings getMappings(String codelistId, Destination destination, Format type) throws ServiceException;
 
 	public void startPublish(PublishDirectives publishDirectives) throws ServiceException;
 
