@@ -91,7 +91,7 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		Map<String,Code> origins = new HashMap<>();
 		
-		for (Code code : codelists.get(codesIn(list.id(), ids)))
+		for (Code code : codelists.get(codes(ids)))
 			origins.put(code.id(),code);
 		
 		return origins;

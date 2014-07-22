@@ -124,18 +124,13 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	}
 	
 	@Override
-	public MultiQuery<Codelist, Code> codesIn(final String codelistId, final Collection<String> ids) {
+	public MultiQuery<Codelist, Code> codes(final Collection<String> ids) {
 
 		return new NeoMultiQuery<Codelist, Code>(engine) {
 
 			{
 				
-				match(format("(L:%1$s {%2$s:'%3$s'})-[:%4$s]->(%5$s)",
-						CODELIST.name(),
-						id_prop,
-						codelistId,
-						Relations.CODE.name(),
-						$node));
+				match(format("(C:%s)",CODE.name()));
 				
 				StringBuilder builder =  new StringBuilder();
 				
@@ -146,9 +141,9 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 				
 				String coll = builder.toString();
 				
-				where(format("%s.%s IN [%s]",$node,id_prop,coll));
+				where(format("C.%s IN [%s]",id_prop,coll));
 				
-				rtrn(format("DISTINCT %1$s as %2$s",$node,$result));	
+				rtrn(format("DISTINCT C as %s",$result));	
 			}
 			
 			@Override
@@ -165,6 +160,36 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 
 		};
 	}
+	
+	
+	@Override
+	public Query<Codelist, Code> code(final String id) {
+		
+		return new Query.Private<Codelist, Code>() {
+
+			@Override
+			public Code execute() {
+
+				String query = format("MATCH (C:%s {%s:'%s'}) RETURN C as %s",CODE.name(), id_prop,id,$result);
+
+				ExecutionResult result = engine.execute(query);
+
+				NeoCode state = null;
+				
+				try (ResourceIterator<Node> it = result.columnAs($result)) {
+					
+					if (!it.hasNext())
+						throw new IllegalStateException("no such code: " + id);
+
+					state = new NeoCode(it.next());
+				}
+				
+				return state.entity();
+				
+			}
+		};
+	}
+
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {

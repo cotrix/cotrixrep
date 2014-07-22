@@ -29,8 +29,10 @@ public interface CodelistQueryFactory {
 
 	MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u);
 	
-	MultiQuery<Codelist, Code> codesIn(String id, Collection<String> ids);
+	MultiQuery<Codelist, Code> codes(Collection<String> ids);
 
+	Query<Codelist, Code> code(String id);
+	
 	Query<Codelist, CodelistSummary> summary(String codelistId);
 
 	Criterion<Codelist> byCodelistName();

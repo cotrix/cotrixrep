@@ -27,8 +27,12 @@ public class CodelistQueries {
 		return factory.allCodes(codelistId);
 	}
 	
-	public static MultiQuery<Codelist,Code> codesIn(String codelistId, Collection<String> ids) {
-		return factory.codesIn(codelistId,ids);
+	public static Query<Codelist,Code> code(String id) {
+		return factory.code(id);
+	}
+	
+	public static MultiQuery<Codelist,Code> codes(Collection<String> id) {
+		return factory.codes(id);
 	}
 	
 	public static MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u) {

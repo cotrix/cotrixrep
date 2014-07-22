@@ -9,6 +9,7 @@ import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -218,25 +219,40 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 	}
 	
+	
 	@Override
-	public MultiQuery<Codelist, Code> codesIn(final String id, final Collection<String> ids) {
-		
-		
-		return new MMultiQuery<Codelist,Code>() {
+	public MultiQuery<Codelist, Code> codes(final Collection<String> ids) {
+
+		return new MMultiQuery<Codelist, Code>() {
 			
 			public Collection<Code> executeInMemory() {
-				
-				Codelist.State state = lookup(id);
 
-				if (state == null)
-					throw new IllegalStateException("no such codelist: " + id);
 				
-				Collection<Code> codes = new ArrayList<>();
-				for (Code.State code : state.codes())
-					if (ids.contains(code.id()))
-						codes.add(code.entity());
-					
-				return codes;
+				Collection<Code.State> codes = new ArrayList<Code.State>();
+
+				for (Codelist.State list : getAll()) 
+					for (String id : ids) 
+						if (list.codes().contains(id))
+							codes.add(list.codes().get(Arrays.asList(id)).iterator().next());
+				
+				return adapt(codes);
+			}
+		};
+	}
+	
+	@Override
+	public Query<Codelist, Code> code(final String id) {
+		
+		return new Query.Private<Codelist, Code>() {
+			
+			@Override
+			public Code execute() {
+
+				for (Codelist.State list : getAll()) 
+					if (list.codes().contains(id))
+						return list.codes().get(Arrays.asList(id)).iterator().next().entity();
+				
+				return null;
 			}
 		};
 	}

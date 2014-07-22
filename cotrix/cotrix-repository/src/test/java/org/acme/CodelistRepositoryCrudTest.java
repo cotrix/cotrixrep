@@ -234,7 +234,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		assertEquals(retrieved.attributes().lookup(q("n")).value(), "v2");
 	}
-
+	
 	@Test
 	public void removeCodelist() {
 

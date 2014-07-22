@@ -14,7 +14,7 @@ public enum MarkerType {
 	
 	DELETED("DELETED", "#CBD8DD", "#2a4f74", false, false, "deleted"),
 	INVALID("INVALID", "#ffdede", "#771e1e", true, true, "invalid"),
-	NEWCODE("NEW", "#C2FFCD", "#4C7669", true, true, "new"),
+	NEWCODE("NEW", "#C2FFCD", "#4C7669", false, true, "new"),
 	MODIFIED("MODIFIED", "#E1E7FF", "#365E71", true, true, "modified")
 	
 	

@@ -24,6 +24,8 @@ public class ChangeDetector {
 		//TODO
 		List<CodeChange> changes = new ArrayList<>();
 		
+		changes.add(new CodeChange());
+		
 		return changes;
 	}
 }

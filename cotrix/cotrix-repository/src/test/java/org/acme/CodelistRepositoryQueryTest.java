@@ -71,9 +71,22 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		
 		repository.add(list);
 		
-		Iterable<Code> codes  = repository.get(codesIn(list.id(),asList(c1.id(),c3.id())));
+		Iterable<Code> codes  = repository.get(codes(asList(c1.id(),c3.id())));
 		
-		assertEqualUnordered(collect(codes),c1,c3);
+		assertEquals(collect(codes),asList(c1,c3));
+	}
+	
+	@Test
+	public void codeLookup() {
+		
+		Code c1 = code().name("c1").build();
+		Codelist list = codelist().name("name").with(c1).build();
+		
+		repository.add(list);
+		
+		Code code  = repository.get(code(c1.id()));
+		
+		assertEquals(code,c1);
 	}
 	
 	@Test

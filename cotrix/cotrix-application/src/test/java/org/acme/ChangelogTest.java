@@ -3,17 +3,19 @@ package org.acme;
 import static java.lang.Thread.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.application.changelog.ChangeDetector;
-import org.cotrix.application.changelog.ChangelogService;
 import org.cotrix.application.changelog.Changelog;
+import org.cotrix.application.changelog.ChangelogService;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
@@ -120,6 +122,23 @@ public class ChangelogTest extends ApplicationTest {
 		assertEquals(user.name(), log.modified().get(0).user());
 		
 		assertEquals(detector.changesBetween(code,changeset), log.modified().get(0).changes());
+	}
+	
+	
+	@Test
+	public void modifiedcodeMarker() throws Exception {
+		
+		Code noise = code().name("new").build();
+		
+		Code code = list.codes().lookup(c1.qname());
+		
+		Code changeset = modify(code).name("nn").build();
+		
+		codelists.update(modify(list).with(changeset,noise).build());
+		
+		ManagedCode managed  = manage(code);
+		
+		assertEquals(detector.changesBetween(code,changeset).toString(), managed.attribute(MODIFIED).description());
 	}
 	
 	
