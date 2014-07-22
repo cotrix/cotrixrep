@@ -450,7 +450,7 @@ public class ManageServiceImpl implements ManageService {
 	public List<UIAttributeDefinition> getMarkersAttributeTypes() throws ServiceException {
 		logger.trace("getCommonAttributeTypes");
 		List<UIAttributeDefinition> types = new ArrayList<>();
-		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeDefinitions.toUIAttributeType(definition.get()));		
+		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition.get()));		
 		return types;
 	}
 
