@@ -1,12 +1,15 @@
 package org.cotrix.domain.codelist;
 
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.memory.CodelinkMS;
@@ -66,6 +69,21 @@ public interface Code extends Identified,Attributed,Named {
 			//update links under "group semantics"
 			updateLinks(changeset);
 			
+			if (changeset.status() == Status.MODIFIED)
+				markModifiedIfRequired(state().attributes());
+			
+		}
+		
+
+		
+		private void markModifiedIfRequired(NamedStateContainer<Attribute.State> attributes) {
+			
+			if (attributes.contains(PREVIOUS_VERSION_ID) 
+					&&
+				!attributes.contains(MODIFIED))
+					
+				attributes.add(stateof(attribute().with(MODIFIED).value("true")));
+				
 		}
 
 		

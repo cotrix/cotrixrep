@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.cotrix.application.managed.ManagedCode;
+import org.cotrix.domain.managed.ManagedCode;
 
 public abstract class CodelistChange {
 	

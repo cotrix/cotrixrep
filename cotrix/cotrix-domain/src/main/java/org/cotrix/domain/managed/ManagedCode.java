@@ -1,4 +1,4 @@
-package org.cotrix.application.managed;
+package org.cotrix.domain.managed;
 
 import java.util.ArrayList;
 import java.util.List;

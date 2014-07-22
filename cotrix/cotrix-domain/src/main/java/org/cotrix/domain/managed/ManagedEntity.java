@@ -1,4 +1,4 @@
-package org.cotrix.application.managed;
+package org.cotrix.domain.managed;
 
 import static java.text.DateFormat.*;
 import static org.cotrix.common.CommonUtils.*;

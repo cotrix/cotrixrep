@@ -1,4 +1,4 @@
-package org.cotrix.application.managed;
+package org.cotrix.domain.managed;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 

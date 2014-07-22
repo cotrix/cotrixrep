@@ -1,8 +1,8 @@
 package org.cotrix.application.changelog;
 
-import static org.cotrix.application.managed.ManagedCode.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
 import java.util.Date;
@@ -15,9 +15,9 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.application.managed.ManagedCode;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
 
 @Singleton
