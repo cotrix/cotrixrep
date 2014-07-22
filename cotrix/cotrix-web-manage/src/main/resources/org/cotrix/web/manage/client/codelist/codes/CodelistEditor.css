@@ -119,7 +119,7 @@
 }
 
 .dataGridEvenRowCell {
-	background: #ffffff;
+	/*background: #ffffff;*/
 }
 
 .dataGridOddRow {
@@ -127,7 +127,7 @@
 }
 
 .dataGridOddRowCell {
-	background: #ffffff;
+	/*background: #ffffff;*/
 }
 
 .dataGridHoveredRow {

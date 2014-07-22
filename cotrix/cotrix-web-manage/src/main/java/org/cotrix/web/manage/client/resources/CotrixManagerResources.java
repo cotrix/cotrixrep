@@ -1,5 +1,6 @@
 package org.cotrix.web.manage.client.resources;
 
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 
 import com.google.gwt.core.client.GWT;
@@ -28,6 +29,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	@Source("detailsPanel.css")
 	public DetailsPanelStyle detailsPanelStyle();
+	
+	public MarkersResource markers();
 	
 	public ImageResource table();
 	

@@ -37,6 +37,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
@@ -186,6 +187,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private MarkerTypeUtil markerTypeResolver;
+	
+	@Inject
+	private CodesEditorRowHightlighter hightlighter;
 
 	@Inject
 	private void init() {
@@ -216,6 +220,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
 		dataGrid.setLastColumnSpan(true);
+		
+		dataGrid.setRowStyles(hightlighter);
 
 		AsyncHandler asyncHandler = new AsyncHandler(dataGrid);
 		dataGrid.addColumnSortHandler(asyncHandler);
@@ -428,6 +434,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			case TO_COLUMN: switchToColumn(group); break;
 			case TO_NORMAL: switchToNormal(group); break;
 		}
+	}
+	
+	@EventHandler
+	void onMarkerHighlight(MarkerHighlightEvent event) {
+		dataGrid.redraw();
 	}
 
 	private void refreshCode(UICode code)

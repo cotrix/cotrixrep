@@ -1,0 +1,37 @@
+/* DELETED */
+@def deletedBackgroundColor #CBD8DD;
+@def deletedTextColor #2a4f74;
+.deletedHighlight {
+	background-color: deletedBackgroundColor !important;
+}
+
+/* INVALID */
+@def invalidBackgroundColor #ffdede;
+@def invalidTextColor #771e1e;
+.invalidHighlight {
+	background-color: invalidBackgroundColor !important;
+}
+
+
+/* ANOTHER MARKER */
+@def anotherMarkerBackgroundColor #d6ffd5;
+@def anotherMarkerTextColor #2e5a2d;
+.anotherMarkerHighlight {
+	background-color: anotherMarkerBackgroundColor !important;
+}
+
+.toolbarButton {
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+@def selectedButtonColor #999;
+
+
+/* PALETTE
+ * blue #d5eaff #2a4f74
+ * red #ffdede #771e1e
+ * green #d6ffd5 #2e5a2d
+ */
+
+

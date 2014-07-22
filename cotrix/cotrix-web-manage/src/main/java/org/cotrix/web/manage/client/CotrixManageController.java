@@ -109,6 +109,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		resources.propertyGrid().ensureInjected();
 		resources.detailsPanelStyle().ensureInjected();
 		resources.attributeRow().ensureInjected();
+		resources.markers().ensureInjected();
 	}
 
 	@EventHandler

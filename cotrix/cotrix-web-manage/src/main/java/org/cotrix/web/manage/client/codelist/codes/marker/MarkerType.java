@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
+import static org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource.*;
+
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  * blue #d5eaff #2a4f74
@@ -12,24 +14,26 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 public enum MarkerType {
 
 	
-	DELETED("DELETED", "#CBD8DD", "#2a4f74", false, false, "deleted"),
-	INVALID("INVALID", "#ffdede", "#771e1e", true, true, "invalid"),
-	ANOTHER_MARKER("ANOTHER MARKER", "#d6ffd5", "#2e5a2d", false, false, "another_marker")
+	DELETED("DELETED", style.deletedBackgroundColor(), style.deletedTextColor(), style.deletedHighlight(), false, false, "deleted"),
+	INVALID("INVALID", style.invalidBackgroundColor(), style.invalidTextColor(), style.invalidHighlight(), true, true, "invalid"),
+	ANOTHER_MARKER("ANOTHER MARKER", style.anotherMarkerBackgroundColor(), style.anotherMarkerTextColor(), style.anotherMarkerHighlight(), false, false, "another_marker")
 	
 	;
 	
 	private String name;
 	private String backgroundColor;
 	private String textColor;
+	private String highlightStyleName;
 	private boolean readOnly;
 	private boolean descriptionReadOnly;
 	private String definitionName;
 
-	private MarkerType(String name, String backgroundColor, String textColor,
+	private MarkerType(String name, String backgroundColor, String textColor, String highlightStyleName,
 			boolean readOnly, boolean descriptionReadOnly, String definitionName) {
 		this.name = name;
 		this.backgroundColor = backgroundColor;
 		this.textColor = textColor;
+		this.highlightStyleName = highlightStyleName;
 		this.readOnly = readOnly;
 		this.descriptionReadOnly = descriptionReadOnly;
 		this.definitionName = definitionName;
@@ -47,6 +51,10 @@ public enum MarkerType {
 		return textColor;
 	}
 	
+	public String getHighlightStyleName() {
+		return highlightStyleName;
+	}
+
 	public boolean isReadOnly() {
 		return readOnly;
 	}

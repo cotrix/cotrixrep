@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:c="urn:import:com.google.gwt.user.cellview.client"
+	xmlns:m="urn:import:org.cotrix.web.manage.client.codelist.codes.marker">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='common'
@@ -33,6 +35,10 @@
 			cursor: pointer;
 			display: inline;
 		}
+		
+		.markersToolbar {
+			display: inline;
+		}
 	
 		.leftButton {
 			padding-left: 5px;
@@ -57,6 +63,7 @@
 					<g:PushButton ui:field="allNormals" styleName="{style.button} {style.leftButton}" title="Hide All">
 						<g:upFace image="{resources.allNormals}" />
 					</g:PushButton>
+					<m:MarkersToolbar ui:field="markersToolbar" styleName="{style.markersToolbar} {style.leftButton}"/>
 				</td>
 				<td class="{style.center}">
 					<div>

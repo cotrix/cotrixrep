@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.codes;
 
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkersToolbar;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -14,6 +16,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -28,6 +31,9 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	@UiField PushButton allColumns;
 	@UiField PushButton allNormals;
 	
+	@Inject
+	@UiField(provided=true) MarkersToolbar markersToolbar;
+	
 	@UiField InlineLabel state;
 	@UiField Image stateLoader;
 	
@@ -35,7 +41,8 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	
 	protected ToolBarListener listener;
 	
-	public CodesToolbarImpl() {
+	@Inject
+	public void init() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	

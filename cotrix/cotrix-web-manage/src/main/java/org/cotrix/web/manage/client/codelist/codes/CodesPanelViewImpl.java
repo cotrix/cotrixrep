@@ -28,7 +28,9 @@ public class CodesPanelViewImpl extends ResizeComposite implements CodesPanelVie
 	
 	@UiField SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
-	@UiField CodesToolbarImpl toolbar;
+	
+	@Inject
+	@UiField(provided=true) CodesToolbarImpl toolbar;
 	
 	@Inject
 	@UiField(provided=true) CodesEditor editor;
