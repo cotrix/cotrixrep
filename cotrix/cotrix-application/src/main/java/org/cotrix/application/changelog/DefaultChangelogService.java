@@ -3,9 +3,14 @@ package org.cotrix.application.changelog;
 import static org.cotrix.application.managed.ManagedCode.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,9 +36,48 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		try {
 			
-			for (Code code : list.codes())
-				process(log,code);	
+			Map<String,ManagedCode> originsIds = new HashMap<>();
 			
+			for (Code code : list.codes()) {
+			
+					ManagedCode managed = manage(code);
+					
+					String origin = managed.originId();
+					Date created = managed.created();
+					Date modified = managed.lastUpdated();
+					
+					if (origin==null)
+						log.add(new CodelistChange.NewCode(managed));
+					else
+						if (managed.attribute(DELETED)!=null)
+							log.add(new CodelistChange.DeletedCode(managed));
+						else
+							if (modified.after(created))
+								originsIds.put(origin, managed);
+				
+				}
+
+			
+			if (!originsIds.isEmpty()) {
+				
+			
+				//retrieve origins
+				Map<String,Code> origins = find(list,originsIds.keySet());
+					
+				//compute changesets
+				
+				for (Entry<String,ManagedCode> e : originsIds.entrySet()) {
+					
+					ManagedCode newcode = e.getValue();
+					
+					Code oldcode = origins.get(e.getKey());
+					
+					List<CodeChange> changes =  detector.changesBetween(oldcode,newcode);
+					
+					log.add(new CodelistChange.ModifiedCode(newcode,changes));
+				}
+			
+			}
 		}
 		catch(Exception e) {
 			rethrow("cannot generate changelog for "+list.id()+" (see cause)", e);
@@ -42,32 +86,14 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		return log;
 	}
-
 	
-	private void process(Changelog.Private log, Code code) {
+	private Map<String,Code> find(Codelist list, Set<String> ids) {
 		
-		ManagedCode managed = manage(code);
+		Map<String,Code> origins = new HashMap<>();
 		
-		String origin = managed.originId();
-		Date created = managed.created();
-		Date modified = managed.lastUpdated();
+		for (Code code : codelists.get(codesIn(list.id(), ids)))
+			origins.put(code.id(),code);
 		
-		if (origin==null)
-			log.add(new CodelistChange.NewCode(managed));
-		else
-			if (managed.attribute(DELETED)!=null)
-				log.add(new CodelistChange.DeletedCode(managed));
-			else
-				if (modified.after(created)) {
-				
-					List<CodeChange> changes =  detector.changesBetween(find(origin),managed);
-					
-					log.add(new CodelistChange.ModifiedCode(managed,changes));
-					
-				}
-	}
-	
-	private Code find(String id) {
-		return null;
+		return origins;
 	}
 }
