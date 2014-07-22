@@ -11,8 +11,14 @@ import javax.enterprise.event.Observes;
 import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
+import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkOfLink;
+import org.cotrix.domain.links.LinkValueType;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.user.User;
 import org.jboss.weld.context.RequestContext;
 
@@ -59,6 +65,41 @@ public class DomainUtils {
 	
 	public static String signatureOf(Codelist list) {
 		return String.format("%s  (%s v.%s)",list.id(),list.qname(),list.version());
+	}
+	
+	
+	//////////////////////////////////////
+	
+	
+	public static String languageOf(Definition def) {
+		
+		if (def instanceof LinkDefinition) {
+		
+			LinkDefinition ldef = LinkDefinition.class.cast(def);
+			
+			AttributeTemplate template = templateFrom(ldef.valueType());
+		
+			return template==null || template.language()==null? "en":template.language();
+		
+		}
+		
+		if (def instanceof AttributeDefinition)
+			
+			return AttributeDefinition.class.cast(def).language();
+		
+		
+		return null;
+	}
+	
+	public static AttributeTemplate templateFrom(LinkValueType type) {
+		
+		if (type instanceof AttributeLink)
+			return AttributeLink.class.cast(type).template();
+		
+		if (type instanceof LinkOfLink)
+			return templateFrom(LinkOfLink.class.cast(type).target().valueType());
+		
+		return null;
 	}
 	
 	

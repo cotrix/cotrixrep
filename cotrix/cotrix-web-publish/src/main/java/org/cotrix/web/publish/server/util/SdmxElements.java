@@ -32,7 +32,7 @@ public class SdmxElements {
 		for (SdmxElement element:SdmxElement.values()) {
 			if (element.defaultName().equals(name) && element.defaultType().equals(type)) return element;
 		}
-		return findUnqualifiedSdmxElement(name.getLocalPart(), type.getLocalPart());
+		return findUnqualifiedSdmxElement(name.getLocalPart(), type!=null?type.getLocalPart():null);
 	}
 	
 	public static SdmxElement findUnqualifiedSdmxElement(String name, String type) {

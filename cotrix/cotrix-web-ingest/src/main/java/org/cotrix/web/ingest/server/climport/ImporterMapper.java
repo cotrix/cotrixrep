@@ -111,9 +111,9 @@ public interface ImporterMapper<T> {
 		{
 			if (mode == null) return null;
 			switch (mode) {
-				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.IGNORE;
-				case LOG: return org.cotrix.io.tabular.map.MappingMode.LOG;
-				case STRICT: return org.cotrix.io.tabular.map.MappingMode.STRICT;
+				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.ignore;
+				case LOG: return org.cotrix.io.tabular.map.MappingMode.log;
+				case STRICT: return org.cotrix.io.tabular.map.MappingMode.strict;
 				default: throw new IllegalArgumentException("Uncovertible mapping mode "+mode);
 			}
 		}

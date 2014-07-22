@@ -10,8 +10,8 @@ import java.util.TreeSet;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -29,7 +29,7 @@ public class AttributeDescriptionSuggestOracle extends SuggestOracle {
 	private Set<Suggestion> defaultSuggestions;
 	
 	@Inject @CurrentCodelist
-	private AttributeTypesCache attributeTypesCache;
+	private AttributeDefinitionsCache attributeTypesCache;
 	
 	private boolean onlyDefaults;
 
@@ -42,8 +42,9 @@ public class AttributeDescriptionSuggestOracle extends SuggestOracle {
 		
 		if (onlyDefaults) callback.onSuggestionsReady(request, new Response(filter(getDefaultSuggestions(), request.getQuery(), request.getLimit())));
 		else {
+
 			Set<Suggestion> suggestions = new TreeSet<Suggestion>(getDefaultSuggestions());
-			for (UIAttributeType type:attributeTypesCache.getItems()) suggestions.add(new AttributeDescriptionSuggestion(type.getType()));
+			for (UIAttributeDefinition type:attributeTypesCache.getItems()) suggestions.add(new AttributeDescriptionSuggestion(type.getType()));
 			
 			Set<Suggestion> filteredSuggestions =filter(suggestions, request.getQuery(), request.getLimit());
 			callback.onSuggestionsReady(request, new Response(filteredSuggestions));

@@ -59,12 +59,12 @@
 				</tr>
 				<tr ui:field="codelistMappingRow">
 					<td colspan="3" align="left" style="padding: 20px;">
-						<u:AttributeMappingPanel ui:field="codelistMappingPanel" />
+						<u:DefinitionsMappingPanel ui:field="codelistMappingPanel" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3" align="left" style="padding: 20px;">
-						<u:AttributeMappingPanel ui:field="codeMappingPanel" />
+						<u:DefinitionsMappingPanel ui:field="codeMappingPanel" />
 					</td>
 				</tr>
 			</table>

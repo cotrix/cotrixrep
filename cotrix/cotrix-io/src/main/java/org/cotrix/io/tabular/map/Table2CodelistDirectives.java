@@ -22,7 +22,7 @@ import org.virtualrepository.tabular.Column;
  * <li>(optional) the <b>name</b> of the target codelist. If unspecified, the codelist is named after the code column.
  * <li>(optional) the <b>attributes</b> of the target codelist.
  * <li>(optional) <b>column directives</b>, the directives for mapping other columns.
- * <li> (optional) the <b>mapping mode</b> for missing values in the code column, {@link MappingMode#STRICT} by default (#cf {@link MappingMode}).
+ * <li> (optional) the <b>mapping mode</b> for missing values in the code column, {@link MappingMode#strict} by default (#cf {@link MappingMode}).
  * </ul>
  */
 public class Table2CodelistDirectives implements MapDirectives<Codelist> {
@@ -38,7 +38,7 @@ public class Table2CodelistDirectives implements MapDirectives<Codelist> {
 
 	private List<ColumnDirectives> columnDirectives = new ArrayList<ColumnDirectives>();
 
-	private MappingMode mode = MappingMode.STRICT;
+	private MappingMode mode = MappingMode.strict;
 	
 
 	/**
@@ -183,7 +183,7 @@ public class Table2CodelistDirectives implements MapDirectives<Codelist> {
 	}
 	
 	/**
-	 * Sets the mode for these directives, overriding the default {@link MappingMode#STRICT}.
+	 * Sets the mode for these directives, overriding the default {@link MappingMode#strict}.
 	 * @param mode the mode
 	 * @return these directives
 	 */
@@ -193,7 +193,7 @@ public class Table2CodelistDirectives implements MapDirectives<Codelist> {
 	}
 	
 	/**
-	 * Returns the mode for these directives, {@link MappingMode#STRICT} by default.
+	 * Returns the mode for these directives, {@link MappingMode#strict} by default.
 	 * @return the mode
 	 */
 	public MappingMode mode() {

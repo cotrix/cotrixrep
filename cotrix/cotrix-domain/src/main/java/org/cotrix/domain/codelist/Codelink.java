@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -19,14 +20,7 @@ import org.cotrix.domain.values.ValueFunction;
  * @author Fabio Simeoni
  * 
  */
-public interface Codelink extends Identified, Attributed, Named {
-
-	/**
-	 * Returns the type of this link.
-	 * 
-	 * @return the type
-	 */
-	LinkDefinition definition();
+public interface Codelink extends Identified, Attributed, Named, Defined<LinkDefinition> {
 
 	/**
 	 * Returns the value of this link.
@@ -35,6 +29,8 @@ public interface Codelink extends Identified, Attributed, Named {
 	 */
 	List<Object> value();
 	
+	
+	String valueAsString();
 	
 	/**
 	 * Returns the target of this link.
@@ -70,6 +66,26 @@ public interface Codelink extends Identified, Attributed, Named {
 		public QName qname() {
 			//safe: type cannot be or become null
 			return state().type().name();
+		}
+		
+		@Override
+		public String valueAsString() {
+			
+			List<Object> linkval = value();
+			
+			if (linkval.isEmpty())
+				return null; 
+						
+			else 
+				
+				if (linkval.size()==1) {	
+				
+					Object val = linkval.get(0);
+					return val==null?null:val.toString();
+				
+				}
+				else
+			     	return linkval.toString();
 		}
 
 		@Override

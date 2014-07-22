@@ -37,7 +37,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);
 
@@ -58,7 +58,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 		directives.name("custom");
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);
@@ -80,7 +80,7 @@ public class Table2CodelistTest extends DomainTest {
 
 		Table2CodelistDirectives directives = new Table2CodelistDirectives("c1");
 
-		directives.mode(IGNORE);
+		directives.mode(ignore);
 		directives.version("2");
 
 		Outcome<Codelist> outcome = mapper.map(table, directives);

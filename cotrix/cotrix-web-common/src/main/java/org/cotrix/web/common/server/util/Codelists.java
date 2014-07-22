@@ -148,9 +148,9 @@ public class Codelists {
 		UILink link = new UILink();
 		link.setId(codelink.id());
 		
-		LinkDefinition type = codelink.definition();
-		link.setTypeId(type.id());
-		link.setTypeName(ValueUtils.safeValue(type.qname()));
+		LinkDefinition definition = codelink.definition();
+		link.setDefinitionId(definition.id());
+		link.setDefinitionName(ValueUtils.safeValue(definition.qname()));
 		
 		Code target = codelink.target();
 		link.setTargetId(target.id());

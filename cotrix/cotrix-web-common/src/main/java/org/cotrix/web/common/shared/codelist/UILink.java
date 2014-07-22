@@ -15,8 +15,8 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes, HasV
 	
 	private String id;
 	
-	private String typeId;
-	private UIQName typeName;
+	private String definitionId;
+	private UIQName definitionName;
 	
 	private String targetId;
 	private UIQName targetName;
@@ -33,20 +33,20 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes, HasV
 		this.id = id;
 	}
 
-	public String getTypeId() {
-		return typeId;
+	public String getDefinitionId() {
+		return definitionId;
 	}
 
-	public void setTypeId(String typeId) {
-		this.typeId = typeId;
+	public void setDefinitionId(String definitionId) {
+		this.definitionId = definitionId;
 	}
 
-	public UIQName getTypeName() {
-		return typeName;
+	public UIQName getDefinitionName() {
+		return definitionName;
 	}
 
-	public void setTypeName(UIQName typeName) {
-		this.typeName = typeName;
+	public void setDefinitionName(UIQName definitionName) {
+		this.definitionName = definitionName;
 	}
 
 	public String getTargetId() {
@@ -120,10 +120,10 @@ public class UILink implements Identifiable, IsSerializable, HasAttributes, HasV
 		StringBuilder builder = new StringBuilder();
 		builder.append("UILink [id=");
 		builder.append(id);
-		builder.append(", typeId=");
-		builder.append(typeId);
-		builder.append(", typeName=");
-		builder.append(typeName);
+		builder.append(", definitionId=");
+		builder.append(definitionId);
+		builder.append(", definitionName=");
+		builder.append(definitionName);
 		builder.append(", targetId=");
 		builder.append(targetId);
 		builder.append(", targetName=");

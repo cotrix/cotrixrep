@@ -6,7 +6,7 @@ package org.cotrix.web.manage.client.codelist.cache;
 import java.util.Collection;
 
 import org.cotrix.web.common.shared.DataWindow;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -17,18 +17,18 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkTypesCache extends AbstractCache<UILinkType> {
+public class LinkTypesCache extends AbstractCache<UILinkDefinition> {
 	
 	@Inject
 	private ManageServiceAsync service;
 
 	public LinkTypesCache() {
-		super(UILinkType.class);
+		super(UILinkDefinition.class);
 	}
 
 	@Override
-	protected void retrieveItems(String codelistId, final AsyncCallback<Collection<UILinkType>> callback) {
-		service.getCodelistLinkTypes(codelistId, new AsyncCallback<DataWindow<UILinkType>>() {
+	protected void retrieveItems(String codelistId, final AsyncCallback<Collection<UILinkDefinition>> callback) {
+		service.getCodelistLinkTypes(codelistId, new AsyncCallback<DataWindow<UILinkDefinition>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -37,7 +37,7 @@ public class LinkTypesCache extends AbstractCache<UILinkType> {
 			}
 
 			@Override
-			public void onSuccess(DataWindow<UILinkType> result) {
+			public void onSuccess(DataWindow<UILinkDefinition> result) {
 				Log.trace("retrieved CodelistLinkTypes: "+result);
 				callback.onSuccess(result.getData());
 			}

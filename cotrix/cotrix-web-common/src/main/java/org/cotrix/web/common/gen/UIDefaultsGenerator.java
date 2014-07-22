@@ -13,7 +13,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIRange;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;

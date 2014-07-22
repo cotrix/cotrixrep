@@ -1,26 +1,32 @@
 package org.cotrix.io.sdmx.map;
 
+import static java.lang.String.*;
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.io.sdmx.Constants.*;
+import static org.cotrix.io.sdmx.SdmxElement.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.trait.Defined;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.io.MapService.MapDirectives;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 
 public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 
+	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
+
+
 	//API support clauses
 	
 	public static interface GetClause {
 		
-		SdmxElement get(Attribute a);
+		SdmxElement get(Defined<?> a);
 		
 	}
 	
@@ -35,48 +41,50 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		TargetClause to(SdmxElement e);
 	}
-	
-	
-	
-	
-	
-	public static Codelist2SdmxDirectives DEFAULT = new Codelist2SdmxDirectives();
 
-	private final Map<AttributeTemplate,SdmxElement> attributeDirectives = new HashMap<AttributeTemplate,SdmxElement>();
-	private final Map<AttributeTemplate,SdmxElement> codelistAttributeDirectives = new HashMap<AttributeTemplate,SdmxElement>();
+	
+	private final Map<String,SdmxElement> codelistDirectives = new HashMap<>();
+	private final Map<SdmxElement,List<Definition>> codelistDefs = new HashMap<>();
+	
+	private final Map<String,SdmxElement> codeDirectives = new HashMap<>();
+	private final Map<SdmxElement,List<Definition>> codeDefs = new HashMap<>();
 	
 	private String agency = DEFAULT_SDMX_AGENCY;
-	private String name;
+	private String id;
 	private String version;
 	private Boolean isFinal;
 	
 	
-	public void name(String name) {
-		this.name = name;
+	public Codelist2SdmxDirectives id(String id) {
+		this.id = id;
+		return this;
 	}
 	
 	public Boolean isFinal() {
 		return isFinal;
 	}
 	
-	public void isFinal(Boolean isfinal) {
+	public Codelist2SdmxDirectives isFinal(Boolean isfinal) {
 		this.isFinal = isfinal;
+		return this;
 	}
 	
-	public String name() {
-		return name;
+	public String id() {
+		return id;
 	}
 	
 	public String agency() {
 		return agency;
 	}
 	
-	public void agency(String agency) {
+	public Codelist2SdmxDirectives agency(String agency) {
 		this.agency = agency;
+		return this;
 	}
 	
-	public void version(String version) {
+	public Codelist2SdmxDirectives version(String version) {
 		this.version = version;
+		return this;
 	}
 	
 	public String version() {
@@ -87,9 +95,9 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		return new GetClause() {
 			
-			public SdmxElement get(Attribute a) {
+			public SdmxElement get(Defined<?> m) {
 				
-				return codelistAttributeDirectives.get(template(a));
+				return codelistDirectives.get(m.definition().id());
 				
 			};
 		};
@@ -100,24 +108,23 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 		return new GetClause() {
 			
-			public SdmxElement get(Attribute a) {
+			public SdmxElement get(Defined<?> m) {
 				
-				return attributeDirectives.get(template(a));				
+				return codeDirectives.get(m.definition().id());				
 			};
 		};
 		
 	}
 	
 	/**
-	 * Maps an attribute name and type onto a SDMX element type
-	 * @param name the name
+	 * Maps a definition name and type onto a SDMX element type
+	 * @param id the name
 	 * @param type the type
 	 * @return the mapping clause
 	 */
-	public MappingClause map(final QName name, final QName type) {
+	public MappingClause map(final Definition def) {
 		
-		notNull("name",name);
-		notNull("type",type);
+		notNull("mapping subject",def);
 		
 		return new MappingClause() {
 			
@@ -131,7 +138,12 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 					@Override
 					public Codelist2SdmxDirectives forCodes() {
 
-						attributeDirectives.put(template(name, type),element);
+						codeDirectives.put(def.id(),element);
+						
+						if (codeDefs.get(element)==null)
+							codeDefs.put(element,new ArrayList<Definition>());
+						
+						codeDefs.get(element).add(def);
 						
 						return Codelist2SdmxDirectives.this;
 					}
@@ -139,7 +151,12 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 					@Override
 					public Codelist2SdmxDirectives forCodelist() {
 						
-						codelistAttributeDirectives.put(template(name, type),element);
+						codelistDirectives.put(def.id(),element);
+						
+						if (codelistDefs.get(element)==null)
+							codelistDefs.put(element,new ArrayList<Definition>());
+						
+						codelistDefs.get(element).add(def);
 						
 						return Codelist2SdmxDirectives.this;
 					}
@@ -152,81 +169,61 @@ public class Codelist2SdmxDirectives implements MapDirectives<CodelistBean> {
 		
 	}
 	
-	/**
-	 * Maps an attribute name and type onto a SDMX element type
-	 * @param name the name
-	 * @param type the type
-	 * @return the mapping clause
-	 */
-	public MappingClause map(String name, String type) {
+	
+	public <T extends Definition> MappingClause map(Defined<T> m) {
 		
-		notNull("name",name);
-		notNull("type",type);
+		notNull("mapping subject",m);
 		
-		return map(q(name),q(type));
+		return map(m.definition());
 		
 	}
-
 	
-	//helpers
+	///////////////
 	
-	static AttributeTemplate template(Attribute a) {
-		return template(a.qname(),a.type());
+	private static String langError = "two or more attributes or links map onto %s with the same language";
+	private static String noNameError = "no attribute or link maps onto a NAME for %s";
+	
+	
+	public List<String> errors() {
+		
+		List<String> errors = new ArrayList<>();	
+		
+		List<Definition> names = codelistDefs.get(NAME);
+		if (names==null || names.isEmpty())
+			errors.add(format(noNameError,"the codelist"));
+		
+		names = codeDefs.get(NAME);
+		if (names==null || names.isEmpty())
+			errors.add(format(noNameError,"codes"));
+		
+		addSingleLanguageErrors(errors,NAME,codelistDefs.get(NAME));
+		addSingleLanguageErrors(errors,NAME,codeDefs.get(NAME));
+		addSingleLanguageErrors(errors,DESCRIPTION,codelistDefs.get(DESCRIPTION));
+		addSingleLanguageErrors(errors,DESCRIPTION,codeDefs.get(DESCRIPTION));
+		
+		return errors;
 	}
 	
 	
-	static AttributeTemplate template(QName name, QName type) {
-		AttributeTemplate template = new AttributeTemplate();
-		template.name=name.getLocalPart();
-		template.type=type.getLocalPart();
-		return template;
-	}
-	
-	static class AttributeTemplate {
+	private void addSingleLanguageErrors(List<String> errors, SdmxElement element,List<Definition> defs) {
+
+		if (defs==null || defs.isEmpty())
+			return;
 		
-		String name, type;
-		
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((name == null) ? 0 : name.hashCode());
-			result = prime * result + ((type == null) ? 0 : type.hashCode());
-			return result;
+		List<String> langs = new ArrayList<>();
+
+		for (Definition def : defs) {
+			
+			String lang = languageOf(def);
+			
+			if (lang==null)
+				lang="en";
+			
+			if (langs.contains(lang))
+				errors.add(format(langError,element.toString()));
+			else
+				langs.add(lang);
 		}
-		
-		
-
-		@Override
-		public String toString() {
-			return "[name=" + name + ", type=" + type + "]";
-		}
-
-
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			AttributeTemplate other = (AttributeTemplate) obj;
-			if (name == null) {
-				if (other.name != null)
-					return false;
-			} else if (!name.equals(other.name))
-				return false;
-			if (type == null) {
-				if (other.type != null)
-					return false;
-			} else if (!type.equals(other.type))
-				return false;
-			return true;
-		}
-		
-		
 	}
 	
 }

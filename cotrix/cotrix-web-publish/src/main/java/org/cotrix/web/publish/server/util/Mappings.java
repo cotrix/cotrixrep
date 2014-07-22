@@ -4,33 +4,40 @@
 package org.cotrix.web.publish.server.util;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkOfLink;
+import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.Constants;
 import org.cotrix.io.sdmx.SdmxElement;
-import org.cotrix.repository.CodelistSummary;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.Language;
-import org.cotrix.web.publish.shared.AttributeDefinition;
-import org.cotrix.web.publish.shared.AttributeMapping;
-import org.cotrix.web.publish.shared.AttributesMappings;
 import org.cotrix.web.publish.shared.Column;
+import org.cotrix.web.publish.shared.DefinitionMapping;
+import org.cotrix.web.publish.shared.DefinitionMapping.MappingTarget;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
+import org.cotrix.web.publish.shared.UIDefinition;
+import org.cotrix.web.publish.shared.UIDefinition.DefinitionType;
 import org.cotrix.web.publish.shared.UISdmxElement;
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
 public class Mappings {
-	
-	public interface MappingProvider<T extends Mapping> {
+
+	public interface MappingProvider<T extends MappingTarget> {
 		public T getMapping(QName name, QName type, Language language);
 		public boolean isMapped(QName name, QName type, Language language);
 	}
-	
+
 	public static final MappingProvider<Column> COLUMN_PROVIDER = new MappingProvider<Column>() {
 
 		@Override
@@ -41,13 +48,13 @@ public class Mappings {
 			column.setName(columnName.toString());
 			return column;
 		}
-		
+
 		@Override
 		public boolean isMapped(QName name, QName type, Language language) {
 			return true;
 		}
 	};
-	
+
 	public static final MappingProvider<UISdmxElement> SDMX_PROVIDER = new MappingProvider<UISdmxElement>() {
 
 		@Override
@@ -55,70 +62,122 @@ public class Mappings {
 			SdmxElement element = SdmxElements.findSdmxElement(name, type);
 			return SdmxElements.toUISdmxElement(element);
 		}
-		
-		
+
 		@Override
 		public boolean isMapped(QName name, QName type, Language language) {
 			return true;
 		}
 	};
-	
+
 	public static final MappingProvider<Column> COMET_PROVIDER = new MappingProvider<Column>() {
 
 		@Override
 		public Column getMapping(QName name, QName type, Language language) {
 			return null;
 		}
-		
-		
+
 		@Override
 		public boolean isMapped(QName name, QName type, Language language) {
 			return false;
 		}
 	};
 
-	public static AttributesMappings getMappings(CodelistSummary summary, MappingProvider<?> provider, boolean includeCodelistMappings) {
-		List<AttributeMapping> codelistMappings = includeCodelistMappings?getCodelistsMappings(summary, provider):new ArrayList<AttributeMapping>();
-		List<AttributeMapping> codesMappings = getCodesMappings(summary, provider);
-		return new AttributesMappings(codesMappings, codelistMappings);
+	public static DefinitionsMappings getMappings(Codelist codelist, MappingProvider<?> provider, boolean includeCodelistMappings) {
+		List<DefinitionMapping> codelistMappings = includeCodelistMappings?getCodelistsMappings(codelist, provider):new ArrayList<DefinitionMapping>();
+		List<DefinitionMapping> codesMappings = getCodesMappings(codelist, provider);
+		return new DefinitionsMappings(codesMappings, codelistMappings);
 	}
-	
-	private static List<AttributeMapping> getCodelistsMappings(CodelistSummary summary, MappingProvider<?> provider) {
-		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.codelistNames()) {
-			for (QName attributeType : summary.codelistTypesFor(attributeName)) {
-				Collection<String> languages = summary.codelistLanguagesFor(attributeName, attributeType);
-				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, Language.NONE, provider));
-				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, ValueUtils.safeLanguage(language), provider));
-			}
-		}
-		return mappings;
-	}
-	
-	private static List<AttributeMapping> getCodesMappings(CodelistSummary summary, MappingProvider<?> provider) {
-		List<AttributeMapping> mappings = new ArrayList<AttributeMapping>();
-		for (QName attributeName:summary.codeNames()) {
-			for (QName attributeType : summary.codeTypesFor(attributeName)) {
-				Collection<String> languages = summary.codeLanguagesFor(attributeName, attributeType);
-				if (languages.isEmpty()) mappings.add(getAttributeMapping(attributeName, attributeType, Language.NONE, provider));
-				else for (String language:languages) mappings.add(getAttributeMapping(attributeName, attributeType, ValueUtils.safeLanguage(language), provider));
-			}
+
+	private static List<DefinitionMapping> getCodelistsMappings(Codelist codelist, MappingProvider<?> provider) {
+		List<DefinitionMapping> mappings = new ArrayList<DefinitionMapping>();
+		for (Attribute attribute:codelist.attributes()) {
+			
+			AttributeDefinition definition = attribute.definition();
+			
+			//skip system attributes
+			if (definition.is(Constants.SYSTEM_TYPE)) continue;
+			
+			DefinitionMapping mapping = getDefinitionMapping(definition, provider);
+			
+			//we use the attribute id because the definition is not shared
+			mapping.getDefinition().setId(attribute.id());
+			mappings.add(mapping);			
 		}
 		return mappings;
 	}
 
-	private static AttributeMapping getAttributeMapping(QName name, QName type, Language language, MappingProvider<?> provider) {
-		AttributeDefinition attr = new AttributeDefinition();
-		attr.setName(ValueUtils.safeValue(name));
-		attr.setType(ValueUtils.safeValue(type));
-		attr.setLanguage(language);
+	private static List<DefinitionMapping> getCodesMappings(Codelist codelist, MappingProvider<?> provider) {
+		List<DefinitionMapping> mappings = new ArrayList<DefinitionMapping>();
+		for (AttributeDefinition definition:codelist.definitions()) {
+			mappings.add(getDefinitionMapping(definition, provider));
+		}
 
-		Mapping mapping = provider.getMapping(name, type, language);
-		AttributeMapping attributeMapping = new AttributeMapping();
-		attributeMapping.setAttributeDefinition(attr);
-		attributeMapping.setMapping(mapping);
-		attributeMapping.setMapped(provider.isMapped(name, type, language));
+		for (LinkDefinition definition:codelist.links()) {
+			mappings.add(getLinkMapping(definition, provider));
+		}
+		return mappings;
+	}
+
+	private static DefinitionMapping getDefinitionMapping(AttributeDefinition definition, MappingProvider<?> provider) {
+
+		MappingTarget mapping = provider.getMapping(definition.qname(), definition.type(), ValueUtils.safeLanguage(definition.language()));
+		DefinitionMapping attributeMapping = new DefinitionMapping();
+		attributeMapping.setDefinition(getDefinition(definition));
+		attributeMapping.setTarget(mapping);
+		attributeMapping.setMapped(provider.isMapped(definition.qname(), definition.type(), ValueUtils.safeLanguage(definition.language())));
 		return attributeMapping;
+	}
+
+	public static UIDefinition getDefinition(AttributeDefinition def) {
+		String title = ValueUtils.getSafeLocalPart(def.qname());
+		String subTitle = join(", ", ValueUtils.getSafeLocalPart(def.type()), ValueUtils.safeLanguage(def.language()).getCode());
+		return new UIDefinition(def.id(), DefinitionType.ATTRIBUTE_DEFINITION, title, subTitle);
+	}
+
+	private static DefinitionMapping getLinkMapping(LinkDefinition definition, MappingProvider<?> provider) {
+
+		//TODO complete me
+		MappingTarget mapping = provider.getMapping(definition.qname(), null, Language.NONE);
+		DefinitionMapping attributeMapping = new DefinitionMapping();
+		attributeMapping.setDefinition(getDefinition(definition));
+		attributeMapping.setTarget(mapping);
+		attributeMapping.setMapped(provider.isMapped(definition.qname(), null, Language.NONE));
+		return attributeMapping;
+	}
+
+	public static UIDefinition getDefinition(LinkDefinition def) {
+		String title = ValueUtils.getSafeLocalPart(def.qname());
+		String subTitle = getNameAndVersion(def.target());
+
+		if (def.valueType() instanceof AttributeLink) {
+			AttributeLink attributeLink = (AttributeLink) def.valueType();
+			AttributeTemplate template = attributeLink.template();
+			subTitle += ", "+ join(", ", ValueUtils.getSafeLocalPart(template.name()), ValueUtils.getSafeLocalPart(template.type()), ValueUtils.safeLanguage(template.language()).getCode());
+		}
+		
+		if (def.valueType() instanceof LinkOfLink) {
+			LinkOfLink linkOfLink = (LinkOfLink) def.valueType();
+			LinkDefinition definition = linkOfLink.target();
+			subTitle += ", "+ join(", ", ValueUtils.getSafeLocalPart(definition.qname()), getNameAndVersion(definition.target()));
+		}
+
+		return new UIDefinition(def.id(), DefinitionType.LINK_DEFINITION, title, subTitle);
+	}
+	
+	private static String join(String separator, String ... tokens) {
+		StringBuilder join = new StringBuilder();
+		for (int i = 0; i < tokens.length; i++) {
+			String token = tokens[i];
+			if (token.isEmpty()) continue;
+			if (join.length() != 0)	join.append(separator);
+			join.append(token);
+			
+		}
+		return join.toString();		
+	}
+	
+	private static String getNameAndVersion(Codelist codelist) {
+		return ValueUtils.getSafeLocalPart(codelist.qname()) + " " + codelist.version();
 	}
 
 }

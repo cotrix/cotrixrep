@@ -17,7 +17,7 @@ import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.common.attribute.GroupFactory;
 import org.cotrix.web.manage.shared.AttributeGroup;
@@ -38,7 +38,7 @@ public class MarkerTypeUtil {
 	private ManageServiceAsync service;
 	
 	private Map<String, MarkerType> definitionToMarker;
-	private EnumMap<MarkerType, UIAttributeType> markerToDefinition;
+	private EnumMap<MarkerType, UIAttributeDefinition> markerToDefinition;
 	
 	@Inject
 	private UIDefaults defaults;
@@ -48,23 +48,23 @@ public class MarkerTypeUtil {
 	
 	@Inject
 	private void loadCache() {
-		service.getMarkersAttributeTypes(AsyncUtils.manageError(new SuccessCallback<List<UIAttributeType>>() {
+		service.getMarkersAttributeTypes(AsyncUtils.manageError(new SuccessCallback<List<UIAttributeDefinition>>() {
 
 			@Override
-			public void onSuccess(List<UIAttributeType> result) {
+			public void onSuccess(List<UIAttributeDefinition> result) {
 				fillCache(result);
 			}
 		}));
 	}
 	
-	private void fillCache(List<UIAttributeType> definitions) {
+	private void fillCache(List<UIAttributeDefinition> definitions) {
 		
 		if (definitions.size()!=MarkerType.values().length) throw new IllegalStateException("The marker types and the definitions have not the same cardinality defs: "+definitions.size()+" markerTypes: "+MarkerType.values().length);
 		
 		definitionToMarker = new HashMap<String, MarkerType>();
-		markerToDefinition = new EnumMap<MarkerType, UIAttributeType>(MarkerType.class);
+		markerToDefinition = new EnumMap<MarkerType, UIAttributeDefinition>(MarkerType.class);
 		
-		for (UIAttributeType definition:definitions) {
+		for (UIAttributeDefinition definition:definitions) {
 			MarkerType type = MarkerType.fromDefinitionName(definition.getName().getLocalPart());
 			if (type==null) throw new IllegalStateException("No MarkerType found for definition "+definition);
 			definitionToMarker.put(definition.getId(), type);

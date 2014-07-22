@@ -13,10 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.links.AttributeLink;
-import org.cotrix.domain.links.LinkValueType;
-import org.cotrix.domain.utils.AttributeTemplate;
 
 public class Fingerprint {
 
@@ -26,7 +22,7 @@ public class Fingerprint {
 		
 		for (Attribute a : attributes)
 			if (!a.is(SYSTEM_TYPE))
-			  addTo(typesFor(a.qname()), a.type(), a.language());
+			  addAttributeTo(typesFor(a.qname()), a.type(), a.language());
 		
 		return this;
 	}
@@ -36,33 +32,16 @@ public class Fingerprint {
 		
 		for (AttributeDefinition def : definitions)
 			if (!def.is(SYSTEM_TYPE))
-				addTo(typesFor(def.qname()), def.type(), def.language());
+				addAttributeTo(typesFor(def.qname()), def.type(), def.language());
 			
 		return this;
 	}
 	
 	
-	public Fingerprint addLinks(Iterable<? extends LinkDefinition> links) {
-
-		for (LinkDefinition link : links) {
-			
-			LinkValueType type = link.valueType();
-
-			if (type instanceof AttributeLink) {
-	
-					Map<QName, Set<String>> types = typesFor(link.qname());
-	
-					AttributeTemplate template = ((AttributeLink) type).template();
-	
-					addTo(types, template.type(), template.language());
-	
-			}
-		}
-		
-		return this;
+	public Collection<QName> attributeNames() {
+		return data.keySet();
 	}
 
-	
 	public Map<QName, Set<String>> typesFor(QName name) {
 
 		Map<QName, Set<String>> types = data.get(name);
@@ -77,10 +56,6 @@ public class Fingerprint {
 		return types;
 	}
 	
-	public Collection<QName> names() {
-		return data.keySet();
-	}
-	
 	public Collection<String> languagesFor(QName name, QName type) {
 		
 		if (data.containsKey(name) && data.get(name).containsKey(type))
@@ -88,11 +63,15 @@ public class Fingerprint {
 
 		return emptySet();
 	}
+
+	
+	
+	
 	
 	
 	// helpers
 	
-	private static void addTo(Map<QName, Set<String>> types, QName type, String language) {
+	private static void addAttributeTo(Map<QName, Set<String>> types, QName type, String language) {
 
 		Set<String> langForType = types.get(type);
 

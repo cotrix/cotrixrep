@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.codelist.common.attribute;
 
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 public class CodeAttributeEditingPanelFactory implements ItemEditingPanelFactory<UIAttribute, AttributePanel> {
 	
 	@Inject @CurrentCodelist
-	private AttributeTypesCache attributeTypesCache;
+	private AttributeDefinitionsCache attributeTypesCache;
 	
 	@Inject
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;

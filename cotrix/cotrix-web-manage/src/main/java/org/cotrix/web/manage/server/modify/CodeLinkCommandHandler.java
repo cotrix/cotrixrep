@@ -46,13 +46,13 @@ public class CodeLinkCommandHandler {
 		
 		switch (command.getAction()) {
 			case ADD: {
-				LinkDefinition linkType = repository.lookup(codelistId).links().lookup(link.getTypeId());
+				LinkDefinition linkType = repository.lookup(codelistId).links().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				changeset = ChangesetUtil.addCodelink(link, linkType, code);
 			} break;
 			case UPDATE: {
 				Codelist codelist = repository.lookup(codelistId);
-				LinkDefinition linkType = codelist.links().lookup(link.getTypeId());
+				LinkDefinition linkType = codelist.links().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				Codelink oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
 				changeset = ChangesetUtil.updateCodelink(link, oldLink, linkType, code);

@@ -17,7 +17,7 @@ import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.event.PublishCompleteEvent;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Destination;
 import org.cotrix.web.publish.shared.DownloadType;
 import org.cotrix.web.publish.shared.MappingMode;
@@ -56,7 +56,7 @@ public class PublishTask implements TaskWizardStep {
 	protected UICodelist codelist;
 	protected Destination destination;
 	protected Format format;
-	protected AttributesMappings mappings;
+	protected DefinitionsMappings mappings;
 	protected CsvConfiguration csvConfiguration;
 	protected UIQName repositoryId;
 	protected MappingMode mappingMode;

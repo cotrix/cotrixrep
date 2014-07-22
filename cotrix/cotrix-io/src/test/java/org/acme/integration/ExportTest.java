@@ -5,6 +5,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import javax.inject.Inject;
 
 import org.cotrix.common.Outcome;
+import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.io.MapService;
@@ -38,14 +39,16 @@ public class ExportTest extends ApplicationTest {
 	
 	@Test
 	public void codelist2csv() {
-		
-		Code code = code().name("c").attributes(attribute().name("a").value("aval").build()).build();
+
+		Attribute a = attribute().name("a").value("aval").build();
+
+		Code code = code().name("c").attributes(a).build();
 		
 		Codelist list = codelist().name("list").with(code).build();
 
 		Codelist2TableDirectives directives = new Codelist2TableDirectives();
 		
-		directives.add(attribute().name("a").build());
+		directives.add(a);
 		
 		Outcome<Table> outcome = mapper.map(list,directives);
 		

@@ -1,0 +1,37 @@
+
+.table {
+	border: 1px solid #d1d1d1;
+	width: 100%;
+}
+
+.headerCell {
+	border: 1px solid #d1d1d1;
+	background-color: lightgray;
+	font-size: 20px;
+	color: black;
+	text-align: left;
+}
+
+.definitionHeader {
+	padding:5px 5px 5px 10px;
+}
+
+.targetHeader {
+	padding:5px 5px 5px 0px;
+}
+
+.emptyCell {
+	text-align: center;
+	vertical-align: middle;
+	height: 50px;
+}
+
+.arrow {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.checkbox {
+	padding-left: 10px;
+	padding-right: 10px;
+}

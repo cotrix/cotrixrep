@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.publish.server.publish;
 
-import static org.cotrix.domain.dsl.Codes.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,24 +10,21 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
-import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.io.MapService;
 import org.cotrix.io.comet.map.Codelist2CometDirectives;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives;
-import org.cotrix.io.tabular.map.AttributeDirectives;
 import org.cotrix.io.tabular.map.Codelist2TableDirectives;
+import org.cotrix.io.tabular.map.MemberDirective;
 import org.cotrix.repository.CodelistRepository;
-import org.cotrix.web.common.server.util.ValueUtils;
-import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.publish.server.util.SdmxElements;
-import org.cotrix.web.publish.shared.AttributeDefinition;
-import org.cotrix.web.publish.shared.AttributeMapping;
 import org.cotrix.web.publish.shared.Column;
+import org.cotrix.web.publish.shared.DefinitionMapping;
 import org.cotrix.web.publish.shared.MappingMode;
 import org.cotrix.web.publish.shared.PublishDirectives;
 import org.cotrix.web.publish.shared.PublishMetadata;
+import org.cotrix.web.publish.shared.UIDefinition;
 import org.cotrix.web.publish.shared.UISdmxElement;
 import org.fao.fi.comet.mapping.model.MappingData;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
@@ -60,12 +55,12 @@ public interface PublishMapper<T> {
 			
 			Codelist2TableDirectives directives = new Codelist2TableDirectives();
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
+			for (DefinitionMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
-					Attribute template = getTemplate(mapping.getAttributeDefinition());
-					Column column = (Column) mapping.getMapping();
-					logger.trace("mapping {} to {}", template, column.getName());
-					directives.add(AttributeDirectives.map(template).to(column.getName()));
+					Definition definition = getDefinition(codelist, mapping.getDefinition());
+					Column column = (Column) mapping.getTarget();
+					logger.trace("mapping {} to {}", mapping.getDefinition(), column.getName());
+					directives.add(MemberDirective.map(definition).to(column.getName()));
 				}
 			}
 			
@@ -74,22 +69,24 @@ public interface PublishMapper<T> {
 			return mapper.map(codelist, directives);
 
 		}
-		
-		protected Attribute getTemplate(AttributeDefinition definition) {
-			OptionalClause attributeBuilder = attribute().name(ValueUtils.toQName(definition.getName())).value(null).ofType(ValueUtils.toQName(definition.getType()));
-			if (definition.getLanguage()!=null && definition.getLanguage()!=Language.NONE) return attributeBuilder.in(definition.getLanguage().getCode()).build();
-			return attributeBuilder.build();
-		}
 
-		protected org.cotrix.io.tabular.map.MappingMode convertMappingMode(MappingMode mode)
+		private org.cotrix.io.tabular.map.MappingMode convertMappingMode(MappingMode mode)
 		{
 			if (mode == null) return null;
 			switch (mode) {
-				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.IGNORE;
-				case LOG: return org.cotrix.io.tabular.map.MappingMode.LOG;
-				case STRICT: return org.cotrix.io.tabular.map.MappingMode.STRICT;
+				case IGNORE: return org.cotrix.io.tabular.map.MappingMode.ignore;
+				case LOG: return org.cotrix.io.tabular.map.MappingMode.log;
+				case STRICT: return org.cotrix.io.tabular.map.MappingMode.strict;
 				default: throw new IllegalArgumentException("Uncovertible mapping mode "+mode);
 			}
+		}
+		
+		private Definition getDefinition(Codelist codelist, UIDefinition definition) {
+			switch (definition.getDefinitionType()) {
+				case ATTRIBUTE_DEFINITION: return codelist.definitions().lookup(definition.getId());
+				case LINK_DEFINITION: return codelist.links().lookup(definition.getId());
+			}
+			return null;
 		}
 		
 	}
@@ -111,37 +108,52 @@ public interface PublishMapper<T> {
 			
 			PublishMetadata metadata = publishDirectives.getMetadata();
 			//FIXME directives.agency(metadata.get);
-			directives.name(metadata.getName().getLocalPart());
+			directives.id(metadata.getName().getLocalPart());
 			directives.version(metadata.getVersion());
 			directives.isFinal(metadata.isSealed());
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings().getCodelistAttributesMapping()) {
+
+			for (DefinitionMapping mapping:publishDirectives.getMappings().getCodelistAttributesMapping()) {
 				if (mapping.isMapped()) {
 					
-					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
-					UISdmxElement element = (UISdmxElement) mapping.getMapping();
-					logger.trace("mapping {} to {}", attributeDefinition, element);
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
-							   to(SdmxElements.toSdmxElement(element))
-							   .forCodelist();
+					Definition definition = getCodelistDefinition(codelist, mapping.getDefinition());
+					UISdmxElement element = (UISdmxElement) mapping.getTarget();
+					
+					logger.trace("mapping {} to {}", mapping.getDefinition(), element);
+					
+					directives.map(definition).to(SdmxElements.toSdmxElement(element)).forCodelist();
 				}
 			}
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
+			for (DefinitionMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
 				if (mapping.isMapped()) {
 					
-					AttributeDefinition attributeDefinition = mapping.getAttributeDefinition();
-					UISdmxElement element = (UISdmxElement) mapping.getMapping();
-					logger.trace("mapping {} to {}", attributeDefinition, element);
-					directives.map(ValueUtils.toQName(attributeDefinition.getName()), ValueUtils.toQName(attributeDefinition.getType())).
-							   to(SdmxElements.toSdmxElement(element))
-							   .forCodes();
+					Definition definition = getCodeDefinition(codelist, mapping.getDefinition());
+					
+					UISdmxElement element = (UISdmxElement) mapping.getTarget();
+					logger.trace("mapping {} to {}", mapping.getDefinition(), element);
+					directives.map(definition).to(SdmxElements.toSdmxElement(element)).forCodes();
 				}
 			}
-			
 			
 			return mapper.map(codelist, directives);
-		}		
+		}
+		
+		private Definition getCodeDefinition(Codelist codelist, UIDefinition definition) {
+			switch (definition.getDefinitionType()) {
+				case ATTRIBUTE_DEFINITION: return codelist.definitions().lookup(definition.getId());
+				case LINK_DEFINITION: return codelist.links().lookup(definition.getId());
+			}
+			return null;
+		}
+		
+		private Definition getCodelistDefinition(Codelist codelist, UIDefinition definition) {
+			switch (definition.getDefinitionType()) {
+				case ATTRIBUTE_DEFINITION: return codelist.attributes().lookup(definition.getId()).definition();
+				case LINK_DEFINITION: throw new IllegalArgumentException("The definition of an attribute for the codelist can't refers to a link");
+			}
+			return null;
+		}
 	}
 	
 	public class CometMapper implements PublishMapper<MappingData> {
@@ -156,8 +168,8 @@ public interface PublishMapper<T> {
 			
 			List<QName> targets = new ArrayList<>(); 
 			
-			for (AttributeMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
-				if (mapping.isMapped()) targets.add(ValueUtils.toQName(mapping.getAttributeDefinition().getName()));
+			for (DefinitionMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
+				if (mapping.isMapped()) targets.add(codelist.definitions().lookup(mapping.getDefinition().getId()).qname());
 			}
 			
 			Codelist2CometDirectives cometDirectives = new Codelist2CometDirectives();

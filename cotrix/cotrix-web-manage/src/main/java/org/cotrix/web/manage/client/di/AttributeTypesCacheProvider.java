@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.di;
 
 import org.cotrix.web.manage.client.CotrixManageGinInjector;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -14,16 +14,16 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class AttributeTypesCacheProvider implements Provider<AttributeTypesCache> {
+public class AttributeTypesCacheProvider implements Provider<AttributeDefinitionsCache> {
 
-	protected AttributeTypesCache cache;
+	protected AttributeDefinitionsCache cache;
 
 	public void generate() {
 		this.cache = CotrixManageGinInjector.INSTANCE.getAttributeTypesCache();
 	}
 
 	@Override
-	public AttributeTypesCache get() {
+	public AttributeDefinitionsCache get() {
 		return cache;
 	}
 

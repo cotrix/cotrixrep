@@ -10,26 +10,26 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
-import org.cotrix.web.common.shared.codelist.linktype.CodeNameValue;
-import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType.UIValueType;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.LinkValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition.UIValueType;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.codelist.codes.CodesPanelPresenter;
 import org.cotrix.web.manage.client.codelist.event.CodelistLinkRefreshedEvent;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.MetadataPanelPresenter;
-import org.cotrix.web.manage.client.data.AttributeTypeBridge;
+import org.cotrix.web.manage.client.data.AttributeDefinitionBridge;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.CodeAttributeBridge;
 import org.cotrix.web.manage.client.data.CodeBridge;
 import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.CodeLinkBridge;
 import org.cotrix.web.manage.client.data.DataSaverManager;
-import org.cotrix.web.manage.client.data.LinkTypeBridge;
+import org.cotrix.web.manage.client.data.LinkDefinitionBridge;
 import org.cotrix.web.manage.client.data.MetadataAttributeBridge;
 import org.cotrix.web.manage.client.data.MetadataBridge;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
@@ -78,8 +78,8 @@ public class CodelistPanelController implements Presenter {
 	private LinkTypesCache linkTypesCache;
 
 	@Inject @CurrentCodelist
-	private AttributeTypesCache attributeTypesCache;
-	
+	private AttributeDefinitionsCache attributeTypesCache;
+
 	private int cacheToLoad = 2;
 
 	@Inject
@@ -97,6 +97,7 @@ public class CodelistPanelController implements Presenter {
 	}
 
 	private void loadCaches() {
+
 		showLoader();
 		linkTypesCache.setup(AsyncUtils.manageError(new SuccessCallback<Void>() {
 
@@ -134,9 +135,9 @@ public class CodelistPanelController implements Presenter {
 			CodeAttributeBridge codeAttributeCommandGenerator,
 			MetadataBridge metadataModifyCommandGenerator,
 			MetadataAttributeBridge metadataAttributeModifyGenerator,
-			LinkTypeBridge linkTypeModifyGenerator,
+			LinkDefinitionBridge linkTypeModifyGenerator,
 			CodeLinkBridge codeLinkCommandGenerator,
-			AttributeTypeBridge attributeTypeModifyGenerator
+			AttributeDefinitionBridge attributeTypeModifyGenerator
 			) {
 		saverManager.register(codeModifyCommandGenerator);
 		saverManager.register(codeAttributeCommandGenerator);
@@ -193,15 +194,14 @@ public class CodelistPanelController implements Presenter {
 				
 				//the modification is about our codelist
 				if (isAboutOurCodelist(event)) {
-					codesDirty |= isUpdateOrRemoveOf(event, UIAttributeType.class, UILinkType.class);
-					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeType.class);
+					codesDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class, UILinkDefinition.class);
+					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class);
 
 				} else {
-						
-					if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkType.class)) return;
+					if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkDefinition.class)) return;
 					
 					//we check if the modified item is referred by our link types
-					UILinkType referencedLink = getOurLinkTypesReferTheModifiedItem(event, linkTypesCache.getItems());
+					UILinkDefinition referencedLink = getOurLinkTypesReferTheModifiedItem(event, linkTypesCache.getItems());
 					Log.trace(codelist.getName().getLocalPart()+" referencedLink: "+referencedLink);
 					
 					codesDirty |= referencedLink!=null;
@@ -221,7 +221,7 @@ public class CodelistPanelController implements Presenter {
 				
 				if (event.getCodelistId().equals(codelist.getId())) return;
 						
-				UILinkType ourLinkType = ourLinkTypesReferTheModifiedCodelistLinkType(linkTypesCache.getItems(), event.getCodelistId(), event.getLinkType());
+				UILinkDefinition ourLinkType = ourLinkTypesReferTheModifiedCodelistLinkType(linkTypesCache.getItems(), event.getCodelistId(), event.getLinkType());
 				Log.trace(codelist.getName().getLocalPart()+" ourLinkType: "+ourLinkType);
 				
 				codesDirty |= ourLinkType!=null;
@@ -246,12 +246,12 @@ public class CodelistPanelController implements Presenter {
 		return codelist.getId().equals(event.getCodelistId());
 	}
 
-	private UILinkType getOurLinkTypesReferTheModifiedItem(DataSavedEvent event, Collection<UILinkType> linkTypes) {
+	private UILinkDefinition getOurLinkTypesReferTheModifiedItem(DataSavedEvent event, Collection<UILinkDefinition> linkTypes) {
 		DataEditEvent<?> editEvent = event.getEditEvent();
 		String targetCodelistId = event.getCodelistId();
 
 		//Log.trace("editEvent: "+editEvent);
-		for (UILinkType linkType:linkTypes) {
+		for (UILinkDefinition linkType:linkTypes) {
 			//Log.trace("checking link type: "+linkType);
 			if (targetCodelistId.equals(linkType.getTargetCodelist().getId())) {
 
@@ -287,8 +287,8 @@ public class CodelistPanelController implements Presenter {
 
 	private boolean isLinkTypeRelated(UIValueType valueType, DataEditEvent<?> editEvent) {
 		return valueType instanceof LinkValue 
-				&& editEvent.getData() instanceof UILinkType 
-				&& ((LinkValue)valueType).getLinkId().equals(((UILinkType)editEvent.getData()).getId());
+				&& editEvent.getData() instanceof UILinkDefinition 
+				&& ((LinkValue)valueType).getLinkId().equals(((UILinkDefinition)editEvent.getData()).getId());
 	}
 
 	private boolean match(AttributeValue attributeValue, CodeAttribute codeAttribute) {
@@ -317,11 +317,11 @@ public class CodelistPanelController implements Presenter {
 
 	private boolean match(LinkValue linkvalue, CodeLink codeLink) {
 		UILink link = codeLink.getLink();
-		return linkvalue.getLinkId().equals(link.getTypeId());
+		return linkvalue.getLinkId().equals(link.getDefinitionId());
 	}
 	
-	private UILinkType ourLinkTypesReferTheModifiedCodelistLinkType(Collection<UILinkType> linkTypes, String codelistId, UILinkType type) {
-		for (UILinkType linkType:linkTypes) {
+	private UILinkDefinition ourLinkTypesReferTheModifiedCodelistLinkType(Collection<UILinkDefinition> linkTypes, String codelistId, UILinkDefinition type) {
+		for (UILinkDefinition linkType:linkTypes) {
 			//our link type refers the modified codelist
 			if (codelistId.equals(linkType.getTargetCodelist().getId())
 					//is a link of link

@@ -8,12 +8,12 @@ import java.util.Collection;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.cache.LinkTypesCache;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.UICodeInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -34,10 +34,10 @@ public class LinksCodelistInfoProviderImpl implements LinksCodelistInfoProvider 
 	private LinkTypesCache linkTypesCache;
 
 	@Override
-	public void getCodelistLinkTypes(final AsyncCallback<List<UILinkTypeInfo>> callback) {
-		Collection<UILinkType> linkTypes = linkTypesCache.getItems();
-		List<UILinkTypeInfo> linkTypeInfos = new ArrayList<UILinkTypeInfo>(linkTypes.size());
-		for (UILinkType linkType:linkTypes) linkTypeInfos.add(new UILinkTypeInfo(linkType.getId(), linkType.getName()));
+	public void getCodelistLinkDefinitions(final AsyncCallback<List<UILinkDefinitionInfo>> callback) {
+		Collection<UILinkDefinition> linkTypes = linkTypesCache.getItems();
+		List<UILinkDefinitionInfo> linkTypeInfos = new ArrayList<UILinkDefinitionInfo>(linkTypes.size());
+		for (UILinkDefinition linkType:linkTypes) linkTypeInfos.add(new UILinkDefinitionInfo(linkType.getId(), linkType.getName()));
 		callback.onSuccess(linkTypeInfos);
 	}
 

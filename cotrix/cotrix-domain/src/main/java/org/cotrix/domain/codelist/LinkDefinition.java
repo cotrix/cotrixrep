@@ -3,13 +3,14 @@ package org.cotrix.domain.codelist;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
 
 
-public interface LinkDefinition extends Identified, Attributed, Named {
+public interface LinkDefinition extends Attributed, Definition {
 
 	/**
 	 * Returns the target codelist.

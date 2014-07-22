@@ -7,22 +7,19 @@ import static org.sdmxsource.sdmx.api.constants.TERTIARY_BOOL.*;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.List;
 
 import org.cotrix.common.Report;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.links.AttributeLink;
-import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.utils.AttributeTemplate;
+import org.cotrix.domain.utils.DomainUtils;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Codelist2SdmxDirectives.GetClause;
+import org.sdmxsource.sdmx.api.exception.SdmxSemmanticException;
 import org.sdmxsource.sdmx.api.model.beans.codelist.CodelistBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.AnnotationMutableBean;
 import org.sdmxsource.sdmx.api.model.mutable.base.NameableMutableBean;
@@ -34,10 +31,23 @@ import org.sdmxsource.sdmx.sdmxbeans.model.mutable.codelist.CodelistMutableBeanI
 import org.sdmxsource.sdmx.util.date.DateUtil;
 
 /**
- * A transformation from {@link Codelist} to {@link CodelistBean}.
+ * Transforms {@link Codelist}s in {@link CodelistBean}s.
+ * <p>
+ * 
  * 
  * @author Fabio Simeoni
  *
+ */ 
+ 
+/* defaults:
+ * 
+ * (local) names -> ids (and names if no other are specified)
+ * version -> version
+ * agency -> default agency
+ * status > undefined
+ * 
+ * 
+ * 
  */
 public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2SdmxDirectives> {
 
@@ -60,17 +70,20 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		report().log(item("transforming codelist "+codelist.qname()+"("+codelist.id()+") to SDMX")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
-		String name = directives.name()==null?codelist.qname().getLocalPart():directives.name();
+		String id = directives.id()==null?codelist.qname().getLocalPart():directives.id();
 		
 		CodelistMutableBean codelistbean = new CodelistMutableBeanImpl();
 		
 		codelistbean.setAgencyId(directives.agency());
-		codelistbean.setId(name);
+		codelistbean.setId(id);
 		codelistbean.setVersion(directives.version()==null?codelist.version():directives.version());
 		codelistbean.setFinalStructure(directives.isFinal()==null?UNSET:directives.isFinal()==true?TRUE:FALSE);
 		
-		
 		mapCodelistAttributes(codelist,codelistbean,directives);
+		
+		if (codelistbean.getNames()==null)
+			codelistbean.addName("en",codelistbean.getId());
+
 		 
 		for (Code code : codelist.codes()) {
 			
@@ -87,6 +100,10 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 			mapCodelinks(code, codebean, directives.forCodes());
 			
+			//default name
+			if (codebean.getNames()==null)
+				codebean.addName("en",codebean.getId());
+			
 			codelistbean.addItem(codebean);
 		}
 		
@@ -94,12 +111,22 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 		report().log(item(msg)).as(INFO);
 
-		return codelistbean.getImmutableInstance();
-
+		try {
+			return codelistbean.getImmutableInstance();
+		}
+		catch(SdmxSemmanticException e) {//hilarious, check the spelling...
+			throw new RuntimeException("invalid sdmx result: "+unwrapErrorDescription(e),e);
+		}
 	}
 	
 	//helpers
-	
+	private String unwrapErrorDescription(Throwable t) {
+		
+		while (t.getCause()!=null && t.getCause() instanceof SdmxSemmanticException)
+			t = t.getCause();
+		
+		return t.getMessage();
+	}
 	
 	private void mapCodelistAttributes(Codelist list, CodelistMutableBean bean, Codelist2SdmxDirectives directives) {
 		
@@ -133,13 +160,11 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 				}
 		}
 
-		mapAttributes(list, bean, directives.forCodelist());
+		mapAttributes(list, bean,directives.forCodelist());
 		
 	}
 	
 	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, GetClause directives) {
-		
-		boolean hasName = false;
 		
 		for (Attribute a : attributed.attributes()) {
 			
@@ -149,11 +174,11 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			SdmxElement element = directives.get(a);
 			
 			if (element!=null)
+				
 				switch(element) {
 				
 					case NAME:
 						bean.addName(lang,val);
-						hasName = true;
 						break;
 					case DESCRIPTION:
 						bean.addDescription(lang,val);
@@ -171,45 +196,30 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 			
 		}
-		
-		if (!hasName)
-			bean.addName("en",attributed.qname().getLocalPart());
 			
 	}
 	
 	private void mapCodelinks(Code code, NameableMutableBean bean, GetClause directives) {
 		
-		boolean hasName = false;
-		
 		for (Codelink link : code.links()) {
 			
-			LinkValueType type = link.definition().valueType();
+			String val = link.valueAsString();
+			String lang = DomainUtils.languageOf(link.definition());
 			
-			if (!(type instanceof AttributeLink))
-				continue;
-			
-			AttributeTemplate template = AttributeLink.class.cast(type).template();
-			
-			Attribute a = Codes.attribute().name(link.qname()).ofType(template.type()).in(template.language()).build();
-
-			String val = valueOf(link);
-			String lang = a.language()==null?"en":a.language();
-			
-			SdmxElement element = directives.get(a);
+			SdmxElement element = directives.get(link);
 			
 			if (element!=null)
 				switch(element) {
 				
 					case NAME:
 						bean.addName(lang,val);
-						hasName = true;
 						break;
 					case DESCRIPTION:
 						bean.addDescription(lang,val);
 						break;
 					case ANNOTATION:
 						AnnotationMutableBean annotation = new AnnotationMutableBeanImpl();
-						annotation.setTitle(a.qname().getLocalPart());
+						annotation.setTitle(link.qname().getLocalPart());
 						annotation.addText(lang, val);
 						bean.addAnnotation(annotation);		
 						break;
@@ -220,18 +230,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			
 			
 		}
-		
-		if (!hasName)
-			bean.addName("en",code.qname().getLocalPart());
 			
-	}
-	
-	private String valueOf(Codelink l) {
-		
-		List<Object> linkval = l.value();
-		return linkval.isEmpty()? null:
-							 	linkval.size()==1? linkval.get(0).toString() :
-							 					   linkval.toString();
 	}
 	
 	@Override

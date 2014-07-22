@@ -6,7 +6,7 @@ package org.cotrix.web.manage.client.codelist.codes.link;
 import java.util.List;
 
 import org.cotrix.web.manage.shared.UICodeInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.ImplementedBy;
@@ -18,7 +18,7 @@ import com.google.inject.ImplementedBy;
 @ImplementedBy(LinksCodelistInfoProviderImpl.class)
 public interface LinksCodelistInfoProvider {
 	
-	public void getCodelistLinkTypes(AsyncCallback<List<UILinkTypeInfo>> callback);
+	public void getCodelistLinkDefinitions(AsyncCallback<List<UILinkDefinitionInfo>> callback);
 	
 	public void getCodelistCodes(String linkTypeId, AsyncCallback<List<UICodeInfo>> callback);
 

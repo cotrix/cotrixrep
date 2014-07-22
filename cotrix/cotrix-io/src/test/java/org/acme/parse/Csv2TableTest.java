@@ -37,7 +37,7 @@ public class Csv2TableTest {
 		
 		
 		//all data preserved
-		assertEquals(table,data);
+		assertEquals(data,table);
 		
 		//after table is parsed we see one generated column
 		assertEquals(1,table.columns().size());
@@ -62,7 +62,7 @@ public class Csv2TableTest {
 
 		assertEquals(asList(new Column("c")),table.columns());
 
-		assertEquals(table,new String[][]{{"1"}});
+		assertEquals(new String[][]{{"1"}},table);
 						
 	}
 

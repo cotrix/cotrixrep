@@ -10,9 +10,9 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.attributetype.UIConstraint;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -30,8 +30,8 @@ public class UIFactories {
 	@Inject
 	private UIDefaults defaults;
 	
-	public UIAttributeType createAttributeType() {
-		UIAttributeType type = new UIAttributeType();
+	public UIAttributeDefinition createAttributeType() {
+		UIAttributeDefinition type = new UIAttributeDefinition();
 		type.setType(defaults.defaultType());
 		type.setLanguage(DEFAULT_LANGUAGE);
 		type.setConstraints(new ArrayList<UIConstraint>());
@@ -57,8 +57,8 @@ public class UIFactories {
 		return code;
 	}
 	
-	public UILinkType createLinkType() {
-		UILinkType linkType = new UILinkType();
+	public UILinkDefinition createLinkType() {
+		UILinkDefinition linkType = new UILinkDefinition();
 		UIQName name = new UIQName(defaults.defaultNameSpace(), "");
 		linkType.setName(name);
 		linkType.setAttributes(new ArrayList<UIAttribute>());

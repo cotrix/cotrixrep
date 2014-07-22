@@ -7,8 +7,8 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.manage.client.codelist.cache.AttributeTypesCache;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
@@ -46,7 +46,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private String id = Document.get().createUniqueId();
 
-	public AttributePanel(UIAttribute attribute, boolean hasDefinition, AttributeDescriptionSuggestOracle oracle, AttributeTypesCache attributeTypesCache) {
+	public AttributePanel(UIAttribute attribute, boolean hasDefinition, AttributeDescriptionSuggestOracle oracle, AttributeDefinitionsCache attributeTypesCache) {
 		this.attribute = attribute;
 		
 		header = new LabelHeader();
@@ -155,7 +155,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private void readAttribute() {
 		
-		UIAttributeType definition = detailsPanel.getDefinition();
+		UIAttributeDefinition definition = detailsPanel.getDefinition();
 		attribute.setDefinitionId(definition==null?null:definition.getId());
 		
 		String name = detailsPanel.getName();
@@ -243,7 +243,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;
 		
-		UIAttributeType definition = detailsPanel.getDefinition();
+		UIAttributeDefinition definition = detailsPanel.getDefinition();
 		if (definition!=null) {
 			boolean valueValid = evaluate(definition.getExpression(), detailsPanel.getValue());
 			detailsPanel.setValueFieldValid(valueValid);

@@ -48,9 +48,9 @@ import org.cotrix.web.common.server.task.ActionMapper;
 import org.cotrix.web.common.server.task.CodelistTask;
 import org.cotrix.web.common.server.task.ContainsTask;
 import org.cotrix.web.common.server.task.Id;
-import org.cotrix.web.common.server.util.AttributeTypes;
+import org.cotrix.web.common.server.util.AttributeDefinitions;
 import org.cotrix.web.common.server.util.Codelists;
-import org.cotrix.web.common.server.util.LinkTypes;
+import org.cotrix.web.common.server.util.LinkDefinitions;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.Language;
@@ -59,10 +59,10 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.common.shared.codelist.UIQName;
-import org.cotrix.web.common.shared.codelist.attributetype.UIAttributeType;
-import org.cotrix.web.common.shared.codelist.linktype.AttributeValue;
-import org.cotrix.web.common.shared.codelist.linktype.LinkValue;
-import org.cotrix.web.common.shared.codelist.linktype.UILinkType;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
+import org.cotrix.web.common.shared.codelist.linkdefinition.AttributeValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.LinkValue;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
@@ -78,7 +78,7 @@ import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
-import org.cotrix.web.manage.shared.UILinkTypeInfo;
+import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.slf4j.Logger;
@@ -338,14 +338,14 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public DataWindow<UILinkType> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
+	public DataWindow<UILinkDefinition> getCodelistLinkTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistLinkTypes codelistId: {}", codelistId);
 
 		Codelist codelist = repository.lookup(codelistId);
 
-		List<UILinkType> types = new ArrayList<>();
+		List<UILinkDefinition> types = new ArrayList<>();
 		for (LinkDefinition codelistLink:codelist.links()) {
-			types.add(LinkTypes.toUILinkType(codelistLink));
+			types.add(LinkDefinitions.toUILinkDefinition(codelistLink));
 		}
 
 		logger.trace("found {} link types", types.size());
@@ -386,7 +386,7 @@ public class ManageServiceImpl implements ManageService {
 
 		List<LinkValue> types = new ArrayList<>();
 		for (LinkDefinition codelistLink:codelist.links()) {
-			types.add(LinkTypes.toLinkType(codelistLink));
+			types.add(LinkDefinitions.toLinkValue(codelistLink));
 		}
 
 		logger.trace("returning {} link types", types.size());
@@ -394,11 +394,11 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public List<UILinkTypeInfo> getLinkTypes(String codelistId)	throws ServiceException {
+	public List<UILinkDefinitionInfo> getLinkTypes(String codelistId)	throws ServiceException {
 		logger.trace("getLinkTypes codelistId: {}",codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		List<UILinkTypeInfo> types = new ArrayList<>();
-		for (LinkDefinition link:codelist.links()) types.add(new UILinkTypeInfo(link.id(), ValueUtils.safeValue(link.qname())));
+		List<UILinkDefinitionInfo> types = new ArrayList<>();
+		for (LinkDefinition link:codelist.links()) types.add(new UILinkDefinitionInfo(link.id(), ValueUtils.safeValue(link.qname())));
 		return types;
 	}
 
@@ -432,12 +432,12 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public DataWindow<UIAttributeType> getCodelistAttributeTypes(@Id String codelistId) throws ServiceException {
+	public DataWindow<UIAttributeDefinition> getCodelistAttributeTypes(@Id String codelistId) throws ServiceException {
 		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
-		List<UIAttributeType> types = new ArrayList<>();
+		List<UIAttributeDefinition> types = new ArrayList<>();
 		Codelist codelist = repository.lookup(codelistId);
-		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeTypes.toUIAttributeType(definition));		
-		return new DataWindow<UIAttributeType>(types);
+		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition));		
+		return new DataWindow<UIAttributeDefinition>(types);
 	}
 
 
@@ -447,10 +447,10 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public List<UIAttributeType> getMarkersAttributeTypes() throws ServiceException {
+	public List<UIAttributeDefinition> getMarkersAttributeTypes() throws ServiceException {
 		logger.trace("getCommonAttributeTypes");
-		List<UIAttributeType> types = new ArrayList<>();
-		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeTypes.toUIAttributeType(definition.get()));		
+		List<UIAttributeDefinition> types = new ArrayList<>();
+		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition.get()));		
 		return types;
 	}
 
