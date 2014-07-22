@@ -80,7 +80,7 @@ public class DefaultExecutionService implements ExecutionService {
 								
 								if (!currentThread().isInterrupted()){
 									tx.commit();
-									context.save(update(1f, "task completed"));
+									context.save(update(1f,"task completing"));
 									logger.trace("committed transaction {}",tx);
 								}
 							}

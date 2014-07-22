@@ -90,10 +90,9 @@ public class CodelistTest extends DomainTest {
 		Codelist.State state = reveal(list).state();
 
 		//can simply check for equals at this stage
-		new CodelistMS(state);
+		CodelistMS clone = new CodelistMS(state);
 		
-		//keep the test to ensure process does not raise error
-		
+		assertTrue(clone.attributes().contains(attr));
 	}
 	
 	@Test
@@ -102,6 +101,7 @@ public class CodelistTest extends DomainTest {
 		Codelist versioned = reveal(list).bump("2");
 
 		assertEquals("2",versioned.version());
+
 		
 		//lineage is preserved:
 		

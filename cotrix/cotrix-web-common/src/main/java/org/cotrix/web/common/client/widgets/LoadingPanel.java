@@ -5,15 +5,11 @@ package org.cotrix.web.common.client.widgets;
 
 import java.util.Iterator;
 
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -24,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LoadingPanel extends ResizeComposite implements HasWidgets {
 	
 	protected DeckLayoutPanel container;
-	protected HTMLPanel loader;
+	protected LoaderPanel loader;
 	protected Widget innerWidget;
 	protected boolean isAnimated;
 	protected FadeAnimation animation;
@@ -60,14 +56,7 @@ public class LoadingPanel extends ResizeComposite implements HasWidgets {
 
 	protected void setupLoadingContainer()
 	{
-		String id = Document.get().createUniqueId();
-		String html =  "<table width=\"100%\" height=\"100%\"><tr><td style=\"text-align: center; vertical-align: middle;\">" +
-				"<img id=\""+id+"\"/></td></tr></table>";
-		
-		loader = new HTMLPanel(html);
-		Image loaderImage = new Image(CommonResources.INSTANCE.dataLoader());
-		loader.addAndReplaceElement(loaderImage, id);
-
+		loader = new LoaderPanel();
 		container.add(loader);
 	}
 	
@@ -79,7 +68,6 @@ public class LoadingPanel extends ResizeComposite implements HasWidgets {
 	public void hideLoader()
 	{
 		if (innerWidget == null) throw new IllegalStateException("No innerwidget set");
-		
 		
 		if (isAnimated) {
 			innerWidget.getElement().getStyle().setOpacity(0);

@@ -35,21 +35,10 @@ public class LinksCodelistInfoProviderImpl implements LinksCodelistInfoProvider 
 
 	@Override
 	public void getCodelistLinkDefinitions(final AsyncCallback<List<UILinkDefinitionInfo>> callback) {
-		
-		linkTypesCache.getItems(new AsyncCallback<Collection<UILinkDefinition>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				callback.onFailure(caught);
-			}
-
-			@Override
-			public void onSuccess(Collection<UILinkDefinition> result) {
-				List<UILinkDefinitionInfo> linkTypeInfos = new ArrayList<UILinkDefinitionInfo>(result.size());
-				for (UILinkDefinition linkType:result) linkTypeInfos.add(new UILinkDefinitionInfo(linkType.getId(), linkType.getName()));
-				callback.onSuccess(linkTypeInfos);
-			}
-		});
+		Collection<UILinkDefinition> linkTypes = linkTypesCache.getItems();
+		List<UILinkDefinitionInfo> linkTypeInfos = new ArrayList<UILinkDefinitionInfo>(linkTypes.size());
+		for (UILinkDefinition linkType:linkTypes) linkTypeInfos.add(new UILinkDefinitionInfo(linkType.getId(), linkType.getName()));
+		callback.onSuccess(linkTypeInfos);
 	}
 
 	@Override

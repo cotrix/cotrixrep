@@ -130,10 +130,10 @@ public class LogbookServiceTest extends ApplicationTest {
 	@Test
 	public void logbooksUpdatedWhenCodelistChangeState() {
 		
-		Logbook book = service.logbookOf(list.id());
-
 		lcEvents.fire(new LifecycleEvent(list.id(),draft,LOCK.on(list.id()),sealed));
 		
+		Logbook book = service.logbookOf(list.id());
+
 		assertFalse(book.entries(LOCKED).isEmpty());
 
 	}

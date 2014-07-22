@@ -26,7 +26,19 @@ public interface AttributeDefinition extends Definition {
 	QName type();
 	
 	
-	boolean is(QName name);
+	/**
+	 * Returns <code>true</code> if this definition has a given type.
+	 * @param type the type
+	 * @return <code>true</code> if this definition supports the given type
+	 */
+	boolean is(QName type);
+	
+	/**
+	 * Returns <code>true</code> if this definition supports a given facet.
+	 * @param facet the facet
+	 * @return <code>true</code> if this definition supports the given facet
+	 */
+	boolean is(Facet facet);
 
 	/**
 	 * Returns the natural language of instance values.
@@ -80,6 +92,8 @@ public interface AttributeDefinition extends Definition {
 		
 		boolean is(QName name);
 		
+		boolean is(Facet facet);
+		
 	}
 
 	//private implementation: delegates to state bean
@@ -107,6 +121,11 @@ public interface AttributeDefinition extends Definition {
 		@Override
 		public boolean is(QName name) {
 			return state().is(name);
+		}
+		
+		@Override
+		public boolean is(Facet facet) {
+			return state().is(facet);
 		}
 
 		@Override

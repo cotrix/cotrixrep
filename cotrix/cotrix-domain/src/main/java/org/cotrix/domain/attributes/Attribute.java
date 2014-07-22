@@ -29,7 +29,20 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	QName type();
 
 	
-	boolean is(QName name);
+	/**
+	 * Returns <code>true</code> if this attribute's definition has a given type.
+	 * @param type the type
+	 * @return <code>true</code> if this attribute's definition supports the given type
+	 */
+	boolean is(QName type);
+	
+	/**
+	 * Returns <code>true</code> if this attribute's definition supports a given facet.
+	 * @param facet the facet
+	 * @return <code>true</code> if this attribute's definition supports the given facet
+	 */
+	boolean is(Facet facet);
+	
 	
 	/**
 	 * Returns the current value of this attribute
@@ -79,7 +92,9 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		void language(String language);
 		void description(String description);
 		
-		boolean is(QName name);
+		boolean is(QName type);
+		
+		boolean is(Facet facet);
 	}
 
 	
@@ -110,10 +125,15 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		}
 		
 		@Override
-		public boolean is(QName name) {
-			return state().is(name);
+		public boolean is(QName type) {
+			return state().is(type);
 		}
-
+		
+		@Override
+		public boolean is(Facet facet) {
+			return state().is(facet);
+		}
+		
 		@Override
 		public String value() {
 			return state().value();

@@ -99,4 +99,5 @@ public class Sdmx2CodelistDirectives implements MapDirectives<Codelist> {
 		this.version = version;
 		return this;
 	}
+	
 }

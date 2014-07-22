@@ -31,6 +31,12 @@
 			<artifactId>cotrix-lifecycle</artifactId>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
+		</dependency>
+		
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-common</artifactId>
@@ -70,6 +76,12 @@
 		<dependency>
 			<groupId>org.cotrix</groupId>
 			<artifactId>cotrix-test-domain</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.cotrix</groupId>
+			<artifactId>cotrix-application</artifactId>
 			<type>test-jar</type>
 		</dependency>
 

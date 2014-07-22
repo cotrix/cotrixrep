@@ -14,8 +14,8 @@ import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.common.shared.exception.ServiceException;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier;
 import org.cotrix.web.common.shared.feature.ResponseWrapper;
-import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
+import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
@@ -66,5 +66,7 @@ public interface ManageService extends RemoteService {
 	public CodelistRemoveCheckResponse canUserRemove(String codelistId) throws ServiceException;
 	
 	DataWindow<UIAttributeDefinition> getCodelistAttributeTypes(String codelistId) throws ServiceException;
+	
+	List<UIAttributeDefinition> getMarkersAttributeTypes() throws ServiceException;
 
 }

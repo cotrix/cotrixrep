@@ -1,5 +1,6 @@
 package org.cotrix.application.logbook;
 
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.common.Constants.*;
 
 import java.util.HashMap;
@@ -31,6 +32,8 @@ public class MLogbookService implements LogbookService.Private {
 	@Override
 	public void create(Logbook book) {
 		
+		notNull("logbook",book);
+		
 		books.put(book.resourceId(),book);
 		
 	}
@@ -38,25 +41,33 @@ public class MLogbookService implements LogbookService.Private {
 	@Override
 	public Logbook logbookOf(String id) {
 		
+		notNull("logbook identifier",id);
+		
 		return books.get(id);
 	}
 	
 	@Override
 	public void update(Logbook logbook) {
 		
+		notNull("logbook",logbook);
+
+		
 		Logbook book = books.get(logbook.resourceId());
 		
 		if (book==null)
-			throw new AssertionError("attempt to update transient logbook "+logbook.resourceId());
-		
-		log.info("updated logbook for {} ",logbook.resourceId());
+			log.warn("cannot update logbook for {} (maybe it has already been removed?)",logbook.resourceId());
+		else
+			log.info("updated logbook for {} ",logbook.resourceId());
 	}
 	
 	@Override
 	public void removeLogbookOf(String id) {
 		
+		notNull("logbook identifier",id);
+		
 		if (books.remove(id)==null)
-			throw new AssertionError("attempt to remove transient logbook "+id);
+			log.warn("cannot remove logbook for {} (maybe it has already been removed?)",id);
+			
 	}
 	
 	

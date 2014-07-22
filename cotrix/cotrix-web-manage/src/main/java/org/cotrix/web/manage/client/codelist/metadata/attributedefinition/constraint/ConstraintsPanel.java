@@ -21,6 +21,7 @@ import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -30,7 +31,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -292,7 +292,6 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 			return clickPanel.addClickHandler(handler);
 		}
 		
-		@SuppressWarnings("deprecation")
 		public Element getElement() {
 			return clickPanel.getElement();
 		}

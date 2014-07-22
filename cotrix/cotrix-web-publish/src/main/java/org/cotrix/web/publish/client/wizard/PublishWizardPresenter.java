@@ -8,7 +8,6 @@ import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.step.DestinationNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.DetailsNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.RepositoryDetailsNodeSelector;
-import org.cotrix.web.publish.client.wizard.step.SubTypeNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.TypeNodeSelector;
 import org.cotrix.web.publish.client.wizard.step.codelistdetails.CodelistDetailsStepPresenter;
 import org.cotrix.web.publish.client.wizard.step.codelistselection.CodelistSelectionStepPresenter;
