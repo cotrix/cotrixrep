@@ -4,30 +4,40 @@ public abstract class CodeChange {
 
 	
 	private final String id;
+	private final String date;
 	
-	public CodeChange(String id) {
+	CodeChange(String id,String date) {
 		this.id=id;
+		this.date=date;
 	}
 	
+	public String id() {
+		return id;
+	}
+	
+	public String date() {
+		return date;
+	}
 	
 	
 	public static class New extends CodeChange {
 	
-		New(String id) {
-			super(id);
+		New(String id, String date) {
+			super(id,date);
 		}
+		
 	}
 	
-	public static class Removed extends CodeChange {
+	public static class Deleted extends CodeChange {
 		
-		Removed(String id) {
-			super(id);
+		Deleted(String id, String date) {
+			super(id,date);
 		}
 	}
 	
 	public static class Modified extends CodeChange {
-		Modified(String id) {
-			super(id);
+		Modified(String id,String date) {
+			super(id,date);
 		}
 	}
 	
