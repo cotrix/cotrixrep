@@ -29,6 +29,13 @@ public interface MarkersResource extends CssResource {
 	String anotherMarkerTextColor();
 	String anotherMarkerHighlight();
 	
+	String newCodeBackgroundColor();
+	String newCodeTextColor();
+	String newCodeHighlight();
+
+	String modifiedBackgroundColor();
+	String modifiedTextColor();
+	String modifiedHighlight();
 	
 	String toolbarButton();
 	String selectedButtonColor();

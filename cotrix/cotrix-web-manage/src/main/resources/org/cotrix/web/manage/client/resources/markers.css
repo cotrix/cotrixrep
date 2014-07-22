@@ -20,6 +20,20 @@
 	background-color: anotherMarkerBackgroundColor !important;
 }
 
+/* NEWCODE */
+@def newCodeBackgroundColor #C2FFCD;
+@def newCodeTextColor #4C7669;
+.newCodeHighlight {
+	background-color: newCodeBackgroundColor !important;
+}
+
+/* MODIFIED */
+@def modifiedBackgroundColor #E1E7FF;
+@def modifiedTextColor #365E71;
+.modifiedHighlight {
+	background-color: modifiedBackgroundColor !important;
+}
+
 .toolbarButton {
 	cursor: pointer;
 	margin-left: 5px;
