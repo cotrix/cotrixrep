@@ -33,8 +33,14 @@ public enum CommonDefinition implements Named {
 	//markers 
 	
 	DELETED				(make("deleted"),true),
+	NEW					(make("new"),true),
+	MODIFIED			(make("modified"),true),
+	
 	INVALID				(make("invalid"),true),
-	ANOTHER_MARKER      (make("another_marker"),true),
+	
+	//-----------------------------------------
+	
+	
 	
 	PREVIOUS_VERSION 		(make("previous_version"),VISIBLE),
 	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
@@ -135,12 +141,14 @@ public enum CommonDefinition implements Named {
 		return markers;  ///it's immutable
 	}
 	
-	//helper
+	
+	
+	
+	//helpers
 	private static AttributeDefinition make(String name) {
 		return make(name,atmostonce);
 	}
 	
-	//helper
 	private static AttributeDefinition make(String name,Range range) {
 		return definition().name(q(NS,name)).is(SYSTEM_TYPE).occurs(range).build();
 	}

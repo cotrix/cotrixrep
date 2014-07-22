@@ -3,6 +3,7 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
@@ -11,6 +12,8 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.memory.CodelistMS;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,15 +105,18 @@ public class CodelistTest extends DomainTest {
 
 		assertEquals("2",versioned.version());
 
+		ManagedCodelist managed = manage(versioned);
 		
 		//lineage is preserved:
 		
-		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_NAME).value(),list.qname().toString());
-		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION_ID).value(),list.id());
-		assertEquals(versioned.attributes().lookup(PREVIOUS_VERSION).value(),list.version());
+		assertEquals(list.qname(),managed.originName());
+		assertEquals(list.id(),managed.originId());
+		assertEquals(list.version(),managed.previousVersion());
 		
-		assertEquals(versioned.codes().lookup(code.qname()).attributes().lookup(PREVIOUS_VERSION_ID).value(),code.id());
-		assertEquals(versioned.codes().lookup(code.qname()).attributes().lookup(PREVIOUS_VERSION_NAME).value(),code.qname().toString());
+		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(code.qname()));
+				
+		assertEquals(code.id(), managedCode.originId());
+		assertEquals(code.qname(),managedCode.originName());
 		
 	}
 	
@@ -153,4 +159,41 @@ public class CodelistTest extends DomainTest {
 		
 	}
 
+	
+	@Test
+	public void newCodesAreMarked() {
+		
+		Codelist versioned = reveal(list).bump("2");
+
+		assertEquals("2",versioned.version());
+
+		Code code = code().name("newcode").build();
+		
+		reveal(versioned).update(reveal(modify(versioned).with(code).build()));
+
+		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(code.qname()));
+		
+		assertNotNull(managedCode.attribute(NEW));
+		
+	}
+	
+	@Test
+	public void modifiedCodesAreMarked() {
+		
+		Codelist versioned = reveal(list).bump("2");
+
+		assertEquals("2",versioned.version());
+		
+		Code versionedCode = versioned.codes().lookup(code);
+
+		Code modified = modify(versionedCode).name("modified").build();
+		
+		reveal(versioned).update(reveal(modify(versioned).with(modified).build()));
+
+		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(modified.qname()));
+		
+		assertNull(managedCode.attribute(NEW));
+		assertNotNull(managedCode.attribute(MODIFIED));
+		
+	}
 }

@@ -93,7 +93,8 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		for (String exclude : excludes())
 			where(format("%1$s.%2$s <> '%3$s'",NeoCodelistQueries.$node,Constants.id_prop,exclude));
 		
-		String where = excludes().isEmpty()?"":"WHERE "+flatten(wheres);
+		String where = wheres.isEmpty()?"":"WHERE "+flatten(wheres);
+		
 		
 		String with = withs.isEmpty()?"":"WITH "+flatten(withs);
 		String rtrn = flatten(returns);

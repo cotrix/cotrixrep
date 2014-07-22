@@ -122,6 +122,74 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 
 		};
 	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codes(final Collection<String> ids) {
+
+		return new NeoMultiQuery<Codelist, Code>(engine) {
+
+			{
+				
+				match(format("(C:%s)",CODE.name()));
+				
+				StringBuilder builder =  new StringBuilder();
+				
+				for (String id : ids) {
+					String element = format("'%s'",id);
+					builder.append(builder.length()==0?element:","+element);
+				}
+				
+				String coll = builder.toString();
+				
+				where(format("C.%s IN [%s]",id_prop,coll));
+				
+				rtrn(format("DISTINCT C as %s",$result));	
+			}
+			
+			@Override
+			public Iterator<Code> iterator() {
+
+				ExecutionResult result = executeNeo();
+
+				//System.out.println(result.dumpToString());
+				
+				ResourceIterator<Node> it = result.columnAs($result);
+
+				return codes(it);
+			}
+
+		};
+	}
+	
+	
+	@Override
+	public Query<Codelist, Code> code(final String id) {
+		
+		return new Query.Private<Codelist, Code>() {
+
+			@Override
+			public Code execute() {
+
+				String query = format("MATCH (C:%s {%s:'%s'}) RETURN C as %s",CODE.name(), id_prop,id,$result);
+
+				ExecutionResult result = engine.execute(query);
+
+				NeoCode state = null;
+				
+				try (ResourceIterator<Node> it = result.columnAs($result)) {
+					
+					if (!it.hasNext())
+						throw new IllegalStateException("no such code: " + id);
+
+					state = new NeoCode(it.next());
+				}
+				
+				return state.entity();
+				
+			}
+		};
+	}
+
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {

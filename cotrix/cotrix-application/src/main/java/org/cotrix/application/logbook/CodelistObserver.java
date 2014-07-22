@@ -2,7 +2,7 @@ package org.cotrix.application.logbook;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.application.logbook.LogbookEvent.*;
-import static org.cotrix.application.managed.ManagedCodelist.*;
+import static org.cotrix.domain.managed.ManagedCodelist.*;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;

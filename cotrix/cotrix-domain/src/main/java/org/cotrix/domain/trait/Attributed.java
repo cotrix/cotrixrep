@@ -79,12 +79,12 @@ public interface Attributed {
 
 		//helpers
 		private boolean timestampIn(NamedStateContainer<Attribute.State> attributes) {
-			return attributes.contains(UPDATE_TIME.qname());
+			return attributes.contains(UPDATE_TIME);
 		}
 		
 		private void updateTimestampAndUserIn(NamedStateContainer<Attribute.State> attributes) {
-			attributes.lookup(UPDATE_TIME.qname()).value(time());
-			attributes.lookup(UPDATED_BY.qname()).value(currentUser().name());
+			attributes.lookup(UPDATE_TIME).value(time());
+			attributes.lookup(UPDATED_BY).value(currentUser().name());
 		}
 		
 		private void addTimestampAndUserTo(NamedStateContainer<Attribute.State> attributes) {

@@ -1,12 +1,12 @@
 package org.acme.codelists;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.trait.Status.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.memory.AttributedMS;
 import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Status;
 import org.junit.Test;
 
 @SuppressWarnings({"rawtypes","unchecked"})
@@ -38,7 +38,7 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void creationTimeIsNotTrackedOnChangesets() {
 		
-		Attributed e = like(new MyEntity(new AttributedMS("someid",MODIFIED)));
+		Attributed e = like(new MyEntity(new AttributedMS("someid",Status.MODIFIED)));
 		
 		assertFalse(e.attributes().contains(CREATION_TIME.qname()));
 		
@@ -49,7 +49,7 @@ public class AttributedTest extends DomainTest {
 		
 		Attributed.Abstract e = like(new MyEntity(new AttributedMS()));
 	
-		Attributed.Abstract changeset = new MyEntity(new AttributedMS(e.id(),MODIFIED));
+		Attributed.Abstract changeset = new MyEntity(new AttributedMS(e.id(),Status.MODIFIED));
 		
 		e.update(changeset);
 		

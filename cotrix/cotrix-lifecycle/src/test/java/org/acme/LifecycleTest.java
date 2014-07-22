@@ -103,6 +103,8 @@ public class LifecycleTest extends ApplicationTest {
 		
 	@Test
 	public void fullUseStory() {
+		 
+		observer.reset();
 		
 		Lifecycle lc = service.start(resourceId);
 		
@@ -120,6 +122,10 @@ public class LifecycleTest extends ApplicationTest {
 	static class TestObserver {
 		
 		boolean observed=false;
+		
+		public void reset() {
+			observed=false;
+		}
 		
 		public boolean observed() {
 			return observed;

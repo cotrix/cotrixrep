@@ -1,19 +1,19 @@
-package org.acme;
+package org.acme.codelists;
 
 import static java.util.concurrent.TimeUnit.*;
-import static org.cotrix.application.managed.ManagedCode.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
+import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
-import org.cotrix.application.managed.ManagedCode;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;

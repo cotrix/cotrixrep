@@ -1,4 +1,4 @@
-package org.cotrix.application.managed;
+package org.cotrix.domain.managed;
 
 import static java.text.DateFormat.*;
 import static org.cotrix.common.CommonUtils.*;
@@ -22,7 +22,7 @@ public abstract class ManagedEntity<T extends Attributed> {
 		this.managed=entity;
 	}
 	
-	protected T managed() {
+	public T managed() {
 		return managed;
 	}
 	
@@ -86,7 +86,7 @@ public abstract class ManagedEntity<T extends Attributed> {
 	}
 	
 	/**
-	 * Returns the an attribute with a given common definition, if one exists.
+	 * Returns the attribute with a given common definition, if one exists.
 	 * @param def the definition
 	 * @return the attribute, or <code>null</code> if no such attribute exists.
 	 * @throws IllegalStateException if there are two or more attributes with the given definition.
