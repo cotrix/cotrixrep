@@ -22,7 +22,7 @@ public abstract class ManagedEntity<T extends Attributed> {
 		this.managed=entity;
 	}
 	
-	protected T managed() {
+	public T managed() {
 		return managed;
 	}
 	

@@ -1,6 +1,5 @@
 package org.cotrix.application.changelog;
 
-import static java.text.DateFormat.*;
 import static org.cotrix.application.managed.ManagedCode.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
@@ -42,12 +41,15 @@ public class DefaultChangelogService implements ChangelogService {
 		Date modified = managed.lastUpdated();
 		
 		if (origin==null)
-			log.add(new CodeChange.New(code.id(),getDateTimeInstance().format(created)));
+			log.add(new CodeChange.New(managed));
 		else
 			if (managed.attribute(DELETED)!=null)
-				log.add(new CodeChange.Deleted(code.id(),getDateTimeInstance().format(modified)));
+				log.add(new CodeChange.Deleted(managed));
 			else
-				if (modified.after(created))
-					log.add(new CodeChange.Modified(code.id(),getDateTimeInstance().format(modified)));
+				if (modified.after(created)) {
+				
+					log.add(new CodeChange.Modified(managed));
+					
+				}
 	}
 }

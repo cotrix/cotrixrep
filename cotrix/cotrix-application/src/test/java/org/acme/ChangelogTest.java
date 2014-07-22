@@ -69,10 +69,12 @@ public class ChangelogTest extends ApplicationTest {
 		assertFalse(log.added().isEmpty());
 		
 		assertEquals(newcode.id(),log.added().get(0).id());
+		
+		assertNull(log.added().get(0).user());
 	}
 	
 	@Test
-	public void removedcode() {
+	public void deletedcode() {
 		
 		Code noise = code().name("new").build();
 		
@@ -87,6 +89,8 @@ public class ChangelogTest extends ApplicationTest {
 		assertFalse(log.deleted().isEmpty());
 		
 		assertEquals(code.id(),log.deleted().get(0).id());
+		
+		assertEquals(user.name(), log.deleted().get(0).user());
 	}
 	
 	
@@ -106,6 +110,8 @@ public class ChangelogTest extends ApplicationTest {
 		assertFalse(log.modified().isEmpty());
 		
 		assertEquals(code.id(),log.modified().get(0).id());
+		
+		assertEquals(user.name(), log.modified().get(0).user());
 	}
 	
 	
