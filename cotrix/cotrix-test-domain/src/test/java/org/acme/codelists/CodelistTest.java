@@ -1,7 +1,6 @@
 package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
-import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.junit.Assert.*;
@@ -159,41 +158,4 @@ public class CodelistTest extends DomainTest {
 		
 	}
 
-	
-	@Test
-	public void newCodesAreMarked() {
-		
-		Codelist versioned = reveal(list).bump("2");
-
-		assertEquals("2",versioned.version());
-
-		Code code = code().name("newcode").build();
-		
-		reveal(versioned).update(reveal(modify(versioned).with(code).build()));
-
-		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(code.qname()));
-		
-		assertNotNull(managedCode.attribute(NEW));
-		
-	}
-	
-	@Test
-	public void modifiedCodesAreMarked() {
-		
-		Codelist versioned = reveal(list).bump("2");
-
-		assertEquals("2",versioned.version());
-		
-		Code versionedCode = versioned.codes().lookup(code);
-
-		Code modified = modify(versionedCode).name("modified").build();
-		
-		reveal(versioned).update(reveal(modify(versioned).with(modified).build()));
-
-		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(modified.qname()));
-		
-		assertNull(managedCode.attribute(NEW));
-		assertNotNull(managedCode.attribute(MODIFIED));
-		
-	}
 }

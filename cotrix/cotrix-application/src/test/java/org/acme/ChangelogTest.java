@@ -124,6 +124,35 @@ public class ChangelogTest extends ApplicationTest {
 		assertEquals(detector.changesBetween(code,changeset), log.modified().get(0).changes());
 	}
 	
+	@Test
+	public void newCodesAreMarked() {
+		
+		Code code = code().name("newcode").build();
+		
+		codelists.update(modify(list).with(code).build());
+
+		ManagedCode managedCode = manage(list.codes().lookup(code.qname()));
+		
+		assertNotNull(managedCode.attribute(NEW));
+		
+	}
+	
+	@Test
+	public void modifiedCodesAreMarked() {
+		
+		Code versionedCode = list.codes().lookup(c1);
+
+		Code modified = modify(versionedCode).name("modified").build();
+		
+		codelists.update(modify(list).with(modified).build());
+
+		ManagedCode managedCode = manage(list.codes().lookup(modified.qname()));
+		
+		assertNull(managedCode.attribute(NEW));
+		assertNotNull(managedCode.attribute(MODIFIED));
+		
+	}
+
 	
 	@Test
 	public void modifiedcodeMarker() throws Exception {

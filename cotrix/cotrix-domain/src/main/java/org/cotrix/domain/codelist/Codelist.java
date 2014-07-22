@@ -1,8 +1,6 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.DomainUtils.*;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
@@ -109,25 +107,25 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 			
 			links().update(changeset.links());
 			
-			if (attributes().contains(PREVIOUS_VERSION))
-				markNewCodes(changeset.codes());
+//			if (attributes().contains(PREVIOUS_VERSION))
+//				markNewCodes(changeset.codes());
 				
 			codes().update(changeset.codes());
 			
 		
 		}
 		
-		private void markNewCodes(NamedContainer.Private<Code.Private,Code.State>  codes) {
-			
-			for (Code.Private code : codes)
-				
-				if (code.status()==null) {
-					
-					NamedStateContainer<Attribute.State> attributes = code.state().attributes();
-					
-					attributes.add(stateof(attribute().with(NEW).value("true")));
-				
-				}
-		}
+//		private void markNewCodes(NamedContainer.Private<Code.Private,Code.State>  codes) {
+//			
+//			for (Code.Private code : codes)
+//				
+//				if (code.status()==null) {
+//					
+//					NamedStateContainer<Attribute.State> attributes = code.state().attributes();
+//					
+//					attributes.add(stateof(attribute().with(NEW).value("true")));
+//				
+//				}
+//		}
 	}
 }
