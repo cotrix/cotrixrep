@@ -6,21 +6,21 @@ public interface Changelog {
 	
 	//api
 
-	List<CodeChange.New> added();
+	List<CodelistChange.NewCode> added();
 
-	List<CodeChange.Deleted> deleted();
+	List<CodelistChange.DeletedCode> deleted();
 	
-	List<CodeChange.Modified> modified();
+	List<CodelistChange.ModifiedCode> modified();
 
 	//spi
 	
 	interface Private extends Changelog {
 	
-		Changelog.Private add(CodeChange.New change);
+		Changelog.Private add(CodelistChange.NewCode change);
 		
-		Changelog.Private add(CodeChange.Deleted change);
+		Changelog.Private add(CodelistChange.DeletedCode change);
 		
-		Changelog.Private add(CodeChange.Modified change);
+		Changelog.Private add(CodelistChange.ModifiedCode change);
 		
 	}
 }

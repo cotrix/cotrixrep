@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
+import org.cotrix.application.changelog.ChangeDetector;
 import org.cotrix.application.changelog.ChangelogService;
 import org.cotrix.application.changelog.Changelog;
 import org.cotrix.domain.attributes.Attribute;
@@ -40,6 +41,9 @@ public class ChangelogTest extends ApplicationTest {
 	
 	@Inject
 	TestUser user;
+	
+	@Inject
+	ChangeDetector detector;
 	
 	@Before
 	public void versionList() {
@@ -103,7 +107,9 @@ public class ChangelogTest extends ApplicationTest {
 		
 		sleep(1000);
 		
-		codelists.update(modify(list).with(modify(code).name("nn").build(),noise).build());
+		Code changeset = modify(code).name("nn").build();
+		
+		codelists.update(modify(list).with(changeset,noise).build());
 		
 		Changelog log = changelogs.changelogFor(list);
 		
@@ -112,6 +118,8 @@ public class ChangelogTest extends ApplicationTest {
 		assertEquals(code.id(),log.modified().get(0).id());
 		
 		assertEquals(user.name(), log.modified().get(0).user());
+		
+		assertEquals(detector.changesBetween(code,changeset), log.modified().get(0).changes());
 	}
 	
 	

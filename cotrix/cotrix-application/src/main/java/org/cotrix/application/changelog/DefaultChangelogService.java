@@ -5,12 +5,24 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 
 import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import org.cotrix.application.managed.ManagedCode;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.repository.CodelistRepository;
 
+@Singleton
 public class DefaultChangelogService implements ChangelogService {
+	
+	@Inject
+	private CodelistRepository codelists;
+	
+	@Inject
+	private ChangeDetector detector;	
 
 	@Override
 	public Changelog changelogFor(Codelist list) {
@@ -41,15 +53,21 @@ public class DefaultChangelogService implements ChangelogService {
 		Date modified = managed.lastUpdated();
 		
 		if (origin==null)
-			log.add(new CodeChange.New(managed));
+			log.add(new CodelistChange.NewCode(managed));
 		else
 			if (managed.attribute(DELETED)!=null)
-				log.add(new CodeChange.Deleted(managed));
+				log.add(new CodelistChange.DeletedCode(managed));
 			else
 				if (modified.after(created)) {
 				
-					log.add(new CodeChange.Modified(managed));
+					List<CodeChange> changes =  detector.changesBetween(find(origin),managed);
+					
+					log.add(new CodelistChange.ModifiedCode(managed,changes));
 					
 				}
+	}
+	
+	private Code find(String id) {
+		return null;
 	}
 }
