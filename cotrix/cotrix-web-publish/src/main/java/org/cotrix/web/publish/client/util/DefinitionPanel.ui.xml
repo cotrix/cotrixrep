@@ -9,7 +9,7 @@
 		.table {
 			width:100%;
 			border-collapse:collapse;
-			margin-top:10px;
+			margin-top:15px;
 			margin-left:10px;
 		}
 		
@@ -21,7 +21,7 @@
 		.imageCell {
 			vertical-align: top;
 			padding-right: 5px;
-			width: 45px;
+			width: 35px;
 		}
 		
 		.titlesCell {
@@ -40,7 +40,7 @@
 		
 		.subtitle {
 			color: #464545;
-			font-size: 14px;
+			font-size: 11px;
 			padding-top: 5px;
 		}
 		
