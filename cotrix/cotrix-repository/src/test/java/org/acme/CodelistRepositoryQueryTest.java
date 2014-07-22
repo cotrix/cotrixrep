@@ -60,6 +60,22 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		assertEqualUnordered(collect(lists),list2);
 	}
 	
+	
+	@Test
+	public void codesInCodelist() {
+		
+		Code c1 = code().name("c1").build();
+		Code c2 = code().name("c2").build();
+		Code c3 = code().name("c3").build();
+		Codelist list = codelist().name("name").with(c1,c2,c3).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> codes  = repository.get(codesIn(list.id(),asList(c1.id(),c3.id())));
+		
+		assertEqualUnordered(collect(codes),c1,c3);
+	}
+	
 	@Test
 	public void allCodelistForRootLikeUser() {
 		

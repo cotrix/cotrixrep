@@ -1,5 +1,7 @@
 package org.cotrix.repository.spi;
 
+import java.util.Collection;
+
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -26,6 +28,8 @@ public interface CodelistQueryFactory {
 	MultiQuery<Codelist,Code> allCodes(String codelistId);
 
 	MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u);
+	
+	MultiQuery<Codelist, Code> codesIn(String id, Collection<String> ids);
 
 	Query<Codelist, CodelistSummary> summary(String codelistId);
 

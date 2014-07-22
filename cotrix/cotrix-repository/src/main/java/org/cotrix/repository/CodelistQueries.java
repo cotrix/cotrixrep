@@ -1,5 +1,7 @@
 package org.cotrix.repository;
 
+import java.util.Collection;
+
 import javax.enterprise.event.Observes;
 
 import org.cotrix.common.events.ApplicationLifecycleEvents;
@@ -23,6 +25,10 @@ public class CodelistQueries {
 	
 	public static MultiQuery<Codelist,Code> allCodesIn(String codelistId) {
 		return factory.allCodes(codelistId);
+	}
+	
+	public static MultiQuery<Codelist,Code> codesIn(String codelistId, Collection<String> ids) {
+		return factory.codesIn(codelistId,ids);
 	}
 	
 	public static MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u) {

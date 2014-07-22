@@ -122,6 +122,49 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 
 		};
 	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesIn(final String codelistId, final Collection<String> ids) {
+
+		return new NeoMultiQuery<Codelist, Code>(engine) {
+
+			{
+				
+				match(format("(L:%1$s {%2$s:'%3$s'})-[:%4$s]->(%5$s)",
+						CODELIST.name(),
+						id_prop,
+						codelistId,
+						Relations.CODE.name(),
+						$node));
+				
+				StringBuilder builder =  new StringBuilder();
+				
+				for (String id : ids) {
+					String element = format("'%s'",id);
+					builder.append(builder.length()==0?element:","+element);
+				}
+				
+				String coll = builder.toString();
+				
+				where(format("%s.%s IN [%s]",$node,id_prop,coll));
+				
+				rtrn(format("DISTINCT %1$s as %2$s",$node,$result));	
+			}
+			
+			@Override
+			public Iterator<Code> iterator() {
+
+				ExecutionResult result = executeNeo();
+
+				//System.out.println(result.dumpToString());
+				
+				ResourceIterator<Node> it = result.columnAs($result);
+
+				return codes(it);
+			}
+
+		};
+	}
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {

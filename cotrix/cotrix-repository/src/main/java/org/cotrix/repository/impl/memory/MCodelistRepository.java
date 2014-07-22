@@ -217,6 +217,29 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		};
 		
 	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesIn(final String id, final Collection<String> ids) {
+		
+		
+		return new MMultiQuery<Codelist,Code>() {
+			
+			public Collection<Code> executeInMemory() {
+				
+				Codelist.State state = lookup(id);
+
+				if (state == null)
+					throw new IllegalStateException("no such codelist: " + id);
+				
+				Collection<Code> codes = new ArrayList<>();
+				for (Code.State code : state.codes())
+					if (ids.contains(code.id()))
+						codes.add(code.entity());
+					
+				return codes;
+			}
+		};
+	}
 
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u) {
