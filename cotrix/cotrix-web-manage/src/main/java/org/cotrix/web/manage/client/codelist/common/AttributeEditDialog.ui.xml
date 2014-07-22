@@ -1,7 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'
-	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='commonresources'
@@ -66,7 +65,8 @@
 						<div>Language</div>
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
-						<c:LanguageListBox  ui:field="languageBox" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+						<c:LanguageListBox ui:field="languageBox"
+							styleName="{resources.detailsPanelStyle.listbox}" width="100%" />
 					</td>
 				</tr>
 				<tr>
@@ -84,10 +84,10 @@
 			<table width="100%">
 				<tr>
 					<td width="50%" style="text-align:center">
-						<g:Button ui:field="save" styleName="{commonresources.css.blueButton}">Save</g:Button>
+						<g:Button ui:field="save" styleName="{commonresources.css.blueButton} {commonresources.css.buttonWidth}">Save</g:Button>
 					</td>
 					<td width="50%" style="text-align:center">
-						<g:Button ui:field="cancel" styleName="{commonresources.css.grayButton}">Cancel</g:Button>
+						<g:Button ui:field="cancel" styleName="{commonresources.css.grayButton} {commonresources.css.buttonWidth}">Cancel</g:Button>
 					</td>
 				</tr>
 			</table>

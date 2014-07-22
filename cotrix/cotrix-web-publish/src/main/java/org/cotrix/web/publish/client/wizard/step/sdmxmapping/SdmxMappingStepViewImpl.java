@@ -3,10 +3,10 @@ package org.cotrix.web.publish.client.wizard.step.sdmxmapping;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
-import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
+import org.cotrix.web.publish.client.util.DefinitionsMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.UISdmxElement;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -32,7 +32,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 	public static final DefinitionWidgetProvider<UISdmxElement> PROVIDER = new DefinitionWidgetProvider<UISdmxElement>() {
 
 		@Override
-		public Widget getWidget(UISdmxElement mapping) {
+		public Widget getTargetWidget(UISdmxElement mapping) {
 			EnumListBox<UISdmxElement> listBox = new EnumListBox<UISdmxElement>(UISdmxElement.class, LABEL_PROVIDER);
 			listBox.setStyleName(CommonResources.INSTANCE.css().listBox());
 			listBox.setWidth("200px");
@@ -48,7 +48,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 
 		@SuppressWarnings("unchecked")
 		@Override
-		public UISdmxElement getMapping(Widget widget) {
+		public UISdmxElement getTarget(Widget widget) {
 			return ((EnumListBox<UISdmxElement>)widget).getSelectedValue();
 		}
 
@@ -118,7 +118,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		return mappingPanel.getSealed();
 	}
 
-	public void setMappings(AttributesMappings mappings)
+	public void setMappings(DefinitionsMappings mappings)
 	{
 		mappingPanel.setMapping(mappings);
 	}
@@ -133,7 +133,7 @@ public class SdmxMappingStepViewImpl extends ResizeComposite implements SdmxMapp
 		mappingPanel.unsetMappingLoading();
 	}
 	
-	public AttributesMappings getMappings()
+	public DefinitionsMappings getMappings()
 	{
 		return mappingPanel.getMappings();
 	}

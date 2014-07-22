@@ -13,6 +13,7 @@ import org.cotrix.web.common.client.event.UserLoggedEvent;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.exception.Exceptions;
@@ -200,7 +201,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 
 				@Override
 				public void onButtonClick(DialogButton button) {
-					if (button == DialogButton.CONTINUE) doRemoveCodelist(codelist);
+					if (button == DialogButtonDefaultSet.CONTINUE) doRemoveCodelist(codelist);
 				}
 			});
 		} else {

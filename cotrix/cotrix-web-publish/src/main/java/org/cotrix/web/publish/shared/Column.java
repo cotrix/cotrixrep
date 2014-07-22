@@ -3,13 +3,13 @@
  */
 package org.cotrix.web.publish.shared;
 
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
+import org.cotrix.web.publish.shared.DefinitionMapping.MappingTarget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class Column implements Mapping {
+public class Column implements MappingTarget {
 	protected String name;
 
 	/**

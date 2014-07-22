@@ -21,7 +21,7 @@ import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
  */
 public class AttributeDefinitions {
 	
-	public static UIAttributeDefinition toUIAttributeType(AttributeDefinition definition) {
+	public static UIAttributeDefinition toUIAttributeDefinition(AttributeDefinition definition) {
 		UIAttributeDefinition attributeDefinition = new UIAttributeDefinition();
 		attributeDefinition.setId(definition.id());
 		attributeDefinition.setLanguage(ValueUtils.safeLanguage(definition.language()));

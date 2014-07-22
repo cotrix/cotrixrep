@@ -13,6 +13,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
@@ -177,7 +178,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 				
 				@Override
 				public void onButtonClick(DialogButton button) {
-					if (button == DialogButton.CONTINUE) {
+					if (button == DialogButtonDefaultSet.CONTINUE) {
 						attributeDefinitionsPanel.removeItem(selectedAttributeType);
 						attributeTypeEditor.removed(selectedAttributeType);
 					}

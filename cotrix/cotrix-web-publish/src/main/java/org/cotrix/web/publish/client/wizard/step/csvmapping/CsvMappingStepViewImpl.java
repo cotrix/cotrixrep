@@ -1,10 +1,10 @@
 package org.cotrix.web.publish.client.wizard.step.csvmapping;
 
 import org.cotrix.web.common.client.resources.CommonResources;
-import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
+import org.cotrix.web.publish.client.util.DefinitionsMappingPanel.DefinitionWidgetProvider;
 import org.cotrix.web.publish.client.util.MappingPanel;
 import org.cotrix.web.publish.client.util.MappingPanel.ReloadButtonHandler;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.publish.shared.Column;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -23,7 +23,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	public static final DefinitionWidgetProvider<Column> PROVIDER = new DefinitionWidgetProvider<Column>() {
 
 		@Override
-		public Widget getWidget(Column mapping) {
+		public Widget getTargetWidget(Column mapping) {
 			TextBox nameField = new TextBox();
 			nameField.setStyleName(CommonResources.INSTANCE.css().textBox());
 			nameField.setWidth("200px");
@@ -38,7 +38,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		}
 
 		@Override
-		public Column getMapping(Widget widget) {
+		public Column getTarget(Widget widget) {
 			String name = ((TextBox)widget).getValue();
 			Column column = new Column();
 			column.setName(name);
@@ -124,7 +124,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMappings(AttributesMappings mapping)
+	public void setMappings(DefinitionsMappings mapping)
 	{
 		mappingPanel.setMapping(mapping);
 	}
@@ -139,7 +139,7 @@ public class CsvMappingStepViewImpl extends ResizeComposite implements CsvMappin
 		mappingPanel.cleanStyle();
 	}
 
-	public AttributesMappings getMappings()
+	public DefinitionsMappings getMappings()
 	{
 		return mappingPanel.getMappings();
 	}

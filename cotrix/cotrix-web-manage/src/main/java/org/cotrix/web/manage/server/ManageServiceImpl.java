@@ -436,7 +436,7 @@ public class ManageServiceImpl implements ManageService {
 		logger.trace("getCodelistAttributeTypes codelistId: {}",codelistId);
 		List<UIAttributeDefinition> types = new ArrayList<>();
 		Codelist codelist = repository.lookup(codelistId);
-		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeDefinitions.toUIAttributeType(definition));		
+		for (AttributeDefinition definition:codelist.definitions()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition));		
 		return new DataWindow<UIAttributeDefinition>(types);
 	}
 
@@ -450,7 +450,7 @@ public class ManageServiceImpl implements ManageService {
 	public List<UIAttributeDefinition> getMarkersAttributeTypes() throws ServiceException {
 		logger.trace("getCommonAttributeTypes");
 		List<UIAttributeDefinition> types = new ArrayList<>();
-		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeDefinitions.toUIAttributeType(definition.get()));		
+		for (CommonDefinition definition:CommonDefinition.markers()) types.add(AttributeDefinitions.toUIAttributeDefinition(definition.get()));		
 		return types;
 	}
 

@@ -1,8 +1,8 @@
 package org.cotrix.web.publish.client.util;
 
-import org.cotrix.web.publish.client.util.AttributeMappingPanel.DefinitionWidgetProvider;
-import org.cotrix.web.publish.shared.AttributeMapping.Mapping;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.client.util.DefinitionsMappingPanel.DefinitionWidgetProvider;
+import org.cotrix.web.publish.shared.DefinitionMapping.MappingTarget;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.TableRowElement;
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MappingPanel<T extends Mapping> extends ResizeComposite {
+public class MappingPanel<T extends MappingTarget> extends ResizeComposite {
 
 	@SuppressWarnings("rawtypes")
 	@UiTemplate("MappingPanel.ui.xml")
@@ -42,10 +42,10 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	@UiField SimpleCheckBox sealed;
 	
 	@UiField(provided=true)
-	AttributeMappingPanel<T> codelistMappingPanel;
+	DefinitionsMappingPanel<T> codelistMappingPanel;
 	
 	@UiField(provided=true)
-	AttributeMappingPanel<T> codeMappingPanel;
+	DefinitionsMappingPanel<T> codeMappingPanel;
 	
 	@UiField
 	TableRowElement codelistMappingRow;
@@ -57,8 +57,8 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	}
 
 	public MappingPanel(DefinitionWidgetProvider<T> widgetProvider, String attributeMappingLabel, boolean includeMappingColumn) {
-		codelistMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODELIST ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
-		codeMappingPanel = new AttributeMappingPanel<T>(widgetProvider, "CODE ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
+		codelistMappingPanel = new DefinitionsMappingPanel<T>(widgetProvider, "CODELIST ATTRIBUTES", attributeMappingLabel, includeMappingColumn);
+		codeMappingPanel = new DefinitionsMappingPanel<T>(widgetProvider, "CODE ATTRIBUTES & LINKS", attributeMappingLabel, includeMappingColumn);
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
@@ -129,11 +129,11 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void setMapping(AttributesMappings mapping)
+	public void setMapping(DefinitionsMappings mapping)
 	{
 		setCodelistMappingRowVisible(!mapping.getCodelistAttributesMapping().isEmpty());
-		codelistMappingPanel.setMapping(mapping.getCodelistAttributesMapping());
-		codeMappingPanel.setMapping(mapping.getCodesAttributesMapping());
+		codelistMappingPanel.setMappings(mapping.getCodelistAttributesMapping());
+		codeMappingPanel.setMappings(mapping.getCodesAttributesMapping());
 	}
 	
 	private void setCodelistMappingRowVisible(boolean visible) {
@@ -153,8 +153,8 @@ public class MappingPanel<T extends Mapping> extends ResizeComposite {
 		codeMappingPanel.cleanStyle();
 	}
 
-	public AttributesMappings getMappings()
+	public DefinitionsMappings getMappings()
 	{
-		return new AttributesMappings(codeMappingPanel.getMappings(), codelistMappingPanel.getMappings());
+		return new DefinitionsMappings(codeMappingPanel.getMappings(), codelistMappingPanel.getMappings());
 	}
 }

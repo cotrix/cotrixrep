@@ -15,7 +15,7 @@
 	<generate-with
 		class="org.cotrix.web.manage.gen.MetaConstraintProviderGenerator">
 		<when-type-assignable
-			class="org.cotrix.web.manage.client.codelist.metadata.attributetype.constraint.MetaConstraintProvider" />
+			class="org.cotrix.web.manage.client.codelist.metadata.attributedefinition.constraint.MetaConstraintProvider" />
 	</generate-with>
 
 	<!-- Specify the paths for translatable code -->

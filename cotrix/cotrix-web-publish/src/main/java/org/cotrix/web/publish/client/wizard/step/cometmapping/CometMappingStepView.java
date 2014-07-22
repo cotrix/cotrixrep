@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.wizard.step.cometmapping;
 
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.ImplementedBy;
@@ -21,13 +21,13 @@ public interface CometMappingStepView {
 	public String getCsvName();
 	
 	public void setMappingLoading();
-	public void setMappings(AttributesMappings mapping);
+	public void setMappings(DefinitionsMappings mapping);
 	public void unsetMappingLoading();
 	
 	public void setCodeTypeError();
 	public void cleanStyle();
 	
-	public AttributesMappings getMappings();
+	public DefinitionsMappings getMappings();
 	
 	Widget asWidget();
 

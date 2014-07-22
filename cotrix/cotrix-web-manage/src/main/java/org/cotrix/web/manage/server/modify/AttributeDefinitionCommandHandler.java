@@ -63,7 +63,7 @@ public class AttributeDefinitionCommandHandler {
 			case REMOVE: return new UpdatedAttributeDefinition();
 			default: {
 				AttributeDefinition updatedDefinition = codelist.definitions().lookup(definitionId);
-				return new UpdatedAttributeDefinition(AttributeDefinitions.toUIAttributeType(updatedDefinition));
+				return new UpdatedAttributeDefinition(AttributeDefinitions.toUIAttributeDefinition(updatedDefinition));
 			}
 			
 		}

@@ -31,7 +31,7 @@
 	<g:FlowPanel styleName="{style.container}">
 		<c:ProgressBar ui:field="progressBar" />
 		<g:Label ui:field="message" styleName="{style.message}" />
-		<g:Button ui:field="cancelButton" styleName="{resources.css.grayButton} {style.button}">CANCEL</g:Button>
+		<g:Button ui:field="cancelButton" styleName="{resources.css.grayButton} {resources.css.buttonWidth} {style.button}">CANCEL</g:Button>
 	</g:FlowPanel>
 	
 </ui:UiBinder>

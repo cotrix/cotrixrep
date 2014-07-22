@@ -24,8 +24,7 @@ public class ConfirmDialogImpl extends PopupPanel implements ConfirmDialog {
 	
 	private ConfirmDialogListener listener;
 	private HTML message;
-	private Button continueButton;
-	private Button cancelButton;
+	private HorizontalPanel buttonBar;
 
 	public ConfirmDialogImpl() {
 
@@ -46,34 +45,10 @@ public class ConfirmDialogImpl extends PopupPanel implements ConfirmDialog {
 		messageContainer.add(message);
 		content.add(messageContainer);
 		
-		continueButton = new Button("Continue");
-		continueButton.setStyleName(style.blueButton());
-		continueButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				fireClick(DialogButton.CONTINUE);
-				hide();
-			}
-		});
-		
-		cancelButton = new Button("Cancel");
-		cancelButton.setStyleName(style.grayButton());
-		cancelButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				fireClick(DialogButton.CANCEL);
-				hide();
-			}
-		});
-		
-		HorizontalPanel buttonBar = new HorizontalPanel();
+		buttonBar = new HorizontalPanel();
 		buttonBar.setWidth("100%");
 		buttonBar.setHeight("45px");
 		buttonBar.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
-		buttonBar.add(continueButton);
-		buttonBar.add(cancelButton);
 		content.add(buttonBar);
 
 		add(content);
@@ -82,37 +57,43 @@ public class ConfirmDialogImpl extends PopupPanel implements ConfirmDialog {
 			
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
-				if (event.isAutoClosed()) fireClick(DialogButton.CANCEL);
+				if (event.isAutoClosed()) fireClick(DialogButtonDefaultSet.CANCEL);
 				
 			}
 		});
+	}
+	
+
+	@Override
+	public void center(String message, ConfirmDialogListener listener) {
+		center(message, listener, DialogButtonDefaultSet.values());
 	}
 	
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void center(String message, ConfirmDialogListener listener, DialogButton ... disabledButtons) {
+	public void center(String message, ConfirmDialogListener listener, DialogButton ... buttons) {
 		this.listener = listener;
 		this.message.setHTML(message);
-		enableAllButtons();
-		updateButtons(disabledButtons);
+		buildButtonBar(buttons);
 		center();
 	}
-	
-	private void updateButtons(DialogButton[] disabledButtons) {
-		if (disabledButtons.length == 0) return;
-		for (DialogButton button:disabledButtons) enableButton(button, false);
-	}
-	
-	private void enableAllButtons() {
-		for (DialogButton button:DialogButton.values()) enableButton(button, true);
-	}
-	
-	private void enableButton(DialogButton button, boolean enable) {
-		switch (button) {
-			case CANCEL: cancelButton.setVisible(enable); break;
-			case CONTINUE: continueButton.setVisible(enable); break;
+
+	private void buildButtonBar(DialogButton[] buttons) {
+		buttonBar.clear();
+		for (final DialogButton button:buttons) {
+			Button dialogButton = new Button(button.getLabel());
+			dialogButton.setStyleName(button.getStyleName());
+			dialogButton.addClickHandler(new ClickHandler() {
+				
+				@Override
+				public void onClick(ClickEvent event) {
+					fireClick(button);
+					hide();
+				}
+			});
+			buttonBar.add(dialogButton);
 		}
 	}
 	
@@ -122,6 +103,7 @@ public class ConfirmDialogImpl extends PopupPanel implements ConfirmDialog {
 
 	@Override
 	public void warning(String message) {
-		center(message, null, DialogButton.CONTINUE);
+		center(message, null, DialogButtonDefaultSet.CONTINUE);
 	}
+
 }

@@ -6,7 +6,7 @@ package org.cotrix.web.publish.client.wizard.task;
 import org.cotrix.web.publish.client.event.MappingsUpdatedEvent;
 import org.cotrix.web.publish.client.event.PublishBus;
 import org.cotrix.web.publish.client.wizard.PublishWizardAction;
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 import org.cotrix.web.wizard.client.WizardAction;
 import org.cotrix.web.wizard.client.step.TaskWizardStep;
 
@@ -42,7 +42,7 @@ public class CleanMappingsTask implements TaskWizardStep {
 	@Override
 	public void run(final TaskCallBack callback) {
 		
-		publishBus.fireEventFromSource(new MappingsUpdatedEvent(new AttributesMappings()), CleanMappingsTask.this);
+		publishBus.fireEventFromSource(new MappingsUpdatedEvent(new DefinitionsMappings()), CleanMappingsTask.this);
 		callback.onSuccess(PublishWizardAction.NEXT);
 	}
 	

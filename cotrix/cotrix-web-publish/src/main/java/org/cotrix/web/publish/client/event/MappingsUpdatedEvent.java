@@ -1,6 +1,6 @@
 package org.cotrix.web.publish.client.event;
 
-import org.cotrix.web.publish.shared.AttributesMappings;
+import org.cotrix.web.publish.shared.DefinitionsMappings;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -13,17 +13,17 @@ public class MappingsUpdatedEvent extends GwtEvent<MappingsUpdatedEvent.Mappings
 
 	public static Type<MappingsUpdatedHandler> TYPE = new Type<MappingsUpdatedHandler>();
 	
-	protected AttributesMappings mappings;
+	protected DefinitionsMappings mappings;
 
 	public interface MappingsUpdatedHandler extends EventHandler {
 		void onMappingUpdated(MappingsUpdatedEvent event);
 	}
 
-	public MappingsUpdatedEvent(AttributesMappings mappings) {
+	public MappingsUpdatedEvent(DefinitionsMappings mappings) {
 		this.mappings = mappings;
 	}
 
-	public AttributesMappings getMappings() {
+	public DefinitionsMappings getMappings() {
 		return mappings;
 	}
 

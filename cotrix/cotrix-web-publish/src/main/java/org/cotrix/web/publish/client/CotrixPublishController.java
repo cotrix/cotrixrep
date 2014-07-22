@@ -29,6 +29,12 @@ public class CotrixPublishController implements CotrixModuleController {
 	@Inject
 	public CotrixPublishController() {
 	}
+	
+	@Inject
+	private void initResources() {
+		Resources.INSTANCE.css().ensureInjected();
+		Resources.INSTANCE.definitionsMapping().ensureInjected();
+	}
 
 	@Override
 	public CotrixModule getModule() {
@@ -37,7 +43,6 @@ public class CotrixPublishController implements CotrixModuleController {
 
 	@Override
 	public void go(HasWidgets container) {
-		Resources.INSTANCE.css().ensureInjected();
 		presenter.go(container);
 	}
 

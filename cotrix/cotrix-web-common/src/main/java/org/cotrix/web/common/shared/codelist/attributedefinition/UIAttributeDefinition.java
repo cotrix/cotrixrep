@@ -6,16 +6,15 @@ package org.cotrix.web.common.shared.codelist.attributedefinition;
 import java.util.List;
 
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.Definition;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIQName;
-
-import com.google.gwt.user.client.rpc.IsSerializable;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class UIAttributeDefinition implements IsSerializable, Identifiable {
+public class UIAttributeDefinition implements Definition, Identifiable {
 	
 	private String id;
 	private UIQName name;
