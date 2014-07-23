@@ -3,17 +3,14 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
-import org.cotrix.web.common.client.widgets.AdvancedTextBox;
+import org.cotrix.web.common.client.widgets.AutoHeightTextArea;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -30,20 +27,22 @@ public class MarkerDetailsPanel extends Composite implements HasValueChangeHandl
 			UiBinder<Widget, MarkerDetailsPanel> {
 	}
 	
-	@UiField
-	AdvancedTextBox descriptionArea;
+//	@UiField
+//	AdvancedTextBox descriptionArea;
 
+	@UiField
+	AutoHeightTextArea descriptionArea;
 
 	public MarkerDetailsPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 	
-	@UiHandler({"descriptionArea"})
+	/*@UiHandler({"descriptionArea"})
 	protected void onKeyDown(KeyDownEvent event) {
-		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			 descriptionArea.setFocus(false);
 	     }
-	}
+	}*/
 
 	public String getDescription() {
 		return descriptionArea.getValue();
@@ -66,4 +65,10 @@ public class MarkerDetailsPanel extends Composite implements HasValueChangeHandl
 		descriptionArea.setFocus(true);		
 	}
 
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		descriptionArea.setVisible(visible);
+	}
+	
 }
