@@ -7,7 +7,6 @@ import static org.cotrix.repository.CodelistQueries.*;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -36,7 +35,7 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		try {
 			
-			Map<String,ManagedCode> originsIds = new HashMap<>();
+			Map<String,Code> originsIds = new HashMap<>();
 			
 			for (Code code : list.codes()) {
 			
@@ -53,7 +52,7 @@ public class DefaultChangelogService implements ChangelogService {
 							log.add(new CodelistChange.DeletedCode(managed));
 						else
 							if (modified.after(created))
-								originsIds.put(origin, managed);
+								originsIds.put(origin,code);
 				
 				}
 
@@ -66,15 +65,15 @@ public class DefaultChangelogService implements ChangelogService {
 					
 				//compute changesets
 				
-				for (Entry<String,ManagedCode> e : originsIds.entrySet()) {
+				for (Entry<String,Code> e : originsIds.entrySet()) {
 					
-					ManagedCode newcode = e.getValue();
+					Code newcode = e.getValue();
 					
 					Code oldcode = origins.get(e.getKey());
 					
-					List<CodeChange> changes =  detector.changesBetween(oldcode,newcode);
+					Map<String,CodeChange> changes =  detector.changesBetween(oldcode,newcode);
 					
-					log.add(new CodelistChange.ModifiedCode(newcode,changes));
+					log.add(new CodelistChange.ModifiedCode(manage(newcode),changes));
 				}
 			
 			}

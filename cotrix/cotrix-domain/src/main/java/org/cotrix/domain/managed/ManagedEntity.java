@@ -74,6 +74,14 @@ public abstract class ManagedEntity<T extends Attributed> {
 		
 	}
 	
+	public boolean has(CommonDefinition def) {
+		return attribute(def)!=null;
+	}
+	
+	public boolean hasno(CommonDefinition def) {
+		return attribute(def)==null;
+	}
+	
 	/**
 	 * Returns the string value of an attribute with a given common definition, if one exists.
 	 * @param def the definition

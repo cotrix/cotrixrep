@@ -4,7 +4,7 @@ import static org.cotrix.common.CommonUtils.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 import org.cotrix.domain.managed.ManagedCode;
 
@@ -62,14 +62,14 @@ public abstract class CodelistChange {
 	
 	public static class ModifiedCode extends CodelistChange {
 		
-		private final List<CodeChange> changes;
+		private final Map<String,CodeChange> changes;
 		
-		ModifiedCode(ManagedCode code,List<CodeChange> changes) {
+		ModifiedCode(ManagedCode code,Map<String,CodeChange> changes) {
 			super(code);
 			this.changes = changes;
 		}
 		
-		public List<CodeChange> changes() {
+		public Map<String,CodeChange> changes() {
 			return changes;
 		}
 	

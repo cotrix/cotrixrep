@@ -1,16 +1,31 @@
 package org.cotrix.application.changelog;
 
-public class CodeChange {
 
+public class CodeChange {
 	
+	static CodeChange change(String from,String to, String description) {
+		return new CodeChange(from, to, description);
+	}
+
+	private final String from;
+	private final String to;
+	private final String description;
 	
-	@Override
-	public String toString() {
-		return "coming soon..";
+	public CodeChange(String from, String to, String description) {
+		this.from = from;
+		this.to = to;
+		this.description = description;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		return true;
+	public String from() {
+		return from;
+	}
+	
+	public String to() {
+		return to;
+	}
+	
+	public String description() {
+		return description;
 	}
 }

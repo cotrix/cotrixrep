@@ -146,28 +146,12 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 
-		ManagedCode managedCode = manage(list.codes().lookup(modified.qname()));
+		ManagedCode managed = manage(list.codes().lookup(modified.qname()));
 		
-		assertNull(managedCode.attribute(NEW));
-		assertNotNull(managedCode.attribute(MODIFIED));
+		assertNull(managed.attribute(NEW));
+		assertNotNull(managed.attribute(MODIFIED));
+		assertNotNull(managed.attribute(MODIFIED).description());
 		
-	}
-
-	
-	@Test
-	public void modifiedcodeMarker() throws Exception {
-		
-		Code noise = code().name("new").build();
-		
-		Code code = list.codes().lookup(c1.qname());
-		
-		Code changeset = modify(code).name("nn").build();
-		
-		codelists.update(modify(list).with(changeset,noise).build());
-		
-		ManagedCode managed  = manage(code);
-		
-		assertEquals(detector.changesBetween(code,changeset).toString(), managed.attribute(MODIFIED).description());
 	}
 	
 	

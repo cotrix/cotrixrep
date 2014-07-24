@@ -3,21 +3,22 @@ package org.cotrix.application.changelog;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
+import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.cotrix.common.events.Modified;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
-import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -37,61 +38,105 @@ public class ChangeListener {
 		
 		Codelist list = codelists.lookup(changeset.id());
 		
-		ManagedCodelist mlist = ManagedCodelist.manage(list);
-		
-		//changelog is only wrt to lineage
-		if (mlist.originId()==null)
+		//changelog requires lineage
+		if (manage(list).hasno(PREVIOUS_VERSION)) 		
 			return;
-		
 		
 		log.trace("updating changelog for codelist {}",changeset.id());
 		
-		for (Code codeChangeset : changeset.codes()) {
-			
-			Code.Private privateCodeChangeset = reveal(codeChangeset);
+		for (Code change : changeset.codes()) {
+		
+			Status status = reveal(change).status();
 			
 			//only if it bring real changes
-			if (privateCodeChangeset.status()==Status.DELETED || privateCodeChangeset.attributes().contains(DELETED))
+			if (status==Status.DELETED || manage(change).has(DELETED))
 				continue;
 			
-			Code code = list.codes().lookup(codeChangeset.id());
+			Code changed = list.codes().lookup(change.id());
 			
-			Code.Private privateCode = reveal(code);
+			processCode(reveal(changed),reveal(change));
+		}
+		
+				
+	}
+	
+	
+	private void processCode(Code.Private changed, Code.Private change) {
+		
+		NamedStateContainer<Attribute.State>  attributes = changed.state().attributes();
+		
+		if (change.status()==null)
 			
-			NamedStateContainer<Attribute.State>  attributes = privateCode.state().attributes();
+			aaddNewMarkerTo(attributes);
+		
+		else 
 			
-			//new 
-			if (privateCodeChangeset.status()==null)
-				attributes.add(stateof(attribute().with(NEW).value("true")));
+			handleModifiedMarkerWith(changed, change, attributes);
+		
+		
+	}
+	
+	private void aaddNewMarkerTo(NamedStateContainer<Attribute.State>  attributes) {
+		
+		attributes.add(stateof(attribute().with(NEW).value("TRUE")));
+	}
+	
+	private void handleModifiedMarkerWith(Code.Private changed,Code.Private change,NamedStateContainer<Attribute.State>  attributes) {
+		
+		ManagedCode managed = manage(changed);
+		Attribute modified = managed.attribute(MODIFIED);
+
+		String originId = managed.originId();
+		
+		//changes are wrt to lineage (the codelist has it, but this code is new)
+		if (hasno(originId))
+			return;
+		
+		Code origin = codelists.get(code(originId));
+		
+		if (hasno(origin)) {
+			log.error("application error: cannot compute changelog for code {} as its lineage {} can't be retrieved.",change.id(),originId);
+			return;
+		}
+		
+		Map<String,CodeChange> changes = detect.changesBetween(origin, change);
+		
+		if (changes.isEmpty()) {
 			
-			//modified
-			else {
-				
-				ManagedCode managed = manage(code);
-				
-				Attribute modified = managed.attribute(MODIFIED);
-				
-				if (modified==null) {
-					modified = attribute().with(MODIFIED).value("TRUE").build();
-					attributes.add(stateof(modified));
-				}
-				
-				String originId = managed.originId();
-				
-				Code origin = codelists.get(code(originId));
-				
-				if (origin==null) {
-					log.error("application error: cannot compute changelog for code {} as its lineage {} can't be retrieved.",codeChangeset.id(),originId);
-					continue;
-				}
-				
-				List<CodeChange> changes = detect.changesBetween(origin, codeChangeset);
-				
-				reveal(modified).state().description(changes.toString());
-				
-			}
+			if (has(modified))
+				attributes.remove(modified.id());
+
+			return;
 			
 		}
+
+		if (hasno(modified)) {
 			
+			attributes.add(stateof(attribute().with(MODIFIED).value("TRUE")));
+			modified = managed.attribute(MODIFIED);
+		}
+		
+		stateof(modified).description(render(changes));
+		
+	}
+
+	
+	//helper
+	private boolean has(Object o) {
+		return o!=null;
+	}
+	
+	private boolean hasno(Object o) {
+		return o==null;
+	}
+		
+	private String render(Map<String,CodeChange> changes) {
+		
+		StringBuilder builder = new StringBuilder();
+		
+		for (CodeChange change : changes.values())
+			builder.append(change.description()).append("\n");
+		
+		return builder.toString();
 	}
 }

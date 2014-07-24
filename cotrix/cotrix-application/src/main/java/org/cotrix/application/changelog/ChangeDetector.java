@@ -1,31 +1,34 @@
 package org.cotrix.application.changelog;
 
-import static org.cotrix.domain.managed.ManagedCode.*;
+import static java.lang.String.*;
+import static org.cotrix.application.changelog.CodeChange.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.managed.ManagedCode;
 
 @Singleton
 public class ChangeDetector {
 
 	
-	public List<CodeChange> changesBetween(Code before, Code after) {
+	public Map<String,CodeChange> changesBetween(Code code, Code changeset) {
 		
-		return changesBetween(before,manage(after));
-	}
-	
-	public List<CodeChange> changesBetween(Code before, ManagedCode after) {
-
-		//TODO
-		List<CodeChange> changes = new ArrayList<>();
+		Map<String,CodeChange> changes = new HashMap<>();
 		
-		changes.add(new CodeChange());
+		detectNameChange(changes,code,changeset);
 		
 		return changes;
 	}
+
+	private void detectNameChange(Map<String,CodeChange> changes,Code code, Code changeset){
+		if (!code.qname().equals(changeset.qname())) {
+			String description = format("<name>: %s => %s",code.qname(),changeset.qname());
+			changes.put(code.id(),change(code.qname().toString(), changeset.qname().toString(),description));
+		}
+	}
+	
+	
 }
