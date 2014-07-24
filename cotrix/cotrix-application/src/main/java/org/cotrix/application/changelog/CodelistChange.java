@@ -62,14 +62,14 @@ public abstract class CodelistChange {
 	
 	public static class ModifiedCode extends CodelistChange {
 		
-		private final Map<String,CodeChange> changes;
+		private final Map<String,ChangelogGroup> changes;
 		
-		ModifiedCode(ManagedCode code,Map<String,CodeChange> changes) {
+		ModifiedCode(ManagedCode code,Map<String,ChangelogGroup> changes) {
 			super(code);
 			this.changes = changes;
 		}
 		
-		public Map<String,CodeChange> changes() {
+		public Map<String,ChangelogGroup> changes() {
 			return changes;
 		}
 	

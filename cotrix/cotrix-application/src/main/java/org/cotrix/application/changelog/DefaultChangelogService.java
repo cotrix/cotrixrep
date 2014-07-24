@@ -26,7 +26,7 @@ public class DefaultChangelogService implements ChangelogService {
 	private CodelistRepository codelists;
 	
 	@Inject
-	private ChangeDetector detector;	
+	private ChangelogDetector detector;	
 
 	@Override
 	public Changelog changelogFor(Codelist list) {
@@ -71,7 +71,7 @@ public class DefaultChangelogService implements ChangelogService {
 					
 					Code oldcode = origins.get(e.getKey());
 					
-					Map<String,CodeChange> changes =  detector.changesBetween(oldcode,newcode);
+					Map<String,ChangelogGroup> changes =  detector.changesBetween(oldcode,newcode);
 					
 					log.add(new CodelistChange.ModifiedCode(manage(newcode),changes));
 				}

@@ -1,17 +1,17 @@
 package org.cotrix.application.changelog;
 
 
-public class CodeChange {
+public class GroupEntry {
 	
-	static CodeChange change(String from,String to, String description) {
-		return new CodeChange(from, to, description);
+	static GroupEntry entry(String from,String to, String description) {
+		return new GroupEntry(from, to, description);
 	}
 
 	private final String from;
 	private final String to;
 	private final String description;
 	
-	public CodeChange(String from, String to, String description) {
+	public GroupEntry(String from, String to, String description) {
 		this.from = from;
 		this.to = to;
 		this.description = description;

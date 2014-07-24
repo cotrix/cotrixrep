@@ -1,5 +1,6 @@
 package org.cotrix.application.changelog;
 
+import static java.lang.String.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
@@ -14,7 +15,6 @@ import javax.inject.Inject;
 
 import org.cotrix.common.events.Modified;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -24,17 +24,19 @@ import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangeListener {
+public class ChangelogManager {
 	
-	private static final Logger log = LoggerFactory.getLogger(ChangeListener.class);
+	private static final Logger log = LoggerFactory.getLogger(ChangelogManager.class);
 
 	@Inject
-	private ChangeDetector detect;
+	private ChangelogDetector detect;
 	
 	@Inject
 	private CodelistRepository codelists;
 	
-	public void onChange(@Observes @Modified Codelist changeset){
+	
+	//entry point for incremental computations
+	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
 		
 		Codelist list = codelists.lookup(changeset.id());
 		
@@ -99,7 +101,7 @@ public class ChangeListener {
 			return;
 		}
 		
-		Map<String,CodeChange> changes = detect.changesBetween(origin, change);
+		Map<String,ChangelogGroup> changes = detect.changesBetween(origin, change);
 		
 		if (changes.isEmpty()) {
 			
@@ -130,13 +132,18 @@ public class ChangeListener {
 		return o==null;
 	}
 		
-	private String render(Map<String,CodeChange> changes) {
+	private String render(Map<String,ChangelogGroup> changes) {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		for (CodeChange change : changes.values())
-			builder.append(change.description()).append("\n");
-		
+		for (ChangelogGroup group : changes.values())
+			if (group.entries().isEmpty())
+				continue;
+			else {
+				builder.append(group.name()).append(":");
+				for (GroupEntry entry : group.entries())
+					builder.append(format("\n ・ %s  [by %s on %s] ",entry.description(),currentUser().name(), time()));
+			}
 		return builder.toString();
 	}
 }
