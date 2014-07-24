@@ -288,12 +288,12 @@
     color: #4f4e4e;
     padding-left: 6px;
     font-size: 14px;
-    height: 27px;
+ /*   height: 27px;*/
     width: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     transition: border-color 700ms ease;
-    resize: none;
+   	resize: none;
 }
 
 .textarea:focus {

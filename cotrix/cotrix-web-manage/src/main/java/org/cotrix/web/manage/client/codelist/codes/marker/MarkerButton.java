@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 import static org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource.*;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Float;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,6 +43,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 		
 		down = false;
 		getElement().getStyle().setProperty("borderRadius", "2px");
+		getElement().getStyle().setFloat(Float.LEFT);
 		setTitle(markerType.getName());
 		style();
 	}

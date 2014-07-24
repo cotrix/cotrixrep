@@ -33,19 +33,20 @@
 	
 		.button {
 			cursor: pointer;
-			display: inline;
 		}
 		
 		.markersToolbar {
-			display: inline;
+			padding-left: 5px;
 		}
 	
 		.leftButton {
 			padding-left: 5px;
+			float: left;
 		}
 		
 		.rightButton {
 			padding-right: 5px;
+			float: right;
 		}
 	
 		.state {

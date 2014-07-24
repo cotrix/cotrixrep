@@ -18,7 +18,6 @@ import org.cotrix.web.manage.client.di.CodelistBus;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.RowStyles;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
@@ -27,7 +26,6 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 	
 	interface CodesEditorRowHightlighterEventBinder extends EventBinder<CodesEditorRowHightlighter> {}

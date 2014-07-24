@@ -10,7 +10,7 @@ import org.cotrix.web.manage.client.di.CodelistBus;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -25,11 +25,10 @@ public class MarkersToolbar extends Composite {
 	@Inject @CodelistBus
 	private EventBus bus;
 	
-	private HorizontalPanel toolbar;	
+	private FlowPanel toolbar;	
 	
 	public MarkersToolbar() {
-		toolbar = new HorizontalPanel();
-		toolbar.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		toolbar = new FlowPanel();
 		initButtons();
 		initWidget(toolbar);
 	}
