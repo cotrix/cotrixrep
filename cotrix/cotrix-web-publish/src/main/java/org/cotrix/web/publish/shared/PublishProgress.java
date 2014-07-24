@@ -11,7 +11,7 @@ import org.cotrix.web.common.shared.Progress;
  */
 public class PublishProgress extends Progress {
 	
-	protected boolean mappingFailed;
+	private boolean mappingFailed;
 	
 	/**
 	 * @return the mappingFailed

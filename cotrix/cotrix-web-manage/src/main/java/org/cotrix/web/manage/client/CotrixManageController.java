@@ -26,6 +26,7 @@ import org.cotrix.web.manage.client.event.CodelistCreatedEvent;
 import org.cotrix.web.manage.client.event.CodelistRemovedEvent;
 import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
+import org.cotrix.web.manage.client.event.NewCodelistVersionCreatedEvent;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.event.RefreshCodelistsEvent;
 import org.cotrix.web.manage.client.manager.CodelistManagerPresenter;
@@ -139,7 +140,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		managerBus.fireEvent(new RefreshCodelistsEvent());
 	}
 
-	private void createNewVersion(String codelistId, String newVersion)
+	private void createNewVersion(final String codelistId, String newVersion)
 	{
 		Log.trace("createNewVersion codelistId: " + codelistId+" newVerions: "+newVersion);
 		asyncService.createNewCodelistVersion(codelistId, newVersion, async(ignoreCancel(manageError(new SuccessCallback<UICodelistInfo>() {
@@ -149,6 +150,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 				Log.trace("created "+result);
 				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
+				managerBus.fireEvent(new NewCodelistVersionCreatedEvent(codelistId, result));
 			}
 		}))));
 	}

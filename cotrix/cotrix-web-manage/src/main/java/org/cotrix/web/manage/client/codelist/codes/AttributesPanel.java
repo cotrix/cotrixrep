@@ -83,7 +83,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	private CotrixManagerResources resources;
 
 	@Inject
-	private RemoveItemController attributeController;
+	private RemoveItemController attributeRemotionController;
 	
 	@Inject
 	private CodeAttributeEditingPanelFactory editingPanelFactory;
@@ -160,7 +160,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				attributeController.setUserCanEdit(active);
+				attributeRemotionController.setUserCanEdit(active);
 				//we animate only if the user obtain the edit permission
 				updateRemoveButtonVisibility(active);
 			}
@@ -232,7 +232,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	}
 
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
+		toolBar.setVisible(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
 	}
 
 
@@ -269,7 +269,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	{
 		if (visualizedCode!=null && attributesGrid.getSelectedItem()!=null) {
 			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
-			attributeController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
+			attributeRemotionController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
 			updateRemoveButtonVisibility(false);
 		}
 	}
