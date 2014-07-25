@@ -15,6 +15,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
@@ -28,6 +29,7 @@ import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.NewCodelistVersionCreatedEvent;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
@@ -36,6 +38,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
@@ -56,10 +59,15 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	interface LogbookPanelUiBinder extends UiBinder<Widget, LogbookPanel> {}
 	
 	private static LogbookPanelUiBinder uiBinder = GWT.create(LogbookPanelUiBinder.class);
+	
+	@UiField HTML header;
 
 	@UiField(provided=true) ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel> entriesGrid;
 
 	@UiField ItemToolbar toolBar;
+	
+	@Inject
+	private HeaderBuilder headerBuilder;
 	
 	@Inject
 	private ManageServiceAsync service;
@@ -82,7 +90,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	private RemoveItemController entryRemotionController;
 
 	@Inject
-	public void init() {
+	public void init(@CurrentCodelist UICodelist codelist) {
 
 		entriesGrid = new ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel>("No entries", editingPanelFactory);
 
@@ -122,6 +130,8 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 				selectedEntryChanged();
 			}
 		});
+		
+		header.setHTML(headerBuilder.getHeader("Attributes", codelist.getName().getLocalPart()));
 
 	}
 

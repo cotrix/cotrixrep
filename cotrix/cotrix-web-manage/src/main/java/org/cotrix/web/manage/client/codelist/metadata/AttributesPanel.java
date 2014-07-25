@@ -10,6 +10,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
@@ -22,6 +23,7 @@ import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
+import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,6 +31,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -44,11 +47,17 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {};
 	interface MetadataPanelUiBinder extends UiBinder<Widget, AttributesPanel> {}
 	
+
 	private static MetadataPanelUiBinder uiBinder = GWT.create(MetadataPanelUiBinder.class);
+	
+	@UiField HTML header;
 
 	@UiField(provided=true) ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
 
 	@UiField ItemToolbar toolBar;
+	
+	@Inject
+	private HeaderBuilder headerBuilder;
 
 	protected UICodelistMetadata metadata;
 
@@ -67,7 +76,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	private UIFactories factories;
 
 	@Inject
-	public void init() {
+	public void init(@CurrentCodelist UICodelist codelist) {
 
 		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
 
@@ -103,6 +112,8 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 				attributeEditor.added(item);
 			}
 		});
+		
+		header.setHTML(headerBuilder.getHeader("Attributes", codelist.getName().getLocalPart()));
 	}
 
 	@Inject
