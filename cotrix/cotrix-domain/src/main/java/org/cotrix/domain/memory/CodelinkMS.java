@@ -40,15 +40,11 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	//helper
 	private LinkDefinition.State cloneDefinitionInContext(LinkDefinition.State def, Map<String,Object> context) {
 		
-		if (context.containsKey(def.id()))
-			return (LinkDefinition.State) context.get(def.id());
+		if (context==null || !context.containsKey(def.id()))
+			throw new AssertionError("application error: definition cannot be shared during copy");
+		
+		return (LinkDefinition.State) context.get(def.id());
 			
-		LinkDefinition.State clone = new LinkDefinitionMS(def);
-		
-		context.put(def.id(),clone);
-		
-		return clone;
-		
 	}
 
 	@Override

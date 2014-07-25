@@ -124,18 +124,10 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		if (!def.isShared())
 			return new AttrDefinitionMS(def);
 		
-		if (context==null)
+		if (context==null || !context.containsKey(def.id()))
 			throw new AssertionError("application error: definition cannot be shared during copy");
 		
-		if (context.containsKey(def.id()))
-			return (AttributeDefinition.State) context.get(def.id());
-			
-		AttributeDefinition.State clone = new AttrDefinitionMS(def);
-		
-		context.put(def.id(),clone);
-		
-		return clone;
-		
+		return (AttributeDefinition.State) context.get(def.id());
 	}
 	
 	

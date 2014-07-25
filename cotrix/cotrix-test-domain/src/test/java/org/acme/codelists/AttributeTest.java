@@ -3,6 +3,7 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
@@ -102,7 +104,7 @@ public class AttributeTest extends DomainTest {
 
 		//clones preserve identifiers
 		assertEquals(state.id(),clone.id());
-
+		
 		//but not definitions
 		assertNotEquals(state.definition().id(),clone.definition().id());
 	}
@@ -114,10 +116,12 @@ public class AttributeTest extends DomainTest {
 		//context to preserve sharing
 		Map<String,Object> ctx = new HashMap<>();
 		
-		AttributeMS clone1 = new AttributeMS(reveal(typed).state(),ctx);
-		AttributeMS clone2 = new AttributeMS(reveal(typed2).state(),ctx);
+		ctx.put(typed.definition().id(), new AttrDefinitionMS(stateof(typed.definition())));
 		
-		assertEquals(clone1.definition().id(),clone2.definition().id());
+		AttributeMS clone1 = new AttributeMS(stateof(typed),ctx);
+		AttributeMS clone2 = new AttributeMS(stateof(typed2),ctx);
+		
+		assertSame(clone1.definition(),clone2.definition());
 		
 		
 	}

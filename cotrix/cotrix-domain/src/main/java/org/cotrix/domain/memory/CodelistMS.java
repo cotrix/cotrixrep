@@ -40,15 +40,19 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		
 		super(state);
 		
-		for (AttributeDefinition.State atype : state.definitions()) {
-			defs.add(new AttrDefinitionMS(atype));
-		}
-		
-		for (LinkDefinition.State link : state.links()) {
-			links.add(new LinkDefinitionMS(link));
-		}
-		
 		Map<String,Object> context = new HashMap<>();
+		
+		for (AttributeDefinition.State def : state.definitions()) {
+			AttributeDefinition.State clone = new AttrDefinitionMS(def);
+			defs.add(clone);
+			context.put(def.id(), clone);
+		}
+		
+		for (LinkDefinition.State def : state.links()) {
+			LinkDefinition.State clone = new LinkDefinitionMS(def);
+			links.add(clone);
+			context.put(def.id(), clone);
+		}
 		
 		for (Code.State code : state.codes()) {
 			Code.State copy = new CodeMS(code,context);
