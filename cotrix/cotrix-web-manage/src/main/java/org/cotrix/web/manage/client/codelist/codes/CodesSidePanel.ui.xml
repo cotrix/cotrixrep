@@ -77,6 +77,7 @@
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
+				<v:EmptyPanel ui:field="emptyPanel" />
 				<v:AttributesPanel ui:field="attributesPanel" />
 				<v:FiltersPanel ui:field="filtersPanel" />
 				<v:LinksPanel ui:field="linksPanel" />
