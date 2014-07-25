@@ -3,6 +3,7 @@ package org.acme;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
+import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -97,13 +98,13 @@ public class ChangelogTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void attrnameChangesAreDetected() {
+	public void attrChangesAreDetected() {
 		
 		Code code = list.codes().lookup(origin);
 		
 		Attribute attribute = code.attributes().lookup(a);
 		
-		Attribute mattr = modify(attribute).name("aa").in("en").build();
+		Attribute mattr = modify(attribute).name("aa").in("en").ofType(NAME_TYPE).value("someval").build();
 				
 		Code modified = modify(code).name("cc").attributes(mattr).build();
 		

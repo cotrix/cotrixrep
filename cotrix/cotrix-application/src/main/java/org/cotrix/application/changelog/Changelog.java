@@ -10,10 +10,9 @@ import static org.cotrix.repository.CodelistQueries.*;
 
 import java.util.List;
 
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import org.cotrix.common.events.Modified;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -24,28 +23,27 @@ import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangelogManager {
+@Singleton
+public class Changelog {
 	
-	private static final Logger log = LoggerFactory.getLogger(ChangelogManager.class);
+	private static final Logger log = LoggerFactory.getLogger(Changelog.class);
 
-	@Inject
-	private ChangelogDetector detect;
 	
 	@Inject
 	private CodelistRepository codelists;
 	
+	@Inject
+	private ChangelogDetector detect;
 	
-	//entry point for incremental computations
-	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
-		
-		Codelist list = codelists.lookup(changeset.id());
+	public void updateWith(Codelist changeset) {
+	
+		//we know this will succeed, an update has already taken place 
+		Codelist changed = codelists.lookup(changeset.id());
 		
 		//changelog requires lineage
-		if (manage(list).hasno(PREVIOUS_VERSION)) 		
+		if (manage(changed).hasno(PREVIOUS_VERSION)) 		
 			return;
-		
-		log.trace("updating changelog for codelist {}",changeset.id());
-		
+				
 		for (Code change : changeset.codes()) {
 		
 			Status status = reveal(change).status();
@@ -54,12 +52,10 @@ public class ChangelogManager {
 			if (status==Status.DELETED || manage(change).has(DELETED))
 				continue;
 			
-			Code changed = list.codes().lookup(change.id());
+			Code code = changed.codes().lookup(change.id());
 			
-			processCode(reveal(changed),reveal(change));
+			processCode(reveal(code),reveal(change));
 		}
-		
-				
 	}
 	
 	
@@ -83,6 +79,7 @@ public class ChangelogManager {
 		attributes.add(stateof(attribute().instanceOf(NEW).value("TRUE")));
 	}
 	
+	
 	private void handleModifiedMarkerWith(Code.Private changed, Code.Private change, NamedStateContainer<Attribute.State>  attributes) {
 		
 		ManagedCode managed = manage(changed);
@@ -90,22 +87,25 @@ public class ChangelogManager {
 
 		String originId = managed.originId();
 		
-		//changes are wrt to lineage (the codelist has it, but this code is new)
+		//changes are wrt to lineage (the codelist has it, but this update is obviously on a new code)
 		if (hasno(originId))
 			return;
 		
 		Code origin = codelists.get(code(originId));
 		
 		if (hasno(origin)) {
-			log.error("application error: cannot compute changelog for code {} as its lineage {} can't be retrieved.",change.id(),originId);
+			log.error("cannot compute changelog for code {} as its lineage {} can't be retrieved.",change.id(),originId);
 			return;
 		}
 		
 		List<ChangelogGroup> changes = detect.changesBetween(origin, changed);
 		
-		if (changes.isEmpty()) {
+		String textualChanges = render(changes);
+		
+		if (textualChanges.isEmpty()) {
 			
 			if (has(modified))
+				
 				attributes.remove(modified.id());
 
 			return;
@@ -118,7 +118,7 @@ public class ChangelogManager {
 			modified = managed.attribute(MODIFIED);
 		}
 		
-		stateof(modified).description(render(changes));
+		stateof(modified).description(textualChanges);
 		
 	}
 
@@ -145,10 +145,10 @@ public class ChangelogManager {
 				if (builder.length()>0)
 					builder.append("\n\n");
 				
-				builder.append(group.name()).append(":");
+				builder.append(format("├ %s:",group.name()));
 				
 				for (GroupEntry entry : group.entries())
-					builder.append(format("\n ・ %s\n   (%s on %s) ",entry.description(),currentUser().name(), time()));
+					builder.append(format("\n\n ✓ %s\n   (%s on %s) ",entry.description(),currentUser().name(), time()));
 			}
 		
 
