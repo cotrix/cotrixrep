@@ -75,6 +75,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource logbookSelected();
 	public ImageResource logbookUnselected();
 	public ImageResource logbookDisabled();
+	public ImageResource logbookBullet();
 	
 	public ImageResource linksTypes();
 	

@@ -18,7 +18,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -29,7 +28,6 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 	private FocusPanel focusPanel;
 	private boolean down;
 
-	
 	public MarkerButton(MarkerType markerType) {
 		
 		focusPanel = new FocusPanel();
@@ -42,11 +40,6 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 			}
 		});
 		
-		Label label = new Label(markerType.getName().substring(0, 1));
-		label.getElement().getStyle().setPaddingTop(2, Unit.PX);
-		
-		focusPanel.add(label);
-		
 		initWidget(focusPanel);
 		
 		down = false;
@@ -55,7 +48,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 		getElement().getStyle().setTextAlign(TextAlign.CENTER);
 		getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 		getElement().getStyle().setFontSize(12, Unit.PX);
-		setTitle(markerType.getName());
+		setTitle("highlight "+markerType.getName()+" codes");
 		style();
 	}
 	

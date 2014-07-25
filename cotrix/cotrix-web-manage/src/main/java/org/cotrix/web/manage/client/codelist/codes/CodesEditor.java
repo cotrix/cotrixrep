@@ -718,7 +718,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 
-			@Template("<div style=\"height:16px\">{0}<img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\"/></div>")
+			@Template("<div style=\"height:16px\">{0}<img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\" title=\"Hide Column\" /></div>")
 			SafeHtml header(SafeHtml label, SafeUri img, String imgStyle, String imgId);
 		}
 

@@ -16,6 +16,7 @@ import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescripti
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -126,6 +127,16 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	public void stopEditing() {
 		detailsPanel.setReadOnly(true);
 		editing = false;
+	}
+
+	@Override
+	public String getLabelValue() {
+		return "";
+	}
+
+	@Override
+	public ImageResource getBullet() {
+		return null;
 	}
 
 }

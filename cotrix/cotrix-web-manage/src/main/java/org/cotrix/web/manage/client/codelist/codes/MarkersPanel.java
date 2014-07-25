@@ -27,14 +27,13 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
@@ -59,6 +58,9 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	@Inject
 	@UiField(provided=true) MarkersEditingPanel markersPanel;
+	
+	@Inject
+	private HeaderBuilder headerBuilder;
 
 	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 
@@ -255,15 +257,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	private void setHeader()
 	{
-		SafeHtmlBuilder sb = new SafeHtmlBuilder();
-		sb.appendHtmlConstant("<span>Markers</span>");
-		if (visualizedCode!=null) {
-			sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+resources.css().headerCode()+"\">");
-			sb.append(SafeHtmlUtils.fromString(visualizedCode.getName().getLocalPart()));
-			sb.appendHtmlConstant("</span>");
-		}
-
-		header.setHTML(sb.toSafeHtml());
+		header.setHTML(headerBuilder.getHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null));
 	}
 
 	private void switchMarker(MarkerType type, UIAttribute attribute, SwitchState attributeSwitchState)

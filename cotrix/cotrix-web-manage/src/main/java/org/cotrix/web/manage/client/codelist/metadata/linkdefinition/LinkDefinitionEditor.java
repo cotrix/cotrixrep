@@ -16,6 +16,7 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -134,5 +135,14 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 		editing = false;
 		
 	}
+	
+	@Override
+	public String getLabelValue() {
+		return "";
+	}
 
+	@Override
+	public ImageResource getBullet() {
+		return null;
+	}
 }

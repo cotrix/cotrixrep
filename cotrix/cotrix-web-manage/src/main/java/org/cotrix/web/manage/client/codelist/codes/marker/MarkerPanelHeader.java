@@ -52,14 +52,18 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 	
 	public MarkerPanelHeader() {
 		initWidget(uiBinder.createAndBindUi(this));
+		updateSwitchTooltip();
 	}
 	
 	public void setSwitchDown(boolean down) {
+		
 		switchButton.setDown(down);
+		updateSwitchTooltip();
 	}
 	
 	public void setSwitchEnabled(boolean enabled) {
 		switchButton.setEnabled(enabled);
+		updateSwitchTooltip();
 	}
 	
 	public void setActivationCheck(boolean checked) {
@@ -107,7 +111,12 @@ public class MarkerPanelHeader extends Composite implements HasClickHandlers {
 	
 	@UiHandler("switchButton")
 	void onSwitch(ClickEvent event) {
+		updateSwitchTooltip();
 		if (listener!=null) listener.onSwitchChange(switchButton.isDown());
+	}
+	
+	private void updateSwitchTooltip() {
+		switchButton.setTitle(switchButton.isDown()?"Hide Column":"Show Column");
 	}
 
 	@Override

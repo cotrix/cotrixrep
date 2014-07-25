@@ -7,7 +7,6 @@ import java.util.Set;
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
-import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
@@ -35,13 +34,12 @@ import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
+import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.LinkGroup;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
@@ -65,6 +63,9 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	@UiField(provided=true) ItemsEditingPanel<UILink, LinkPanel> linksPanel;
 
 	@UiField ItemToolbar toolBar;
+	
+	@Inject
+	private HeaderBuilder headerBuilder;
 
 	@Inject
 	protected ManageServiceAsync service;
@@ -233,15 +234,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void updateHeader() {
-		SafeHtmlBuilder sb = new SafeHtmlBuilder();
-		sb.appendHtmlConstant("<span>Links</span>");
-		if (visualizedCode!=null) {
-			sb.appendHtmlConstant("&nbsp;for&nbsp;<span class=\""+resources.css().headerCode()+"\">");
-			sb.append(SafeHtmlUtils.fromString(ValueUtils.getLocalPart(visualizedCode.getName())));
-			sb.appendHtmlConstant("</span>");
-		}
-		
-		header.setHTML(sb.toSafeHtml());
+		header.setHTML(headerBuilder.getHeader("Links", visualizedCode!=null?visualizedCode.getName().getLocalPart():null));
 	}
 	
 	private void updateBackground()

@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -122,10 +123,19 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		images.getStyle().setWidth(visible?24:12, Unit.PX);
 		int index = visible?labelControls.getWidgetIndex(switchButton):labelControls.getWidgetIndex(bullet);
 		labelControls.showWidget(index);
+		
+		if (visible) updateSwitchTooltip();
 	}
 	
 	public void setSwitchDown(boolean down) {
 		switchButton.setDown(down);
+		updateSwitchTooltip();
+	}
+	
+	public void setBulletImage(ImageResource image) {
+		bullet.setResource(image);
+		bullet.setWidth(image.getWidth()+"px");
+		bullet.setHeight(image.getHeight()+"px");
 	}
 
 	public void setListener(HeaderListener listener) {
@@ -187,6 +197,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	
 	@UiHandler("switchButton")
 	void onSwitch(ClickEvent event) {
+		updateSwitchTooltip();
 		if (listener!=null) listener.onSwitchChange(switchButton.isDown());
 	}
 	
@@ -197,6 +208,10 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	@Override
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return headerBox.addClickHandler(handler);
+	}
+	
+	private void updateSwitchTooltip() {
+		switchButton.setTitle(switchButton.isDown()?"Hide Column":"Show Column");
 	}
 	
 	public void setSaveVisible(boolean visible) {

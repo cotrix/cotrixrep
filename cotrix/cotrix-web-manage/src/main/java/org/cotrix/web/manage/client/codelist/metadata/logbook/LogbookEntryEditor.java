@@ -4,12 +4,14 @@
 package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
 import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -52,6 +54,11 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	public String getLabel() {
 		return entry.getEvent().toString();
 	}
+	
+	@Override
+	public String getLabelValue() {
+		return ": "+entry.getTimestamp();
+	}
 
 	@Override
 	public boolean validate() {
@@ -79,5 +86,10 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 
 	@Override
 	public void stopEditing() {
+	}
+	
+	@Override
+	public ImageResource getBullet() {
+		return CotrixManagerResources.INSTANCE.logbookBullet();
 	}
 }
