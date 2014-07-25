@@ -118,7 +118,7 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	public boolean contains(QName name) {
 		
 		for (Node n : nodes()) 
-			if (name.equals(factory.beanFrom(n).name()))
+			if (name.equals(factory.beanFrom(n).qname()))
 				return true;
 		
 		return false;
@@ -135,7 +135,7 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 		Collection<S> matches = new ArrayList<>();
 		
 		for (Node n : nodes())
-			if (name.equals(factory.beanFrom(n).name()))
+			if (name.equals(factory.beanFrom(n).qname()))
 				matches.add(factory.beanFrom(n));
 		
 		return matches;

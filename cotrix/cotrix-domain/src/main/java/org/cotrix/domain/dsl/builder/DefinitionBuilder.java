@@ -28,7 +28,7 @@ public class DefinitionBuilder implements AttributeDefinitionNewClause, Attribut
 	
 	@Override
 	public DefinitionBuilder name(QName name) {
-		state.name(name);
+		state.qname(name);
 		return this;
 	}
 	

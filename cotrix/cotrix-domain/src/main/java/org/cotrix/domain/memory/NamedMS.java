@@ -28,14 +28,14 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 	
 	public <T extends Named.State & Attributed.State> NamedMS(T state,Map<String,Object> context) {		
 		super(state,context);
-		name(state.name());
+		qname(state.qname());
 	}
 	
-	public QName name() {
+	public QName qname() {
 		return name;
 	}
 	
-	public void name(QName name) {
+	public void qname(QName name) {
 		
 		valid("name",name);
 		
@@ -53,9 +53,9 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 			return false;
 		Named.State other = (Named.State) obj;
 		if (name == null) {
-			if (other.name() != null)
+			if (other.qname() != null)
 				return false;
-		} else if (!name.equals(other.name()))
+		} else if (!name.equals(other.qname()))
 			return false;
 		return true;
 	}	

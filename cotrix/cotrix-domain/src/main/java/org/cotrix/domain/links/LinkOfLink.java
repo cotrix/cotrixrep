@@ -62,7 +62,7 @@ public class LinkOfLink implements LinkValueType {
 		LinkValueType type = target.valueType();
 
 		
-		return matches(name, link.name()) 
+		return matches(name, link.qname()) 
 			   && matches(id, link.target()) 
 			   && matches(type==null?NameLink.INSTANCE:type, link.valueType());
 	}

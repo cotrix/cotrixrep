@@ -39,7 +39,7 @@ public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDef
 	
 	public AttrDefinitionMS(AttributeDefinition.State state) {
 		
-		name(state.name());
+		qname(state.qname());
 		type(state.type());
 		language(state.language());
 		valueType(state.valueType()); //no need to clone: once created, it's immutable.
@@ -56,11 +56,11 @@ public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDef
 		return shared;
 	}
 	
-	public QName name() {
+	public QName qname() {
 		return name;
 	}
 	
-	public void name(QName name) {
+	public void qname(QName name) {
 		
 		valid("name",name);
 		
@@ -134,9 +134,9 @@ public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDef
 			return false;
 		
 		if (name == null) {
-			if (other.name() != null)
+			if (other.qname() != null)
 				return false;
-		} else if (!name.equals(other.name()))
+		} else if (!name.equals(other.qname()))
 			return false;
 		if (range == null) {
 			if (other.range() != null)

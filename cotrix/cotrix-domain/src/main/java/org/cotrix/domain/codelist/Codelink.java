@@ -65,7 +65,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		@Override
 		public QName qname() {
 			//safe: type cannot be or become null
-			return state().definition().name();
+			return state().definition().qname();
 		}
 		
 		@Override

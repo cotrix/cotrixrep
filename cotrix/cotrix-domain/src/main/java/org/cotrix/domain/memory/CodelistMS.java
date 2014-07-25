@@ -133,7 +133,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	
 	private Attribute.State nameof(Named.State named) {
 		
-		return stateof(attribute().instanceOf(PREVIOUS_VERSION_NAME).value(named.name().toString()).build());
+		return stateof(attribute().instanceOf(PREVIOUS_VERSION_NAME).value(named.qname().toString()).build());
 	}
 	
 	private Attribute.State idof(Identified.State identified) {

@@ -129,11 +129,11 @@ public class CodelinkTest extends DomainTest {
 		Codelink.State state = reveal(link).state();
 		CodelinkMS clone = new CodelinkMS(state,new HashMap<String, Object>());
 
-		assertEquals(state.name(),clone.name());
+		assertEquals(state.qname(),clone.qname());
 		
 		for (Attribute.State attr : clone.attributes()) {
 			//System.out.println(attr.name());
-			assertTrue(clone.attributes().contains(attr.name()));
+			assertTrue(clone.attributes().contains(attr.qname()));
 		}
 		
 		assertEquals(clone.id(),state.id());

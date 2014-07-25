@@ -145,8 +145,15 @@ public class CodelistTest extends DomainTest {
 		Attribute vshared = vcode.attributes().lookup(shared.id());
 		Attribute vshared2 = vcode.attributes().lookup(shared2.id());
 		
-		//same state also after versioning
-		assertSame(stateof(vshared.definition()).id(),stateof(vshared2.definition()).id());
+		//equivalent to original
+		assertEquals(shared.definition(),vshared.definition());
+		
+		//but state is distinct
+		assertNotSame(stateof(shared.definition()),stateof(vshared.definition()));
+
+		//whilst state sharing is preserved
+		assertSame(stateof(vshared.definition()),stateof(vshared2.definition()));
+		
 		
 	}
 	
@@ -162,9 +169,15 @@ public class CodelistTest extends DomainTest {
 		
 		Codelink vlink1 = vcode.links().lookup(link1.id());
 		Codelink vlink2 = vcode.links().lookup(link2.id());
+
+		//equivalent to original
+		assertEquals(link1.definition(),vlink1.definition());
 		
-		//same state also after versioning
-		assertSame(stateof(vlink1.definition()).id(),stateof(vlink2.definition()).id());
+		//but state is distinct
+		assertNotSame(stateof(link1.definition()),stateof(vlink1.definition()));
+		
+		//whilst state sharing is preserved
+		assertSame(stateof(vlink1.definition()),stateof(vlink2.definition()));
 		
 	}
 	

@@ -64,8 +64,8 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	public void definition(AttributeDefinition.State state) {
 		
 		//common definitions are named in a property and then reconsituted in memory
-		if (isCommon(state.name().getLocalPart()))
-			node().setProperty(cdef_prop,state.name().getLocalPart());
+		if (isCommon(state.qname().getLocalPart()))
+			node().setProperty(cdef_prop,state.qname().getLocalPart());
 		
 		//other definition are linked to
 		else  {
@@ -84,13 +84,13 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 	}
 	
 	@Override
-	public QName name() {
-		return definition().name();
+	public QName qname() {
+		return definition().qname();
 	}
 
 	@Override
-	public void name(QName name) {
-		definition().name(name);
+	public void qname(QName name) {
+		definition().qname(name);
 	}
 
 	@Override

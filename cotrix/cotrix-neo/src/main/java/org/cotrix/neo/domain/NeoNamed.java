@@ -19,12 +19,12 @@ public class NeoNamed extends NeoAttributed implements Named.State {
 	public <S extends Named.State & Attributed.State> NeoNamed(NodeType type, S state) {
 		super(type,state);
 		
-		name(state.name());
+		qname(state.qname());
 		
 	}
 	
 	@Override
-	public QName name() {
+	public QName qname() {
 		
 		String val = (String) node().getProperty(name_prop,null);
 		
@@ -33,7 +33,7 @@ public class NeoNamed extends NeoAttributed implements Named.State {
 	}
 
 	@Override
-	public void name(QName name) {
+	public void qname(QName name) {
 		
 		if (name==null)
 			node().removeProperty(name_prop);

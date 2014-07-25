@@ -42,13 +42,13 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public QName name() {
+	public QName qname() {
 		LinkDefinition.State def = definition();
-		return def==null?null:def.name();
+		return def==null?null:def.qname();
 	}
 	
 	@Override
-	public void name(QName name) {
+	public void qname(QName name) {
 		throw new UnsupportedOperationException("codelink names are read-only");
 	}
 	

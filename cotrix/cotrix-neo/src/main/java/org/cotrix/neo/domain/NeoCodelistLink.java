@@ -63,7 +63,7 @@ public class NeoCodelistLink extends NeoNamed implements LinkDefinition.State {
 		
 		//links should always have a target
 		if (rel==null)
-			throw new IllegalStateException("orphaned codelist link "+name()+" ("+id()+")");
+			throw new IllegalStateException("orphaned codelist link "+qname()+" ("+id()+")");
 		
 		return NeoCodelist.factory.beanFrom(rel.getEndNode());
 	}

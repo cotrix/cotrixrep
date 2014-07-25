@@ -45,7 +45,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	
 	@Override
 	public AttributeBuilder name(QName name) {
-		state.name(name);
+		state.qname(name);
 		return this;
 	}
 	

@@ -53,9 +53,9 @@ public class ChangelogDetector {
 			if (attributesBefore.contains(id)) {
 				
 				String name= (attr.language()==null? 
-											attr.name().toString()
+											attr.qname().toString()
 											: 
-											format("%s (%s) ",attr.name(),attr.language()));
+											format("%s (%s) ",attr.qname(),attr.language()));
 				
 				ChangelogGroup group = new ChangelogGroup(name);
 				
@@ -76,11 +76,11 @@ public class ChangelogDetector {
 	
 	private void detectNameChange(ChangelogGroup group,Named.State origin, Named.State current){
 		
-		if (!origin.name().equals(current.name())) {
+		if (!origin.qname().equals(current.qname())) {
 		
-			String description = format("name: %s → %s",origin.name(),current.name());
+			String description = format("name: %s → %s",origin.qname(),current.qname());
 			
-			group.entries().add(entry(origin.name().toString(), current.name().toString(),description));
+			group.entries().add(entry(origin.qname().toString(), current.qname().toString(),description));
 		}
 		
 	} 

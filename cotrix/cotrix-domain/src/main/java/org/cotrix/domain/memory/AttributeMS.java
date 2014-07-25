@@ -60,13 +60,13 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		this.value(definition.valueType().defaultValue());
 	}
 	
-	public QName name() {
-		return definition.name();
+	public QName qname() {
+		return definition.qname();
 	}
 	
-	public void name(QName name) {
+	public void qname(QName name) {
 		
-		definition.name(name);
+		definition.qname(name);
 	}	
 	
 	public QName type() {

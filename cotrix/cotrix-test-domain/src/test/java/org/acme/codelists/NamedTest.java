@@ -21,13 +21,13 @@ public class NamedTest extends DomainTest {
 		Named.State state = new NamedMS();
 		
 		try {
-			state.name(null);
+			state.qname(null);
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
 		
 		try {
-			state.name(q(""));
+			state.qname(q(""));
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -40,7 +40,7 @@ public class NamedTest extends DomainTest {
 		Named.Abstract e = like(new MyEntity(new NamedMS()));
 		
 		NamedMS mychange = new NamedMS(e.id(),MODIFIED);
-		mychange.name(NULL_QNAME);
+		mychange.qname(NULL_QNAME);
 		
 		Named.Abstract changeset = new MyEntity(mychange);
 		
@@ -59,7 +59,7 @@ public class NamedTest extends DomainTest {
 		Named.Abstract e = like(new MyEntity(new NamedMS()));
 		
 		NamedMS mychange = new NamedMS(e.id(),MODIFIED);
-		mychange.name(new QName("newname"));
+		mychange.qname(new QName("newname"));
 		
 		Named.Abstract changeset = new MyEntity(mychange);
 		

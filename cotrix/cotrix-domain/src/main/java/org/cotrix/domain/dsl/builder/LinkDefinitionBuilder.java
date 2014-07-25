@@ -43,7 +43,7 @@ public class LinkDefinitionBuilder  {
 	//shared clauses
 	
 	public void name(QName name) {
-		state.name(name);
+		state.qname(name);
 		
 	}
 	

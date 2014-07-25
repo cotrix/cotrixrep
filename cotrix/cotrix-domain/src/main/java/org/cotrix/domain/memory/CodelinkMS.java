@@ -52,12 +52,12 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	}
 
 	@Override
-	public QName name() {
-		return definition==null?null:definition.name();
+	public QName qname() {
+		return definition==null?null:definition.qname();
 	}
 	
 	@Override
-	public void name(QName name) {
+	public void qname(QName name) {
 		throw new UnsupportedOperationException("codelink names are read-only");
 	}
 	

@@ -77,7 +77,7 @@ public class MappingTest extends ApplicationTest {
 			
 			NeoCode retrieved = new NeoCode(added.node());
 			
-			assertEquals(created.name(),retrieved.name());
+			assertEquals(created.qname(),retrieved.qname());
 			
 			assertEquals(collect(created.attributes()),collect(retrieved.attributes()));
 			
@@ -113,7 +113,7 @@ public class MappingTest extends ApplicationTest {
 			
 			NeoCodelist retrieved = new NeoCodelist(added.node());
 			
-			assertEquals(created.name(),retrieved.name());
+			assertEquals(created.qname(),retrieved.qname());
 			assertEquals(collect(created.attributes()),collect(retrieved.attributes()));
 			assertEquals(collect(created.links()),collect(retrieved.links()));
 			assertEquals(created.version(),retrieved.version());

@@ -122,7 +122,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		LinkDefinitionMS clone = new LinkDefinitionMS(state);
 
-		assertEquals(state.name(),clone.name());
+		assertEquals(state.qname(),clone.qname());
 		assertEquals(state.target().id(),clone.target().id());
 		assertEquals(state.valueType(),clone.valueType());
 		assertEquals(state.function(),clone.function());
@@ -130,7 +130,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		for (Attribute.State attr : clone.attributes()) {
 			//System.out.println(attr.name());
-			assertTrue(clone.attributes().contains(attr.name()));
+			assertTrue(clone.attributes().contains(attr.qname()));
 		}
 		
 		assertFalse(clone.id().equals(state.id()));

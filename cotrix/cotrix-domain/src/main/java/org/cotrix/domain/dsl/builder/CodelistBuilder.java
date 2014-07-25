@@ -38,7 +38,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public SecondClause name(QName name) {
-		state.name(name);
+		state.qname(name);
 		return this;
 	}
 	

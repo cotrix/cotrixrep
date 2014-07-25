@@ -89,7 +89,7 @@ public class CodeTest extends DomainTest {
 		Code.State state = reveal(code).state();
 		CodeMS clone = new CodeMS(state,new HashMap<String, Object>());
 		
-		assertEquals(state.name(),clone.name());
+		assertEquals(state.qname(),clone.qname());
 		assertTrue(clone.attributes().contains(attr.qname()));
 		assertTrue(clone.links().contains(link.qname()));
 		

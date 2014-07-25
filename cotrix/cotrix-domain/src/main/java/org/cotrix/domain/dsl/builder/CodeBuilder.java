@@ -33,7 +33,7 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	
 	@Override
 	public OptionalClause name(QName name) {
-		state.name(name);
+		state.qname(name);
 		return this;
 	}
 
