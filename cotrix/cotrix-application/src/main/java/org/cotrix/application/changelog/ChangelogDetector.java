@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.LinkDefinition;
@@ -18,7 +19,6 @@ import org.cotrix.domain.common.NamedStateContainer;
 @Singleton
 public class ChangelogDetector {
 
-	
 	public List<ChangelogGroup> changesBetween(Code origin, Code current) {
 		
 		List<ChangelogGroup> changes = new ArrayList<>();
@@ -26,29 +26,33 @@ public class ChangelogDetector {
 		Code.State originState = reveal(origin).state();
 		Code.State currentState = reveal(current).state();
 		
-		detectCodeChanges(changes,originState,currentState);
-		detectAttributesChanges(changes,originState,currentState);
+		ChangelogGroup top = new ChangelogGroup(current.qname().toString()); 
+		
+		changes.add(top);
+		
+		detectCodeChanges(top,changes,originState,currentState);
+		detectAttributesChanges(top,changes,originState,currentState);
 		detectLinkChanges(changes,originState,currentState);
 		
 		return changes;
 	}
 
-	private void detectCodeChanges(List<ChangelogGroup> changes,Code.State origin, Code.State current){
+	private void detectCodeChanges(ChangelogGroup top, List<ChangelogGroup> changes,Code.State origin, Code.State current){
 		
-		ChangelogGroup group = new ChangelogGroup("code"); 
-		changes.add(group);
-		
-		detectChange(group, "name", origin.qname(), current.qname());
+		detectChange(top, "name", origin.qname(), current.qname());
 
 	}
 	
-	private void detectAttributesChanges(List<ChangelogGroup> changes,Code.State origin, Code.State current){
-		
+	private void detectAttributesChanges(ChangelogGroup top, List<ChangelogGroup> changes,Code.State origin, Code.State current){
 		
 		NamedStateContainer<Attribute.State> attributesBefore = origin.attributes();
 
+		List<String> matched = new ArrayList<String>();
 		
 		for (Attribute.State attr :  current.attributes()) {
+		
+			if (!attr.is(Facet.INHERITABLE))
+				continue;
 			
 			String id = attr.id();
 			
@@ -64,9 +68,29 @@ public class ChangelogDetector {
 				changes.add(group);
 				
 				detectAttributeChanges(group, attributesBefore.lookup(id), attr);
+				
+				matched.add(id);
+				
 			}
+			else {
+				
+				String description = format("➕ %s",attr.qname());
+				
+				top.entries().add(entry(null, attr.qname().toString(), description));
+				
+			}
+			
 		}
 	
+		for (Attribute.State attr :  origin.attributes())
+			
+			if (attr.is(Facet.INHERITABLE) && !matched.contains(attr.id())) {
+					
+				String description = format("✖️ %s",attr.qname());
+				
+				top.entries().add(entry(attr.qname().toString(), null, description));
+					
+			}
 	}
 	
 	private void detectLinkChanges(List<ChangelogGroup> changes,Code.State origin, Code.State current){
@@ -90,7 +114,9 @@ public class ChangelogDetector {
 				changes.add(group);
 				
 				detectLinkChanges(group, linksBefore.lookup(id), link);
-			}
+				
+			}				
+				
 		}
 	
 	}

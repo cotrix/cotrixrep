@@ -20,7 +20,7 @@ import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.junit.Test;
 
-public class CodelistLinkTest extends DomainTest {
+public class LinkDefinitionTest extends DomainTest {
 
 	@Test
 	public void linksCanBeFluentlyConstructed() {

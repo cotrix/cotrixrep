@@ -105,8 +105,9 @@ public class ChangelogTest extends ApplicationTest {
 		Attribute attribute = code.attributes().lookup(a);
 		
 		Attribute mattr = modify(attribute).name("aa").in("en").ofType(NAME_TYPE).value("someval").build();
-				
-		Code modified = modify(code).name("cc").attributes(mattr).build();
+		Attribute nattr = attribute().name("b").value("val").build();	
+		
+		Code modified = modify(code).name("cc").attributes(mattr,nattr).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
