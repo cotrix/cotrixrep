@@ -4,11 +4,13 @@ import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -19,6 +21,7 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodelinkMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.junit.Test;
 
 public class CodelinkTest extends DomainTest {
@@ -124,10 +127,16 @@ public class CodelinkTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
+		
 		Codelink link = link().instanceOf(someCodelistLink()).target(someTarget()).attributes(a).build();
 		
 		Codelink.State state = reveal(link).state();
-		CodelinkMS clone = new CodelinkMS(state,new HashMap<String, Object>());
+		
+		Map<String,Object> context = new HashMap<>();
+		
+		context.put(link.definition().id(), new LinkDefinitionMS(stateof(link.definition())));
+		
+		CodelinkMS clone = new CodelinkMS(state,context);
 
 		assertEquals(state.qname(),clone.qname());
 		
