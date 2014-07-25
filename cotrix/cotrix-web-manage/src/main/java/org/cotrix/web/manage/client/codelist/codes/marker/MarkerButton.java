@@ -18,7 +18,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -41,11 +40,6 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 			}
 		});
 		
-		Label label = new Label(markerType.getName().substring(0, 3));
-		label.getElement().getStyle().setPaddingTop(2, Unit.PX);
-		
-		focusPanel.add(label);
-		
 		initWidget(focusPanel);
 		
 		down = false;
@@ -54,7 +48,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 		getElement().getStyle().setTextAlign(TextAlign.CENTER);
 		getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 		getElement().getStyle().setFontSize(12, Unit.PX);
-		setTitle(markerType.getName());
+		setTitle("highlight "+markerType.getName()+" codes");
 		style();
 	}
 	
@@ -67,7 +61,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 	private void style() {
 		Style elementStyle = getElement().getStyle();
 		elementStyle.setProperty("border", down?"2px solid "+style.selectedButtonColor():"none");
-		elementStyle.setWidth(down?27:31, Unit.PX);
+		elementStyle.setWidth(down?12:16, Unit.PX);
 		elementStyle.setHeight(down?12:16, Unit.PX);
 	}
 
