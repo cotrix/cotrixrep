@@ -2,7 +2,11 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
@@ -11,7 +15,9 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.CodeMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,13 +28,13 @@ public class CodeTest extends DomainTest {
 	Attribute attr = attribute().name(name).build();
 	
 	AttributeDefinition def = definition().name(name2).build();
-	Attribute a1 = attribute().with(def).value("val1").build();
-	Attribute a2 = attribute().with(def).value("val2").build();
+	Attribute a1 = attribute().instanceOf(def).value("val1").build();
+	Attribute a2 = attribute().instanceOf(def).value("val2").build();
 	
 	Code targetcode = code().name(name2).build();
 	Codelist target = codelist().name(name).with(targetcode).build();
-	LinkDefinition listlink = listLink().name(name).target(target).build();
-	Codelink link = link().instanceOf(listlink).target(targetcode).build();
+	LinkDefinition linkdef = linkdef().name(name).target(target).build();
+	Codelink link = link().instanceOf(linkdef).target(targetcode).build();
 	
 	Code code = code()
 					.name(name)
@@ -41,7 +47,7 @@ public class CodeTest extends DomainTest {
 		
 		target = like(target);
 		def = like(def);
-		listlink = like(listlink);
+		linkdef = like(linkdef);
 		code = like(code);
 	}
 	
@@ -85,9 +91,15 @@ public class CodeTest extends DomainTest {
 	public void canBeCloned() {
 		
 		Code.State state = reveal(code).state();
-		CodeMS clone = new CodeMS(state);
 		
-		assertEquals(state.name(),clone.name());
+		Map<String,Object> context = new HashMap<>();
+		
+		context.put(def.id(), new AttrDefinitionMS(stateof(def)));
+		context.put(linkdef.id(), new LinkDefinitionMS(stateof(linkdef)));
+		
+		CodeMS clone = new CodeMS(state,context);
+		
+		assertEquals(state.qname(),clone.qname());
 		assertTrue(clone.attributes().contains(attr.qname()));
 		assertTrue(clone.links().contains(link.qname()));
 		

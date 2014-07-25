@@ -34,6 +34,8 @@ public interface StateContainer<S> extends Iterable<S> {
 	
 	void add(S element);
 	
+	S lookup(String id);
+	
 	//not expecting large input or output => materialised collection easier than stream
 	Collection<S> get(Collection<String> ids);
 	
@@ -63,6 +65,11 @@ public interface StateContainer<S> extends Iterable<S> {
 		@Override
 		public Iterator<S> iterator() {
 			return elements.values().iterator();
+		}
+		
+		@Override
+		public S lookup(String id) {
+			return elements.get(id);
 		}
 		
 		@Override

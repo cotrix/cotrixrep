@@ -14,14 +14,14 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.values.ValueFunction;
 
@@ -31,19 +31,19 @@ import org.cotrix.domain.values.ValueFunction;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkBuilder  {
+public class LinkDefinitionBuilder  {
 
-	public CodelistLinkBuilder(CodelistLinkMS state) {
+	public LinkDefinitionBuilder(LinkDefinitionMS state) {
 		this.state = state;
 	}
 
 	//shared state
-	private final CodelistLinkMS state;
+	private final LinkDefinitionMS state;
 	
 	//shared clauses
 	
 	public void name(QName name) {
-		state.name(name);
+		state.qname(name);
 		
 	}
 	
@@ -54,16 +54,16 @@ public class CodelistLinkBuilder  {
 	
 	//new sentence
 	
-	public class NewClause implements CodelistLinkNewClause, LinkTargetClause<Codelist,OptionalClause> {
+	public class NewClause implements LinkDefinitionNewClause, LinkTargetClause<Codelist,OptionalClause> {
 		
 		
 		public NewClause name(QName name) {
-			CodelistLinkBuilder.this.name(name);
+			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
 		
 		public NewClause name(String name) {
-			CodelistLinkBuilder.this.name(name);
+			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
 		
@@ -78,22 +78,22 @@ public class CodelistLinkBuilder  {
 			
 			state.target(list.state());
 			
-			return CodelistLinkBuilder.this.new OptClause();
+			return LinkDefinitionBuilder.this.new OptClause();
 		}
 	}
 	
 	
 	//change sentence
 	
-	public class ChangeClause extends OptClause implements CodelistLinkChangeClause {
+	public class ChangeClause extends OptClause implements LinkDefinitionChangeClause {
 		
 		public OptionalClause name(QName name) {
-			CodelistLinkBuilder.this.name(name);
+			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
 		
 		public OptionalClause name(String name) {
-			CodelistLinkBuilder.this.name(name);
+			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
 

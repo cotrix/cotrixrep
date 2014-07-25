@@ -14,7 +14,7 @@ public class NameLink implements LinkValueType {
 	@Override
 	public List<Object> valueIn(String linkId, Code.State code,List<String> ids) {
 		
-		return Collections.<Object>singletonList(code.name());
+		return Collections.<Object>singletonList(code.qname());
 	
 	}
 }

@@ -86,7 +86,7 @@ public abstract class NeoQueries {
 
 				NeoCodelist list = new NeoCodelist(node);
 
-				return new CodelistCoordinates(list.id(), list.name(), list.version().value());
+				return new CodelistCoordinates(list.id(), list.qname(), list.version().value());
 
 			};
 		};

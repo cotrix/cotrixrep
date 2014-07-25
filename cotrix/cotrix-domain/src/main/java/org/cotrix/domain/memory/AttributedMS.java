@@ -7,6 +7,7 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -26,14 +27,38 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	public AttributedMS(String id,Status status) {
 		super(id,status);
 	}
-	
-	public AttributedMS(Attributed.State other) {
+
+	public AttributedMS(Attributed.State other,Map<String,Object> context) {
 		
 		this();
 		
 		for (Attribute.State attribute : other.attributes())			
 			if (attribute.is(INHERITABLE))
-				attributes.add(new AttributeMS(attribute));				
+				attributes.add(new AttributeMS(attribute,context));				
+	}
+	
+	public AttributedMS(Attributed.State other) {
+		
+		this(other,null);			
+	}
+	
+	//create with id
+	public AttributedMS(String id,Attributed.State other,Map<String,Object> context) {
+		
+		super(id);
+		
+		attributes.add(timestamp());
+		
+		for (Attribute.State attribute : other.attributes())			
+			if (attribute.is(INHERITABLE))
+				attributes.add(new AttributeMS(attribute,context));				
+	}
+
+		
+		
+	public AttributedMS(String id,Attributed.State other) {
+		
+		this(id,other,null);			
 	}
 	
 	@Override
@@ -74,6 +99,6 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 	
 	//helpers
 	private Attribute.State timestamp() {
-		return stateof(attribute().with(CREATION_TIME).value(time()));
+		return stateof(attribute().instanceOf(CREATION_TIME).value(time()));
 	}
 }

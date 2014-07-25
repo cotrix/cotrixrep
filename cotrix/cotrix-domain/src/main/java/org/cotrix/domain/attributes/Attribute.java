@@ -116,7 +116,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 
 		@Override
 		public QName qname() {
-			return state().name();
+			return state().qname();
 		}
 
 		@Override
@@ -163,7 +163,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
 			if (changeset.qname() != null)
-				state().name(changeset.qname());
+				state().qname(changeset.qname());
 
 			if (changeset.type() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute type " + type() + " cannot be erased");

@@ -4,10 +4,13 @@ import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -18,6 +21,7 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.memory.CodelinkMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.junit.Test;
 
 public class CodelinkTest extends DomainTest {
@@ -54,7 +58,7 @@ public class CodelinkTest extends DomainTest {
 		Code code = like(code().name("a").build());
 		Codelist list = like(codelist().name("A").build());  
 		
-		LinkDefinition listLink = like(listLink().name("link").target(list).transformWith(lowercase).anchorToName().build());
+		LinkDefinition listLink = like(linkdef().name("link").target(list).transformWith(lowercase).anchorToName().build());
 		
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
@@ -72,7 +76,7 @@ public class CodelinkTest extends DomainTest {
 
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
-		LinkDefinition listLink = like(listLink().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
+		LinkDefinition listLink = like(linkdef().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(lowercase.apply(a.value())),link.value());
@@ -90,7 +94,7 @@ public class CodelinkTest extends DomainTest {
 
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
-		LinkDefinition listLink = like(listLink().name("link").target(list).anchorTo(template).build());
+		LinkDefinition listLink = like(linkdef().name("link").target(list).anchorTo(template).build());
 		Codelink link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(a.value()),link.value());
@@ -104,14 +108,14 @@ public class CodelinkTest extends DomainTest {
 		Code code = like(code().name("c").build());
 		Codelist list = like(codelist().name("C").build());  
 		
-		LinkDefinition listlink = like(listLink().name("link-to-c").target(list).build());
+		LinkDefinition listlink = like(linkdef().name("link-to-c").target(list).build());
 		
 		Codelink link = like(link().instanceOf(listlink).target(code).build());
 		code = like(code().name("b").links(link).build());
 		list = like(codelist().name("B").links(listlink).with(code).build());
 		
 		
-		listlink = like(listLink().name("link-to-b").target(list).anchorTo(listlink).build());
+		listlink = like(linkdef().name("link-to-b").target(list).anchorTo(listlink).build());
 		link = like(link().instanceOf(listlink).target(code).build());
 		
 		assertEquals(q("c"),link.value().iterator().next());
@@ -123,19 +127,25 @@ public class CodelinkTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
+		
 		Codelink link = link().instanceOf(someCodelistLink()).target(someTarget()).attributes(a).build();
 		
 		Codelink.State state = reveal(link).state();
-		CodelinkMS clone = new CodelinkMS(state);
+		
+		Map<String,Object> context = new HashMap<>();
+		
+		context.put(link.definition().id(), new LinkDefinitionMS(stateof(link.definition())));
+		
+		CodelinkMS clone = new CodelinkMS(state,context);
 
-		assertEquals(state.name(),clone.name());
+		assertEquals(state.qname(),clone.qname());
 		
 		for (Attribute.State attr : clone.attributes()) {
 			//System.out.println(attr.name());
-			assertTrue(clone.attributes().contains(attr.name()));
+			assertTrue(clone.attributes().contains(attr.qname()));
 		}
 		
-		assertFalse(clone.id().equals(state.id()));
+		assertEquals(clone.id(),state.id());
 		
 	}
 	
@@ -249,18 +259,18 @@ public class CodelinkTest extends DomainTest {
 		Codelist list2 = like(codelist().name("list2").with(code2).build());
 
 		//first links to second's name
-		LinkDefinition clLink1 = listLink().name("1-2").target(list2).build();
+		LinkDefinition clLink1 = linkdef().name("1-2").target(list2).build();
 		Codelist changeset = modifyCodelist(list1.id()).links(clLink1).build();
 		reveal(list1).update(reveal(changeset));
 		
 		//second links to first's link
-		LinkDefinition clLink2 = listLink().name("2-1").target(list1).anchorTo(clLink1).build();
+		LinkDefinition clLink2 = linkdef().name("2-1").target(list1).anchorTo(clLink1).build();
 		changeset = modifyCodelist(list2.id()).links(clLink2).build();
 		reveal(list2).update(reveal(changeset));
 		
 		//modify first link to point to second link (allowed)
 		changeset = modifyCodelist(list1.id()).links(
-				modifyListLink(clLink1.id()).anchorTo(clLink2).build()
+				modifyLinkDef(clLink1.id()).anchorTo(clLink2).build()
 		).build();
 		
 		reveal(list1).update(reveal(changeset));
@@ -332,7 +342,7 @@ public class CodelinkTest extends DomainTest {
 	
 	private LinkDefinition someCodelistLink() {
 		
-		return like(listLink().name("link").target(someCodelist()).build());
+		return like(linkdef().name("link").target(someCodelist()).build());
 	}
 	
 	private Codelist someCodelist() {

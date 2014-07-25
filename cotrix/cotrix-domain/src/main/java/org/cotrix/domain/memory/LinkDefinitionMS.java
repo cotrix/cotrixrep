@@ -19,25 +19,25 @@ import org.cotrix.domain.values.ValueFunction;
  * @author Fabio Simeoni
  *
  */
-public class CodelistLinkMS extends NamedMS implements LinkDefinition.State {
+public class LinkDefinitionMS extends NamedMS implements LinkDefinition.State {
 
 	private Codelist.State target;
 	private LinkValueType type;
 	private ValueFunction function;
 	private Range range;
 	
-	public CodelistLinkMS() {
+	public LinkDefinitionMS() {
 		valueType(INSTANCE);
 		function(identity);
 		range(arbitrarily);
 		
 	}
 	
-	public CodelistLinkMS(String id,Status status) {
+	public LinkDefinitionMS(String id,Status status) {
 		super(id,status);
 	}
 	
-	public CodelistLinkMS(LinkDefinition.State state) {
+	public LinkDefinitionMS(LinkDefinition.State state) {
 		super(state);
 		
 		target(state.target());

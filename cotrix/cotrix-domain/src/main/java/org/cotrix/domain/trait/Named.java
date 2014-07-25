@@ -26,9 +26,9 @@ public interface Named {
 	
 	interface State extends Identified.State {
 		
-		QName name();
+		QName qname();
 		
-		void name(QName name);
+		void qname(QName name);
 	}
 
 	
@@ -44,7 +44,7 @@ public interface Named {
 		
 		@Override
 		public QName qname() {
-			return state().name();
+			return state().qname();
 		}
 
 		
@@ -56,9 +56,9 @@ public interface Named {
 			
 			if (changeset.qname()!=null)
 				if (changeset.qname()==NULL_QNAME)
-					throw new IllegalArgumentException("code name "+state().name()+" cannot be erased");
+					throw new IllegalArgumentException("code name "+state().qname()+" cannot be erased");
 				else 
-					state().name(changeset.qname());
+					state().qname(changeset.qname());
 		}
 		
 	}

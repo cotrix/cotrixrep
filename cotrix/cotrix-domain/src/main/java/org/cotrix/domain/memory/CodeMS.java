@@ -3,6 +3,7 @@ package org.cotrix.domain.memory;
 import static org.cotrix.common.CommonUtils.*;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
@@ -25,10 +26,15 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 
 	public CodeMS(Code.State state) {
 		
-		super(state);
+		this(state,null);
+	}
+	
+	public CodeMS(Code.State state,Map<String,Object> context) {
+		
+		super(state,context);
 		
 		for (Codelink.State link : state.links())
-			links.add(new CodelinkMS(link));
+			links.add(new CodelinkMS(link,context));
 	}
 	
 	public NamedStateContainer<Codelink.State> links() {

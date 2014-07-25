@@ -36,7 +36,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				Node node = node(NodeType.CODELISTLINK, linkId);
+				Node node = node(NodeType.LINKDEF, linkId);
 				
 				for (Relationship instanceRelationship : node.getRelationships(INCOMING,INSTANCEOF))
 					try {
@@ -74,7 +74,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				Node node = node(NodeType.DEFINITION, definitionId);
+				Node node = node(NodeType.ATTRDEF, definitionId);
 				
 				for (Relationship instanceRelationship : node.getRelationships(INCOMING,INSTANCEOF))
 					try {

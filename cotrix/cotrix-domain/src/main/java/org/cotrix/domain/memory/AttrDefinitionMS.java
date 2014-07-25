@@ -12,7 +12,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class DefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
+public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
 
 	private QName name;
 	private QName type;
@@ -21,25 +21,25 @@ public final class DefinitionMS extends IdentifiedMS implements AttributeDefinit
 	private Range range;
 	private boolean shared;
 	
-	public DefinitionMS() {
+	public AttrDefinitionMS() {
 		this(true);
 	}
 	
-	public DefinitionMS(boolean shared) {
+	public AttrDefinitionMS(boolean shared) {
 		type=DEFAULT_TYPE;
 		valueType(defaultValueType);
 		range(defaultRange);
 		shared(shared);
 	}
 	
-	public DefinitionMS(String id,Status status) {
+	public AttrDefinitionMS(String id,Status status) {
 		super(id,status);
 	}
 	
 	
-	public DefinitionMS(AttributeDefinition.State state) {
+	public AttrDefinitionMS(AttributeDefinition.State state) {
 		
-		name(state.name());
+		qname(state.qname());
 		type(state.type());
 		language(state.language());
 		valueType(state.valueType()); //no need to clone: once created, it's immutable.
@@ -56,11 +56,11 @@ public final class DefinitionMS extends IdentifiedMS implements AttributeDefinit
 		return shared;
 	}
 	
-	public QName name() {
+	public QName qname() {
 		return name;
 	}
 	
-	public void name(QName name) {
+	public void qname(QName name) {
 		
 		valid("name",name);
 		
@@ -134,9 +134,9 @@ public final class DefinitionMS extends IdentifiedMS implements AttributeDefinit
 			return false;
 		
 		if (name == null) {
-			if (other.name() != null)
+			if (other.qname() != null)
 				return false;
-		} else if (!name.equals(other.name()))
+		} else if (!name.equals(other.qname()))
 			return false;
 		if (range == null) {
 			if (other.range() != null)

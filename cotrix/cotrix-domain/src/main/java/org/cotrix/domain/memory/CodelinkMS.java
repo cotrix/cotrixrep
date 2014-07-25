@@ -2,6 +2,8 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
@@ -13,7 +15,7 @@ import org.cotrix.domain.trait.Status;
 public final class CodelinkMS extends AttributedMS implements Codelink.State {
 
 	private Code.State target;
-	private LinkDefinition.State type;
+	private LinkDefinition.State definition;
 
 	public CodelinkMS() {
 	}
@@ -22,29 +24,45 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		super(id,status);
 	}
 	
-	public CodelinkMS(Codelink.State state) {
+	public CodelinkMS(Codelink.State state, Map<String,Object> context) {
 		
-		super(state);
+		//links preserve identifiers
+		super(state.id(),state);
+		
+		notNull("sharing context",context);
 		
 		target(state.target());
 		
-		type(state.type());
+		definition(cloneDefinitionInContext(state.definition(),context));
+	}
+	
+	
+	//helper
+	private LinkDefinition.State cloneDefinitionInContext(LinkDefinition.State def, Map<String,Object> context) {
+		
+		if (context==null || !context.containsKey(def.id()))
+			throw new AssertionError("application error: definition cannot be shared during copy");
+		
+		return (LinkDefinition.State) context.get(def.id());
+			
 	}
 
 	@Override
-	public QName name() {
-		return type==null?null:type.name();
+	public QName qname() {
+		return definition==null?null:definition.qname();
 	}
 	
 	@Override
-	public void name(QName name) {
+	public void qname(QName name) {
 		throw new UnsupportedOperationException("codelink names are read-only");
 	}
 	
+	@Override
 	public Code.State target() {
 		return target;
 	}
 
+	@Override
 	public void target(Code.State target) {
 
 		notNull("target",target);
@@ -52,17 +70,19 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		this.target = target;
 	}
 
-	public LinkDefinition.State type() {
+	@Override
+	public LinkDefinition.State definition() {
 		
-		return type;
+		return definition;
 	
 	}
 
-	public void type(LinkDefinition.State type) {
+	@Override
+	public void definition(LinkDefinition.State definition) {
 		
-		notNull("type",type);
+		notNull("definition",definition);
 
-		this.type = type;
+		this.definition = definition;
 	}
 	
 	@Override
@@ -79,10 +99,10 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		if (!(obj instanceof Codelink.State))
 			return false;
 		Codelink.State other = (Codelink.State) obj;
-		if (type == null) {
-			if (other.type() != null)
+		if (definition == null) {
+			if (other.definition() != null)
 				return false;
-		} else if (!type.equals(other.type()))
+		} else if (!definition.equals(other.definition()))
 			return false;
 		if (target == null) {
 			if (other.target() != null)

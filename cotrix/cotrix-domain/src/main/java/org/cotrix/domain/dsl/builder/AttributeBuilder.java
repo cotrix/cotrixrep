@@ -30,7 +30,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	}
 	
 	@Override
-	public ValueClause with(AttributeDefinition def) {
+	public ValueClause instanceOf(AttributeDefinition def) {
 		
 		state.definition(reveal(def).state());
 		
@@ -38,14 +38,14 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	}
 	
 	@Override
-	public ValueClause with(CommonDefinition def) {
+	public ValueClause instanceOf(CommonDefinition def) {
 		state.definition(def.state());
 		return this;
 	}
 	
 	@Override
 	public AttributeBuilder name(QName name) {
-		state.name(name);
+		state.qname(name);
 		return this;
 	}
 	

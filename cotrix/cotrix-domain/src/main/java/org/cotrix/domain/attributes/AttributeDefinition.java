@@ -110,7 +110,7 @@ public interface AttributeDefinition extends Definition {
 		
 		@Override
 		public QName qname() {
-			return state().name();
+			return state().qname();
 		}
 		
 		@Override
@@ -155,7 +155,7 @@ public interface AttributeDefinition extends Definition {
 				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
 			if (changeset.qname() != null)
-				state().name(changeset.qname());
+				state().qname(changeset.qname());
 
 			//type (cannot be reset)
 			if (changeset.type() == NULL_QNAME)

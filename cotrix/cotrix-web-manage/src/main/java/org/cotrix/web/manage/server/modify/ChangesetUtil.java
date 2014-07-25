@@ -22,7 +22,7 @@ import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
@@ -55,7 +55,7 @@ public class ChangesetUtil {
 		
 		if (definition!=null) {
 			return attribute()
-					.with(definition)
+					.instanceOf(definition)
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
 					.description(uiAttribute.getDescription())
@@ -75,7 +75,7 @@ public class ChangesetUtil {
 		
 		if (definition!=null) {
 			return modifyAttribute(uiAttribute.getId())
-					.with(definition)
+					.instanceOf(definition)
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
 					.description(uiAttribute.getDescription())
@@ -145,19 +145,19 @@ public class ChangesetUtil {
 		OptionalClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
-			clause = listLink().name(convert(linkType.getName())).target(target).anchorToName();
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorToName();
 		}
 		
 		if (valueType instanceof AttributeValue) {
 			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
-			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(template);
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(template);
 		}
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
 			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
-			clause = listLink().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
 		
 		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
@@ -197,19 +197,19 @@ public class ChangesetUtil {
 		OptionalClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
-			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorToName();
+			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorToName();
 		}
 		
 		if (valueType instanceof AttributeValue) {
 			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
-			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
+			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
 		}
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
 			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
-			clause = modifyListLink(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
+			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
 		
 		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
@@ -286,7 +286,7 @@ public class ChangesetUtil {
 	}
 	
 	public static AttributeDefinition updateDefinition(UIAttributeDefinition attributeType) {
-		return modifyDefinition(attributeType.getId()).name(convert(attributeType.getName()))
+		return modifyAttributeDefinition(attributeType.getId()).name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
 				.occurs(toRange(attributeType.getRange()))

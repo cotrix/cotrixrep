@@ -23,7 +23,7 @@ import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
-import org.cotrix.domain.dsl.builder.CodelistLinkBuilder;
+import org.cotrix.domain.dsl.builder.LinkDefinitionBuilder;
 import org.cotrix.domain.dsl.builder.DefinitionBuilder;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
@@ -33,16 +33,16 @@ import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelistLinkGrammar.CodelistLinkNewClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.CodelinkMS;
-import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.memory.CodelistMS;
-import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -86,17 +86,17 @@ public class Codes {
 		return deleteAttribute(attribute.id());
 	}
 	
-	public static DefinitionNewClause definition() {
-		return new DefinitionBuilder(new DefinitionMS());
+	public static AttributeDefinitionNewClause definition() {
+		return new DefinitionBuilder(new AttrDefinitionMS());
 	}
 	
-	public static DefinitionChangeClause modifyDefinition(String id) {
-		return new DefinitionBuilder(new DefinitionMS(id,MODIFIED));
+	public static AttributeDefinitionChangeClause modifyAttributeDefinition(String id) {
+		return new DefinitionBuilder(new AttrDefinitionMS(id,MODIFIED));
 	}
 	
-	public static DefinitionChangeClause modify(AttributeDefinition def) {
+	public static AttributeDefinitionChangeClause modify(AttributeDefinition def) {
 		notNull("definition",def);
-		return modifyDefinition(def.id());
+		return modifyAttributeDefinition(def.id());
 	}
 	
 	public static DefaultType valueType() {
@@ -171,17 +171,17 @@ public class Codes {
 	}
 	
 	
-	public static CodelistLinkNewClause listLink() {
-		return new CodelistLinkBuilder(new CodelistLinkMS()).new NewClause();
+	public static LinkDefinitionNewClause linkdef() {
+		return new LinkDefinitionBuilder(new LinkDefinitionMS()).new NewClause();
 	}
 	
-	public static CodelistLinkChangeClause modifyListLink(String id) {
-		return new CodelistLinkBuilder(new CodelistLinkMS(id, MODIFIED)).new ChangeClause();
+	public static LinkDefinitionChangeClause modifyLinkDef(String id) {
+		return new LinkDefinitionBuilder(new LinkDefinitionMS(id, MODIFIED)).new ChangeClause();
 	}
 	
-	public static CodelistLinkChangeClause modify(LinkDefinition link) {
-		notNull("codelist link",link);
-		return modifyListLink(link.id());
+	public static LinkDefinitionChangeClause modify(LinkDefinition link) {
+		notNull("link definition",link);
+		return modifyLinkDef(link.id());
 	}
 	
 	//simplifies construction through method parameter inference (not available on constructors in Java 6..)

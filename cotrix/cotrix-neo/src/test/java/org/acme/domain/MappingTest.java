@@ -46,7 +46,7 @@ public class MappingTest extends ApplicationTest {
 	@Test
 	public void commonAttributesRoundTrip() {
 		
-		Attribute a = attribute().with(CREATION_TIME.get()).value("v").build();
+		Attribute a = attribute().instanceOf(CREATION_TIME.get()).value("v").build();
 		
 		Attribute.State created = reveal(a).state();
 		
@@ -77,7 +77,7 @@ public class MappingTest extends ApplicationTest {
 			
 			NeoCode retrieved = new NeoCode(added.node());
 			
-			assertEquals(created.name(),retrieved.name());
+			assertEquals(created.qname(),retrieved.qname());
 			
 			assertEquals(collect(created.attributes()),collect(retrieved.attributes()));
 			
@@ -113,7 +113,7 @@ public class MappingTest extends ApplicationTest {
 			
 			NeoCodelist retrieved = new NeoCodelist(added.node());
 			
-			assertEquals(created.name(),retrieved.name());
+			assertEquals(created.qname(),retrieved.qname());
 			assertEquals(collect(created.attributes()),collect(retrieved.attributes()));
 			assertEquals(collect(created.links()),collect(retrieved.links()));
 			assertEquals(created.version(),retrieved.version());

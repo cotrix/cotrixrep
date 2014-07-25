@@ -39,7 +39,7 @@ public class LinkOfLink implements LinkValueType {
 		
 		for (Codelink.State link : code.links()) {
 			
-			LinkDefinition.State linktype = link.type();
+			LinkDefinition.State linktype = link.definition();
 			
 			if (matches(linktype))
 				for (Object match : Codelink.Private.resolve(link,linktype,ids))
@@ -62,7 +62,7 @@ public class LinkOfLink implements LinkValueType {
 		LinkValueType type = target.valueType();
 
 		
-		return matches(name, link.name()) 
+		return matches(name, link.qname()) 
 			   && matches(id, link.target()) 
 			   && matches(type==null?NameLink.INSTANCE:type, link.valueType());
 	}

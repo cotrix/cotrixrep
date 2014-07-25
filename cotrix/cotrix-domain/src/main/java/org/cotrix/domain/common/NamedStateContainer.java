@@ -64,7 +64,7 @@ public interface NamedStateContainer<S> extends StateContainer<S> {
 			Collection<S> matches = new ArrayList<S>();
 			
 			for (S state : elements())
-				if (name.equals(state.name()))
+				if (name.equals(state.qname()))
 					matches.add(state);
 		
 			return matches;

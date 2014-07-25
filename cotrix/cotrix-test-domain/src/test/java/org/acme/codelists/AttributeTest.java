@@ -3,12 +3,17 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
@@ -22,13 +27,15 @@ public class AttributeTest extends DomainTest {
 	
 	AttributeDefinition def = definition().name(name).build();
 	
-	Attribute typed = attribute().with(def).value(value).build();
+	Attribute typed = attribute().instanceOf(def).value(value).build();
+	Attribute typed2 = attribute().instanceOf(def).value(value2).build();
 
 	@Before
 	public void before() {
 
 		untyped = like(untyped);
 		typed = like(typed);
+		typed2 = like(typed2);
 	}
 
 	@Test
@@ -49,7 +56,7 @@ public class AttributeTest extends DomainTest {
 		// defaults, typed
 
 		AttributeDefinition def = definition().name(name).valueIs(valuetype).build();
-		Attribute minimalTyped = attribute().with(def).build();
+		Attribute minimalTyped = attribute().instanceOf(def).build();
 
 		assertEquals(def, minimalTyped.definition());
 		assertEquals(valuetype.defaultValue(), minimalTyped.value());
@@ -79,30 +86,46 @@ public class AttributeTest extends DomainTest {
 		AttributeDefinition newdef = definition().name(name).build();
 
 		//change definition
-		modify(typed).with(newdef).build();
+		modify(typed).instanceOf(newdef).build();
 		
 		//change definition and value
-		modifyAttribute("1").with(newdef).value(value).build();
+		modifyAttribute("1").instanceOf(newdef).value(value).build();
 	}
 
 	
 	@Test
 	public void canBeCloned() {
 
-		//clone untyped
 		Attribute.State state = reveal(untyped).state();
+	
 		AttributeMS clone = new AttributeMS(state);
-
-		assertEquals(clone, state);
 		
-		//clone typed
-		state = reveal(typed).state();
-		clone = new AttributeMS(state);
-
 		assertEquals(clone, state);
 
+		//clones preserve identifiers
+		assertEquals(state.id(),clone.id());
+		
+		//but not definitions
+		assertNotEquals(state.definition().id(),clone.definition().id());
 	}
 
+	
+	@Test
+	public void cloningCanPreserveSharing() {
+		
+		//context to preserve sharing
+		Map<String,Object> ctx = new HashMap<>();
+		
+		ctx.put(typed.definition().id(), new AttrDefinitionMS(stateof(typed.definition())));
+		
+		AttributeMS clone1 = new AttributeMS(stateof(typed),ctx);
+		AttributeMS clone2 = new AttributeMS(stateof(typed2),ctx);
+		
+		assertSame(clone1.definition(),clone2.definition());
+		
+		
+	}
+	
 	@Test
 	public void canBeUpdated() {
 
@@ -111,7 +134,7 @@ public class AttributeTest extends DomainTest {
 		Attribute changesetUntyped = modify(untyped).name(newname).value(newvalue).ofType(newtype).in(newlanguage).description(newdescription).build();
 
 		reveal(untyped).update(reveal(changesetUntyped));
-
+		
 		assertEquals(changesetUntyped.qname(), untyped.qname());
 		assertEquals(changesetUntyped.value(), untyped.value());
 		assertEquals(changesetUntyped.type(), untyped.type());
@@ -122,7 +145,7 @@ public class AttributeTest extends DomainTest {
 		
 		AttributeDefinition newdef = definition().name(name2).build();
 
-		Attribute changesetTyped = modify(typed).with(newdef).value(value2).build();
+		Attribute changesetTyped = modify(typed).instanceOf(newdef).value(value2).build();
 
 		reveal(typed).update(reveal(changesetTyped));
 

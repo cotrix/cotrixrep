@@ -35,9 +35,9 @@ public class NeoDefinition extends NeoIdentified implements AttributeDefinition.
 
 	public NeoDefinition(AttributeDefinition.State state) {
 		
-		super(DEFINITION,state);
+		super(ATTRDEF,state);
 		
-		name(state.name());
+		qname(state.qname());
 		type(state.type());
 		language(state.language());
 		valueType(state.valueType());
@@ -63,12 +63,12 @@ public class NeoDefinition extends NeoIdentified implements AttributeDefinition.
 	
 	
 	@Override
-	public QName name() {
+	public QName qname() {
 		return QName.valueOf((String) node().getProperty(name_prop));
 	}
 
 	@Override
-	public void name(QName name) {
+	public void qname(QName name) {
 		node().setProperty(name_prop,name.toString());
 	}
 
@@ -98,7 +98,7 @@ public class NeoDefinition extends NeoIdentified implements AttributeDefinition.
 	@Override
 	public boolean is(Facet facet) {
 		//temporarily only on common defs, supported by default on domain defs
-		return !isCommon(name()) || isCommon(name(),facet);
+		return !isCommon(qname()) || isCommon(qname(),facet);
 	}
 
 	@Override

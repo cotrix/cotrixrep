@@ -29,8 +29,8 @@ import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.State;
 import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.memory.CodelistLinkMS;
-import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -119,7 +119,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					reveal(code).update(reveal(modify(code).attributes(changesets).build()));
 				}
 				
-				AttributeDefinition changeset = new DefinitionMS(def.id(),DELETED).entity();
+				AttributeDefinition changeset = new AttrDefinitionMS(def.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).definitions(changeset).build()));
 				
@@ -154,7 +154,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 					reveal(code).update(reveal(modify(code).links(changesets).build()));
 				}
 				
-				LinkDefinition changeset = new CodelistLinkMS(type.id(),DELETED).entity();
+				LinkDefinition changeset = new LinkDefinitionMS(type.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).links(changeset).build()));
 				
