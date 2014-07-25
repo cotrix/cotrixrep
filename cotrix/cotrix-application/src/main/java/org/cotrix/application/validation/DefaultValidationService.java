@@ -2,7 +2,7 @@ package org.cotrix.application.validation;
 
 import static java.lang.String.*;
 import static java.util.Arrays.*;
-import static org.cotrix.application.validation.ValidationItem.*;
+import static org.cotrix.application.validation.Violation.*;
 import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
@@ -105,7 +105,7 @@ public class DefaultValidationService implements ValidationService {
 			int count = counts.containsKey(type.id())? counts.get(type.id()) : 0;  
 			if (!type.range().inRange(count))
 				report.log(
-						item(code.id(),format(codeLinkError,code.qname(), code.id(),type.qname(),type.range())
+						make(code.id(),format(codeLinkError,code.qname(), code.id(),type.qname(),type.range())
 				)).as(ERROR);
 		}
 	}

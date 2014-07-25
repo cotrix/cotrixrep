@@ -2,16 +2,16 @@ package org.cotrix.application.validation;
 
 import org.cotrix.common.Report;
 
-public class ValidationItem extends Report.Item {
+public class Violation extends Report.Item {
 
 	private final String id;
 	private final String msg;
 	
-	public static final ValidationItem item(String id,String msg) {
-		return new ValidationItem(id, msg);
+	public static final Violation make(String id,String msg) {
+		return new Violation(id, msg);
 	}
 	
-	public ValidationItem(String id,String msg) {
+	public Violation(String id,String msg) {
 		this.id=id;
 		this.msg = msg;
 	}

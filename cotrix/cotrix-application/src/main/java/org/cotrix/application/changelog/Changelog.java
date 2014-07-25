@@ -144,10 +144,10 @@ public class Changelog {
 				if (builder.length()>0)
 					builder.append("\n\n");
 				
-				builder.append(format("️☑️ %s:",group.name()));
+				builder.append(format("├ %s:",group.name()));
 				
 				for (GroupEntry entry : group.entries())
-					builder.append(format("\n\n ⚪️ %s\n   (%s on %s) ",entry.description(),currentUser().name(), time()));
+					builder.append(format("\n\n ✓ %s\n   (%s on %s) ",entry.description(),currentUser().name(), time()));
 			}
 		
 
