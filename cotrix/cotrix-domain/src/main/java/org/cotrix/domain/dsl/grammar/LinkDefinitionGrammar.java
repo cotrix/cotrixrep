@@ -2,7 +2,6 @@ package org.cotrix.domain.dsl.grammar;
 
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
@@ -11,17 +10,12 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.values.ValueFunction;
 
-/**
- * The grammar of DSL sentences that create {@link Code}s.
- * 
- * @author Fabio Simeoni
- * 
- */
-public class CodelistLinkGrammar {
 
-	public static interface CodelistLinkNewClause extends NameClause<LinkTargetClause<Codelist,OptionalClause>>{}
+public class LinkDefinitionGrammar {
+
+	public static interface LinkDefinitionNewClause extends NameClause<LinkTargetClause<Codelist,OptionalClause>>{}
 	
-	public static interface CodelistLinkChangeClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface LinkDefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
 	public static interface ValueTypeClause {
 		

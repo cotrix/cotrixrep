@@ -122,7 +122,7 @@ public class ManagedTest extends ApplicationTest {
 	@Test
 	public void accessMarkers() throws Exception {
 
-		Attribute a = attribute().with(DELETED).value("any").build(); 
+		Attribute a = attribute().instanceOf(DELETED).value("any").build(); 
 		reveal(code).update(reveal(modify(code).attributes(a).build()));
 		
 		//default value is creation date

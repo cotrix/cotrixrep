@@ -16,7 +16,7 @@ import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.memory.CodelistLinkMS;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class CodelistLinkTest extends DomainTest {
 		Codelist target = someCodelist();
 		Attribute a = someAttribute();
 		
-		LinkDefinition newlink  = listLink().name(name).target(target).attributes(a).build();
+		LinkDefinition newlink  = linkdef().name(name).target(target).attributes(a).build();
 		
 		assertEquals(name,newlink.qname());
 		assertEquals(target,newlink.target());
@@ -40,31 +40,31 @@ public class CodelistLinkTest extends DomainTest {
 		assertEquals(arbitrarily,reveal(newlink).state().range());
 		
 		//name-based
-		newlink  = listLink().name(name).target(target).anchorToName().build();
+		newlink  = linkdef().name(name).target(target).anchorToName().build();
 		
 		assertEquals(NameLink.INSTANCE,newlink.valueType());
 		
 		//attribute-based
 		Attribute template = attribute().name(q("this")).ofType(q("that")).in("this").build();
 		
-		newlink  = listLink().name(name).target(target).anchorTo(template).build();
+		newlink  = linkdef().name(name).target(target).anchorTo(template).build();
 		
 		assertEquals(new AttributeLink(new AttributeTemplate(template)),newlink.valueType());
 		
 		//link-based
-		LinkDefinition linktemplate = listLink().name(name).target(target).anchorTo(template).build();
+		LinkDefinition linktemplate = linkdef().name(name).target(target).anchorTo(template).build();
 		
-		newlink  = listLink().name(name).target(target).anchorTo(linktemplate).build();
+		newlink  = linkdef().name(name).target(target).anchorTo(linktemplate).build();
 		
 		assertEquals(new LinkOfLink(linktemplate),newlink.valueType());
 		
 		
 		//value functions
-		newlink  = listLink().name(name).target(target).transformWith(lowercase).build();
+		newlink  = linkdef().name(name).target(target).transformWith(lowercase).build();
 		
 		assertEquals(lowercase,reveal(newlink).state().function());
 		
-		newlink  = listLink().name(name).target(target).occurs(atmost(5)).build();
+		newlink  = linkdef().name(name).target(target).occurs(atmost(5)).build();
 		
 		assertEquals(atmost(5),reveal(newlink).state().range());
 	}
@@ -75,26 +75,26 @@ public class CodelistLinkTest extends DomainTest {
 		LinkDefinition link;
 		
 		//name change
-		link = modifyListLink("1").name(name).build();
+		link = modifyLinkDef("1").name(name).build();
 		
 		//attribute change
-		link =  modifyListLink("1").attributes(someAttribute()).build();
+		link =  modifyLinkDef("1").attributes(someAttribute()).build();
 		
 		//value type change
-		link =  modifyListLink("1").anchorTo(someTemplate()).build();
-		link =  modifyListLink("1").anchorToName().build();
+		link =  modifyLinkDef("1").anchorTo(someTemplate()).build();
+		link =  modifyLinkDef("1").anchorToName().build();
 		
-		LinkDefinition linktemplate = listLink().name(name).target(someCodelist()).build();
-		link =  modifyListLink("1").anchorTo(linktemplate).build();
+		LinkDefinition linktemplate = linkdef().name(name).target(someCodelist()).build();
+		link =  modifyLinkDef("1").anchorTo(linktemplate).build();
 		
 		//function change
-		link =  modifyListLink("1").transformWith(uppercase).build();
+		link =  modifyLinkDef("1").transformWith(uppercase).build();
 		
 		//occurrence change
-		link =  modifyListLink("1").occurs(atmostonce).build();
+		link =  modifyLinkDef("1").occurs(atmostonce).build();
 		
 		//full change
-		link =  modifyListLink("1")
+		link =  modifyLinkDef("1")
 				.name(name)
 				.attributes(someAttribute())
 				.anchorTo(someTemplate())
@@ -110,7 +110,7 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanBeCloned() {
 		
-		LinkDefinition fullLinkWithoutDefaults = like(listLink()
+		LinkDefinition fullLinkWithoutDefaults = like(linkdef()
 							.name(name)
 							.target(someCodelist())
 							.anchorTo(someTemplate())
@@ -120,7 +120,7 @@ public class CodelistLinkTest extends DomainTest {
 		
 		LinkDefinition.State state = reveal(fullLinkWithoutDefaults).state();
 		
-		CodelistLinkMS clone = new CodelistLinkMS(state);
+		LinkDefinitionMS clone = new LinkDefinitionMS(state);
 
 		assertEquals(state.name(),clone.name());
 		assertEquals(state.target().id(),clone.target().id());
@@ -143,9 +143,9 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanChangeName() {
 		
-		LinkDefinition link = like(listLink().name(name).target(someCodelist()).build());
+		LinkDefinition link = like(linkdef().name(name).target(someCodelist()).build());
 		
-		LinkDefinition changeset = modifyListLink(link.id()).name(name2).build();
+		LinkDefinition changeset = modifyLinkDef(link.id()).name(name2).build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -156,11 +156,11 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanChangeValueType() {
 		
-		LinkDefinition link = like(listLink().name(name).target(someCodelist()).build());
+		LinkDefinition link = like(linkdef().name(name).target(someCodelist()).build());
 		
 		Attribute template = someTemplate();
 		
-		LinkDefinition changeset = modifyListLink(link.id()).anchorTo(template).build();
+		LinkDefinition changeset = modifyLinkDef(link.id()).anchorTo(template).build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -171,11 +171,11 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanChangeValueTypeBackToDefault() {
 		
-		LinkDefinition linktemplate = like(listLink().name(name).target(someCodelist()).build());
+		LinkDefinition linktemplate = like(linkdef().name(name).target(someCodelist()).build());
 		
-		LinkDefinition link = like(listLink().name(name).target(someCodelist()).anchorTo(linktemplate).build());
+		LinkDefinition link = like(linkdef().name(name).target(someCodelist()).anchorTo(linktemplate).build());
 		
-		LinkDefinition changeset = modifyListLink(link.id()).anchorToName().build();
+		LinkDefinition changeset = modifyLinkDef(link.id()).anchorToName().build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -186,9 +186,9 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanChangeRange() {
 		
-		LinkDefinition link = like(listLink().name(name).target(someCodelist()).build());
+		LinkDefinition link = like(linkdef().name(name).target(someCodelist()).build());
 		
-		LinkDefinition changeset = modifyListLink(link.id()).occurs(once).build();
+		LinkDefinition changeset = modifyLinkDef(link.id()).occurs(once).build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -199,9 +199,9 @@ public class CodelistLinkTest extends DomainTest {
 	@Test
 	public void linksCanChangeFunction() {
 		
-		LinkDefinition link = like(listLink().name(name).target(someCodelist()).build());
+		LinkDefinition link = like(linkdef().name(name).target(someCodelist()).build());
 		
-		LinkDefinition changeset = modifyListLink(link.id()).transformWith(custom("'Hello $value'")).build();
+		LinkDefinition changeset = modifyLinkDef(link.id()).transformWith(custom("'Hello $value'")).build();
 		
 		reveal(link).update(reveal(changeset));
 		

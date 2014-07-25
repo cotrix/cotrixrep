@@ -80,7 +80,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 						definition().name(name).is(type).in(wrapper.getLocale()).build():
 						pool.get(name,type,wrapper.getLocale());
 		return attribute().
-				with(def).
+				instanceOf(def).
 			    value(wrapper.getValue()).
 			    build();
 	}

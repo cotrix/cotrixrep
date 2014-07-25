@@ -42,9 +42,9 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 
 	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
 
-		LinkDefinition.State type();
+		LinkDefinition.State definition();
 
-		void type(LinkDefinition.State state);
+		void definition(LinkDefinition.State state);
 
 		Code.State target();
 
@@ -65,7 +65,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		@Override
 		public QName qname() {
 			//safe: type cannot be or become null
-			return state().type().name();
+			return state().definition().name();
 		}
 		
 		@Override
@@ -102,7 +102,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 
 		@Override
 		public LinkDefinition.Private definition() {
-			return new LinkDefinition.Private(state().type());
+			return new LinkDefinition.Private(state().definition());
 		}
 
 		@Override
@@ -121,7 +121,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		
 		@Override
 		public String toString() {
-			return "Codelink [id="+id()+", type=" + state().type() + " :--> " + state().target().id()+"]" ;
+			return "Codelink [id="+id()+", definition=" + state().definition() + " :--> " + state().target().id()+"]" ;
 		}
 		
 		

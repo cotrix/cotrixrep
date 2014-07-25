@@ -3,12 +3,14 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCodelist.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.managed.ManagedCode;
@@ -20,10 +22,21 @@ import org.junit.Test;
 public class CodelistTest extends DomainTest {
 	
 	Attribute attr = attribute().name(name).build();
+	
 	AttributeDefinition def = definition().name(name).build();
-	Code code = code().name(name).build();
-	Codelist target = codelist().name(name).build();
-	LinkDefinition link = listLink().name(name).target(target).build();
+	Attribute shared = attribute().instanceOf(def).value(value).build();
+	Attribute shared2 = attribute().instanceOf(def).value(value2).build();
+	
+	Code tcode1 = code().name(name).build();
+	Code tcode2 = code().name(name2).build();
+	Codelist target = codelist().name(name).with(tcode1,tcode2).build();
+	
+	LinkDefinition link = linkdef().name(name).target(target).build();
+	
+	Codelink link1 = link().instanceOf(link).target(tcode1).build();
+	Codelink link2 = link().instanceOf(link).target(tcode2).build();
+	
+	Code code = code().name(name).attributes(shared,shared2).links(link1,link2).build();
 	String version = "0.1";
 	
 	Codelist list = codelist()
@@ -103,7 +116,7 @@ public class CodelistTest extends DomainTest {
 		Codelist versioned = reveal(list).bump("2");
 
 		assertEquals("2",versioned.version());
-
+		
 		ManagedCodelist managed = manage(versioned);
 		
 		//lineage is preserved:
@@ -116,6 +129,42 @@ public class CodelistTest extends DomainTest {
 				
 		assertEquals(code.id(), managedCode.originId());
 		assertEquals(code.qname(),managedCode.originName());
+		
+	}
+	
+	@Test
+	public void versioningPreservesAttributeSharing() {
+		
+		//same state to begin with
+		assertSame(stateof(shared.definition()),stateof(shared2.definition()));
+		
+		Codelist versioned = reveal(list).bump("2");
+
+		Code vcode = versioned.codes().lookup(code.qname());
+		
+		Attribute vshared = vcode.attributes().lookup(shared.id());
+		Attribute vshared2 = vcode.attributes().lookup(shared2.id());
+		
+		//same state also after versioning
+		assertSame(stateof(vshared.definition()).id(),stateof(vshared2.definition()).id());
+		
+	}
+	
+	@Test
+	public void versioningPreservesLinkSharing() {
+		
+		//same state to begin with
+		assertSame(stateof(link1.definition()),stateof(link2.definition()));
+		
+		Codelist versioned = reveal(list).bump("2");
+
+		Code vcode = versioned.codes().lookup(code.qname());
+		
+		Codelink vlink1 = vcode.links().lookup(link1.id());
+		Codelink vlink2 = vcode.links().lookup(link2.id());
+		
+		//same state also after versioning
+		assertSame(stateof(vlink1.definition()).id(),stateof(vlink2.definition()).id());
 		
 	}
 	

@@ -42,7 +42,7 @@ public class NeoCodelistLink extends NeoNamed implements LinkDefinition.State {
 	
 	public NeoCodelistLink(LinkDefinition.State state) {
 
-		super(CODELISTLINK,state);	
+		super(LINKDEF,state);	
 		
 		target(state.target());
 		valueType(state.valueType());

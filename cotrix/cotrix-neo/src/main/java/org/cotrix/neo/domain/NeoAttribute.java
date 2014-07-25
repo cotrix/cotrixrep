@@ -73,7 +73,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 			Node target = null;
 			
 			if (state.isShared())
-				target = softResolve(state, DEFINITION);
+				target = softResolve(state, ATTRDEF);
 			
 			if (target==null)
 				target =NeoDefinition.factory.nodeFrom(state);

@@ -4,6 +4,8 @@ import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
@@ -22,12 +24,12 @@ public class CodeTest extends DomainTest {
 	Attribute attr = attribute().name(name).build();
 	
 	AttributeDefinition def = definition().name(name2).build();
-	Attribute a1 = attribute().with(def).value("val1").build();
-	Attribute a2 = attribute().with(def).value("val2").build();
+	Attribute a1 = attribute().instanceOf(def).value("val1").build();
+	Attribute a2 = attribute().instanceOf(def).value("val2").build();
 	
 	Code targetcode = code().name(name2).build();
 	Codelist target = codelist().name(name).with(targetcode).build();
-	LinkDefinition listlink = listLink().name(name).target(target).build();
+	LinkDefinition listlink = linkdef().name(name).target(target).build();
 	Codelink link = link().instanceOf(listlink).target(targetcode).build();
 	
 	Code code = code()
@@ -85,7 +87,7 @@ public class CodeTest extends DomainTest {
 	public void canBeCloned() {
 		
 		Code.State state = reveal(code).state();
-		CodeMS clone = new CodeMS(state);
+		CodeMS clone = new CodeMS(state,new HashMap<String, Object>());
 		
 		assertEquals(state.name(),clone.name());
 		assertTrue(clone.attributes().contains(attr.qname()));

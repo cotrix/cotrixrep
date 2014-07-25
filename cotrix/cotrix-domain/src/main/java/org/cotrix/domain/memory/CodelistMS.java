@@ -6,6 +6,8 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
@@ -39,16 +41,17 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		super(state);
 		
 		for (AttributeDefinition.State atype : state.definitions()) {
-			defs.add(new DefinitionMS(atype));
+			defs.add(new AttrDefinitionMS(atype));
 		}
 		
 		for (LinkDefinition.State link : state.links()) {
-			links.add(new CodelistLinkMS(link));
+			links.add(new LinkDefinitionMS(link));
 		}
 		
+		Map<String,Object> context = new HashMap<>();
 		
 		for (Code.State code : state.codes()) {
-			Code.State copy = new CodeMS(code);
+			Code.State copy = new CodeMS(code,context);
 			copy.attributes().add(nameof(code));
 			copy.attributes().add(idof(code));
 			codes.add(copy);
@@ -130,16 +133,16 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	
 	private Attribute.State nameof(Named.State named) {
 		
-		return stateof(attribute().with(PREVIOUS_VERSION_NAME).value(named.name().toString()).build());
+		return stateof(attribute().instanceOf(PREVIOUS_VERSION_NAME).value(named.name().toString()).build());
 	}
 	
 	private Attribute.State idof(Identified.State identified) {
 		
-		return stateof(attribute().with(PREVIOUS_VERSION_ID).value(identified.id()).build());
+		return stateof(attribute().instanceOf(PREVIOUS_VERSION_ID).value(identified.id()).build());
 	}
 	
 	private Attribute.State versionof(Versioned.State versioned) {
 		
-		return stateof(attribute().with(PREVIOUS_VERSION).value(versioned.version().value()).build());
+		return stateof(attribute().instanceOf(PREVIOUS_VERSION).value(versioned.version().value()).build());
 	}
 }

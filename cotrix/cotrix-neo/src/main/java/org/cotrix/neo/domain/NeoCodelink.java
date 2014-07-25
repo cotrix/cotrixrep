@@ -37,14 +37,14 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		super(CODELINK,state);	
 		
 		target(state.target());
-		type(state.type());
+		definition(state.definition());
 		
 	}
 	
 	@Override
 	public QName name() {
-		LinkDefinition.State type = type();
-		return type==null?null:type.name();
+		LinkDefinition.State def = definition();
+		return def==null?null:def.name();
 	}
 	
 	@Override
@@ -78,7 +78,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public LinkDefinition.State type() {
+	public LinkDefinition.State definition() {
 	
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 		
@@ -90,9 +90,9 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public void type(LinkDefinition.State state) {
+	public void definition(LinkDefinition.State state) {
 		
-		node().createRelationshipTo(resolve(state,CODELISTLINK),Relations.INSTANCEOF);
+		node().createRelationshipTo(resolve(state,LINKDEF),Relations.INSTANCEOF);
 	}
 	
 }

@@ -2,6 +2,8 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Attributed;
@@ -21,7 +23,11 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 	}
 	
 	public <T extends Named.State & Attributed.State> NamedMS(T state) {		
-		super(state);
+		this(state,null);
+	}
+	
+	public <T extends Named.State & Attributed.State> NamedMS(T state,Map<String,Object> context) {		
+		super(state,context);
 		name(state.name());
 	}
 	

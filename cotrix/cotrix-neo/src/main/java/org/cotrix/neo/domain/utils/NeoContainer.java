@@ -60,7 +60,16 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	public boolean contains(Identified.State element) {
 		return contains(element.id());
 	}
-
+	
+	@Override
+	public S lookup(String id) {
+		
+		for (Node n : nodes())
+			if (id.equals(n.getProperty(id_prop)))
+				return factory.beanFrom(n);
+		
+		return null;
+	}
 	
 	@Override
 	public boolean contains(String id) {

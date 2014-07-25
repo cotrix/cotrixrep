@@ -35,8 +35,8 @@ public class Codelist2TableTest {
 		Code tc = code().name("tc").attributes(ta).build();
 		Codelist tlist = codelist().name("t").with(tc).build();
 	
-	LinkDefinition nl = listLink().name("nl").target(tlist).build();
-	LinkDefinition al = listLink().name("al").target(tlist).anchorTo(ta).build();
+	LinkDefinition nl = linkdef().name("nl").target(tlist).build();
+	LinkDefinition al = linkdef().name("al").target(tlist).anchorTo(ta).build();
 	
 	Attribute a = attribute().name("a").value("v").build();
 	Codelink l1 = link().instanceOf(nl).target(tc).build();

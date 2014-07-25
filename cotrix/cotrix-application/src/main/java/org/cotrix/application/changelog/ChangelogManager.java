@@ -8,7 +8,7 @@ import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
-import java.util.Map;
+import java.util.List;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -80,10 +80,10 @@ public class ChangelogManager {
 	
 	private void aaddNewMarkerTo(NamedStateContainer<Attribute.State>  attributes) {
 		
-		attributes.add(stateof(attribute().with(NEW).value("TRUE")));
+		attributes.add(stateof(attribute().instanceOf(NEW).value("TRUE")));
 	}
 	
-	private void handleModifiedMarkerWith(Code.Private changed,Code.Private change,NamedStateContainer<Attribute.State>  attributes) {
+	private void handleModifiedMarkerWith(Code.Private changed, Code.Private change, NamedStateContainer<Attribute.State>  attributes) {
 		
 		ManagedCode managed = manage(changed);
 		Attribute modified = managed.attribute(MODIFIED);
@@ -101,7 +101,7 @@ public class ChangelogManager {
 			return;
 		}
 		
-		Map<String,ChangelogGroup> changes = detect.changesBetween(origin, change);
+		List<ChangelogGroup> changes = detect.changesBetween(origin, changed);
 		
 		if (changes.isEmpty()) {
 			
@@ -114,7 +114,7 @@ public class ChangelogManager {
 
 		if (hasno(modified)) {
 			
-			attributes.add(stateof(attribute().with(MODIFIED).value("TRUE")));
+			attributes.add(stateof(attribute().instanceOf(MODIFIED).value("TRUE")));
 			modified = managed.attribute(MODIFIED);
 		}
 		
@@ -132,18 +132,29 @@ public class ChangelogManager {
 		return o==null;
 	}
 		
-	private String render(Map<String,ChangelogGroup> changes) {
+	private String render(List<ChangelogGroup> changes) {
 		
 		StringBuilder builder = new StringBuilder();
 		
-		for (ChangelogGroup group : changes.values())
+		for (ChangelogGroup group : changes) {
+			
 			if (group.entries().isEmpty())
 				continue;
 			else {
+			
+				if (builder.length()>0)
+					builder.append("\n\n");
+				
 				builder.append(group.name()).append(":");
+				
 				for (GroupEntry entry : group.entries())
-					builder.append(format("\n ・ %s  [by %s on %s] ",entry.description(),currentUser().name(), time()));
+					builder.append(format("\n ・ %s\n   (%s on %s) ",entry.description(),currentUser().name(), time()));
 			}
+		
+
+		}
+		
 		return builder.toString();
+		
 	}
 }

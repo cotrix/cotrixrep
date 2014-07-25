@@ -79,7 +79,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 			if (type.isChangeset())
 				throw new IllegalArgumentException("invalid link: link type cannot be a changeset");
 			
-			state.type(type.state());
+			state.definition(type.state());
 			
 			return CodelinkBuilder.this;
 		}

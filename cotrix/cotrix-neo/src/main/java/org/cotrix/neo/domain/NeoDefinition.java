@@ -35,7 +35,7 @@ public class NeoDefinition extends NeoIdentified implements AttributeDefinition.
 
 	public NeoDefinition(AttributeDefinition.State state) {
 		
-		super(DEFINITION,state);
+		super(ATTRDEF,state);
 		
 		name(state.name());
 		type(state.type());

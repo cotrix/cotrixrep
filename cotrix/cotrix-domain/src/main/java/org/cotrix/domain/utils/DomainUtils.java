@@ -12,6 +12,7 @@ import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
@@ -53,6 +54,18 @@ public class DomainUtils {
 	
 	public static Attribute.State stateof(Attribute a) {
 		return reveal(a).state();
+	}
+	
+	public static AttributeDefinition.State stateof(AttributeDefinition def) {
+		return reveal(def).state();
+	}
+
+	public static LinkDefinition.State stateof(LinkDefinition def) {
+		return reveal(def).state();
+	}
+	
+	public static Code.State stateof(Code c) {
+		return reveal(c).state();
 	}
 	
 	public static Attribute.State stateof(AttributeGrammar.ValueClause clause) {

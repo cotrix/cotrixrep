@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
 
 public class SharedDefinitionPool implements Iterable<AttributeDefinition> {
 
@@ -36,7 +36,7 @@ public class SharedDefinitionPool implements Iterable<AttributeDefinition> {
 		
 		if (def==null) { 
 			
-			DefinitionGrammar.OptionalClause clause = definition().name(name);
+			AttributeDefinitionGrammar.OptionalClause clause = definition().name(name);
 			
 			if (type!=null)
 				clause.is(type);

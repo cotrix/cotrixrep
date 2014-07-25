@@ -2,6 +2,9 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
@@ -16,7 +19,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	private String description;
 	
 	//by default, attribute has 'private' definition
-	private AttributeDefinition.State definition = new DefinitionMS(false);
+	private AttributeDefinition.State definition = new AttrDefinitionMS(false);
 	
 	public AttributeMS() {
 	}
@@ -28,11 +31,19 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	
 	
 	public AttributeMS(Attribute.State state) {
+		this(state,new HashMap<String,Object>());
+	}
+
+	public AttributeMS(Attribute.State state, Map<String,Object> context) {
 		
-		definition(state.definition());
+		//attributes preserve identifiers
+		super(state.id());
+		
+		definition(cloneDefinitionInContext(state.definition(),context));
 		value(state.value());
 		description(state.description());
 	}
+	
 	
 	@Override
 	public State definition() {
@@ -105,6 +116,30 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		return new Attribute.Private(this);
 	}
 
+	
+	
+	//helper
+	private AttributeDefinition.State cloneDefinitionInContext(AttributeDefinition.State def, Map<String,Object> context) {
+		
+		if (!def.isShared())
+			return new AttrDefinitionMS(def);
+		
+		if (context==null)
+			throw new AssertionError("application error: definition cannot be shared during copy");
+		
+		if (context.containsKey(def.id()))
+			return (AttributeDefinition.State) context.get(def.id());
+			
+		AttributeDefinition.State clone = new AttrDefinitionMS(def);
+		
+		context.put(def.id(),clone);
+		
+		return clone;
+		
+	}
+	
+	
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

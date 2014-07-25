@@ -15,12 +15,12 @@ import org.cotrix.domain.values.ValueType;
  * @author Fabio Simeoni
  * 
  */
-public class DefinitionGrammar {
+public class AttributeDefinitionGrammar {
 
 	
-	public static interface DefinitionNewClause extends NameClause<OptionalClause> {	}
+	public static interface AttributeDefinitionNewClause extends NameClause<OptionalClause> {	}
 		
-	public static interface DefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface AttributeDefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 	
 	public static interface OptionalClause extends BuildClause<AttributeDefinition> {
 		

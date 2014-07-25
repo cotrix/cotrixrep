@@ -25,8 +25,8 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 	public void deleteAttributeDefinition() {
 		
 		AttributeDefinition def = definition().name("name").build();
-		Attribute attr1 = attribute().with(def).value("value").build();
-		Attribute attr2 = attribute().with(def).value("value2").build();
+		Attribute attr1 = attribute().instanceOf(def).value("value").build();
+		Attribute attr2 = attribute().instanceOf(def).value("value2").build();
 		Code code = code().name("name").attributes(attr1,attr2).build();
 		
 		Codelist list = codelist().name("name").definitions(def).with(code).build();
@@ -53,7 +53,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 		
 		repository.add(target);
 		
-		LinkDefinition link = listLink().name("name").target(target).build();
+		LinkDefinition link = linkdef().name("name").target(target).build();
 		
 		Codelink l1 = link().instanceOf(link).target(targetcode1).build();
 		Codelink l2 = link().instanceOf(link).target(targetcode2).build();

@@ -88,8 +88,8 @@ public interface Attributed {
 		}
 		
 		private void addTimestampAndUserTo(NamedStateContainer<Attribute.State> attributes) {
-			attributes.add(stateof(attribute().with(UPDATE_TIME).value(time())));
-			attributes.add(stateof(attribute().with(UPDATED_BY).value(currentUser().name())));
+			attributes.add(stateof(attribute().instanceOf(UPDATE_TIME).value(time())));
+			attributes.add(stateof(attribute().instanceOf(UPDATED_BY).value(currentUser().name())));
 		}
 		
 	}

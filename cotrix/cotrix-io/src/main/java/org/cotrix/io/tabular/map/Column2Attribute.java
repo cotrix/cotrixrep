@@ -43,7 +43,7 @@ public class Column2Attribute {
 		AttributeDefinition def = defs.get(mapping.name(), mapping.type(),mapping.language());
 		
 		return attribute()
-					.with(def)
+					.instanceOf(def)
 					.value(value).build();
 	}
 	

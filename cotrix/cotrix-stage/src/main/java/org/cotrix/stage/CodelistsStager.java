@@ -105,7 +105,7 @@ public class CodelistsStager {
 		for (Code continent : continents.codes())
 			cs.add(continent);
 	
-		LinkDefinition link = listLink().name("Continent").target(continents).anchorTo(attribute().name("Name").build()).build();
+		LinkDefinition link = linkdef().name("Continent").target(continents).anchorTo(attribute().name("Name").build()).build();
 
 		List<Code> codes = new ArrayList<>();
 		
@@ -136,7 +136,7 @@ public class CodelistsStager {
 		
 		target = ingester.ingest(target);
 		
-		LinkDefinition nameLink = listLink().name("name-link").target(target).build();
+		LinkDefinition nameLink = linkdef().name("name-link").target(target).build();
 		
 		Collection<LinkDefinition> links = attributeLinks(target);
 		
@@ -218,7 +218,7 @@ public class CodelistsStager {
 				
 				Attribute template = attribute().name(a.qname()).ofType(a.type()).in(a.language()).build();
 			
-				LinkDefinition link = listLink().name(name).target(target).anchorTo(template).build();		
+				LinkDefinition link = linkdef().name(name).target(target).anchorTo(template).build();		
 				
 				links.add(link);
 				

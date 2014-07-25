@@ -52,16 +52,16 @@ public class Codelist2SdmxTest {
 	Code ttc = code().name("ttc").build();
 	Codelist ttlist = codelist().name("tt").with(ttc).build();
 
-	LinkDefinition nnl = listLink().name("nnl").target(ttlist).build();
+	LinkDefinition nnl = linkdef().name("nnl").target(ttlist).build();
 	
 	Codelink ll1 = link().instanceOf(nnl).target(ttc).build();
 	Attribute ta = attribute().name("ta").value("tv").build();
 	Code tc = code().name("tc").attributes(ta).links(ll1).build();
 	Codelist tlist = codelist().name("t").links(nnl).with(tc).build();
 
-	LinkDefinition nl = listLink().name("nl").target(tlist).build();
-	LinkDefinition al = listLink().name("al").target(tlist).anchorTo(ta).build();
-	LinkDefinition ll = listLink().name("ll").target(tlist).anchorTo(nnl).build();
+	LinkDefinition nl = linkdef().name("nl").target(tlist).build();
+	LinkDefinition al = linkdef().name("al").target(tlist).anchorTo(ta).build();
+	LinkDefinition ll = linkdef().name("ll").target(tlist).anchorTo(nnl).build();
 
 	Codelink l1 = link().instanceOf(nl).target(tc).build();
 	Codelink l2 = link().instanceOf(al).target(tc).build();

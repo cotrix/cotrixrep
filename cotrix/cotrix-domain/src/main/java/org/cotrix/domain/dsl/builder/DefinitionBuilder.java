@@ -5,10 +5,10 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionChangeClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.DefinitionNewClause;
-import org.cotrix.domain.dsl.grammar.DefinitionGrammar.OptionalClause;
-import org.cotrix.domain.memory.DefinitionMS;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.values.ValueType;
 
 /**
@@ -17,12 +17,12 @@ import org.cotrix.domain.values.ValueType;
  * @author Fabio Simeoni
  *
  */
-public class DefinitionBuilder implements DefinitionNewClause, DefinitionChangeClause {
+public class DefinitionBuilder implements AttributeDefinitionNewClause, AttributeDefinitionChangeClause {
 
-	private final DefinitionMS state;
+	private final AttrDefinitionMS state;
 
 	
-	public DefinitionBuilder(DefinitionMS state) {
+	public DefinitionBuilder(AttrDefinitionMS state) {
 		this.state = state;
 	}
 	

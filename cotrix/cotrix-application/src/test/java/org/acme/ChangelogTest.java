@@ -1,6 +1,5 @@
 package org.acme;
 
-import static java.lang.Thread.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
@@ -9,9 +8,6 @@ import static org.junit.Assert.*;
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
-import org.cotrix.application.changelog.ChangelogDetector;
-import org.cotrix.application.changelog.Changelog;
-import org.cotrix.application.changelog.ChangelogService;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -26,11 +22,9 @@ import org.junit.Test;
 public class ChangelogTest extends ApplicationTest {
 
 	
-	Code c1 = code().name("c").build();
-	Codelist list = codelist().name("l").with(c1).build();
-	
-	@Inject
-	ChangelogService changelogs;
+	Attribute a = attribute().name("a").build();
+	Code origin = code().name("c").attributes(a).build();
+	Codelist list = codelist().name("l").with(origin).build();
 	
 	@Inject
 	VersioningService service;
@@ -44,9 +38,6 @@ public class ChangelogTest extends ApplicationTest {
 	@Inject
 	TestUser user;
 	
-	@Inject
-	ChangelogDetector detect;
-	
 	@Before
 	public void versionList() {
 		
@@ -58,70 +49,6 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.add(list);
 		
-	}
-	
-	@Test
-	public void newcode() {
-		
-		Code newcode = code().name("new").build();
-		
-		Code noise = delete(list.codes().lookup(c1.qname()));
-		
-		
-		codelists.update(modify(list).with(newcode, noise).build());
-		
-		Changelog log = changelogs.changelogFor(list);
-		
-		assertFalse(log.added().isEmpty());
-		
-		assertEquals(newcode.id(),log.added().get(0).id());
-		
-		assertNull(log.added().get(0).user());
-	}
-	
-	@Test
-	public void deletedcode() {
-		
-		Code noise = code().name("new").build();
-		
-		Code code = list.codes().lookup(c1.qname());
-		
-		Attribute marker = attribute().with(DELETED).value("any").build(); 
-		
-		codelists.update(modify(list).with(modify(code).attributes(marker).build(), noise).build());
-		
-		Changelog log = changelogs.changelogFor(list);
-		
-		assertFalse(log.deleted().isEmpty());
-		
-		assertEquals(code.id(),log.deleted().get(0).id());
-		
-		assertEquals(user.name(), log.deleted().get(0).user());
-	}
-	
-	
-	@Test
-	public void modifiedcode() throws Exception {
-		
-		Code noise = code().name("new").build();
-		
-		Code code = list.codes().lookup(c1.qname());
-		
-		sleep(1000);
-		
-		Code changeset = modify(code).name("nn").build();
-		
-		codelists.update(modify(list).with(changeset,noise).build());
-		
-		Changelog log = changelogs.changelogFor(list);
-		
-		assertFalse(log.modified().isEmpty());
-		
-		assertEquals(code.id(),log.modified().get(0).id());
-		
-		assertEquals(user.name(), log.modified().get(0).user());
-		
-		assertNotNull(detect.changesBetween(code,changeset));
 	}
 	
 	@Test
@@ -140,8 +67,8 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void modifiedCodesAreMarked() {
 		
-		Code versionedCode = list.codes().lookup(c1);
-
+		Code versionedCode = list.codes().lookup(origin);
+		
 		Code modified = modify(versionedCode).name("modified").build();
 		
 		codelists.update(modify(list).with(modified).build());
@@ -149,13 +76,41 @@ public class ChangelogTest extends ApplicationTest {
 		ManagedCode managed = manage(list.codes().lookup(modified.qname()));
 		
 		assertNull(managed.attribute(NEW));
-		assertNotNull(managed.attribute(MODIFIED));
-		assertNotNull(managed.attribute(MODIFIED).description());
 		
-		System.out.println(managed.attribute(MODIFIED).description());
+		assertNotNull(managed.attribute(MODIFIED));
+		
+		assertNotNull(managed.attribute(MODIFIED).description());
 		
 	}
 	
+	@Test
+	public void codenameChangesAreDetected() {
+		
+		Code versionedCode = list.codes().lookup(origin);
+		
+		Code modified = modify(versionedCode).name("modified").build();
+		
+		codelists.update(modify(list).with(modified).build());
+		
+		System.out.println(manage(versionedCode).attribute(MODIFIED).description());
+		
+	}
 	
+	@Test
+	public void attrnameChangesAreDetected() {
+		
+		Code code = list.codes().lookup(origin);
+		
+		Attribute attribute = code.attributes().lookup(a);
+		
+		Attribute mattr = modify(attribute).name("aa").in("en").build();
+				
+		Code modified = modify(code).name("cc").attributes(mattr).build();
+		
+		codelists.update(modify(list).with(modified).build());
+		
+		System.out.println(manage(code).attribute(MODIFIED).description());
+	
+	}
 	
 }

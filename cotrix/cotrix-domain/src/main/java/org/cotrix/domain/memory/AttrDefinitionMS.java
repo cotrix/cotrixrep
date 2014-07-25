@@ -12,7 +12,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class DefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
+public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
 
 	private QName name;
 	private QName type;
@@ -21,23 +21,23 @@ public final class DefinitionMS extends IdentifiedMS implements AttributeDefinit
 	private Range range;
 	private boolean shared;
 	
-	public DefinitionMS() {
+	public AttrDefinitionMS() {
 		this(true);
 	}
 	
-	public DefinitionMS(boolean shared) {
+	public AttrDefinitionMS(boolean shared) {
 		type=DEFAULT_TYPE;
 		valueType(defaultValueType);
 		range(defaultRange);
 		shared(shared);
 	}
 	
-	public DefinitionMS(String id,Status status) {
+	public AttrDefinitionMS(String id,Status status) {
 		super(id,status);
 	}
 	
 	
-	public DefinitionMS(AttributeDefinition.State state) {
+	public AttrDefinitionMS(AttributeDefinition.State state) {
 		
 		name(state.name());
 		type(state.type());

@@ -19,7 +19,7 @@ public class AttributeGrammar {
 	
 	public static interface AttributeNewClause extends NameClause<OptionalClause>, DefinitionClause {	
 		
-		ValueClause with(AttributeDefinition definition);
+		ValueClause instanceOf(AttributeDefinition definition);
 	}
 		
 	
@@ -31,9 +31,9 @@ public class AttributeGrammar {
 	
 	public static interface DefinitionClause {
 		
-		ValueClause with(AttributeDefinition definition);
+		ValueClause instanceOf(AttributeDefinition definition);
 		
-		ValueClause with(CommonDefinition definition);
+		ValueClause instanceOf(CommonDefinition definition);
 	}
 	
 	
