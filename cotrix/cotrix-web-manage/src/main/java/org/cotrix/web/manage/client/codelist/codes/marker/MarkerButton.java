@@ -29,7 +29,6 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 	private FocusPanel focusPanel;
 	private boolean down;
 
-	
 	public MarkerButton(MarkerType markerType) {
 		
 		focusPanel = new FocusPanel();
@@ -42,7 +41,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 			}
 		});
 		
-		Label label = new Label(markerType.getName().substring(0, 1));
+		Label label = new Label(markerType.getName().substring(0, 3));
 		label.getElement().getStyle().setPaddingTop(2, Unit.PX);
 		
 		focusPanel.add(label);
@@ -68,7 +67,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 	private void style() {
 		Style elementStyle = getElement().getStyle();
 		elementStyle.setProperty("border", down?"2px solid "+style.selectedButtonColor():"none");
-		elementStyle.setWidth(down?12:16, Unit.PX);
+		elementStyle.setWidth(down?27:31, Unit.PX);
 		elementStyle.setHeight(down?12:16, Unit.PX);
 	}
 

@@ -128,4 +128,9 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 		editing = false;
 	}
 
+	@Override
+	public String getLabelValue() {
+		return "";
+	}
+
 }

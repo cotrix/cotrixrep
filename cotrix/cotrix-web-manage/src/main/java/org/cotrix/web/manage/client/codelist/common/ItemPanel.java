@@ -33,6 +33,8 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		public void read();
 		public void write();
 		public String getLabel();
+		public String getLabelValue();
+		
 		public boolean validate();
 		
 		public T getItem();
@@ -191,6 +193,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	
 	private void updateHeaderLabel() {
 		header.setHeaderLabel(editor.getLabel());
+		header.setHeaderLabelValue(editor.getLabelValue());
 	}
 
 	private void updateHeaderButtons() {

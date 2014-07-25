@@ -134,5 +134,11 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 		editing = false;
 		
 	}
+	
+
+	@Override
+	public String getLabelValue() {
+		return "";
+	}
 
 }

@@ -52,6 +52,12 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	public String getLabel() {
 		return entry.getEvent().toString();
 	}
+	
+
+	@Override
+	public String getLabelValue() {
+		return ": "+entry.getTimestamp();
+	}
 
 	@Override
 	public boolean validate() {
