@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.async.AsyncUtils;
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
-import org.cotrix.web.common.client.widgets.LoaderPanel;
+import org.cotrix.web.common.client.widgets.Loader;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UICodelist;
@@ -72,7 +72,7 @@ public class CodelistPanelController implements Presenter {
 	@Inject
 	private MetadataPanelPresenter metadataPresenter;
 
-	private LoaderPanel loadingPanel = new LoaderPanel();
+	private Loader loadingPanel = new Loader();
 
 	@Inject @CurrentCodelist
 	private LinkTypesCache linkTypesCache;
@@ -89,8 +89,8 @@ public class CodelistPanelController implements Presenter {
 		codesPresenter.go(view);
 		metadataPresenter.go(view);
 		
-		loadingPanel = new LoaderPanel();
-		loadingPanel.setMessage("loading "+codelist.getName().getLocalPart()+" ...");
+		loadingPanel = new Loader();
+		loadingPanel.setMessage(codelist.getName().getLocalPart()+" is loading...");
 		view.add(loadingPanel);
 
 		loadCaches();

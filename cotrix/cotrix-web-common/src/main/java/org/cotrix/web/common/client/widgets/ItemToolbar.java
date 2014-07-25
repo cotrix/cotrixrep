@@ -3,8 +3,6 @@
  */
 package org.cotrix.web.common.client.widgets;
 
-import org.cotrix.web.common.client.util.FadeAnimation.Speed;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -54,31 +52,26 @@ public class ItemToolbar extends Composite {
 		return addHandler(handler, ButtonClickedEvent.getType());
 	}
 	
-	public void setVisible(ItemButton button, boolean visible, boolean animation)
+	public void setEnabled(ItemButton button, boolean visible, boolean animation)
 	{
-		setVisible(button, visible);
-		/*if (animation) setVisible(button, visible);
-		else setVisible(button, visible, Speed.IMMEDIATE);*/
+		setEnabled(button, visible);
 	}
 
-	public void setVisible(ItemButton button, boolean visible)
+	public void setEnabled(ItemButton button, boolean visible)
 	{
 		switch (button) {
 			case MINUS: minus.setEnabled(visible); break;
 			case PLUS: plus.setEnabled(visible); break;
 		}
-		/*setVisible(button, visible, Speed.FAST);*/
 	}
 	
-	public void setVisible(ItemButton button, boolean visible, Speed speed)
+	public void setVisible(ItemButton button, boolean visible)
 	{
-		setVisible(button, visible);
-		/*switch (button) {
-			case MINUS: minusAnimation.setVisibility(visible, speed); break;
-			case PLUS: plusAnimation.setVisibility(visible, speed); break;
-		}*/
+		switch (button) {
+			case MINUS: minus.setVisible(visible); break;
+			case PLUS: plus.setVisible(visible); break;
+		}
 	}
-	
 
 	public interface ButtonClickedHandler extends EventHandler {
 		void onButtonClicked(ButtonClickedEvent event);

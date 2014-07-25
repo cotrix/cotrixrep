@@ -60,7 +60,7 @@ public class ApplicationPermissionPanel extends ResizeComposite {
 	@Inject
 	protected void init(ApplicationPermissionPanelUiBinder uiBinder) {
 		initWidget(uiBinder.createAndBindUi(this));
-		toolBar.setVisible(ItemButton.PLUS, false);
+		toolBar.setEnabled(ItemButton.PLUS, false);
 	}
 
 	@Inject

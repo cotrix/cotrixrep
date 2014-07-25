@@ -107,6 +107,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 			@Override
 			public void onFailure(Throwable caught) {
 				Log.error("Cancel request failed", caught);
+				hide();
 			}
 
 			@Override
@@ -152,6 +153,10 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 		if (progress.isComplete()) {
 			progressPolling.cancel();
 			if (progress.getStatus() == Status.DONE) progressAnimation.report(100);
+			if (progress.getStatus() == Status.FAILED) {
+				progressAnimation.stop();
+				hide();
+			}
 			if (callBack!=null) {
 				if (progress.getStatus() == Status.DONE) callBack.onSuccess(progress);
 				else callBack.onFailure(new ServiceErrorException(progress.getFailureCause()));
@@ -166,6 +171,7 @@ public class ProgressDialogImpl extends DialogBox implements ProgressDialog {
 	private void onProgressRetrievingFailure(Throwable caught) {
 		if (failureCounter>FAILURE_MAX) {
 			progressPolling.cancel();
+			hide();
 			if (callBack!=null) callBack.onFailure(caught);
 		} else failureCounter++;		
 	}

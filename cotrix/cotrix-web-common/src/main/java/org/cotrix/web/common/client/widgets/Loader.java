@@ -14,18 +14,17 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LoaderPanel extends Composite {
+public class Loader extends Composite {
 
-	private static LoaderPanelUiBinder uiBinder = GWT
-			.create(LoaderPanelUiBinder.class);
+	private static LoaderUiBinder uiBinder = GWT.create(LoaderUiBinder.class);
 
-	interface LoaderPanelUiBinder extends UiBinder<Widget, LoaderPanel> {
+	interface LoaderUiBinder extends UiBinder<Widget, Loader> {
 	}
 	
 	@UiField
 	Label message;
 
-	public LoaderPanel() {
+	public Loader() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 

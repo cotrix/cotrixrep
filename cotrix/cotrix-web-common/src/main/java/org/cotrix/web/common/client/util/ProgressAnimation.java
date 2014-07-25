@@ -48,6 +48,8 @@ public class ProgressAnimation {
 	//last reported evidence
 	private double evidence;
 	
+	private boolean stopped;
+	
 	private ProgressBar progressBar;
 	
 	public ProgressAnimation(ProgressBar progressBar) {
@@ -59,6 +61,7 @@ public class ProgressAnimation {
 		next_bar=progress=evidence=0;
 		next_bar = 1;
 		progressBar.setProgress(0);
+		stopped = false;
 
 		RepeatingCommand command = new RepeatingCommand() {
 			
@@ -67,7 +70,7 @@ public class ProgressAnimation {
 				progress();
 				boolean cont = next_bar<=max_progress;
 				if (!cont) fireComplete(listener);
-				return cont;
+				return cont && !stopped;
 			}
 		};
 		
@@ -85,6 +88,10 @@ public class ProgressAnimation {
 					
 				}
 			});
+	}
+	
+	public void stop() {
+		stopped = true;
 	}
 	
 	private void printstate() {

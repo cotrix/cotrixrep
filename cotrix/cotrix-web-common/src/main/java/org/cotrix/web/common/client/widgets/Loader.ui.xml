@@ -4,13 +4,17 @@
 	<ui:with field='commonresources'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
+		.message {
+			padding-top: 10px;
+
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<table width="100%" height="100%">
 			<tr>
 				<td style="text-align: center; vertical-align: middle;">
-					<g:Image resource="{commonresources.dataLoader}"/>
-					<g:Label ui:field="message" />
+					<g:Image resource="{commonresources.loader}"/>
+					<g:Label ui:field="message" styleName="{style.message}"/>
 				</td>
 			</tr>
 		</table>

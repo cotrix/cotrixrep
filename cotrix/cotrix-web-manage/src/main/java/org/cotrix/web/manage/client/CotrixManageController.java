@@ -6,7 +6,6 @@ import org.cotrix.web.common.client.CotrixModule;
 import org.cotrix.web.common.client.CotrixModuleController;
 import org.cotrix.web.common.client.Presenter;
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
-import org.cotrix.web.common.client.error.ErrorManager;
 import org.cotrix.web.common.client.event.CodeListImportedEvent;
 import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.event.UserLoggedEvent;
@@ -14,9 +13,7 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
-import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.common.shared.exception.Exceptions;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
@@ -37,7 +34,6 @@ import org.cotrix.web.manage.shared.UICodelistInfo;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -61,13 +57,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private AsyncManageServiceAsync asyncService;
 
 	@Inject
-	private LoaderDialog loaderDialog;
-
-	@Inject
 	private ConfirmDialog confirmDialog;
-
-	@Inject
-	private ErrorManager errorManager;
 
 	@Inject
 	@ManagerBus
@@ -158,42 +148,27 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	private void createNewCodelist(String name, String version)
 	{
 		Log.trace("createNewVersion name: "+name+" version: "+version);
-		service.createNewCodelist(name, version, new AsyncCallback<UICodelistInfo>() {
-
+		service.createNewCodelist(name, version, showLoader(manageError(new SuccessCallback<UICodelistInfo>() { 
+			
 			@Override
 			public void onSuccess(UICodelistInfo result) {
 				Log.trace("created "+result);
 				managerBus.fireEvent(new OpenCodelistEvent(result));
 				managerBus.fireEvent(new CodelistCreatedEvent(result));
 			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Creation of a new codelist failed", caught);
-				loaderDialog.hide();
-				errorManager.showError(Exceptions.toError(caught));
-			}
-		});
+		})));
 	}
 
 	private void removeCodelist(final UICodelist codelist) {
 		Log.trace("deleteCodelist codelist: "+codelist);
-		loaderDialog.showCentered();
-		service.canUserRemove(codelist.getId(), new AsyncCallback<CodelistRemoveCheckResponse>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Checking user rights failed", caught);
-				loaderDialog.hide();
-				errorManager.showError(Exceptions.toError(caught));
-			}
+		service.canUserRemove(codelist.getId(), showLoader(manageError(new SuccessCallback<CodelistRemoveCheckResponse>() {
 
 			@Override
 			public void onSuccess(CodelistRemoveCheckResponse result) {
-				loaderDialog.hide();
 				askUserConfirm(codelist, result);
 			}
-		});
+			
+		})));
 	}
 
 	private void askUserConfirm(final UICodelist codelist, CodelistRemoveCheckResponse checkResult) {
