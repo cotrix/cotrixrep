@@ -238,7 +238,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	@Test
 	public void removeCodelist() {
 
-		AttributeDefinition def = definition().name("name").build();
+		AttributeDefinition def = attrdef().name("name").build();
 		Attribute a = attribute().instanceOf(def).value("val").build();
 		Code c = code().name("name").attributes(a).build();
 		Codelist list = codelist().name("name").definitions(def).with(c).build();

@@ -12,9 +12,13 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.AttributeDefinition.State;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.trait.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class AttributeMS extends IdentifiedMS implements Attribute.State {
-
+	
+	private static final Logger log = LoggerFactory.getLogger(Attribute.class);
+	
 	private String value;
 	private String description;
 	
@@ -124,8 +128,16 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 		if (!def.isShared())
 			return new AttrDefinitionMS(def);
 		
-		if (context==null || !context.containsKey(def.id()))
-			throw new AssertionError("application error: definition cannot be shared during copy");
+		if (context==null) {
+			
+			log.error("cannot share definition {} during copy, as there is no context",def.qname());
+			
+			return new AttrDefinitionMS(def);
+		}
+			
+
+		if (!context.containsKey(def.id()))
+			throw new AssertionError("application error: definition "+def.qname()+"cannot be shared during copy");
 		
 		return (AttributeDefinition.State) context.get(def.id());
 	}

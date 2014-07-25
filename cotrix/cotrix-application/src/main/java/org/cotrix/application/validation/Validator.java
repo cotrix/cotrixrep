@@ -18,6 +18,8 @@ import javax.inject.Singleton;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
@@ -43,7 +45,10 @@ public class Validator {
 		
 		NamedStateContainer<Attribute.State> attributes = code.state().attributes();
 		
-		List<String> errors = check(code.attributes());
+		List<String> errors = new ArrayList<>();
+		
+		errors.addAll(checkAttributes(code.attributes()));
+		errors.addAll(checkLinks(code.links()));
 		
 		ManagedCode managed = manage(code);
 		
@@ -66,7 +71,25 @@ public class Validator {
 		stateof(invalid).description(render(errors));
 	}
 	
-	private List<String> check(NamedContainer<? extends Attribute> attributes) {
+	private List<String> checkAttributes(NamedContainer<? extends Attribute> attributes) {
+		
+		List<String> violations = new ArrayList<>();
+		
+		violations.addAll(checkAttributeOccurrences(attributes));
+			
+		return violations;
+	}
+	
+	private List<String> checkLinks(NamedContainer<? extends Codelink> attributes) {
+		
+		List<String> violations = new ArrayList<>();
+		
+		violations.addAll(checkLinkOccurrences(attributes));
+			
+		return violations;
+	}
+	
+	private List<String> checkAttributeOccurrences(NamedContainer<? extends Attribute> attributes) {
 		
 		List<String> violations = new ArrayList<>();
 		
@@ -80,6 +103,35 @@ public class Validator {
 				continue;
 			
 			AttributeDefinition def = attr.definition();
+			
+			if (processed.contains(def.id()))
+				continue;
+				
+			Integer card = cards.get(def.id()); 
+			
+			if (card==null)
+				card = 0;
+			
+			if (!def.range().inRange(card))
+				violations.add(format(occurrenceViolation,attr.qname(),card,def.range())); 
+				
+			processed.add(def.id());
+		}
+			
+		return violations;
+	}
+	
+	private List<String> checkLinkOccurrences(NamedContainer<? extends Codelink> links) {
+		
+		List<String> violations = new ArrayList<>();
+		
+		Map<String,Integer> cards = cardinalities(links);
+		
+		List<String> processed = new ArrayList<>();
+		
+		for (Codelink attr : links) {
+			
+			LinkDefinition def = attr.definition();
 			
 			if (processed.contains(def.id()))
 				continue;

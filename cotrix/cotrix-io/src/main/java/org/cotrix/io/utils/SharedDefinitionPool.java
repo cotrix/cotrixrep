@@ -36,7 +36,7 @@ public class SharedDefinitionPool implements Iterable<AttributeDefinition> {
 		
 		if (def==null) { 
 			
-			AttributeDefinitionGrammar.OptionalClause clause = definition().name(name);
+			AttributeDefinitionGrammar.OptionalClause clause = attrdef().name(name);
 			
 			if (type!=null)
 				clause.is(type);

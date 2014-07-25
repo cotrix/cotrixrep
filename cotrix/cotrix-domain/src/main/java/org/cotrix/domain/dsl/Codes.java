@@ -86,17 +86,17 @@ public class Codes {
 		return deleteAttribute(attribute.id());
 	}
 	
-	public static AttributeDefinitionNewClause definition() {
+	public static AttributeDefinitionNewClause attrdef() {
 		return new DefinitionBuilder(new AttrDefinitionMS());
 	}
 	
-	public static AttributeDefinitionChangeClause modifyAttributeDefinition(String id) {
+	public static AttributeDefinitionChangeClause modifyAttrDef(String id) {
 		return new DefinitionBuilder(new AttrDefinitionMS(id,MODIFIED));
 	}
 	
 	public static AttributeDefinitionChangeClause modify(AttributeDefinition def) {
 		notNull("definition",def);
-		return modifyAttributeDefinition(def.id());
+		return modifyAttrDef(def.id());
 	}
 	
 	public static DefaultType valueType() {

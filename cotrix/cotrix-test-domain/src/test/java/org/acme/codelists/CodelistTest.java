@@ -23,7 +23,7 @@ public class CodelistTest extends DomainTest {
 	
 	Attribute attr = attribute().name(name).build();
 	
-	AttributeDefinition def = definition().name(name).build();
+	AttributeDefinition def = attrdef().name(name).build();
 	Attribute shared = attribute().instanceOf(def).value(value).build();
 	Attribute shared2 = attribute().instanceOf(def).value(value2).build();
 	

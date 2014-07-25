@@ -21,7 +21,7 @@ import org.junit.Test;
 public class ValidationTest extends ApplicationTest {
 
 	
-	AttributeDefinition def = definition().name("def").occurs(once).build();
+	AttributeDefinition def = attrdef().name("def").occurs(once).build();
 	Attribute a = attribute().instanceOf(def).value("something").build();
 	Code code = code().name("c").attributes(a).build();
 	Codelist list = codelist().name("l").with(code).build();

@@ -25,7 +25,7 @@ public class AttributeTest extends DomainTest {
 
 	ValueType valuetype = valueType().defaultsTo("mydef");
 	
-	AttributeDefinition def = definition().name(name).build();
+	AttributeDefinition def = attrdef().name(name).build();
 	
 	Attribute typed = attribute().instanceOf(def).value(value).build();
 	Attribute typed2 = attribute().instanceOf(def).value(value2).build();
@@ -55,7 +55,7 @@ public class AttributeTest extends DomainTest {
 
 		// defaults, typed
 
-		AttributeDefinition def = definition().name(name).valueIs(valuetype).build();
+		AttributeDefinition def = attrdef().name(name).valueIs(valuetype).build();
 		Attribute minimalTyped = attribute().instanceOf(def).build();
 
 		assertEquals(def, minimalTyped.definition());
@@ -83,7 +83,7 @@ public class AttributeTest extends DomainTest {
 		//change description
 		modify(untyped).description(description).build();
 	
-		AttributeDefinition newdef = definition().name(name).build();
+		AttributeDefinition newdef = attrdef().name(name).build();
 
 		//change definition
 		modify(typed).instanceOf(newdef).build();
@@ -143,7 +143,7 @@ public class AttributeTest extends DomainTest {
 		
 		//typed
 		
-		AttributeDefinition newdef = definition().name(name2).build();
+		AttributeDefinition newdef = attrdef().name(name2).build();
 
 		Attribute changesetTyped = modify(typed).instanceOf(newdef).value(value2).build();
 

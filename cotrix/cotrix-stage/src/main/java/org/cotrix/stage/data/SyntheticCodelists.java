@@ -85,13 +85,13 @@ public class SyntheticCodelists {
 		
 		return Codes.codelist().name("SAMPLE CODELIST")
 				.definitions(
-						definition().name("demo one").is(DESCRIPTION_TYPE).valueIs(
+						attrdef().name("demo one").is(DESCRIPTION_TYPE).valueIs(
 							valueType().with(max_length.instance(5)).defaultsTo("someval")
 						).in("en").build(),
-						definition().name("demo two").is(NAME_TYPE).valueIs(
+						attrdef().name("demo two").is(NAME_TYPE).valueIs(
 							valueType().with(min_length.instance(3)).defaultsTo("someotherval").required()
 						).build(),
-						definition().name("demo three").valueIs(
+						attrdef().name("demo three").valueIs(
 								valueType().with(min_length.instance(3), max_length.instance(10))
 										   .defaultsTo("yetsomeotherval")
 							).build()

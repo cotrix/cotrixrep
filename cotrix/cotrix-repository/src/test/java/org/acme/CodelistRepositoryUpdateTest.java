@@ -24,7 +24,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 	@Test
 	public void deleteAttributeDefinition() {
 		
-		AttributeDefinition def = definition().name("name").build();
+		AttributeDefinition def = attrdef().name("name").build();
 		Attribute attr1 = attribute().instanceOf(def).value("value").build();
 		Attribute attr2 = attribute().instanceOf(def).value("value2").build();
 		Code code = code().name("name").attributes(attr1,attr2).build();

@@ -27,7 +27,7 @@ public class CodeTest extends DomainTest {
 	
 	Attribute attr = attribute().name(name).build();
 	
-	AttributeDefinition def = definition().name(name2).build();
+	AttributeDefinition def = attrdef().name(name2).build();
 	Attribute a1 = attribute().instanceOf(def).value("val1").build();
 	Attribute a2 = attribute().instanceOf(def).value("val2").build();
 	

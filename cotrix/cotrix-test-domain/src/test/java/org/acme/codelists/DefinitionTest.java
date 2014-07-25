@@ -18,7 +18,7 @@ import org.junit.Test;
 public class DefinitionTest extends DomainTest {
 	
 	ValueType vtype = valueType().with(max_length.instance("20"));
-	AttributeDefinition def = definition().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
+	AttributeDefinition def = attrdef().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
 	
 	@Before
 	public void before() {
@@ -29,7 +29,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeFluentlyConstructed() {
 	
-		AttributeDefinition minimal = definition().name(name).build();
+		AttributeDefinition minimal = attrdef().name(name).build();
 		
 		//defaults
 		

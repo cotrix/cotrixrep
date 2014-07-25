@@ -277,7 +277,7 @@ public class ChangesetUtil {
 	
 	
 	public static AttributeDefinition addDefinition(UIAttributeDefinition attributeType) {
-		return definition().name(convert(attributeType.getName()))
+		return attrdef().name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
 				.occurs(toRange(attributeType.getRange()))
@@ -286,7 +286,7 @@ public class ChangesetUtil {
 	}
 	
 	public static AttributeDefinition updateDefinition(UIAttributeDefinition attributeType) {
-		return modifyAttributeDefinition(attributeType.getId()).name(convert(attributeType.getName()))
+		return modifyAttrDef(attributeType.getId()).name(convert(attributeType.getName()))
 				.is(convert(attributeType.getType()))
 				.in(convert(attributeType.getLanguage()))
 				.occurs(toRange(attributeType.getRange()))

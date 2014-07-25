@@ -150,7 +150,7 @@ public enum CommonDefinition implements Named {
 	}
 	
 	private static AttributeDefinition make(String name,Range range) {
-		return definition().name(q(NS,name)).is(SYSTEM_TYPE).occurs(range).build();
+		return attrdef().name(q(NS,name)).is(SYSTEM_TYPE).occurs(range).build();
 	}
 	
 	
