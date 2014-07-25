@@ -131,7 +131,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		header.setHTML(headerBuilder.getHeader("Attributes", codelist.getName().getLocalPart()));
+		header.setHTML(headerBuilder.getHeader("Logbook", codelist.getName().getLocalPart()));
 
 	}
 
@@ -176,7 +176,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setVisible(ItemButton.MINUS, entryRemotionController.canRemove(), animate);
+		toolBar.setEnabled(ItemButton.MINUS, entryRemotionController.canRemove(), animate);
 	}
 
 	protected void removeSelectedEntry()

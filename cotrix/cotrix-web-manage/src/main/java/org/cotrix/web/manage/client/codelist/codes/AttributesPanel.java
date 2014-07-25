@@ -154,7 +154,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.PLUS, active);
+				toolBar.setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 
@@ -234,7 +234,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	}
 
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setVisible(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
+		toolBar.setEnabled(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
 	}
 
 

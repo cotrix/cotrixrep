@@ -124,7 +124,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.PLUS, active);
+				toolBar.setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
@@ -132,7 +132,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.MINUS, active);
+				toolBar.setEnabled(ItemButton.MINUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}

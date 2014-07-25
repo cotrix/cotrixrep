@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class LoadingPanel extends ResizeComposite implements HasWidgets {
 	
 	protected DeckLayoutPanel container;
-	protected LoaderPanel loader;
+	protected Loader loader;
 	protected Widget innerWidget;
 	protected boolean isAnimated;
 	protected FadeAnimation animation;
@@ -56,7 +56,7 @@ public class LoadingPanel extends ResizeComposite implements HasWidgets {
 
 	protected void setupLoadingContainer()
 	{
-		loader = new LoaderPanel();
+		loader = new Loader();
 		container.add(loader);
 	}
 	

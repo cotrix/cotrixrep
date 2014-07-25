@@ -137,7 +137,7 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.PLUS, active);
+				toolBar.setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
@@ -169,7 +169,7 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 	}
 	
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setVisible(ItemButton.MINUS, attributeController.canRemove(), animate);
+		toolBar.setEnabled(ItemButton.MINUS, attributeController.canRemove(), animate);
 	}
 
 	private void addNewLinkType()

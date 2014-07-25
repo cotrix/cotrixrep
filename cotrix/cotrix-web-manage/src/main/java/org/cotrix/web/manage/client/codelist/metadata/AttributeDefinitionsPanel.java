@@ -139,7 +139,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setVisible(ItemButton.PLUS, active);
+				toolBar.setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
@@ -160,7 +160,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 	}
 	
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setVisible(ItemButton.MINUS, attributeTypeController.canRemove(), animate);
+		toolBar.setEnabled(ItemButton.MINUS, attributeTypeController.canRemove(), animate);
 	}
 
 	private void addNewAttributeType()
