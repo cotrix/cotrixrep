@@ -17,6 +17,7 @@ import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -41,6 +42,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		
 		public IsWidget getView();
 		public boolean isSwitchVisible();
+		public ImageResource getBullet();
 	}
 
 	private boolean readOnly;
@@ -58,6 +60,9 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		
 		header = new LabelHeader();
 		header.setSwitchVisible(editor.isSwitchVisible());
+		ImageResource bullet = editor.getBullet();
+		if (bullet!=null) header.setBulletImage(bullet);
+		
 		header.setSaveTitle("Save all changes.");
 		header.setRevertTitle("Discard all changes.");
 		header.setEditTitle("Make changes.");

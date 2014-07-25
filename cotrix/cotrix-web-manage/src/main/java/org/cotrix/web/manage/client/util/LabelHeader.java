@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -129,6 +130,12 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	public void setSwitchDown(boolean down) {
 		switchButton.setDown(down);
 		updateSwitchTooltip();
+	}
+	
+	public void setBulletImage(ImageResource image) {
+		bullet.setResource(image);
+		bullet.setWidth(image.getWidth()+"px");
+		bullet.setHeight(image.getHeight()+"px");
 	}
 
 	public void setListener(HeaderListener listener) {
