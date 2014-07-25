@@ -29,7 +29,7 @@ public enum LogbookEvent {
 	}
 	
 	Logbook.Entry entryWith(Object ...args) {
-		return new Logbook.Entry(this,currentUser().name())
+		return new Logbook.Entry(this,currentUser().name(),removable)
 					.description(format(format,args));
 	}
 }

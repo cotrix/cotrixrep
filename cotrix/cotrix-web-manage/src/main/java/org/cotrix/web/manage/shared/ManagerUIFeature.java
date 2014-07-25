@@ -19,6 +19,7 @@ public enum ManagerUIFeature implements UIFeature {
 	EDIT_CODELIST,
 	EDIT_METADATA,
 	VIEW_METADATA,
+	REMOVE_LOGBOOKENTRY,
 	ADD_CODE,
 	REMOVE_CODE;
 }

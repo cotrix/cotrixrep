@@ -66,7 +66,8 @@ public class S4JLifecycleFactory implements LifecycleFactory {
 								.Permit(LOCK.on(id), locked)
 								.Permit(REMOVE.on(id), removed)
 								.PermitReentry(VERSION.on(id))
-								.PermitReentry(PUBLISH.on(id));
+								.PermitReentry(PUBLISH.on(id))
+								.PermitReentry(REMOVE_LOGBOOK_ENTRY.on(id));
 
 		machine.Configure(locked)
 								.PermitReentry(VIEW.on(id))

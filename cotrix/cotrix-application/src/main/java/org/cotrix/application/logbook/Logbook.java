@@ -7,23 +7,22 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 @SuppressWarnings("all")
 public class Logbook implements Serializable {
 
 	public static class Entry implements Serializable {
 	
+		private final String id;
 		private final String timestamp;
 		private final LogbookEvent event;
 		private String description;
 		private final String user;
 		private final boolean removable;
 		
-		Entry(LogbookEvent event,String user) {
-			this(event,user,false);
-		}
-		
-		Entry(LogbookEvent event,String user, boolean removable) {
+		Entry(LogbookEvent event, String user, boolean removable) {
+			this.id = UUID.randomUUID().toString();
 			this.timestamp=getDateTimeInstance().format(Calendar.getInstance().getTime());
 			this.event=event;
 			this.user=user;
@@ -33,6 +32,10 @@ public class Logbook implements Serializable {
 		public Entry description(String description) {
 			this.description = description;
 			return this;
+		}
+		
+		public String id() {
+			return id;
 		}
 		
 		public boolean isRemovable() {
@@ -97,6 +100,11 @@ public class Logbook implements Serializable {
 	public synchronized Logbook add(Entry ... es) {
 		entries.addAll(asList(es));
 		return this;
+	}
+	
+	public synchronized Entry find(String id) {
+		for (Entry entry:entries) if (entry.id.equals(id)) return entry;
+		return null;
 	}
 	
 	public synchronized boolean remove(Entry e) {

@@ -23,6 +23,9 @@ import org.cotrix.action.MainAction;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
+import org.cotrix.application.logbook.Logbook;
+import org.cotrix.application.logbook.Logbook.Entry;
+import org.cotrix.application.logbook.LogbookService;
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.attributes.Attribute;
@@ -72,6 +75,7 @@ import org.cotrix.web.manage.client.ManageService;
 import org.cotrix.web.manage.server.modify.ChangesetUtil;
 import org.cotrix.web.manage.server.modify.ModifyCommandHandler;
 import org.cotrix.web.manage.server.util.CodelistsInfos;
+import org.cotrix.web.manage.server.util.LogbookEntries;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
@@ -79,6 +83,7 @@ import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
+import org.cotrix.web.manage.shared.UILogbookEntry;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.slf4j.Logger;
@@ -120,6 +125,9 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private LifecycleService lifecycleService;
+	
+	@Inject
+	private LogbookService logbookService;
 
 	@Inject
 	private Event<CodelistActionEvents.CodelistEvent> events;
@@ -148,6 +156,7 @@ public class ManageServiceImpl implements ManageService {
 		mapper.map(SEAL).to(SEAL_CODELIST);
 		mapper.map(UNSEAL).to(UNSEAL_CODELIST);
 		mapper.map(REMOVE).to(ApplicationFeatures.REMOVE_CODELIST);
+		mapper.map(REMOVE_LOGBOOK_ENTRY).to(REMOVE_LOGBOOKENTRY);
 		mapper.map(MainAction.CREATE_CODELIST).to(ApplicationFeatures.CREATE_CODELIST);
 	}
 
@@ -454,4 +463,22 @@ public class ManageServiceImpl implements ManageService {
 		return types;
 	}
 
+	@Override
+	@CodelistTask(VIEW)
+	public List<UILogbookEntry> getLogbookEntries(@Id String codelistId) throws ServiceException {
+		logger.trace("getLogbookEntries codelistId: {}", codelistId);
+		Logbook logbook = logbookService.logbookOf(codelistId);
+		List<UILogbookEntry> entries = LogbookEntries.toUILogbookEntries(logbook.entries());
+		return entries;
+	}
+
+	@Override
+	@CodelistTask(REMOVE_LOGBOOK_ENTRY)
+	public void removeLogbookEntry(@Id String codelistId, String entryId) throws ServiceException {
+		logger.trace("removeLogbookEntry codelistId: {}, entryId: {}", codelistId, entryId);
+		Logbook logbook = logbookService.logbookOf(codelistId);
+		Entry entry = logbook.find(entryId);
+		logbook.remove(entry);
+		logbookService.update(logbook);
+	}
 }

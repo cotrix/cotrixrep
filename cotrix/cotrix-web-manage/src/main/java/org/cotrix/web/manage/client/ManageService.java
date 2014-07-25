@@ -21,6 +21,7 @@ import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
+import org.cotrix.web.manage.shared.UILogbookEntry;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -42,6 +43,9 @@ public interface ManageService extends RemoteService {
 	List<UICodelistInfo> getCodelistsInfos() throws ServiceException;
 	
 	UICodelistMetadata getMetadata(String codelistId) throws ServiceException;
+	
+	List<UILogbookEntry> getLogbookEntries(String codelistId) throws ServiceException;
+	void removeLogbookEntry(String codelistId, String entryId) throws ServiceException;
 	
 	ResponseWrapper<LifecycleState> getCodelistState(String codelistId) throws ServiceException;
 	

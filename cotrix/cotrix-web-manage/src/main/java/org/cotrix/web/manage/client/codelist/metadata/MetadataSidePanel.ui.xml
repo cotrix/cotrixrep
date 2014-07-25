@@ -57,6 +57,14 @@
 						<g:downFace image="{commonresources.userPreferences}" />
 						<g:upHoveringFace image="{commonresources.userPreferences}" />
 					</g:ToggleButton>
+					<g:ToggleButton ui:field="logbookButton" width="32px"
+						styleName="{style.button}" title="Codelist Logbook">
+						<g:downDisabledFace image="{resources.logbookDisabled}" />
+						<g:upDisabledFace image="{resources.logbookDisabled}" />
+						<g:upFace image="{resources.logbookUnselected}" />
+						<g:downFace image="{resources.logbookSelected}" />
+						<g:upHoveringFace image="{resources.logbookSelected}" />
+					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
 		</g:north>
@@ -64,6 +72,7 @@
 			<g:DeckLayoutPanel ui:field="tools" styleName="{style.tools}">
 				<v:AttributesPanel ui:field="attributesPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
+				<v:LogbookPanel ui:field="logbookPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

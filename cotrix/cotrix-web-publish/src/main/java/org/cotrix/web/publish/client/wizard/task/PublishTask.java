@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.publish.client.wizard.task;
 
+import org.cotrix.web.common.client.event.CodeListPublishedEvent;
+import org.cotrix.web.common.client.event.CotrixBus;
 import org.cotrix.web.common.client.widgets.dialog.LoaderDialog;
 import org.cotrix.web.common.shared.CsvConfiguration;
 import org.cotrix.web.common.shared.Format;
@@ -51,6 +53,10 @@ public class PublishTask implements TaskWizardStep {
 	private LoaderDialog loaderDialog;
 	
 	protected EventBus publishBus;
+	
+	@Inject @CotrixBus
+	private EventBus cotrixBus;
+	
 	protected TaskCallBack callback;
 	
 	protected UICodelist codelist;
@@ -219,7 +225,10 @@ public class PublishTask implements TaskWizardStep {
 		publishProgressPolling.cancel();
 		publishBus.fireEvent(new PublishCompleteEvent(progress, getDownloadUrl()));
 		loaderDialog.hide();
-		if (progress.getStatus() == Status.DONE) callback.onSuccess(PublishWizardAction.NEXT);
+		if (progress.getStatus() == Status.DONE) {
+			callback.onSuccess(PublishWizardAction.NEXT);
+			cotrixBus.fireEvent(new CodeListPublishedEvent(codelist.getId()));
+		}
 		else callback.onFailure(progress.getFailureCause());
 	}
 	
