@@ -24,7 +24,10 @@ public class JavascriptEngine implements ScriptEngine {
 			public String with(String value) {
 				try {
 					
-					log.trace("evaluating \"{}\" with {}", expression, value.isEmpty()?"<no value>":":"+value);
+					if (value==null || value.isEmpty())
+						value="null";
+					
+					log.trace("evaluating \"{}\" with {}", expression, (value=="null" || value.isEmpty())?"<no value>":": "+value);
 					
 					engine.put($value, value);
 					

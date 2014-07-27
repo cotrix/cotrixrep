@@ -1,5 +1,7 @@
 package org.cotrix.domain.validation;
 
+import static org.cotrix.domain.utils.ScriptEngineProvider.*;
+
 import java.util.Map;
 
 public final class Constraint {
@@ -13,6 +15,10 @@ public final class Constraint {
 		this.expression=expression;
 		this.name=name;
 		this.params=params;
+	}
+	
+	public boolean isMetBy(String value) {
+		return Boolean.valueOf(engine().eval(expression).with(value));
 	}
 	
 	public String name() {

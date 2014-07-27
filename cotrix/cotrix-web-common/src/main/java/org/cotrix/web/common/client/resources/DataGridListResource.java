@@ -16,7 +16,7 @@ public interface DataGridListResource extends PatchedDataGrid.Resources {
 
 	public static DataGridListResource INSTANCE = GWT.create(DataGridListResource.class);
 	
-    @Source("previewLoader.gif")
+    @Source("loader.gif")
     ImageResource dataGridLoading();
 	
 	@Source("datagrid-list.css")

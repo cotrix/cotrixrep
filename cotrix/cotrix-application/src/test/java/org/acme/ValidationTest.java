@@ -4,6 +4,7 @@ import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
+import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -13,6 +14,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.values.ValueType;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Before;
@@ -21,19 +23,14 @@ import org.junit.Test;
 public class ValidationTest extends ApplicationTest {
 
 	
-	AttributeDefinition def = attrdef().name("def").occurs(once).build();
-	Attribute a = attribute().instanceOf(def).value("something").build();
+	ValueType type = valueType().with(max_length.instance(2));
+	AttributeDefinition def = attrdef().name("def").occurs(once).valueIs(type).build();
+	Attribute a = attribute().instanceOf(def).value("ss").build();
 	Code code = code().name("c").attributes(a).build();
 	Codelist list = codelist().name("l").with(code).build();
 	
 	@Inject
 	CodelistRepository codelists;
-	
-//	@Inject
-//	UserRepository users;
-//	
-//	@Inject
-//	TestUser user;
 	
 	@Before
 	public void versionList() {
@@ -43,11 +40,12 @@ public class ValidationTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void attributeOccurrencesAreValidated() {
+	public void attributeAreValidated() {
 		
 		Attribute onetoomany = attribute().instanceOf(def).build();
-		
-		Code modified = modify(code).attributes(onetoomany).build();
+		Attribute moda = modify(a).value("toolong").build();
+
+		Code modified = modify(code).attributes(onetoomany,moda).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
@@ -58,12 +56,13 @@ public class ValidationTest extends ApplicationTest {
 		assertNotNull(managed.attribute(INVALID));
 		
 		
-		modified = modify(code).attributes(delete(onetoomany)).build();
+		modified = modify(code).attributes(delete(onetoomany),modify(a).value("ss").build()).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
 		assertNull(managed.attribute(INVALID));
 	}
+	
 	
 	
 	

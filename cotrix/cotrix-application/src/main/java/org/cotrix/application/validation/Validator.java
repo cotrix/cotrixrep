@@ -26,12 +26,14 @@ import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.validation.Constraint;
+import org.cotrix.domain.values.ValueType;
 
 @Singleton
 public class Validator {
 
-	static String  occurrenceViolation = "%s occurs %s time(s), violating occurences constraint %s";
-
+	static String  occurrenceViolation = "%s occurs %s time(s), violating occurences constraint [%s]";
+	static String  valueViolation = "%s's value '%s' violates constraint [%s]";
 
 	public void check(Iterable<Code> codes) {
 	
@@ -45,16 +47,16 @@ public class Validator {
 		
 		NamedStateContainer<Attribute.State> attributes = code.state().attributes();
 		
-		List<String> errors = new ArrayList<>();
+		List<String> violations = new ArrayList<>();
 		
-		errors.addAll(checkAttributes(code.attributes()));
-		errors.addAll(checkLinks(code.links()));
+		checkAttributes(violations,code.attributes());
+		checkLinks(violations,code.links());
 		
 		ManagedCode managed = manage(code);
 		
 		Attribute invalid = managed.attribute(INVALID);
 		
-		if (errors.isEmpty()) {
+		if (violations.isEmpty()) {
 			
 			if (invalid!=null)
 				attributes.remove(invalid.id());
@@ -68,30 +70,37 @@ public class Validator {
 			invalid = managed.attribute(INVALID);  //re-fetch for persistence scenario
 		}
 		
-		stateof(invalid).description(render(errors));
+		stateof(invalid).description(render(violations));
 	}
 	
-	private List<String> checkAttributes(NamedContainer<? extends Attribute> attributes) {
+	private void checkAttributes(List<String> violations,NamedContainer<? extends Attribute> attributes) {
 		
-		List<String> violations = new ArrayList<>();
-		
-		violations.addAll(checkAttributeOccurrences(attributes));
+		checkAttributeOccurrences(violations,attributes);
+		checkAttributeValues(violations,attributes);
 			
-		return violations;
 	}
 	
-	private List<String> checkLinks(NamedContainer<? extends Codelink> attributes) {
+	private void checkLinks(List<String> violations,NamedContainer<? extends Codelink> attributes) {
 		
-		List<String> violations = new ArrayList<>();
 		
-		violations.addAll(checkLinkOccurrences(attributes));
+		checkLinkOccurrences(violations,attributes);
+	}
+	
+	private void checkAttributeValues(List<String> violations, NamedContainer<? extends Attribute> attributes) {
+	
+		for (Attribute attr : attributes) {
 			
-		return violations;
+			AttributeDefinition def = attr.definition();
+			
+			ValueType type = def.valueType();
+			
+			for (Constraint constraint : type.constraints())
+				if (!constraint.isMetBy(attr.value()))
+					violations.add(format(valueViolation,def.qname(),attr.value(),constraint));
+		}
 	}
 	
-	private List<String> checkAttributeOccurrences(NamedContainer<? extends Attribute> attributes) {
-		
-		List<String> violations = new ArrayList<>();
+	private void checkAttributeOccurrences(List<String> violations, NamedContainer<? extends Attribute> attributes) {
 		
 		Map<String,Integer> cards = cardinalities(attributes);
 		
@@ -117,13 +126,9 @@ public class Validator {
 				
 			processed.add(def.id());
 		}
-			
-		return violations;
 	}
 	
-	private List<String> checkLinkOccurrences(NamedContainer<? extends Codelink> links) {
-		
-		List<String> violations = new ArrayList<>();
+	private void checkLinkOccurrences(List<String> violations,NamedContainer<? extends Codelink> links) {
 		
 		Map<String,Integer> cards = cardinalities(links);
 		
@@ -146,8 +151,6 @@ public class Validator {
 				
 			processed.add(def.id());
 		}
-			
-		return violations;
 	}
 	
 	
@@ -164,47 +167,6 @@ public class Validator {
 		
 		return cards;
 	}
-	
-//	private void validateLinks(Codelist codelist,Iterable<? extends Code> codes,Report report) {
-//	
-//		Codelist.Private list = reveal(codelist);
-//
-//		Map<String,LinkDefinition> links = new HashMap<>();
-//		
-//		for (LinkDefinition link : list.links())
-//			links.put(link.id(),link);
-//		
-//		for (Code code : codes)
-//			validateLinks(reveal(code), links, report);
-//		
-//	}
-//	
-//	private void validateLinks(Code.Private code, Map<String,LinkDefinition> linktypes, Report report) {
-//		
-//		//count link type occurrences
-//		Map<String,Integer> counts = new HashMap<>();
-//		
-//		for (Codelink link : code.links()) {
-//			
-//			LinkDefinition type = linktypes.get(link.definition().id());
-//	
-//			if (type==null)
-//					continue;
-//			
-//			Integer count = counts.get(type);
-//			counts.put(type.id(), count==null? 1 : count+1);
-//		
-//		}
-//		
-//		for (LinkDefinition type : linktypes.values()) {
-//			int count = counts.containsKey(type.id())? counts.get(type.id()) : 0;  
-//			if (!type.range().inRange(count))
-//				report.log(
-//						item(code.id(),format(codeLinkError,code.qname(), code.id(),type.qname(),type.range())
-//				)).as(ERROR);
-//		}
-//	}
-
 	
 	private String render(List<String> violations) {
 		

@@ -15,7 +15,7 @@ public interface DataGridReportResource extends DataGrid.Resources {
 
 	public static DataGridReportResource INSTANCE = GWT.create(DataGridReportResource.class);
 	
-    @Source("previewLoader.gif")
+    @Source("loader.gif")
     ImageResource dataGridLoading();
 	
 	@Source({"datagrid-list.css","datagrid-report.css"})

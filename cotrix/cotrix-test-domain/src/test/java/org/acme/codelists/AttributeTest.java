@@ -17,6 +17,7 @@ import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class AttributeTest extends DomainTest {
@@ -201,7 +202,7 @@ public class AttributeTest extends DomainTest {
 	}
 	
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Ignore @Test(expected=IllegalArgumentException.class)
 	public void cannoteViolateConstraints() {
 
 		//definition becomes more restrictive

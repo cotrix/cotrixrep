@@ -1,6 +1,5 @@
 package org.cotrix.domain.attributes;
 
-import static java.lang.String.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
@@ -9,7 +8,6 @@ import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.EntityProvider;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.values.ValueType;
 
 /**
  * A descriptive attribute for a domain object.
@@ -102,9 +100,6 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	
 	final class Private extends Identified.Abstract<Private,State> implements Attribute {
 
-		private static final String validationErrorMsg = "%s cannot be assigned to attribute %s, as violates  constraint %s";
-		
-
 		public Private(Attribute.State state) {
 			super(state);
 		}
@@ -157,7 +152,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 			//TODO keep temporarily for retro-compatibility, update should occur at definition level.
 			
 			if (changeset.value() != null)
-				state().value(changeset.value() == NULL_STRING ? null : validateAndUpdateValue(changeset.value()));
+				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
 				
 			if (changeset.qname() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
@@ -187,15 +182,19 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 
 		
 		//helper
-		private String validateAndUpdateValue(String value) {
-			
-			ValueType type = definition().valueType();
-			
-			if (!type.isValid(value))
-				throw new IllegalArgumentException(format(validationErrorMsg, value, qname(),type.constraints().asSingleConstraint()));
 		
-			return value;
-		}
+//		private static final String validationErrorMsg = "%s cannot be assigned to attribute %s, as violates  constraint %s";
+		
+		
+//		private String validateAndUpdateValue(String value) {
+//			
+//			ValueType type = definition().valueType();
+//			
+//			if (!type.isValid(value))
+//				throw new IllegalArgumentException(format(validationErrorMsg, value, qname(),type.constraints().asSingleConstraint()));
+//		
+//			return value;
+//		}
 
 
 	}
