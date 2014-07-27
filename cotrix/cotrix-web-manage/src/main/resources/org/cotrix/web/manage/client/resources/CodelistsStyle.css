@@ -9,7 +9,6 @@
 .cellTreeEmptyMessage {
   padding-top: 16px;
   text-align: center;
-/*  font-style: italic;*/
 }
 
 .cellTreeItem {
@@ -17,6 +16,10 @@
   padding-bottom: 4px;
   cursor: pointer;
   zoom: 1;
+}
+
+.cellTreeItem:hover {
+  background-color: #eee;
 }
 
 .cellTreeItemImage {
@@ -43,7 +46,7 @@
 
 .cellTreeTopItem {
   font-weight: normal;
-  color: #5674b9 !important;
+  color: #282828 !important;
   padding: 2px 13px 2px 10px !important;
 }
 
@@ -56,14 +59,12 @@
 }
 
 .cellTreeKeyboardSelectedItem {
-  background-color: #9b9b9b;
-  color: white !important;
+  color: #4A91D9 !important;
   outline: none;
 }
 
 .cellTreeSelectedItem {
-  background-color: #9b9b9b;
-  color: white !important;
+  color: #4A91D9 !important;
   height: auto;
   overflow: visible;
   outline: none;

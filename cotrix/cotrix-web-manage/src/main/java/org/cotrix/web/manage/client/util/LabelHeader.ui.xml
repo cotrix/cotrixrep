@@ -30,10 +30,6 @@
 		margin: 4px 8px 4px 10px;
 	}
 	
-	.headerSelected {
-		color: #4A91D9 !important;
-	}
-	
 	.bullet {
 		margin-left: 5px;
 		padding-bottom: 3px;
@@ -54,11 +50,15 @@
 	}
 	
 	.headerLabel {
-		color: #5674b9;
+		color: #282828;
 	}
 	
 	.headerLabelValue {
-		color: #5A5A5A;
+		color: #8A8A8A;
+	}
+	
+	.headerSelected {
+		color: #4A91D9 !important;
 	}
 	
 	.buttons {
