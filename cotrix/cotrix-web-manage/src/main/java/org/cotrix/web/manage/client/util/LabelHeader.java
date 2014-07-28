@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -51,6 +52,9 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		public void onSwitchChange(boolean isDown);
 	}
 
+	@UiField
+	HTMLPanel header;
+	
 	@UiField
 	FocusPanel headerBox;
 	
@@ -177,8 +181,7 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	}
 	
 	public void setHeaderSelected(boolean selected) {
-		this.headerLabel.setStyleName(style.headerSelected(), selected);
-		this.headerLabelValue.setStyleName(style.headerSelected(), selected);
+		header.setStyleName(style.headerSelected(), selected);
 	}
 	
 	@UiHandler("edit")

@@ -139,19 +139,23 @@
 }
 
 .dataGridKeyboardSelectedRow {
-	color: #4A91D9 !important;
+	/*color: #4A91D9 !important;*/
+	background-color: #e6f0f1 !important;
 }
 
 .dataGridKeyboardSelectedRowCell {
-	color: #4A91D9 !important;
+	/*color: #4A91D9 !important;*/
+	background-color: #e6f0f1 !important;
 }
 
 .dataGridSelectedRow {
-	color: #4A91D9 !important;
+	/*color: #4A91D9 !important;*/
+	background-color: #e6f0f1 !important;
 }
 
 .dataGridSelectedRowCell {
-	color: #4A91D9 !important;
+	/*color: #4A91D9 !important;*/
+	background-color: #e6f0f1 !important;
 }
 
 /**
