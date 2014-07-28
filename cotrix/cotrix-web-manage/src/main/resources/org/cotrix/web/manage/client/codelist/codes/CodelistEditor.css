@@ -1,5 +1,9 @@
 @def borderColor #eeeeee;
 
+.codeCell {
+	color: #5674b9 !important;
+}
+
 .headerCell {
 	padding: 6px 6px 6px 16px;
 }
@@ -72,7 +76,7 @@
 }
 
 .dataGridCell {
-	color: #5A5A5A;
+	color: #8A8A8A;
 	border-right: 1px solid borderColor;
 	border-bottom: 1px solid borderColor;
 	font-size: 14px;

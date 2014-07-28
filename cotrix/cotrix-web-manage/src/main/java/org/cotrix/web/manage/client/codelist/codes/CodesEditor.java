@@ -59,7 +59,6 @@ import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ImageResourceCell;
 import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -67,7 +66,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -117,6 +115,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	interface DataGridStyle extends PatchedDataGrid.Style {
+		
+		String codeCell();
 
 		String headerCell();
 		
@@ -323,18 +323,17 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				return object;
 			}
 		};
-		
-		Header<ImageResource> markerHeader = new Header<ImageResource>(new ImageResourceCell()) {
-			
-			@Override
-			public ImageResource getValue() {
-				return CotrixManagerResources.INSTANCE.markersHeader();
-			}
-		};
-		markerHeader.setHeaderStyleNames(resource.dataGridStyle().markerHeader());
-		dataGrid.addFixedWidthColumn(markerColumn, markerHeader, 10);
 
-		nameColumn = new CodeColumn(createCell(true));
+		dataGrid.addFixedWidthColumn(markerColumn, new TextHeader(""), 10);
+		
+		StyledSafeHtmlRenderer codeCellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell() + " " + resource.dataGridStyle().codeCell());
+		cellRenderer.setAddTitle(true);
+		String codeCellStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor() + " " + resource.dataGridStyle().codeCell();
+		DoubleClickEditTextCell codeCell = new DoubleClickEditTextCell(codeCellStyle, codeCellRenderer);
+		codeCell.setReadOnly(!editable);
+		editableCells.add(codeCell);
+
+		nameColumn = new CodeColumn(codeCell);
 
 		nameColumn.setSortable(true);
 
@@ -348,7 +347,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		});
 
 		TextHeader nameColumnHeader = new TextHeader("Code");
-		nameColumnHeader.setHeaderStyleNames(resource.dataGridStyle().headerCell());
+		nameColumnHeader.setHeaderStyleNames(resource.dataGridStyle().headerCell() + " " + resource.dataGridStyle().codeCell());
 		dataGrid.addColumn(nameColumn, nameColumnHeader);
 		
 
