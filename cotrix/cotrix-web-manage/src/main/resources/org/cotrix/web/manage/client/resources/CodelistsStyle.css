@@ -46,6 +46,7 @@
 
 .cellTreeTopItem {
   font-weight: normal;
+  font-size: 15px;
   color: #282828 !important;
   padding: 2px 13px 2px 10px !important;
 }

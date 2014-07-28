@@ -26,6 +26,15 @@
 		-moz-box-sizing: border-box;
 	}
 	
+	.iconCell {
+		width: 22px;
+		vertical-align: middle;
+	}
+	
+	.titleCell {
+		vertical-align: middle;
+	}
+	
 	.menuCell {
 		width: 14px;
 		vertical-align: middle;
@@ -93,7 +102,10 @@
 			<g:HTMLPanel styleName="{style.headerPanel}">
 				<table width="100%">
 					<tr>
-						<td>
+						<td class="{style.iconCell}">
+							<g:Image resource="{resources.codes}" />
+						</td>
+						<td class="{style.titleCell}">
 							Codelists
 						</td>
 						<td class="{style.menuCell}">
@@ -102,10 +114,6 @@
 								<g:upHoveringFace image="{resources.showMenuHover}" />
 								<g:downFace image="{resources.showMenuHover}" />
 						</g:ToggleButton>
-<!-- 							<g:PushButton ui:field="menuButton" styleName="{style.menuButton}"> -->
-<!-- 								<g:upFace image="{resources.showMenu}" /> -->
-<!-- 								<g:upHoveringFace image="{resources.showMenuHover}" /> -->
-<!-- 							</g:PushButton> -->
 						</td>
 					</tr>
 				</table>
