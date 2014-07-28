@@ -17,13 +17,25 @@
 		border-left: 1px solid #a8a7a7;
 		border-right: 1px solid #a8a7a7;
 		background-color: white;
-		padding: 5px;
+		padding: 5px 0 5px 5px;
 	}
 	
 	.filterBox {
 		height: 24px !important;
 		font-size: 16px !important;
 		-moz-box-sizing: border-box;
+		border: none !important;
+		box-shadow: none !important;
+	}
+	
+	.filterBox:focus {
+		background-color: #f7f7f7;
+	}
+	
+	.menuCell {
+		width: 14px;
+		vertical-align: middle;
+		text-align: center;
 	}
 	
 	.iconCell {
@@ -35,28 +47,24 @@
 		vertical-align: middle;
 	}
 	
-	.menuCell {
-		width: 14px;
-		vertical-align: middle;
-	}
-	
 	@external menuButton;
 	.menuButton {
 		width: 14px;
 		cursor: pointer;
 		text-align: center;
+		margin-left: 2px;
+    	margin-right: 2px;
 	}
 	
 	@external menuButton-down;
 	.menuButton-down {
-		background-color: lightgray;
+		background-color: #f5f5f5;
 		border-radius: 5px;
-		
 	}
 	
 	@external menuButton-down-hovering;
 	.menuButton-down-hovering {
-		background-color: lightgray;
+		background-color: #f5f5f5;
 		border-radius: 5px;
 	}
 	
@@ -93,10 +101,21 @@
 			<g:SimpleLayoutPanel />
 		</g:north>
 		<g:north size='35'>
-			<g:FlowPanel ui:field="filterPanel" styleName="{style.filterPanel}">
-				<common:SearchBox ui:field="filterTextBox"
-					addStyleNames="{style.filterBox}" title="Filter codelists."/>
-			</g:FlowPanel>
+			<g:HTMLPanel styleName="{style.filterPanel}">
+				<table width="100%">
+					<tr>
+						<td>
+							<common:SearchBox ui:field="filterTextBox"
+								addStyleNames="{style.filterBox}" title="Filter codelists."/>
+						</td>
+						<td class="{style.menuCell}">
+							<g:ToggleButton ui:field="menuButton" styleName="{style.menuButton}" title="Filter options.">
+									<g:upFace image="{resources.showMenu}" />
+							</g:ToggleButton>
+						</td>
+					</tr>
+				</table>
+			</g:HTMLPanel>
 		</g:north>
 		<g:north size='30'>
 			<g:HTMLPanel styleName="{style.headerPanel}">
@@ -107,13 +126,6 @@
 						</td>
 						<td class="{style.titleCell}">
 							Codelists
-						</td>
-						<td class="{style.menuCell}">
-						<g:ToggleButton ui:field="menuButton" styleName="{style.menuButton}" title="Filter options.">
-								<g:upFace image="{resources.showMenu}" />
-								<g:upHoveringFace image="{resources.showMenuHover}" />
-								<g:downFace image="{resources.showMenuHover}" />
-						</g:ToggleButton>
 						</td>
 					</tr>
 				</table>
