@@ -57,13 +57,14 @@ public class CodeAttributeBridge implements CommandBridge<CodeAttribute> {
 	@Override
 	public void handleResponse(EditType editType, CodeAttribute localCodeAttribute, ModifyCommandResult response) {
 		
-		if (editType == EditType.REMOVE) return;
-		
 		UpdatedCode updatedCodeResponse = (UpdatedCode)response;
 		
-		//update the id
-		UIAttribute localAttribute = localCodeAttribute.getAttribute();
-		localAttribute.setId(updatedCodeResponse.getId());
+		if (editType == EditType.ADD) {
+		
+			//update the id
+			UIAttribute localAttribute = localCodeAttribute.getAttribute();
+			localAttribute.setId(updatedCodeResponse.getId());
+		}
 		
 		UICode localCode = localCodeAttribute.getCode();
 		UICode updatedCode = updatedCodeResponse.getCode();

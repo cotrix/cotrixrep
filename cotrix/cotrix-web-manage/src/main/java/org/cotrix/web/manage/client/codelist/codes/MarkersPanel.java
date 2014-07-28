@@ -175,6 +175,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	@EventHandler
 	void onCodeUpdated(CodeUpdatedEvent event) {
+		Log.trace("code updated");
 		if (event.getCode().equals(visualizedCode)) setVisualizedCode(event.getCode());
 	}
 
@@ -224,6 +225,8 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	private void setVisualizedCode(UICode code)
 	{
+		Log.trace("setVisualizedCode code: "+code);
+		
 		visualizedCode = code;
 		setHeader();
 		updateBackground();

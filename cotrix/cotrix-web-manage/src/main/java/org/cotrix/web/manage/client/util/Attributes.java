@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.util;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.web.common.client.factory.UIDefaults;
@@ -48,12 +49,20 @@ public class Attributes {
 	}
 	
 	public static void mergeSystemAttributes(List<UIAttribute> destination, List<UIAttribute> source) {
+		//update and add
 		for (UIAttribute sourceAttribute:source) {
 			if (Attributes.isSystemAttribute(sourceAttribute)) {
 				int index = destination.indexOf(sourceAttribute);
 				if (index >= 0) destination.set(index, sourceAttribute);
 				else destination.add(sourceAttribute);
 			}
+		}
+		
+		//remotion
+		Iterator<UIAttribute> destinationIterator = destination.iterator();
+		while(destinationIterator.hasNext()) {
+			UIAttribute attribute = destinationIterator.next();
+			if (Attributes.isSystemAttribute(attribute) && !source.contains(attribute)) destinationIterator.remove();
 		}
 	}
 
