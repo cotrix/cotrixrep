@@ -63,7 +63,7 @@
 			<table align="center" width="100%" height="100%">
 				<tr>
 					<td style="vertical-align: middle;text-align: center;">
-						<div class="{style.initLabel}">Select a codelist.</div>
+						<div class="{style.initLabel}">No codelist selected.</div>
 					</td>
 				</tr>
 			</table>

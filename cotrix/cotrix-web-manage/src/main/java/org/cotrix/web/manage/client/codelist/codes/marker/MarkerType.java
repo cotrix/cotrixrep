@@ -16,7 +16,7 @@ public enum MarkerType {
 	
 	DELETED("DELETED", style.deletedBackgroundColor(), style.deletedTextColor(), style.deletedHighlight(), false, false, "deleted"),
 	INVALID("INVALID", style.invalidBackgroundColor(), style.invalidTextColor(), style.invalidHighlight(), true, true, "invalid"),
-	NEWCODE("NEW", style.newCodeBackgroundColor(), style.newCodeTextColor(), style.newCodeHighlight(), true, true, "new"),
+	NEWCODE("NEW", style.newCodeBackgroundColor(), style.newCodeTextColor(), style.newCodeHighlight(), true, false, "new"),
 	MODIFIED("MODIFIED", style.modifiedBackgroundColor(), style.modifiedTextColor(), style.modifiedHighlight(), true, true, "modified");
 	
 	private String name;

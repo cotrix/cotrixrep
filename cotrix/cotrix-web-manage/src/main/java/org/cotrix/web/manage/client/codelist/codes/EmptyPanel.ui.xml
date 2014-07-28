@@ -28,7 +28,7 @@
 			<g:HTMLPanel>
 				<table width="100%" height="100%" align="center">
 					<tr>
-						<td class="{style.text} {resources.css.noItemsLabel}">Please select a code</td>
+						<td class="{style.text} {resources.css.noItemsLabel}">No code selected</td>
 					</tr>
 				</table>
 			</g:HTMLPanel>
