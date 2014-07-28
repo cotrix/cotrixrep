@@ -7,18 +7,24 @@
 		type="org.cotrix.web.manage.client.codelists.CodelistsMenuImpl.Style">
 		.menuPopup {
 			background-color: white;
-			border-radius: 2px;
+			border-radius: 5px;
 			border: 1px solid #999;
 		}
 		
+		.menuBar {
+			padding: 5px;
+
+		}
+		
 		.menuItem {
-			padding: 2px 6px;
+			padding: 1px 7px;
 			color: #4f4e4e;
 			cursor: pointer;
+			font-size: 14px;
 		}
 		
 		.menuItemSelected {
-			background-color: darkgray;
+			background-color: #f5f5f5;
 			cursor: pointer;
 		}
 		
@@ -35,17 +41,17 @@
 			margin-bottom: 2px;
 		}
 		</ui:style>
-	<m:FlatMenuBar vertical="true">
+	<m:FlatMenuBar vertical="true" styleName="{style.menuBar}">
 	
 		<!-- OWNER -->
 		<m:group>
 			<m:RadioMenuGroup ui:field="ownershipFilterGroup">
 				<m:radio>
-					<m:CheckMenuItem label="show all" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="ALL" image="{resources.checkBullet}"
 						selected="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="show_all"/>
 				</m:radio>
 				<m:radio>
-					<m:CheckMenuItem label="show mine" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="MINE ONLY" image="{resources.checkBullet}"
 						styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="show_user"/>
 				</m:radio>
 			</m:RadioMenuGroup>
@@ -55,15 +61,15 @@
 		<m:group>
 			<m:CheckMenuGroup ui:field="includeFilterGroup">
 				<m:check>
-					<m:CheckMenuItem label="include draft" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="DRAFT" image="{resources.checkBullet}"
 						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_draft" />
 				</m:check>
 				<m:check>
-					<m:CheckMenuItem label="include locked" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="LOCKED" image="{resources.checkBullet}"
 						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_locked"/>
 				</m:check>
 				<m:check>
-					<m:CheckMenuItem label="include sealed" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="SEALED" image="{resources.checkBullet}"
 						selected="true" manageSelection="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="filter_by_state_sealed"/>
 				</m:check>
 			</m:CheckMenuGroup>
@@ -92,11 +98,11 @@
 <!-- 						 styleName="{style.menuItem}" value="group_by_none"/> -->
 <!-- 				</m:radio> -->
 				<m:radio>
-					<m:CheckMenuItem label="group by name" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="BY NAME" image="{resources.checkBullet}"
 						selected="true" styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="group_by_name"/>
 				</m:radio>
 				<m:radio>
-					<m:CheckMenuItem label="group by state" image="{resources.checkBullet}"
+					<m:CheckMenuItem label="BY STATE" image="{resources.checkBullet}"
 						 styleName="{style.menuItem}" selectedItemStyleName="{style.menuItemSelected}" value="group_by_state"/>
 				</m:radio>
 			</m:RadioMenuGroup>

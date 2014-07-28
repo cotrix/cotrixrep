@@ -5,10 +5,13 @@ package org.cotrix.web.common.client.widgets.menu;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.safecss.shared.SafeStyles;
+import com.google.gwt.safecss.shared.SafeStylesUtils;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -28,11 +31,11 @@ public class CheckMenuItem extends MenuItem implements HasSelectionChangedHandle
 
 	static interface RadioMenuItemTemplate extends SafeHtmlTemplates {
 
-		@Template("<div style=\"height:18px\"><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;padding-right:5px;\"/>{0}</div>")
+		@Template("<div style=\"height:18px\"><img src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;padding-right:8px;\"/>{0}</div>")
 		SafeHtml checked(SafeHtml label, SafeUri img, String imgStyle);
 		
-		@Template("<div style=\"height:18px;padding-left:14px;\">{0}</div>")
-		SafeHtml unchecked(SafeHtml label);
+		@Template("<div style=\"{1}height:18px;\">{0}</div>")
+		SafeHtml unchecked(SafeHtml label, SafeStyles padding);
 	}
 	
 	static RadioMenuItemTemplate template = GWT.create(RadioMenuItemTemplate.class);
@@ -88,7 +91,7 @@ public class CheckMenuItem extends MenuItem implements HasSelectionChangedHandle
 	
 	public void setSelected(boolean selected) {
 		this.selected = selected;
-		SafeHtml html = selected?template.checked(label, image.getSafeUri(), ""):template.unchecked(label);
+		SafeHtml html = selected?template.checked(label, image.getSafeUri(), ""):template.unchecked(label, SafeStylesUtils.forPaddingLeft(image.getWidth() + 8, Unit.PX));
 		setHTML(html);
 	}
 	
