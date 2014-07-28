@@ -24,7 +24,7 @@ public class MetadataPanelViewImpl extends ResizeComposite implements MetadataPa
 
 	private static MetadataPanelUiBinder uiBinder = GWT.create(MetadataPanelUiBinder.class);
 	
-	@UiField SplitLayoutPanel mainPanel;
+	@UiField(provided=true) SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
 	@UiField MetadataToolbarImpl toolbar;
 	
@@ -39,6 +39,7 @@ public class MetadataPanelViewImpl extends ResizeComposite implements MetadataPa
 	
 	@Inject
 	protected void init() {
+		mainPanel = new SplitLayoutPanel(3);
 		initWidget(uiBinder.createAndBindUi(this));
 		mainPanel.setWidgetToggleDisplayAllowed(sidePanel, true);
 	}

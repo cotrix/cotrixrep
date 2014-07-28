@@ -26,7 +26,7 @@ public class CodesPanelViewImpl extends ResizeComposite implements CodesPanelVie
 
 	CotrixManagerResources resources = GWT.create(CotrixManagerResources.class);
 	
-	@UiField SplitLayoutPanel mainPanel;
+	@UiField(provided=true) SplitLayoutPanel mainPanel;
 	@UiField DockLayoutPanel contentPanel;
 	
 	@Inject
@@ -40,6 +40,7 @@ public class CodesPanelViewImpl extends ResizeComposite implements CodesPanelVie
 	
 	@Inject
 	protected void init() {
+		mainPanel = new SplitLayoutPanel(3);
 		initWidget(uiBinder.createAndBindUi(this));
 		mainPanel.setWidgetToggleDisplayAllowed(sidePanel, true);
 	}
