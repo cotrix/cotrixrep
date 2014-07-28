@@ -59,14 +59,12 @@
 }
 
 .cellTreeKeyboardSelectedItem {
-  /*color: #4A91D9 !important;*/
-  background-color: #e6f0f1 !important;
+  background-color: #e6f0f1;
   outline: none;
 }
 
 .cellTreeSelectedItem {
-  /*color: #4A91D9 !important;*/
-  background-color: #e6f0f1 !important;
+  background-color: #e6f0f1;
   height: auto;
   overflow: visible;
   outline: none;

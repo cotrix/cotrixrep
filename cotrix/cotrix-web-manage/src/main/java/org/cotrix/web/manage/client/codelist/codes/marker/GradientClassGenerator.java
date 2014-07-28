@@ -48,7 +48,7 @@ public class GradientClassGenerator {
 			cssBuilder.append(color);
 			if (colorsIterator.hasNext()) cssBuilder.append(",");
 		}
-		cssBuilder.append(");}");
+		cssBuilder.append(") !important;}");
 		
 		Log.trace("generated class "+cssBuilder.toString());
 		
