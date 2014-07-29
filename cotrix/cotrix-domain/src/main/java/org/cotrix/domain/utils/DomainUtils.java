@@ -1,10 +1,7 @@
 package org.cotrix.domain.utils;
 
-import static java.text.DateFormat.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
-
-import java.util.Calendar;
 
 import javax.enterprise.event.Observes;
 
@@ -70,10 +67,6 @@ public class DomainUtils {
 	
 	public static Attribute.State stateof(AttributeGrammar.ValueClause clause) {
 		return stateof(clause.build());
-	}
-	
-	public static String time() {
-		return getDateTimeInstance().format(Calendar.getInstance().getTime());
 	}
 	
 	public static String signatureOf(Codelist list) {
