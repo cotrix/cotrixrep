@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes.marker;
+package org.cotrix.web.manage.client.codelist.codes.marker.panel;
 
 import java.util.EnumMap;
 import java.util.Map.Entry;
@@ -9,13 +9,16 @@ import java.util.Set;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkerPanel.MarkerPanelListener;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerPanel.MarkerPanelListener;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.DefaultMarkerStyleProvider;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.inject.Inject;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -42,7 +45,8 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 	private HTML emptyWidget;
 	private HorizontalPanel emptyWidgetContainer;
 
-	public MarkersEditingPanel() {
+	@Inject
+	public MarkersEditingPanel(DefaultMarkerStyleProvider styleProvider) {
 
 		mainPanel = new VerticalPanel();
 		mainPanel.setWidth("100%");
@@ -57,7 +61,7 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 		
 		mainPanel.add(emptyWidgetContainer);
 
-		createPanels();
+		createPanels(styleProvider);
 		
 		showEmpty(true);
 
@@ -69,9 +73,9 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 		for (MarkerPanel panel:panels.values()) panel.setVisible(!show);
 	}
 
-	private void createPanels() {
+	private void createPanels(DefaultMarkerStyleProvider styleProvider) {
 		for (final MarkerType markerType:MarkerType.values()) {
-			MarkerPanel markerPanel = new MarkerPanel(markerType);
+			MarkerPanel markerPanel = new MarkerPanel(markerType, styleProvider.getStyle(markerType));
 			panels.put(markerType, markerPanel);
 			mainPanel.add(markerPanel);
 			
@@ -100,8 +104,8 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 		}
 	}
 
-	public void setMarkerActive(MarkerType markerType, UIAttribute attribute, String description) {
-		panels.get(markerType).setActive(description);
+	public void setMarkerActive(MarkerType markerType, UIAttribute attribute) {
+		panels.get(markerType).setActive(attribute.getDescription(), attribute.getValue());
 		bind(markerType, attribute);
 	}
 	

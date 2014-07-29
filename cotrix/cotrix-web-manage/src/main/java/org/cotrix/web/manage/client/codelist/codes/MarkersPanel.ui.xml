@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.codes.marker"
+	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.codes.marker.panel"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='attributesresources'
 		type='org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources' />

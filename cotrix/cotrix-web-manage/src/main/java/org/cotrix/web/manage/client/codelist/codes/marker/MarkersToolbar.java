@@ -5,6 +5,8 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent.Action;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyleProvider;
 import org.cotrix.web.manage.client.di.CodelistBus;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -14,7 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 
-import static org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource.*;
+import static org.cotrix.web.manage.client.codelist.codes.marker.style.MarkersResource.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,18 +29,19 @@ public class MarkersToolbar extends Composite {
 	
 	private FlowPanel toolbar;	
 	
-	public MarkersToolbar() {
+	@Inject
+	public MarkersToolbar(MarkerStyleProvider styleProvider) {
 		toolbar = new FlowPanel();
-		initButtons();
+		initButtons(styleProvider);
 		initWidget(toolbar);
 	}
 	
-	private void initButtons() {
-		for (MarkerType marker:MarkerType.values()) addButton(marker);
+	private void initButtons(MarkerStyleProvider styleProvider) {
+		for (MarkerType marker:MarkerType.values()) addButton(marker, styleProvider.getStyle(marker));
 	}
 	
-	private void addButton(final MarkerType marker) {
-		MarkerButton button = new MarkerButton(marker);
+	private void addButton(final MarkerType marker, MarkerStyle markerStyle) {
+		MarkerButton button = new MarkerButton(marker.getName(), markerStyle);
 		button.addStyleName(style.toolbarButton());
 		button.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 			

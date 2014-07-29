@@ -72,7 +72,6 @@ public class MetaConstraintProviderGenerator extends Generator {
 
 			}
 			
-			Arrays.<String>asList("");
 			src.outdent();
 			src.println("}");
 

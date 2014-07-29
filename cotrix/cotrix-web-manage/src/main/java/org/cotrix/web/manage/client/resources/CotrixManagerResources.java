@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.resources;
 
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkersResource;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 
 import com.google.gwt.core.client.GWT;

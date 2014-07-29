@@ -1,0 +1,110 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style type="org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerEventPanel.Style">
+	.panel {
+		background-color: #efefef;
+		border-radius: 5px;
+		padding: 5px;
+		margin-bottom: 5px;
+	}
+	
+	.table {
+		width: 100%;
+		table-layout:fixed;
+	}
+	
+	.iconCell {
+		width: 36px;
+		text-align: left;
+	}
+	
+	.icon {
+		margin-left: 5px;
+	}
+	
+	.titleCell {
+		vertical-align: top;
+		height: 18px;
+	}
+	
+	.title {
+		color: #5674b9;
+		font-size: 14px;
+		
+		overflow: hidden;
+    	text-overflow: ellipsis;
+    	white-space: nowrap;
+	}
+	
+	.valueCell {
+		vertical-align: top;
+		height: 16px;
+	}
+	
+	.subTitle {
+		font-size: 12px;
+		line-height: 15px;
+		color: #464545;
+		
+		overflow: hidden;
+    	text-overflow: ellipsis;
+    	white-space: nowrap;
+	}
+	
+	.description {
+		color: #f60;
+		font-size: 12px;
+		line-height: 15px;
+		
+		overflow: hidden;
+    	text-overflow: ellipsis;
+    	white-space: nowrap;
+	}
+	
+	.timestamp {
+		font-size: 12px;
+		line-height: 15px;
+		color: #8A8A8A;
+		
+		overflow: hidden;
+    	text-overflow: ellipsis;
+    	white-space: nowrap;
+	}
+	
+	</ui:style>
+	<g:HTMLPanel styleName="{style.panel}">
+		<table class="{style.table}">
+			<tr>
+				<td class="{style.iconCell}">
+					<g:Image ui:field="icon"/>
+				</td>
+				<td class="{style.titleCell}">
+					<g:Label ui:field="title" styleName="{style.title}"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td class="{style.valueCell}">
+					<g:Label ui:field="subTitle"  styleName="{style.subTitle}"/>
+				</td>
+			</tr>
+			
+			<tr>
+				<td></td>
+				<td class="{style.valueCell}">
+					<g:Label ui:field="description"  styleName="{style.description}"/>
+				</td>
+			</tr>
+
+			<tr>
+				<td></td>
+				<td class="{style.valueCell}">
+					<g:Label ui:field="timestamp"  styleName="{style.timestamp}"/>
+				</td>
+			</tr>
+
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

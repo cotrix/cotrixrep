@@ -16,9 +16,9 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel;
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel.MarkersEditingPanelListener;
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkersEditingPanel.SwitchState;
+import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel;
+import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.MarkersEditingPanelListener;
+import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.SwitchState;
 import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -152,7 +152,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 					MarkerType markerType = markerTypeResolver.resolve(attribute);
 					if (markerType!=null) {
 						switch (event.getEditType()) {
-							case ADD: markersPanel.setMarkerActive(markerType, attribute, attribute.getDescription()); break;
+							case ADD: markersPanel.setMarkerActive(markerType, attribute); break;
 							case REMOVE: markersPanel.setMarkerUnactive(markerType); break;
 						}
 					}
@@ -236,7 +236,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 		for (UIAttribute attribute:code.getAttributes()) {
 			MarkerType markerType = markerTypeResolver.resolve(attribute);
-			if (markerType!=null) markersPanel.setMarkerActive(markerType, attribute, attribute.getDescription());
+			if (markerType!=null) markersPanel.setMarkerActive(markerType, attribute);
 		}
 
 		refreshSwitches();

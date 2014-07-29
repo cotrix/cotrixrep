@@ -13,6 +13,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.GradientClassGenerator;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.DefaultMarkerStyleProvider;
 import org.cotrix.web.manage.client.di.CodelistBus;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -39,6 +40,9 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 	private GradientClassGenerator gradientClassGenerator;
 	
 	@Inject
+	private DefaultMarkerStyleProvider styleProvider;
+	
+	@Inject
 	void bind(@CodelistBus EventBus bus, CodesEditorRowHightlighterEventBinder binder) {
 		binder.bindEventHandlers(this, bus);
 	}
@@ -60,7 +64,7 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 		
 		markers.retainAll(highlightedMarkers);
 		
-		if (markers.size() == 1) return markers.get(0).getHighlightStyleName();
+		if (markers.size() == 1) return styleProvider.getStyle(markers.get(0)).getHighlightStyleName();
 		
 		if (markers.size() > 1) return generateGradient(markers);
 		
@@ -69,7 +73,7 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 	
 	private String generateGradient(List<MarkerType> markers) {
 		Set<String> colors = new HashSet<String>();
-		for (MarkerType marker:markers) colors.add(marker.getBackgroundColor());
+		for (MarkerType marker:markers) colors.add(styleProvider.getStyle(marker).getBackgroundColor());
 		return gradientClassGenerator.getClassName(colors);
 	}
 	

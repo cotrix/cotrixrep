@@ -3,7 +3,9 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
-import static org.cotrix.web.manage.client.codelist.codes.marker.MarkersResource.*;
+import static org.cotrix.web.manage.client.codelist.codes.marker.style.MarkersResource.*;
+
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Float;
@@ -28,10 +30,10 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 	private FocusPanel focusPanel;
 	private boolean down;
 
-	public MarkerButton(MarkerType markerType) {
+	public MarkerButton(String name, MarkerStyle style) {
 		
 		focusPanel = new FocusPanel();
-		focusPanel.setStyleName(markerType.getHighlightStyleName());
+		focusPanel.setStyleName(style.getHighlightStyleName());
 		focusPanel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -48,7 +50,7 @@ public class MarkerButton extends Composite implements HasValueChangeHandlers<Bo
 		getElement().getStyle().setTextAlign(TextAlign.CENTER);
 		getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 		getElement().getStyle().setFontSize(12, Unit.PX);
-		setTitle("highlight "+markerType.getName()+" codes");
+		setTitle("highlight "+name+" codes");
 		style();
 	}
 	

@@ -1,9 +1,12 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes.marker;
+package org.cotrix.web.manage.client.codelist.codes.marker.panel;
+
+import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AutoHeightTextArea;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -12,6 +15,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -26,23 +30,16 @@ public class MarkerDetailsPanel extends Composite implements HasValueChangeHandl
 	interface MarkerDetailsPanelUiBinder extends
 			UiBinder<Widget, MarkerDetailsPanel> {
 	}
-	
-//	@UiField
-//	AdvancedTextBox descriptionArea;
 
 	@UiField
 	AutoHeightTextArea descriptionArea;
+	
+	@UiField
+	VerticalPanel eventsContainer;
 
 	public MarkerDetailsPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
-	
-	/*@UiHandler({"descriptionArea"})
-	protected void onKeyDown(KeyDownEvent event) {
-		if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			 descriptionArea.setFocus(false);
-	     }
-	}*/
 
 	public String getDescription() {
 		return descriptionArea.getValue();
@@ -63,6 +60,15 @@ public class MarkerDetailsPanel extends Composite implements HasValueChangeHandl
 
 	public void focus() {
 		descriptionArea.setFocus(true);		
+	}
+	
+	public void setEvents(List<MarkerEvent> events) {
+		eventsContainer.clear();
+		for (MarkerEvent event:events) {
+			MarkerEventPanel eventPanel = new MarkerEventPanel();
+			eventPanel.setEvent(event);
+			eventsContainer.add(eventPanel);
+		}
 	}
 
 	@Override

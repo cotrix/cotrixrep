@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.DefaultMarkerStyleProvider;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safecss.shared.SafeStyles;
@@ -42,6 +44,9 @@ public class MarkerRenderer implements SafeHtmlRenderer<UICode> {
 	@Inject
 	private MarkerTypeUtil markerTypeUtil;
 	
+	@Inject
+	private DefaultMarkerStyleProvider markerStyleProvider;
+	
 	@Override
 	public SafeHtml render(UICode object) {
 		return toSafeHtml(object);
@@ -62,7 +67,8 @@ public class MarkerRenderer implements SafeHtmlRenderer<UICode> {
 		Iterator<MarkerType> markerIterator = markers.iterator();
 		while(markerIterator.hasNext()) {
 			MarkerType marker = markerIterator.next();
-			rowsBuilder.append(template.row(SafeStylesUtils.forTrustedBackgroundColor(marker.getBackgroundColor())));
+			MarkerStyle style = markerStyleProvider.getStyle(marker);
+			rowsBuilder.append(template.row(SafeStylesUtils.forTrustedBackgroundColor(style.getBackgroundColor())));
 			tooltipBuilder.append(marker.getName());
 			if (markerIterator.hasNext()) tooltipBuilder.append(", ");
 		}

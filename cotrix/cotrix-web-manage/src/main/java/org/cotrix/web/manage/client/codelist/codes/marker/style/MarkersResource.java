@@ -1,27 +1,32 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes.marker;
+package org.cotrix.web.manage.client.codelist.codes.marker.style;
 
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
-import com.google.gwt.resources.client.CssResource;
+import static org.cotrix.web.manage.client.codelist.codes.marker.MarkerType.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public interface MarkersResource extends CssResource {
+public interface MarkersResource extends MarkerStyleResource {
 	
 	public static final MarkersResource style = CotrixManagerResources.INSTANCE.markers();
 	
+	@BackgroundColor(DELETED)
 	String deletedBackgroundColor();
+	@TextColor(DELETED)
 	String deletedTextColor();
+	@Highlight(DELETED)
 	String deletedHighlight();
 	
-	
+	@BackgroundColor(INVALID)
 	String invalidBackgroundColor();
+	@TextColor(INVALID)
 	String invalidTextColor();
+	@Highlight(INVALID)
 	String invalidHighlight();
 	
 	
@@ -29,12 +34,18 @@ public interface MarkersResource extends CssResource {
 	String anotherMarkerTextColor();
 	String anotherMarkerHighlight();
 	
+	@BackgroundColor(NEWCODE)
 	String newCodeBackgroundColor();
+	@TextColor(NEWCODE)
 	String newCodeTextColor();
+	@Highlight(NEWCODE)
 	String newCodeHighlight();
 
+	@BackgroundColor(MODIFIED)
 	String modifiedBackgroundColor();
+	@TextColor(MODIFIED)
 	String modifiedTextColor();
+	@Highlight(MODIFIED)
 	String modifiedHighlight();
 	
 	String toolbarButton();

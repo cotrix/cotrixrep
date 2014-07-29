@@ -8,21 +8,12 @@
 	
 		.valueCell {
 		    overflow: hidden;
-		    vertical-align: middle;
 		    padding: 0px 3px 0px 3px;
 		}
 	
 	</ui:style>
 	<g:HTMLPanel>
-		<table width="100%">
-			<tr>
-				<td width="31px" style="border-right: 1px solid #cecece">
-				</td>
-				<td class="{style.valueCell}">
-					<c:AutoHeightTextArea ui:field="descriptionArea"  styleName="{resources.detailsPanelStyle.textarea}" width="100%" placeholder="Add comment?"/>
-				</td>
-			</tr>
-		</table>
-
+		<c:AutoHeightTextArea ui:field="descriptionArea"  styleName="{resources.detailsPanelStyle.textarea} {style.valueCell}" width="100%" placeholder="Add comment?"/>
+		<g:VerticalPanel ui:field="eventsContainer" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

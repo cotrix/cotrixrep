@@ -17,6 +17,12 @@
 		<when-type-assignable
 			class="org.cotrix.web.manage.client.codelist.metadata.attributedefinition.constraint.MetaConstraintProvider" />
 	</generate-with>
+	
+		<generate-with
+		class="org.cotrix.web.manage.gen.MarkerStyleResourceBinderGenerator">
+		<when-type-assignable
+			class="org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyleResourceBinder" />
+	</generate-with>
 
 	<!-- Specify the paths for translatable code -->
 	<source path='client' />

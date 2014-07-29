@@ -1,10 +1,15 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes.marker;
+package org.cotrix.web.manage.client.codelist.codes.marker.panel;
+
+import java.util.List;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkerPanelHeader.HeaderListener;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerPanelHeader.HeaderListener;
+import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -36,12 +41,14 @@ public class MarkerPanel extends Composite {
 	private MarkerDetailsPanel detailsPanel;
 	private MarkerPanelListener listener;
 	private MarkerType markerType;
-
+	private MarkerStyle markerStyle;
+	
 	private CustomDisclosurePanel disclosurePanel;
 
-	public MarkerPanel(final MarkerType markerType) {
+	public MarkerPanel(final MarkerType markerType, MarkerStyle markerStyle) {
 		
 		this.markerType = markerType;
+		this.markerStyle = markerStyle;
 		
 		header = new MarkerPanelHeader();
 		header.setHeaderLabel(markerType.getName());
@@ -82,28 +89,33 @@ public class MarkerPanel extends Composite {
 		setUnactive();
 	}
 	
-	public void setActive(String description) {
-		setActive(true, description);
+	public void setActive(String description, String value) {
+		setActive(true, description, value);
 	}
 	
 	public void setUnactive() {
-		setActive(false, "");
+		setActive(false, "", "");
 		openDetails(false);
 	}
 	
-	private void setActive(boolean active, String description) {
-		Log.trace("setActive active: "+active+" description: "+description);
+	private void setActive(boolean active, String description, String value) {
+		Log.trace("setActive active: "+active+" description: "+description+" value: "+value);
 		this.active = active;
 		updateColors();
+		
 		detailsPanel.setDescription(description);
+		
+		List<MarkerEvent> events = markerType.getEventExtractor().extract(value);
+		detailsPanel.setEvents(events);
+		
 		header.setActivationCheck(active);
 		header.setClickEnabled(active);
 		updateDescriptionEditability();
 	}
 	
 	private void updateColors() {
-		header.setBackgroundColor(active?markerType.getBackgroundColor():INACTIVE_BACKGROUND_COLOR);
-		header.setLabelColor(active?markerType.getTextColor():INACTIVE_LABEL_COLOR);
+		header.setBackgroundColor(active?markerStyle.getBackgroundColor():INACTIVE_BACKGROUND_COLOR);
+		header.setLabelColor(active?markerStyle.getTextColor():INACTIVE_LABEL_COLOR);
 	}
 	
 
@@ -115,7 +127,7 @@ public class MarkerPanel extends Composite {
 	}
 	
 	private void fireActived() {
-		setActive("");
+		setActive("", "");
 		if (listener!=null) listener.onMarkerActived(detailsPanel.getDescription());
 	}
 	
