@@ -6,7 +6,7 @@ package org.cotrix.web.manage.client.codelist.codes.marker.panel;
 import java.util.List;
 
 import org.cotrix.web.common.client.widgets.AutoHeightTextArea;
-import org.cotrix.web.manage.client.codelist.codes.marker.parse.MarkerEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.event.MarkerEvent;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;

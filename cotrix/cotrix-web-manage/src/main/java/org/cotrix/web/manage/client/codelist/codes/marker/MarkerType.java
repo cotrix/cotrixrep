@@ -9,7 +9,7 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
  */
 public enum MarkerType {
 	
-	DELETED("DELETED", false, false, "deleted", MarkerEventExtractor.PARSE),
+	DELETED("DELETED", false, false, "deleted", MarkerEventExtractor.NONE),
 	INVALID("INVALID",  true, true, "invalid", MarkerEventExtractor.PARSE),
 	NEWCODE("NEW", true, false, "new", MarkerEventExtractor.NONE),
 	MODIFIED("MODIFIED", true, true, "modified", MarkerEventExtractor.PARSE);

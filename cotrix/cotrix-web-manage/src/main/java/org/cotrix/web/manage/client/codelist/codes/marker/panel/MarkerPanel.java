@@ -7,8 +7,8 @@ import java.util.List;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.codes.marker.event.MarkerEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerPanelHeader.HeaderListener;
-import org.cotrix.web.manage.client.codelist.codes.marker.parse.MarkerEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
 
 import com.allen_sauer.gwt.log.client.Log;

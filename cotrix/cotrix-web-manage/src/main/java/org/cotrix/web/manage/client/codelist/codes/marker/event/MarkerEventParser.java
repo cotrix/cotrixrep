@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes.marker.parse;
+package org.cotrix.web.manage.client.codelist.codes.marker.event;
 
 import java.util.List;
 
