@@ -1,6 +1,7 @@
 package org.cotrix.application.validation;
 
 import static java.lang.String.*;
+import static org.cotrix.application.validation.Violation.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.attributes.Facet.*;
@@ -8,13 +9,16 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Singleton;
 
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
@@ -28,6 +32,9 @@ import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.validation.Constraint;
 import org.cotrix.domain.values.ValueType;
+
+import com.google.gson.reflect.TypeToken;
+
 
 @Singleton
 public class Validator {
@@ -47,7 +54,7 @@ public class Validator {
 		
 		NamedStateContainer<Attribute.State> attributes = code.state().attributes();
 		
-		List<String> violations = new ArrayList<>();
+		List<Violation> violations = new ArrayList<>();
 		
 		checkAttributes(violations,code.attributes());
 		checkLinks(violations,code.links());
@@ -58,35 +65,49 @@ public class Validator {
 		
 		if (violations.isEmpty()) {
 			
-			if (invalid!=null)
+			if (has(invalid))
 				attributes.remove(invalid.id());
 			
 			return;
 		}
-	
 		
-		if (invalid==null) {
-			attributes.add(stateof(attribute().instanceOf(INVALID).value("TRUE")));
-			invalid = managed.attribute(INVALID);  //re-fetch for persistence scenario
+		Type type = new TypeToken<List<Violation>>(){}.getType();
+		
+		if (hasno(invalid)) {
+			
+			attributes.add(stateof(attribute().instanceOf(INVALID)));
+			invalid = managed.attribute(INVALID);
+		}
+		else {
+			
+			List<Violation> existingViolations = jsonBinder().fromJson(invalid.value(),type) ;
+			
+			for (Violation violation : existingViolations) {
+				violations.remove(violation);
+				violations.add(violation);
+			}
+			
+			Collections.sort(violations);
+			
 		}
 		
-		stateof(invalid).description(render(violations));
+		stateof(invalid).value(CommonUtils.jsonBinder().toJson(violations,type));
 	}
 	
-	private void checkAttributes(List<String> violations,NamedContainer<? extends Attribute> attributes) {
+	private void checkAttributes(List<Violation> violations,NamedContainer<? extends Attribute> attributes) {
 		
 		checkAttributeOccurrences(violations,attributes);
 		checkAttributeValues(violations,attributes);
 			
 	}
 	
-	private void checkLinks(List<String> violations,NamedContainer<? extends Codelink> attributes) {
+	private void checkLinks(List<Violation> violations,NamedContainer<? extends Codelink> attributes) {
 		
 		
 		checkLinkOccurrences(violations,attributes);
 	}
 	
-	private void checkAttributeValues(List<String> violations, NamedContainer<? extends Attribute> attributes) {
+	private void checkAttributeValues(List<Violation> violations, NamedContainer<? extends Attribute> attributes) {
 	
 		for (Attribute attr : attributes) {
 			
@@ -95,12 +116,15 @@ public class Validator {
 			ValueType type = def.valueType();
 			
 			for (Constraint constraint : type.constraints())
-				if (!constraint.isMetBy(attr.value()))
-					violations.add(format(valueViolation,def.qname(),attr.value(),constraint));
-		}
+				if (!constraint.isMetBy(attr.value())) {
+					Violation v = violation(attr);
+					v.description(format(valueViolation,def.qname(),attr.value(),constraint));
+					violations.add(v);
+				}
+		}	
 	}
 	
-	private void checkAttributeOccurrences(List<String> violations, NamedContainer<? extends Attribute> attributes) {
+	private void checkAttributeOccurrences(List<Violation> violations, NamedContainer<? extends Attribute> attributes) {
 		
 		Map<String,Integer> cards = cardinalities(attributes);
 		
@@ -108,7 +132,7 @@ public class Validator {
 		
 		for (Attribute attr : attributes) {
 			
-			if (!attr.is(INHERITABLE))
+			if (!attr.is(VALIDATABLE))
 				continue;
 			
 			AttributeDefinition def = attr.definition();
@@ -121,14 +145,16 @@ public class Validator {
 			if (card==null)
 				card = 0;
 			
-			if (!def.range().inRange(card))
-				violations.add(format(occurrenceViolation,attr.qname(),card,def.range())); 
-				
+			if (!def.range().inRange(card)) {
+				Violation v = violation(def);
+				v.description(format(occurrenceViolation,attr.qname(),card,def.range()));
+				violations.add(v); 
+			}
 			processed.add(def.id());
 		}
 	}
 	
-	private void checkLinkOccurrences(List<String> violations,NamedContainer<? extends Codelink> links) {
+	private void checkLinkOccurrences(List<Violation> violations,NamedContainer<? extends Codelink> links) {
 		
 		Map<String,Integer> cards = cardinalities(links);
 		
@@ -146,9 +172,12 @@ public class Validator {
 			if (card==null)
 				card = 0;
 			
-			if (!def.range().inRange(card))
-				violations.add(format(occurrenceViolation,attr.qname(),card,def.range())); 
+			if (!def.range().inRange(card)) {
 				
+				Violation v = violation(def);
+				v.description(format(occurrenceViolation,attr.qname(),card,def.range()));
+				violations.add(v); 
+			}
 			processed.add(def.id());
 		}
 	}
@@ -168,20 +197,13 @@ public class Validator {
 		return cards;
 	}
 	
-	private String render(List<String> violations) {
-		
-		StringBuilder builder = new StringBuilder();
-		
-		for (String violation : violations) {
-			
-			if (builder.length()>0)
-				builder.append("\n\n");
-			
-			builder.append(format("❌️️ %s\n   (%s on %s) ",violation,currentUser().name(), time()));
-			
-		}
-		
-		return builder.toString();
-		
+	
+	//helper
+	private boolean has(Object o) {
+		return o!=null;
+	}
+	
+	private boolean hasno(Object o) {
+		return o==null;
 	}
 }
