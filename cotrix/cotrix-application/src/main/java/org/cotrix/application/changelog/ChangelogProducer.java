@@ -148,8 +148,9 @@ public class ChangelogProducer {
 			String description = format("%s: %s → %s",type,origin,current);
 			
 			entry.from(origin.toString()).to(current.toString()).description(description);
+			
+			log.add(entry);
 		}
 		
-		log.add(entry);
 	}
 }

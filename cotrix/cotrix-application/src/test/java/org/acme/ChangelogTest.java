@@ -26,7 +26,8 @@ public class ChangelogTest extends ApplicationTest {
 
 	
 	Attribute a = attribute().name("a").build();
-	Code origin = code().name("c").attributes(a).build();
+	Attribute same = attribute().name("same").build();
+	Code origin = code().name("c").attributes(a,same).build();
 	Codelist list = codelist().name("l").with(origin).build();
 	
 	@Inject
