@@ -24,7 +24,7 @@ public class DefaultEditorialEvent implements EditorialEvent,Comparable<Editoria
 		this.timestamp=time();
 	}
 	
-	void subtitle(String title) {
+	protected void subtitle(String title) {
 		this.subtitle=title;
 	}
 	

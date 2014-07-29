@@ -1,26 +1,25 @@
 package org.cotrix.application.validation;
 
-import org.cotrix.common.Report;
+import static org.cotrix.application.changelog.EditorialEvent.Type.*;
 
-public class Violation extends Report.Item {
+import org.cotrix.application.changelog.DefaultEditorialEvent;
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.trait.Definition;
 
-	private final String id;
-	private final String msg;
-	
-	public static final Violation make(String id,String msg) {
-		return new Violation(id, msg);
+
+public class Violation extends DefaultEditorialEvent {
+
+	public static final Violation violation(Definition def) {
+		return new Violation(def.qname().getLocalPart());
 	}
 	
-	public Violation(String id,String msg) {
-		this.id=id;
-		this.msg = msg;
+	public static final Violation violation(Attribute a) {
+		Violation v = new Violation(a.qname().getLocalPart());
+		v.subtitle(a.language()==null? a.type().getLocalPart():a.type().getLocalPart()+","+a.language());
+		return v;
 	}
 	
-	public String id() {
-		return id;
+	public Violation(Object title) {
+		super(ERROR,title);
 	}
-	
-	public String message() {
-		return msg;
-	};
 }

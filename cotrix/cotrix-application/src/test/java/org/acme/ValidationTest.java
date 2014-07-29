@@ -40,7 +40,7 @@ public class ValidationTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void attributeAreValidated() {
+	public void attributesAreValidated() {
 		
 		Attribute onetoomany = attribute().instanceOf(def).build();
 		Attribute moda = modify(a).value("toolong").build();
@@ -51,7 +51,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		ManagedCode managed = manage(list.codes().lookup(modified.id()));
 		
-		System.out.println(managed.attribute(INVALID).description());
+		System.out.println(managed.attribute(INVALID).value());
 		
 		assertNotNull(managed.attribute(INVALID));
 		

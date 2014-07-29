@@ -66,7 +66,7 @@ public class ChangelogProducer {
 		for (Attribute attr :  origin.attributes())
 			if (attr.is(Facet.LOGGABLE) && !matched.contains(attr.id())) {
 			
-				ChangelogEntry e = entry(DELETION,current,attr).from(attr.qname());
+				ChangelogEntry e = entry(DELETION,current,attr).from(attr.qname().getLocalPart());
 				
 				e.description("removed attribute");
 				
