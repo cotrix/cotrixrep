@@ -58,7 +58,7 @@ public class CodelistTreeModel implements TreeViewModel {
 
 
 	public interface CellTemplate extends SafeHtmlTemplates {
-		@Template("<div><img src=\"{0}\" style=\"vertical-align: middle;\"><span class=\"{1}\">version {2}</span></div>")
+		@Template("<div><img src=\"{0}\" style=\"vertical-align: middle;\"><span class=\"{1}\">{2}</span></div>")
 		SafeHtml version(SafeUri image, String style, SafeHtml version);
 
 		@Template("<span title=\"{0}\">{0}</span>")
