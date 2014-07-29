@@ -1,5 +1,6 @@
 package org.cotrix.domain.trait;
 
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;

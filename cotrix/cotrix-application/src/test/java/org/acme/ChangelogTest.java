@@ -2,6 +2,7 @@ package org.acme;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.junit.Assert.*;
@@ -13,6 +14,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
@@ -80,7 +82,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		assertNotNull(managed.attribute(MODIFIED));
 		
-		assertNotNull(managed.attribute(MODIFIED).description());
+		assertNotNull(managed.attribute(MODIFIED).value());
 		
 	}
 	
@@ -93,12 +95,14 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		System.out.println(manage(versionedCode).attribute(MODIFIED).description());
+		String val = manage(versionedCode).attribute(MODIFIED).value();
+		
+		System.out.println(val);
 		
 	}
 	
 	@Test
-	public void attrChangesAreDetected() {
+	public void attrChangesAreDetected() throws Exception {
 		
 		Code code = list.codes().lookup(origin);
 		
@@ -111,8 +115,22 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		System.out.println(manage(code).attribute(MODIFIED).description());
+		System.out.println(manage(code).attribute(MODIFIED).value());
 	
+		Thread.sleep(1000);
+		
+		User fifi = user().name("fifi").fullName("fifi").noMail().build();
+	
+		user.set(fifi);
+		
+		Attribute nattr2 = attribute().name("c").value("val").build();
+		
+		modified = modify(code).attributes(nattr2).build();
+		
+		codelists.update(modify(list).with(modified).build());
+
+		System.out.println(manage(code).attribute(MODIFIED).value());
+
 	}
 	
 }

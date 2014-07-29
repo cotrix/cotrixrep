@@ -11,7 +11,7 @@ import org.cotrix.domain.codelist.Codelist;
 public class CodelistObserver {
 	
 	@Inject
-	Changelog log;
+	ChangelogManager log;
 
 	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
 		

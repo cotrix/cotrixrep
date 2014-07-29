@@ -1,9 +1,14 @@
 package org.cotrix.common;
 
+import static java.text.DateFormat.*;
+
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -12,6 +17,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
 
@@ -20,10 +26,31 @@ public class CommonUtils {
 	//helpers
 
 	private final static XStream stream = new XStream();
+	
+	private final static Gson jsonStream = new Gson();
 
+	
+	public static String time() {
+		return getDateTimeInstance().format(Calendar.getInstance().getTime());
+	}
+	
+	public static Date time(String time) {
+		try {
+			return getDateTimeInstance().parse(time);
+		}
+		catch(ParseException e) {
+			throw unchecked("invalid date format",e);
+		}
+	}
 	public static XStream binder() {
 
 		return stream; 
+	
+	}
+	
+	public static Gson jsonBinder() {
+
+		return jsonStream; 
 	
 	}
 	
