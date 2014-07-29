@@ -37,7 +37,6 @@ public class MarkerStyleResourceBinderGenerator extends Generator {
 	public String generate(TreeLogger logger, GeneratorContext context, String typeName) throws UnableToCompleteException {
 
 		try {
-			System.out.println("MarkerStyleProviderGenerator MarkerStyleProviderGenerator  MarkerStyleProviderGenerator MarkerStyleProviderGenerator MarkerStyleProviderGenerator");
 			JClassType classType = context.getTypeOracle().getType(typeName);
 			JClassType targetType = getTargetType(classType, context.getTypeOracle());
 			
@@ -102,16 +101,13 @@ public class MarkerStyleResourceBinderGenerator extends Generator {
 	}
 
 	private Map<MarkerType, Map<StyleElement, JMethod>> getResourceAnnotations(JClassType type) {
-		System.out.println("analizing "+type.getName());
+
 		Map<MarkerType, Map<StyleElement, JMethod>> elements = new EnumMap<>(MarkerType.class);
 		for (JMethod method : type.getInheritableMethods()) {
-			System.out.println(" method: "+method.getName());
 			for (Annotation annotation:method.getAnnotations()) {
-				System.out.println("  annotation: "+annotation+" type: "+annotation.annotationType());
 				if (annotation.annotationType().isAnnotationPresent(Style.class)) {
 					MarkerType markerType = getMarkerType(annotation);
-					System.out.println("    markertype "+markerType);
-
+				
 					Map<StyleElement, JMethod> markerElements = elements.get(markerType);
 					if (markerElements == null) {
 						markerElements = new HashMap<>();
@@ -135,11 +131,9 @@ public class MarkerStyleResourceBinderGenerator extends Generator {
 	}
 
 	private Map<StyleElement, JMethod> getElementStyleAnnotations(JClassType type) {
-		System.out.println("style: "+type.getName());
 		Map<StyleElement, JMethod> elements = new EnumMap<>(StyleElement.class);
 
 		for (JMethod method : type.getInheritableMethods()) {
-			System.out.println(" method: "+method);
 			Style style = method.getAnnotation(Style.class);
 			if (style == null) throw new RuntimeException("The method "+method.getName()+" is missing the style annotation");
 			JMethod oldMethod = elements.put(style.value(), method);

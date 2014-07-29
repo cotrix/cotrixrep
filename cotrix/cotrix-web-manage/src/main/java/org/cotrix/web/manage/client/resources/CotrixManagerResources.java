@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 import com.google.inject.Singleton;
 
 /**
@@ -110,6 +111,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource hideMenu();
 	
 	public ImageResource markersHeader();
+	
+	@Source("test.json")
+	public TextResource testJson();
 	
 	
 	interface CotrixManagerStyle extends CssResource {

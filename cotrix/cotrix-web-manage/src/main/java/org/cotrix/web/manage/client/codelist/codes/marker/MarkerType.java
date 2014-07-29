@@ -9,10 +9,10 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
  */
 public enum MarkerType {
 	
-	DELETED("DELETED", false, false, "deleted", MarkerEventExtractor.NONE),
-	INVALID("INVALID",  true, true, "invalid", MarkerEventExtractor.NONE),
+	DELETED("DELETED", false, false, "deleted", MarkerEventExtractor.PARSE),
+	INVALID("INVALID",  true, true, "invalid", MarkerEventExtractor.PARSE),
 	NEWCODE("NEW", true, false, "new", MarkerEventExtractor.NONE),
-	MODIFIED("MODIFIED", true, true, "modified", MarkerEventExtractor.NONE);
+	MODIFIED("MODIFIED", true, true, "modified", MarkerEventExtractor.PARSE);
 	
 	private String name;
 	private boolean readOnly;

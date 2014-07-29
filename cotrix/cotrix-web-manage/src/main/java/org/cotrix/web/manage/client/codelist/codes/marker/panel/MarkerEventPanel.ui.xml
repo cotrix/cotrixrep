@@ -25,12 +25,13 @@
 	
 	.titleCell {
 		vertical-align: top;
-		height: 18px;
+		height: 20px;
 	}
 	
 	.title {
 		color: #5674b9;
 		font-size: 14px;
+		line-height: 18px;
 		
 		overflow: hidden;
     	text-overflow: ellipsis;

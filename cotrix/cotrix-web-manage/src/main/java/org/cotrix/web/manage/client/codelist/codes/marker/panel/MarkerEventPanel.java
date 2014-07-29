@@ -3,7 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker.panel;
 
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkerEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.parse.MarkerEvent;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.CssResource;
@@ -41,12 +42,12 @@ public class MarkerEventPanel extends Composite {
 	}
 
 	public void setEvent(MarkerEvent event) {
-		icon.setResource(event.getIcon());
+		icon.setResource(CotrixManagerResources.INSTANCE.codes());
 		icon.setStyleName(style.icon());
 		
 		title.setText(event.getTitle());
-		subTitle.setText(event.getSubTitle());
+		subTitle.setText(event.getSubtitle());
 		description.setText(event.getDescription());
-		timestamp.setText(event.getTimestamp());
+		timestamp.setText(event.getUser()+" "+event.getTimestamp());
 	}
 }

@@ -3,10 +3,11 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.cotrix.web.manage.client.codelist.codes.marker.parse.MarkerEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.parse.MarkerEventParser;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 /**
@@ -19,7 +20,16 @@ public interface MarkerEventExtractor {
 		
 		@Override
 		public List<MarkerEvent> extract(String value) {
-			
+			return Collections.emptyList();
+		}
+	};
+	
+	public MarkerEventExtractor PARSE = new MarkerEventExtractor() {
+		
+		@Override
+		public List<MarkerEvent> extract(String value) {
+			return MarkerEventParser.parse(value);
+			/*return MarkerEventParser.parse(CotrixManagerResources.INSTANCE.testJson().getText());*/
 			/*MarkerEvent event = new MarkerEvent();
 			event.setIcon(CotrixManagerResources.INSTANCE.codes());
 			event.setTitle("ENGLISH_NAME");
@@ -35,9 +45,11 @@ public interface MarkerEventExtractor {
 			event2.setTimestamp("federico on July 29, 2014 12:31:10 AM");
 			
 			return Arrays.asList(event, event2);*/
-			return Collections.emptyList();
+			
 		}
 	};
+	
+	
 	
 	List<MarkerEvent> extract(String value);
 
