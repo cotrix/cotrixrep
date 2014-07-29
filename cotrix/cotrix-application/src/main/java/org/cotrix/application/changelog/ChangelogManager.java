@@ -1,5 +1,6 @@
 package org.cotrix.application.changelog;
 
+import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
@@ -126,9 +127,15 @@ public class ChangelogManager {
 			
 			log.addAll(existingEntries);
 			
-		}
 			
-		stateof(modified).value(jsonBinder().toJson(log.entries(),entrytype));
+		}
+		
+
+		List<ChangelogEntry> entries = log.entries();
+
+		sort(entries);
+			
+		stateof(modified).value(jsonBinder().toJson(entries,entrytype));
 		
 	}
 	
