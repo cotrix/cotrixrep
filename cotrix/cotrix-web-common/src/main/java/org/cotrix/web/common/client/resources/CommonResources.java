@@ -13,9 +13,6 @@ import com.google.inject.Singleton;
 public interface CommonResources extends ClientBundle {
 	public static final CommonResources INSTANCE = GWT.create(CommonResources.class);
 	
-	@Source("constants.css")
-	public CssConstants cssConstants();
-	
 	@Source("style.css")
 	public CommonCss css();
 	
