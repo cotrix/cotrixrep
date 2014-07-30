@@ -12,6 +12,11 @@ public class Changelog {
 		return entries;
 	}
 	
+	
+	public boolean isEmpty() {
+		return entries.isEmpty();
+	}
+	
 	public void add(ChangelogEntry entry) {
 	
 		entries.remove(entry);
