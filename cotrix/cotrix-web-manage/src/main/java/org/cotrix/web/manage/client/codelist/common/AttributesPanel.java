@@ -11,12 +11,12 @@ import java.util.Map.Entry;
 
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.util.FadeAnimation;
-import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.codelist.common.AttributeEditDialog.AttributeEditDialogListener;
 import org.cotrix.web.manage.client.codelist.common.AttributeRow.AttributeRowListener;
 import org.cotrix.web.manage.client.codelist.common.AttributeRow.Button;
@@ -81,7 +81,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 			@Override
 			public void onValueChanged(AttributeRow row) {
 				UIAttribute attribute = attributes.get(row);
-				attribute.setName(ValueUtils.getValue(row.getName()));
+				attribute.setName(row.getName());
 				attribute.setValue(row.getValue());
 				fireValueChanged();
 			}
@@ -101,9 +101,9 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		attributeEditDialog.setListener(new AttributeEditDialogListener() {
 			
 			@Override
-			public void onEdit(String name, String type, String description, Language language, String value) {
-				currentEditedAttribute.setName(ValueUtils.getValue(name));
-				currentEditedAttribute.setType(ValueUtils.getValue(type));
+			public void onEdit(UIQName name, UIQName type, String description, Language language, String value) {
+				currentEditedAttribute.setName(name);
+				currentEditedAttribute.setType(type);
 				currentEditedAttribute.setDescription(description);
 				currentEditedAttribute.setLanguage(language);
 				currentEditedAttribute.setValue(value);
@@ -155,8 +155,9 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	private void fullEdit(AttributeRow row) {
 		currentEditedRow = row;
 		currentEditedAttribute = attributes.get(row);
-		String name = ValueUtils.getValue(currentEditedAttribute.getName());
-		String type = ValueUtils.getValue(currentEditedAttribute.getType());
+		UIQName name = currentEditedAttribute.getName();
+		Log.trace("name: "+name);
+		UIQName type = currentEditedAttribute.getType();
 		String description = currentEditedAttribute.getDescription();
 		Language language = currentEditedAttribute.getLanguage();
 		String value = currentEditedAttribute.getValue();
@@ -193,7 +194,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 	
 	private void addAttribute(UIAttribute attribute) {
 		AttributeRow attributeRow = new AttributeRow(errorStyle);
-		attributeRow.setName(ValueUtils.getLocalPart(attribute.getName()));
+		attributeRow.setName(attribute.getName());
 		attributeRow.setValue(attribute.getValue());
 		addAttributeRow(attributeRow);
 		attributeRow.setReadOnly(Attributes.isSystemAttribute(attribute) || readOnly);

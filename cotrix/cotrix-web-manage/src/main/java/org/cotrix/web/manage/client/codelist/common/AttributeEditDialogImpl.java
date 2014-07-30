@@ -3,7 +3,9 @@ package org.cotrix.web.manage.client.codelist.common;
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.UIQName;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -32,8 +34,8 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	@UiTemplate("AttributeEditDialog.ui.xml")
 	interface Binder extends UiBinder<Widget, AttributeEditDialogImpl> {}
 	
-	@UiField AdvancedTextBox nameBox;
-	@UiField AdvancedTextBox typeBox;
+	@UiField UIQNameBox nameBox;
+	@UiField UIQNameBox typeBox;
 	@UiField AdvancedTextBox descriptionBox;
 	@UiField LanguageListBox languageBox;
 	@UiField AdvancedTextBox valueBox;
@@ -79,7 +81,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		if (listener!=null) listener.onEdit(nameBox.getText(), typeBox.getText(), descriptionBox.getText(), languageBox.getValue(), valueBox.getText());
+		if (listener!=null) listener.onEdit(nameBox.getValue(), typeBox.getValue(), descriptionBox.getText(), languageBox.getValue(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {
@@ -110,17 +112,17 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	 */
 	@Override
 	public void clean() {
-		nameBox.setText("");
-		typeBox.setText("");
+		nameBox.setValue(new UIQName("", ""));
+		typeBox.setValue(new UIQName("", ""));
 		languageBox.setValue(Language.NONE);
 		valueBox.setText("");
 		cleanValidation();
 	}
 
 	@Override
-	public void set(String name, String type, String description, Language language, String value) {
-		nameBox.setText(name);
-		typeBox.setText(type);
+	public void set(UIQName name, UIQName type, String description, Language language, String value) {
+		nameBox.setValue(name);
+		typeBox.setValue(type);
 		descriptionBox.setText(description);
 		languageBox.setValue(language);
 		valueBox.setText(value);

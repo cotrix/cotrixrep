@@ -8,11 +8,12 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
-import org.cotrix.web.common.client.widgets.AdvancedTextBox;
+import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition.UIValueType;
@@ -66,7 +67,7 @@ public class LinkDefinitionDetailsPanel extends Composite implements HasValueCha
 
 	@UiField Table table;
 
-	@UiField AdvancedTextBox nameBox;
+	@UiField UIQNameBox nameBox;
 
 	@UiField(provided=true) SuggestListBox codelistBox;
 	@UiField Image codelistBoxLoader;
@@ -125,7 +126,13 @@ public class LinkDefinitionDetailsPanel extends Composite implements HasValueCha
 	}
 
 	private void setupNameBox() {
-		nameBox.addValueChangeHandler(changeHandler);
+		nameBox.addValueChangeHandler(new ValueChangeHandler<UIQName>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<UIQName> event) {
+				fireChange();
+			}
+		});
 		
 		nameBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -136,11 +143,11 @@ public class LinkDefinitionDetailsPanel extends Composite implements HasValueCha
 		});
 	}
 
-	public String getName() {
+	public UIQName getName() {
 		return nameBox.getValue();
 	}
 
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		this.nameBox.setValue(name, false);
 	}
 	

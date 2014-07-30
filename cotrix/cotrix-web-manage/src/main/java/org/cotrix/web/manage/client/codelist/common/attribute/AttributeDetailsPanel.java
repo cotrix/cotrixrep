@@ -6,8 +6,10 @@ package org.cotrix.web.manage.client.codelist.common.attribute;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
@@ -54,7 +56,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	private UIAttributeDefinition selectedDefinition;
 	@UiField CellContainer definitionRow;
 
-	@UiField AdvancedTextBox nameBox;
+	@UiField UIQNameBox nameBox;
 	private boolean nameBoxReadOnly;
 	
 	@UiField(provided=true) SuggestListBox typeBox;
@@ -124,7 +126,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		definitionBox.setValue(AttributeDefinitionSuggestOracle.NONE.getDisplayString());
 		selectedDefinition = null;
 		
-		setName("");
+		setName(new UIQName("", ""));
 		nameBoxReadOnly = false;
 		
 		setLanguage(Language.NONE);
@@ -156,7 +158,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		
 		selectedDefinition = definition;
 		
-		setName(ValueUtils.getLocalPart(definition.getName()));
+		setName(definition.getName());
 		nameBoxReadOnly = true;
 		
 		setLanguage(definition.getLanguage());
@@ -177,10 +179,10 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 	
 	private void setupNameField() {
 
-		nameBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+		nameBox.addValueChangeHandler(new ValueChangeHandler<UIQName>() {
 
 			@Override
-			public void onValueChange(ValueChangeEvent<String> event) {
+			public void onValueChange(ValueChangeEvent<UIQName> event) {
 				fireChange();
 			}
 		});
@@ -281,11 +283,11 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		loadDefinitions(definitionId);
 	}
 	
-	public String getName() {
+	public UIQName getName() {
 		return nameBox.getValue();
 	}
 	
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		nameBox.setValue(name, false);
 	}
 	

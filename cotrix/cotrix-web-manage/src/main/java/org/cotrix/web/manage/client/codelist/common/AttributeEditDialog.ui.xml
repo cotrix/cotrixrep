@@ -36,7 +36,7 @@
 						<div>Name</div>
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
-						<c:AdvancedTextBox ui:field="nameBox"
+						<c:UIQNameBox ui:field="nameBox"
 							styleName="{resources.detailsPanelStyle.textbox}" placeholder="name" />
 					</td>
 				</tr>
@@ -46,14 +46,14 @@
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
 						<g:FlowPanel>
-							<c:AdvancedTextBox ui:field="typeBox"
+							<c:UIQNameBox ui:field="typeBox"
 								styleName="{resources.detailsPanelStyle.textbox}" placeholder="type" />
 						</g:FlowPanel>
 					</td>
 				</tr>
 				<tr>
 					<td class="{resources.detailsPanelStyle.headerCell}">
-						<div>Name</div>
+						<div>Description</div>
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
 						<c:AdvancedTextBox ui:field="descriptionBox"

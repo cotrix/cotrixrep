@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction.Function;
@@ -46,7 +47,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 
 	@Override
 	public void read() {
-		definition.setName(ValueUtils.getValue(detailsPanel.getName()));
+		definition.setName(detailsPanel.getName());
 		definition.setTargetCodelist(detailsPanel.getCodelist());
 		definition.setValueFunction(detailsPanel.getValueFunction());
 		definition.setValueType(detailsPanel.getValueType());
@@ -55,7 +56,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 
 	@Override
 	public void write() {
-		detailsPanel.setName(ValueUtils.getLocalPart(definition.getName()));
+		detailsPanel.setName(definition.getName());
 		detailsPanel.setCodelist(definition.getTargetCodelist(), definition.getValueType());
 		detailsPanel.setValueFunction(definition.getValueFunction());
 		detailsPanel.setAttributes(definition.getAttributes());
@@ -65,8 +66,8 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	public String getLabel() {
 		if (!editing) return ValueUtils.getLocalPart(definition.getName());
 		
-		String name = detailsPanel.getName();
-		return name.isEmpty()?"...":name;
+		UIQName name = detailsPanel.getName();
+		return name.isEmpty()?"...":name.getLocalPart();
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 		
 		boolean valid = true;
 
-		String name = detailsPanel.getName();
+		UIQName name = detailsPanel.getName();
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setValidName(nameValid);
 		valid &= nameValid;
