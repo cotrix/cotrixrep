@@ -85,7 +85,7 @@
 				</td>
 			</tr>
 			
-			<tr>
+			<tr ui:field="subTitleRow">
 				<td></td>
 				<td class="{style.valueCell}">
 					<g:Label ui:field="subTitle"  styleName="{style.subTitle}"/>
