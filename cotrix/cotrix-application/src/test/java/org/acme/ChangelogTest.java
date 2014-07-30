@@ -5,12 +5,14 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.repository.CodelistActions.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.managed.ManagedCode;
@@ -24,11 +26,12 @@ import org.junit.Test;
 
 public class ChangelogTest extends ApplicationTest {
 
-	
-	Attribute a = attribute().name("a").build();
+	AttributeDefinition def = attrdef().name("a").build();
+	Attribute a = attribute().instanceOf(def).build();
 	Attribute same = attribute().name("same").build();
+	
 	Code origin = code().name("c").attributes(a,same).build();
-	Codelist list = codelist().name("l").with(origin).build();
+	Codelist list = codelist().name("l").definitions(def).with(origin).build();
 	
 	@Inject
 	VersioningService service;
@@ -131,6 +134,25 @@ public class ChangelogTest extends ApplicationTest {
 		codelists.update(modify(list).with(modified).build());
 
 		System.out.println(manage(code).attribute(MODIFIED).value());
+
+	}
+	
+	@Test
+	public void definitionRemovalsAreDetected() throws Exception {
+		
+		Code code = list.codes().lookup(origin);
+		
+		AttributeDefinition vdef = list.definitions().lookup(def.qname());
+		
+		codelists.update(list.id(),deleteAttrdef(vdef.id()));
+
+		ManagedCode managed = manage(code);
+		
+		assertNotNull(managed.attribute(MODIFIED));
+
+		System.out.println(manage(code).attribute(MODIFIED).value());
+	
+		
 
 	}
 	

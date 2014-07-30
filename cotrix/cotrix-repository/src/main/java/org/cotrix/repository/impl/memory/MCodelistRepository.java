@@ -98,7 +98,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	// actions
 	
 	@Override
-	public UpdateAction<Codelist> deleteDefinition(final String definitionId) {
+	public UpdateAction<Codelist> deleteAttrdef(final String definitionId) {
 		
 		return new UpdateAction<Codelist>() {
 			@Override
@@ -133,7 +133,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 	
 
 	@Override
-	public UpdateAction<Codelist> deleteCodelistLink(final String linkId) {
+	public UpdateAction<Codelist> deleteLinkdef(final String linkId) {
 		
 		return new UpdateAction<Codelist>() {
 			@Override

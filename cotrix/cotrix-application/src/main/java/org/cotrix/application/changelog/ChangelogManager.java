@@ -45,7 +45,6 @@ public class ChangelogManager {
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(changeset.id());
 		
-		
 		//changelog requires lineage
 		if (manage(list).hasno(PREVIOUS_VERSION)) 		
 			return;
@@ -60,6 +59,14 @@ public class ChangelogManager {
 		else //exclusive because bulk-handling currently processes all codes
 			
 			processPunctual(plist, pchangeset);
+	}
+	
+	public void update(String id) {
+	
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(id);
+		
+		processBulk(reveal(list));
 	}
 	
 	private void processBulk(Codelist.Private list) {

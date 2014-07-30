@@ -1,8 +1,9 @@
 package org.cotrix.application.changelog;
 
 import static java.lang.String.*;
-import static org.cotrix.application.changelog.EditorialEvent.Type.*;
+import static org.cotrix.application.shared.EditorialEvent.Type.*;
 
+import org.cotrix.application.shared.DefaultEditorialEvent;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;

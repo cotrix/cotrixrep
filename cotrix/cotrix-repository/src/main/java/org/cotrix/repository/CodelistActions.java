@@ -18,18 +18,18 @@ public class CodelistActions {
 	
 	
 	
-	public static UpdateAction<Codelist> deleteDefinition(String definitionId) {
+	public static UpdateAction<Codelist> deleteAttrdef(String definitionId) {
 		
 		notNull("definition identifier", definitionId);
 		
-		return factory.deleteDefinition(definitionId);
+		return factory.deleteAttrdef(definitionId);
 	}
 	
-	public static UpdateAction<Codelist> deleteCodelistLink(String linkId) {
+	public static UpdateAction<Codelist> deleteLinkdef(String linkId) {
 		
 		notNull("codelist link identifier", linkId);
 		
-		return factory.deleteCodelistLink(linkId);
+		return factory.deleteLinkdef(linkId);
 	}
 
 	

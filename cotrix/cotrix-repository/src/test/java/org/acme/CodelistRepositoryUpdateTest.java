@@ -22,7 +22,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 	CodelistRepository repository;
 
 	@Test
-	public void deleteAttributeDefinition() {
+	public void deleteAttributeDef() {
 		
 		AttributeDefinition def = attrdef().name("name").build();
 		Attribute attr1 = attribute().instanceOf(def).value("value").build();
@@ -33,7 +33,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 
 		repository.add(list);
 		
-		repository.update(list.id(),deleteDefinition(def.id()));
+		repository.update(list.id(),deleteAttrdef(def.id()));
 		
 		list = repository.lookup(list.id());
 		
@@ -65,7 +65,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 
 		repository.add(list);
 		
-		repository.update(list.id(),deleteCodelistLink(link.id()));
+		repository.update(list.id(),deleteLinkdef(link.id()));
 		
 		list = repository.lookup(list.id());
 		

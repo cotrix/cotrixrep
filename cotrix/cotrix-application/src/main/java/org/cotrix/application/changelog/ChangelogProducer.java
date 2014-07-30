@@ -1,8 +1,8 @@
 package org.cotrix.application.changelog;
 
 import static java.lang.String.*;
-import static org.cotrix.application.changelog.EditorialEvent.Type.*;
 import static org.cotrix.application.changelog.ChangelogEntry.*;
+import static org.cotrix.application.shared.EditorialEvent.Type.*;
 
 import java.util.ArrayList;
 import java.util.List;

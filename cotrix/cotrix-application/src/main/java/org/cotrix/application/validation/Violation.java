@@ -1,8 +1,8 @@
 package org.cotrix.application.validation;
 
-import static org.cotrix.application.changelog.EditorialEvent.Type.*;
+import static org.cotrix.application.shared.EditorialEvent.Type.*;
 
-import org.cotrix.application.changelog.DefaultEditorialEvent;
+import org.cotrix.application.shared.DefaultEditorialEvent;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.trait.Definition;
 

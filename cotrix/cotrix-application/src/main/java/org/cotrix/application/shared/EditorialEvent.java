@@ -1,4 +1,4 @@
-package org.cotrix.application.changelog;
+package org.cotrix.application.shared;
 
 public interface EditorialEvent {
 
