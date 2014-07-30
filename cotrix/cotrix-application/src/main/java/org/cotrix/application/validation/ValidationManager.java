@@ -1,6 +1,7 @@
 package org.cotrix.application.validation;
 
 import static java.lang.String.*;
+import static java.lang.System.*;
 import static org.cotrix.application.validation.Violation.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.CommonUtils;
@@ -23,6 +25,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.NamedContainer;
@@ -32,22 +35,60 @@ import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.validation.Constraint;
 import org.cotrix.domain.values.ValueType;
+import org.cotrix.repository.CodelistRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.gson.reflect.TypeToken;
 
 
 @Singleton
-public class Validator {
+public class ValidationManager {
 
+	private static Logger log = LoggerFactory.getLogger(ValidationManager.class);
+	
 	static String  occurrenceViolation = "%s occurs %s time(s), violating occurences constraint [%s]";
 	static String  valueViolation = "%s's value '%s' violates constraint [%s]";
 
-	public void check(Iterable<Code> codes) {
+	@Inject
+	private CodelistRepository codelists;
 	
-		notNull("codes",codes);
+	public void check(Codelist changeset) {
 		
-		for (Code code : codes)
-			check(reveal(code));
+		Codelist.Private pchangeset = reveal(changeset);
+		
+		if (isBulkUpdate(pchangeset))
+			check(pchangeset.id());
+		
+		else {
+		
+			//we know this will succeed, an update has already taken place 
+			Codelist list = codelists.lookup(changeset.id());
+			
+			List<String> ids = new ArrayList<String>();
+			
+			for (Code change : changeset.codes())
+				ids.add(change.id());
+	
+			for (Code.Private code : reveal(list).codes())
+				if (ids.contains(code.id()))
+					check(code);
+		
+		}
+	}
+	
+	public void check(String id) {
+		
+		long time = currentTimeMillis();
+		
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(id);
+		
+		for (Code.Private code : reveal(list).codes())
+			check(code);
+		
+		log.trace("validated codelist {} in {} msec.",id,currentTimeMillis()-time);
+		
 	}
 	
 	private void check(Code.Private code) {
@@ -205,5 +246,21 @@ public class Validator {
 	
 	private boolean hasno(Object o) {
 		return o==null;
+	}
+	
+	// helper
+	private boolean isBulkUpdate(Codelist.Private changeset) {
+
+		// at least one change to definitions, other than additions
+
+		for (AttributeDefinition.Private def : changeset.definitions())
+			if (def.status() != null)
+				return true;
+
+		for (LinkDefinition.Private def : changeset.links())
+			if (def.status() != null)
+				return true;
+
+		return false;
 	}
 }

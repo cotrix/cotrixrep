@@ -1,5 +1,6 @@
 package org.cotrix.application.changelog;
 
+import static java.lang.System.*;
 import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
@@ -83,6 +84,8 @@ public class ChangelogManager {
 
 	private void processPunctual(Codelist.Private list, Codelist.Private changeset) {
 
+		long time = currentTimeMillis();
+		
 		for (Code.Private change : changeset.codes()) {
 
 			Status status = reveal(change).status();
@@ -95,6 +98,8 @@ public class ChangelogManager {
 
 			processCode(code,change);
 		}
+		
+		log.trace("computed full changelog codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
 	}
 
 	private void processCode(Code.Private changed, Code.Private change) {

@@ -7,6 +7,8 @@ import static org.cotrix.application.shared.EditorialEvent.Type.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
@@ -29,7 +31,7 @@ public class ChangelogProducer {
 
 	private void addCodeChanges(Code origin, Code current){
 		
-		add(entry(current), "name", origin.qname(), current.qname());
+		add(entry(current), "name change", origin.qname(), current.qname());
 
 	}
 	
@@ -114,10 +116,10 @@ public class ChangelogProducer {
 	
 	private void addAttributeChanges(Code code,Attribute origin, Attribute current){
 		
-		add(entry(code,current), "name", origin.qname(), current.qname());
-		add(entry(code,current), "value", origin.value(), current.value());
-		add(entry(code,current), "type", origin.type(), current.type());
-		add(entry(code,current), "language", origin.language(), current.language());
+		add(entry(code,current), "name change", origin.qname(), current.qname());
+		add(entry(code,current), "value change", origin.value(), current.value());
+		add(entry(code,current), "type change", origin.type(), current.type());
+		add(entry(code,current), "language change", origin.language(), current.language());
 		
 	}
 	
@@ -126,15 +128,15 @@ public class ChangelogProducer {
 		LinkDefinition origindef = origin.definition();
 		LinkDefinition currentdef = current.definition();
 		
-		add(entry(code, current), "name", origindef.qname(), origindef.qname());
+		add(entry(code, current), "name change", origindef.qname(), origindef.qname());
 		
 		String tformat = "%s $s";
-		String torigin = format(tformat,origindef.target().qname(),origindef.target().version());
-		String tcurrent = format(tformat,currentdef.target().qname(),currentdef.target().version());
+		String torigin = format(tformat,local(origindef.target().qname()),origindef.target().version());
+		String tcurrent = format(tformat,local(currentdef.target().qname()),currentdef.target().version());
 		
-		add(entry(code, current), "target list",torigin, tcurrent);
-		add(entry(code, current), "target code",origin.target().qname(), current.target().qname());
-		add(entry(code, current), "value",origin.valueAsString(), current.valueAsString());
+		add(entry(code, current), "target list change",torigin, tcurrent);
+		add(entry(code, current), "target code change", origin.target().qname(), current.target().qname());
+		add(entry(code, current), "value change",origin.valueAsString(), current.valueAsString());
 		
 	}
 	
@@ -147,10 +149,23 @@ public class ChangelogProducer {
 		
 			String description = format("%s: %s → %s",type,origin,current);
 			
-			entry.from(origin.toString()).to(current.toString()).description(description);
+			//not pretty, but it has to be after comparison.
+			if (origin instanceof QName)
+				origin = QName.class.cast(origin).getLocalPart();
+			
+			if (current instanceof QName)
+				current = QName.class.cast(current).getLocalPart();
+			
+			entry.from(origin).to(current).description(description);
 			
 			log.add(entry);
 		}
 		
+	}
+	
+	//helper
+	
+	String local(QName name) {
+		return name.getLocalPart();
 	}
 }
