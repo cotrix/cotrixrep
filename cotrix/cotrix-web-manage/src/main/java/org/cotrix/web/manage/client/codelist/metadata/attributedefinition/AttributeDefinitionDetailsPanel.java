@@ -5,13 +5,16 @@ package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
 
 import java.util.List;
 
+import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.AdvancedIntegerBox;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
 import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.LanguageListBox;
+import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
@@ -55,7 +58,7 @@ public class AttributeDefinitionDetailsPanel extends Composite implements HasVal
 
 	@UiField Table table;
 
-	@UiField AdvancedTextBox nameBox;
+	@UiField UIQNameBox nameBox;
 	
 	@UiField(provided=true) SuggestListBox typeBox;
 	
@@ -101,7 +104,13 @@ public class AttributeDefinitionDetailsPanel extends Composite implements HasVal
 	}
 	
 	private void setupNameField() {
-		nameBox.addValueChangeHandler(changeHandler);
+		nameBox.addValueChangeHandler(new ValueChangeHandler<UIQName>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<UIQName> event) {
+				fireChange();				
+			}
+		});
 		
 		nameBox.addKeyUpHandler(new KeyUpHandler() {
 			
@@ -202,13 +211,13 @@ public class AttributeDefinitionDetailsPanel extends Composite implements HasVal
 	}
 	
 	
-	public String getName() {
+	public UIQName getName() {
 		return nameBox.getValue();
 	}
 	
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		nameBox.setValue(name);
-		nameBox.setTitle(name);
+		nameBox.setTitle(ValueUtils.getLocalPart(name));
 	}
 	
 	public void focusName() {

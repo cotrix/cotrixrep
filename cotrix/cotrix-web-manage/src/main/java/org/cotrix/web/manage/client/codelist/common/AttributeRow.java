@@ -7,7 +7,9 @@ import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
+import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources.AttributeRowStyle;
 
@@ -36,7 +38,7 @@ public class AttributeRow extends AbstractRow {
 	private AttributeRowListener listener;
 	private ValueChangeHandler<String> changeHandler;
 	
-	private AdvancedTextBox nameTextBox;
+	private UIQNameBox nameTextBox;
 	
 	private AdvancedTextBox valueTextBox;
 	
@@ -70,12 +72,18 @@ public class AttributeRow extends AbstractRow {
 			}
 		};
 		
-		nameTextBox = new AdvancedTextBox();
+		nameTextBox = new UIQNameBox();
 		nameTextBox.setHeight("31px");
 		nameTextBox.setPlaceholder("name");
 		nameTextBox.setTitle("The name of this attribute");
 		nameTextBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
-		nameTextBox.addValueChangeHandler(changeHandler);
+		nameTextBox.addValueChangeHandler(new ValueChangeHandler<UIQName>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<UIQName> event) {
+				fireValueChanged();
+			}
+		});
 		nameTextBox.addKeyUpHandler(keyUpHandler);
 		
 		valueTextBox = new AdvancedTextBox();
@@ -163,11 +171,11 @@ public class AttributeRow extends AbstractRow {
 		}
 	}
 	
-	public String getName() {
+	public UIQName getName() {
 		return nameTextBox.getValue();
 	}
 	
-	public void setName(String name) {
+	public void setName(UIQName name) {
 		nameTextBox.setValue(name);
 	}
 	

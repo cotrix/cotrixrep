@@ -64,6 +64,10 @@ public class UIQName implements IsSerializable, Comparable<UIQName>, Cloneable {
 	{
 		return new UIQName(namespace, localPart);
 	}
+	
+	public boolean isEmpty() {
+		return localPart!=null && localPart.isEmpty();
+	}
 
 	/** 
 	 * {@inheritDoc}
@@ -125,5 +129,7 @@ public class UIQName implements IsSerializable, Comparable<UIQName>, Cloneable {
 
 		return (localPart !=null)?localPart.compareTo(o.localPart):1;
 	}
+
+
 
 }

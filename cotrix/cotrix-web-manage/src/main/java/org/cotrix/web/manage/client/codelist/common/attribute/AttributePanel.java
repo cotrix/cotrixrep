@@ -7,6 +7,7 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
@@ -158,11 +159,15 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		UIAttributeDefinition definition = detailsPanel.getDefinition();
 		attribute.setDefinitionId(definition==null?null:definition.getId());
 		
-		String name = detailsPanel.getName();
-		attribute.setName(ValueUtils.getValue(name));
+		UIQName name = detailsPanel.getName();
+		attribute.setName(name);
 		
 		String type = detailsPanel.getType();
-		attribute.setType(ValueUtils.getValue(type));
+		String typeNamespace = ValueUtils.defaultNamespace;
+		UIQName oldType = attribute.getType();
+		//we preserve the namespace
+		if (oldType!=null && oldType.getLocalPart().equals(type)) typeNamespace = oldType.getNamespace();
+		attribute.setType(new UIQName(typeNamespace, type));
 		
 		String description = detailsPanel.getDescription();
 		attribute.setDescription(description);
@@ -202,7 +207,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 	private void writeType() {
 		detailsPanel.setDefinitionId(attribute.getDefinitionId());
-		detailsPanel.setName(ValueUtils.getLocalPart(attribute.getName()));
+		detailsPanel.setName(attribute.getName());
 		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
 		detailsPanel.setDescription(attribute.getDescription());
 		detailsPanel.setLanguage(attribute.getLanguage());
@@ -235,7 +240,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 
 		Log.trace("validating");
 		
-		String name = detailsPanel.getName();
+		UIQName name = detailsPanel.getName();
 		Log.trace("name: "+name);
 		
 		boolean nameValid = name!=null && !name.isEmpty();

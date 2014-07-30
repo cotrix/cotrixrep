@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.Language;
+import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
@@ -47,11 +48,14 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 
 	@Override
 	public void read() {
-		String name = detailsPanel.getName();
-		attributeDefinition.setName(ValueUtils.getValue(name));
+		UIQName name = detailsPanel.getName();
+		attributeDefinition.setName(name);
 		
 		String type = detailsPanel.getType();
-		attributeDefinition.setType(ValueUtils.getValue(type));
+		UIQName oldType = attributeDefinition.getType();
+		String namespace = ValueUtils.defaultNamespace;
+		if (oldType!=null && oldType.getLocalPart().equals(type)) namespace = oldType.getNamespace();
+		attributeDefinition.setType(new UIQName(namespace, type));
 		
 		Language language = detailsPanel.getLanguage();
 		attributeDefinition.setLanguage(language);
@@ -68,7 +72,7 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 
 	@Override
 	public void write() {
-		detailsPanel.setName(ValueUtils.getLocalPart(attributeDefinition.getName()));
+		detailsPanel.setName(attributeDefinition.getName());
 		detailsPanel.setType(ValueUtils.getLocalPart(attributeDefinition.getType()));
 		detailsPanel.setLanguage(attributeDefinition.getLanguage());
 		detailsPanel.setDefault(attributeDefinition.getDefaultValue());
@@ -80,15 +84,15 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	public String getLabel() {
 		if (!editing) return ValueUtils.getLocalPart(attributeDefinition.getName());
 		
-		String name = detailsPanel.getName();
-		return name.isEmpty()?"...":name;
+		UIQName name = detailsPanel.getName();
+		return name.isEmpty()?"...":name.getLocalPart();
 	}
 
 	@Override
 	public boolean validate() {
 		boolean valid = true;
 
-		String name = detailsPanel.getName();
+		UIQName name = detailsPanel.getName();
 		boolean nameValid = name!=null && !name.isEmpty();
 		detailsPanel.setNameFieldValid(nameValid);
 		valid &= nameValid;

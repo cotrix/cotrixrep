@@ -1,13 +1,23 @@
+/*
+Unused colors:
+bk CBD8DD fc 2a4f74
+ * blue #d5eaff #2a4f74
+ * red #ffdede #771e1e
+ * green #d6ffd5 #2e5a2d
+*/
+
+
+
 /* DELETED */
-@def deletedBackgroundColor #CBD8DD;
-@def deletedTextColor #2a4f74;
+@def deletedBackgroundColor #B2B1B6 ;
+@def deletedTextColor #464545;
 .deletedHighlight {
 	background-color: deletedBackgroundColor !important;
 }
 
 /* INVALID */
 @def invalidBackgroundColor #ffdede;
-@def invalidTextColor #771e1e;
+@def invalidTextColor #464545;
 .invalidHighlight {
 	background-color: invalidBackgroundColor !important;
 }
@@ -22,14 +32,14 @@
 
 /* NEWCODE */
 @def newCodeBackgroundColor #C2FFCD;
-@def newCodeTextColor #4C7669;
+@def newCodeTextColor #464545;
 .newCodeHighlight {
 	background-color: newCodeBackgroundColor !important;
 }
 
 /* MODIFIED */
 @def modifiedBackgroundColor #E1E7FF;
-@def modifiedTextColor #365E71;
+@def modifiedTextColor #464545;
 .modifiedHighlight {
 	background-color: modifiedBackgroundColor !important;
 }
@@ -40,12 +50,5 @@
 }
 
 @def selectedButtonColor #999;
-
-
-/* PALETTE
- * blue #d5eaff #2a4f74
- * red #ffdede #771e1e
- * green #d6ffd5 #2e5a2d
- */
 
 
