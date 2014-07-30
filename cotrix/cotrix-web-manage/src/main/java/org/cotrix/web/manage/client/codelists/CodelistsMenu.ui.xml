@@ -17,10 +17,10 @@
 		}
 		
 		.menuItem {
-			padding: 1px 7px;
+			padding: 4px 7px;
 			color: #4f4e4e;
 			cursor: pointer;
-			font-size: 14px;
+			font-size: 16px;
 		}
 		
 		.menuItemSelected {
@@ -39,6 +39,13 @@
 			margin-right: 5px;
 			margin-top: 3px;
 			margin-bottom: 2px;
+		}
+		
+		@external gwt-MenuItemSeparator;
+		.gwt-MenuItemSeparator {
+			padding-top: 3px;
+			padding-bottom: 3px;
+
 		}
 		</ui:style>
 	<m:FlatMenuBar vertical="true" styleName="{style.menuBar}">
