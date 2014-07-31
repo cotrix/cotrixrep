@@ -62,23 +62,23 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource attributesSelected();
 	public ImageResource attributesUnselected();
-	public ImageResource attributesDisabled();
 	
 	public ImageResource filter();
 	public ImageResource filterDisabled();
 
 	public ImageResource linksSelected();
 	public ImageResource linksUnselected();
-	public ImageResource linksDisabled();
 	
 	public ImageResource markersSelected();
 	public ImageResource markersUnselected();
-	public ImageResource markersDisabled();
 	
 	public ImageResource logbookSelected();
 	public ImageResource logbookUnselected();
-	public ImageResource logbookDisabled();
 	public ImageResource logbookBullet();
+	
+	public ImageResource tasksSelected();
+	public ImageResource tasksUnselected();
+		
 	
 	public ImageResource linksTypes();
 	
@@ -116,6 +116,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource marker();
 	public ImageResource markerDown();
+	
+	public ImageResource run();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();

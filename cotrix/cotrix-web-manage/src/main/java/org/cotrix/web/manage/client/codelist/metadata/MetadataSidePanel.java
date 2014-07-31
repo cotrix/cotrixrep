@@ -28,6 +28,7 @@ public class MetadataSidePanel extends ResizeComposite {
 	@UiField ToggleButton metadataButton;
 	@UiField ToggleButton userButton;
 	@UiField ToggleButton logbookButton;
+	@UiField ToggleButton tasksButton;
 	
 	@UiField DeckLayoutPanel tools;
 	
@@ -38,21 +39,25 @@ public class MetadataSidePanel extends ResizeComposite {
 	
 	@Inject
 	@UiField(provided=true) LogbookPanel logbookPanel;
+	
+	@Inject
+	@UiField(provided=true) TasksPanel tasksPanel;
 
 	@Inject
 	private void init() {
 		initWidget(uiBinder.createAndBindUi(this));
 		tools.showWidget(attributesPanel);
 
-		
 		buttonGroup.addButton(metadataButton);
 		buttonGroup.addButton(userButton);
 		buttonGroup.addButton(logbookButton);
+		buttonGroup.addButton(tasksButton);
+		
 		buttonGroup.setDown(metadataButton);
 	}
 	
 	
-	@UiHandler({"metadataButton", "userButton", "logbookButton"})
+	@UiHandler({"metadataButton", "userButton", "logbookButton", "tasksButton"})
 	protected void onButtonClicked(ClickEvent event)
 	{
 		Widget panel = getPanel((ToggleButton) event.getSource());
@@ -63,6 +68,7 @@ public class MetadataSidePanel extends ResizeComposite {
 		if (button == metadataButton) return attributesPanel;
 		if (button == userButton) return userPanel;
 		if (button == logbookButton) return logbookPanel;
+		if (button == tasksButton) return tasksPanel;
 		throw new IllegalArgumentException("Unknwown button "+button);
 	}
 

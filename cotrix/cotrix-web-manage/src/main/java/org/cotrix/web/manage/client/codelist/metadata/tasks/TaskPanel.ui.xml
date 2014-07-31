@@ -1,0 +1,61 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style>
+	.table {
+		width: 100%;
+		padding-bottom: 5px;
+		border-radius: 5px;
+	}
+	
+	.name {
+	  	 padding-left: 20px;
+    	padding-top: 15px;
+		padding-right: 20px;
+		color: #5674B8;
+		
+	}
+	
+	.iconCell {
+		width: 32px;
+		text-align: center;
+		vertical-align: middle;
+	}
+	
+	.button {
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.description {
+	 padding-top: 4px;
+	 padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom: 15px;
+	font-size: 14px;
+
+		
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table class="{style.table}">
+			<tr>
+				<td>
+					<g:Label ui:field="name" styleName="{style.name}"/>
+				</td>
+				<td rowspan="2" class="{style.iconCell}">
+					<g:PushButton ui:field="button" styleName="{style.button}">
+						<g:upFace image="{resources.run}" />
+					</g:PushButton>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<g:Label ui:field="description" styleName="{style.description}"/>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

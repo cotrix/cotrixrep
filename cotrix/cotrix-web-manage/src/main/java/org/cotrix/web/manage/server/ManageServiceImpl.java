@@ -22,6 +22,7 @@ import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
+import org.cotrix.application.ValidationService;
 import org.cotrix.application.VersioningService;
 import org.cotrix.application.logbook.Logbook;
 import org.cotrix.application.logbook.Logbook.Entry;
@@ -143,6 +144,9 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private ProgressService progressService;
+	
+	@Inject
+	private ValidationService validationService;
 
 	/** 
 	 * {@inheritDoc}
@@ -480,5 +484,17 @@ public class ManageServiceImpl implements ManageService {
 		Entry entry = logbook.find(entryId);
 		logbook.remove(entry);
 		logbookService.update(logbook);
+	}
+	
+	@CodelistTask(EDIT)
+	public void validateCodelist(@Id String codelistId) throws ServiceException {
+		logger.trace("validateCodelist codelistId: {}", codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		validationService.validate(codelist);
+	}
+	
+	@CodelistTask(EDIT)
+	public void generateCodelistChangelog(@Id String codelistId) throws ServiceException {
+		logger.trace("generateCodelistChangelog codelistId: {}", codelistId);
 	}
 }

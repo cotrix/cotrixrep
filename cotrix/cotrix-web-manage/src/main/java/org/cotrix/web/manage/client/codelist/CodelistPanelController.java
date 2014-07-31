@@ -229,6 +229,11 @@ public class CodelistPanelController implements Presenter {
 			}
 		});
 	}
+	
+	@EventHandler
+	void onCodelistTaskComplete(CodelistTaskCompleteEvent event) {
+		codesDirty = true;
+	}
 
 	private boolean isUpdateOrRemoveOf(DataSavedEvent event, Class<?> ... clazzes) {
 		if (!isUpdateOrRemove(event)) return false;
