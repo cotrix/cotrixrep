@@ -39,31 +39,28 @@ public class ValidationManager {
 	@Inject
 	private Validator validator;
 	
-	public void check(Codelist changeset) {
+	public void checkPunctual(Codelist changeset) {
 		
-		Codelist.Private pchangeset = reveal(changeset);
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(changeset.id());
 		
-		if (isBulkUpdate(pchangeset))
-			check(pchangeset.id());
+		List<String> ids = new ArrayList<String>();
 		
-		else {
+		for (Code change : changeset.codes())
+			ids.add(change.id());
+
+		for (Code.Private code : reveal(list).codes())
+			if (ids.contains(code.id()))
+				check(list,code);
 		
-			//we know this will succeed, an update has already taken place 
-			Codelist list = codelists.lookup(changeset.id());
-			
-			List<String> ids = new ArrayList<String>();
-			
-			for (Code change : changeset.codes())
-				ids.add(change.id());
-	
-			for (Code.Private code : reveal(list).codes())
-				if (ids.contains(code.id()))
-					check(list,code);
-		
-		}
 	}
 	
-	public void check(String id) {
+	public void checkBulk(Codelist list) {
+		
+		checkBulk(list.id());
+	}
+	
+	public void checkBulk(String id) {
 		
 		long time = currentTimeMillis();
 		
@@ -128,10 +125,5 @@ public class ValidationManager {
 	
 	private boolean hasno(Object o) {
 		return o==null;
-	}
-	
-	private boolean isBulkUpdate(Codelist.Private changeset) {
-
-		return changeset.definitions().size()>0 || changeset.links().size()>0;
 	}
 }
