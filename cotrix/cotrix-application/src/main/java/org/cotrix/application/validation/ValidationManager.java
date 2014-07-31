@@ -17,10 +17,8 @@ import javax.inject.Singleton;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
@@ -41,31 +39,28 @@ public class ValidationManager {
 	@Inject
 	private Validator validator;
 	
-	public void check(Codelist changeset) {
+	public void checkPunctual(Codelist changeset) {
 		
-		Codelist.Private pchangeset = reveal(changeset);
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(changeset.id());
 		
-		if (isBulkUpdate(pchangeset))
-			check(pchangeset.id());
+		List<String> ids = new ArrayList<String>();
 		
-		else {
+		for (Code change : changeset.codes())
+			ids.add(change.id());
+
+		for (Code.Private code : reveal(list).codes())
+			if (ids.contains(code.id()))
+				check(list,code);
 		
-			//we know this will succeed, an update has already taken place 
-			Codelist list = codelists.lookup(changeset.id());
-			
-			List<String> ids = new ArrayList<String>();
-			
-			for (Code change : changeset.codes())
-				ids.add(change.id());
-	
-			for (Code.Private code : reveal(list).codes())
-				if (ids.contains(code.id()))
-					check(list,code);
-		
-		}
 	}
 	
-	public void check(String id) {
+	public void checkBulk(Codelist list) {
+		
+		checkBulk(list.id());
+	}
+	
+	public void checkBulk(String id) {
 		
 		long time = currentTimeMillis();
 		
@@ -130,20 +125,5 @@ public class ValidationManager {
 	
 	private boolean hasno(Object o) {
 		return o==null;
-	}
-	
-	private boolean isBulkUpdate(Codelist.Private changeset) {
-
-		// at least one change to definitions, other than additions
-
-		for (AttributeDefinition.Private def : changeset.definitions())
-			if (def.status() != null)
-				return true;
-
-		for (LinkDefinition.Private def : changeset.links())
-			if (def.status() != null)
-				return true;
-
-		return false;
 	}
 }

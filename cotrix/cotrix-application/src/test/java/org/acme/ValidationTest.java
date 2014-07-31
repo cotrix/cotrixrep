@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.application.ValidationService;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
@@ -32,6 +33,9 @@ public class ValidationTest extends ApplicationTest {
 	
 	@Inject
 	CodelistRepository codelists;
+	
+	@Inject
+	ValidationService validator;
 	
 	@Before
 	public void versionList() {
@@ -85,6 +89,8 @@ public class ValidationTest extends ApplicationTest {
 		
 		codelists.update(modify(list).definitions(moddef).build());
 		
+		validator.validate(list);
+		
 		ManagedCode managed = manage(list.codes().lookup(code.qname()));
 		
 		assertNotNull(managed.attribute(INVALID));
@@ -104,6 +110,8 @@ public class ValidationTest extends ApplicationTest {
 		Code modified = modify(code).attributes(onetoomany,moda).build();
 		
 		codelists.update(modify(list).with(modified).build());
+		
+		validator.validate(list);
 		
 		ManagedCode managed = manage(list.codes().lookup(code.qname()));
 		
