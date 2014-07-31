@@ -151,7 +151,7 @@ public class MarkerPanel extends Composite {
 		header.setActivationCheckEnabled(activable);
 	}
 	
-	private void openDetails(boolean open) {
+	public void openDetails(boolean open) {
 		disclosurePanel.setOpen(open);
 	}
 

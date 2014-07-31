@@ -125,6 +125,10 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 	public void setSwitchState(MarkerType markerType, SwitchState state) {
 		panels.get(markerType).setSwitchDown(state == SwitchState.DOWN);
 	}
+	
+	public void setMarkerOpen(MarkerType markerType, boolean open) {
+		panels.get(markerType).openDetails(open);
+	}
 
 	public void clear() {
 		for (MarkerPanel panel:panels.values()) panel.setUnactive();

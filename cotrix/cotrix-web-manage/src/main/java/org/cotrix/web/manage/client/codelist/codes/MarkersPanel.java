@@ -236,7 +236,10 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 		for (UIAttribute attribute:code.getAttributes()) {
 			MarkerType markerType = markerTypeResolver.resolve(attribute);
-			if (markerType!=null) markersPanel.setMarkerActive(markerType, attribute);
+			if (markerType!=null) {
+				markersPanel.setMarkerActive(markerType, attribute);
+				//markersPanel.setMarkerOpen(markerType, true);
+			}
 		}
 
 		refreshSwitches();
