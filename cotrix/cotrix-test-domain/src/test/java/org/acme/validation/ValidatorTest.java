@@ -3,8 +3,8 @@ package org.acme.validation;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
-import org.cotrix.domain.utils.JavascriptEngine;
-import org.cotrix.domain.utils.ScriptEngine;
+import org.cotrix.common.script.JavascriptEngine;
+import org.cotrix.common.script.ScriptEngine;
 import org.cotrix.domain.validation.Constraint;
 import org.junit.BeforeClass;
 import org.junit.Test;

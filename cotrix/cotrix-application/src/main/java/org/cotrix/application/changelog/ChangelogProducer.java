@@ -147,14 +147,15 @@ public class ChangelogProducer {
 		
 		if (!origin.equals(current)) {
 		
-			String description = format("%s: %s → %s",type,origin,current);
-			
 			//not pretty, but it has to be after comparison.
 			if (origin instanceof QName)
 				origin = QName.class.cast(origin).getLocalPart();
 			
 			if (current instanceof QName)
 				current = QName.class.cast(current).getLocalPart();
+			
+			String description = format("%s: %s → %s",type,origin,current);
+			
 			
 			entry.from(origin).to(current).description(description);
 			

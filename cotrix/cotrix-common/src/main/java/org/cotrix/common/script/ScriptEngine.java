@@ -1,4 +1,4 @@
-package org.cotrix.domain.utils;
+package org.cotrix.common.script;
 
 public interface ScriptEngine {
 

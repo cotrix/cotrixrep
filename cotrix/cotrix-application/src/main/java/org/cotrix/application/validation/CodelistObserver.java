@@ -16,7 +16,6 @@ public class CodelistObserver {
 	ValidationManager validator;
 
 
-	
 	public void onCodelistAddition(@Observes @New Codelist list){
 		
 		validator.check(list.id());

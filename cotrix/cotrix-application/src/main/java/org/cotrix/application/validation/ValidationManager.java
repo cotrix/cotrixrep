@@ -1,11 +1,8 @@
 package org.cotrix.application.validation;
 
-import static java.lang.String.*;
 import static java.lang.System.*;
-import static org.cotrix.application.validation.Violation.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
@@ -13,9 +10,7 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,17 +19,10 @@ import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
-import org.cotrix.domain.trait.Defined;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.validation.Constraint;
-import org.cotrix.domain.values.ValueType;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +35,11 @@ public class ValidationManager {
 
 	private static Logger log = LoggerFactory.getLogger(ValidationManager.class);
 	
-	static String  occurrenceViolation = "%s occurs %s time(s), violating occurences constraint [%s]";
-	static String  valueViolation = "%s's value '%s' violates constraint [%s]";
-
 	@Inject
 	private CodelistRepository codelists;
+	
+	@Inject
+	private Validator validator;
 	
 	public void check(Codelist changeset) {
 		
@@ -72,7 +60,7 @@ public class ValidationManager {
 	
 			for (Code.Private code : reveal(list).codes())
 				if (ids.contains(code.id()))
-					check(code);
+					check(list,code);
 		
 		}
 	}
@@ -85,20 +73,17 @@ public class ValidationManager {
 		Codelist list = codelists.lookup(id);
 		
 		for (Code.Private code : reveal(list).codes())
-			check(code);
+			check(list,code);
 		
 		log.trace("validated codelist {} in {} msec.",id,currentTimeMillis()-time);
 		
 	}
 	
-	private void check(Code.Private code) {
+	private void check(Codelist list, Code.Private code) {
 		
 		NamedStateContainer<Attribute.State> attributes = code.state().attributes();
 		
-		List<Violation> violations = new ArrayList<>();
-		
-		checkAttributes(violations,code.attributes());
-		checkLinks(violations,code.links());
+		List<Violation> violations = validator.check(list, code);
 		
 		ManagedCode managed = manage(code);
 		
@@ -123,10 +108,10 @@ public class ValidationManager {
 			
 			List<Violation> existingViolations = jsonBinder().fromJson(invalid.value(),type) ;
 			
-			for (Violation violation : existingViolations) {
-				violations.remove(violation);
-				violations.add(violation);
-			}
+			//preserve user and timestamp of already-known errors
+			for (Violation violation : existingViolations)
+				if (violations.remove(violation))
+					violations.add(violation);
 			
 			Collections.sort(violations);
 			
@@ -135,111 +120,10 @@ public class ValidationManager {
 		stateof(invalid).value(CommonUtils.jsonBinder().toJson(violations,type));
 	}
 	
-	private void checkAttributes(List<Violation> violations,NamedContainer<? extends Attribute> attributes) {
-		
-		checkAttributeOccurrences(violations,attributes);
-		checkAttributeValues(violations,attributes);
-			
-	}
-	
-	private void checkLinks(List<Violation> violations,NamedContainer<? extends Codelink> attributes) {
-		
-		
-		checkLinkOccurrences(violations,attributes);
-	}
-	
-	private void checkAttributeValues(List<Violation> violations, NamedContainer<? extends Attribute> attributes) {
-	
-		for (Attribute attr : attributes) {
-			
-			AttributeDefinition def = attr.definition();
-			
-			ValueType type = def.valueType();
-			
-			for (Constraint constraint : type.constraints())
-				if (!constraint.isMetBy(attr.value())) {
-					Violation v = violation(attr);
-					v.description(format(valueViolation,def.qname(),attr.value(),constraint));
-					violations.add(v);
-				}
-		}	
-	}
-	
-	private void checkAttributeOccurrences(List<Violation> violations, NamedContainer<? extends Attribute> attributes) {
-		
-		Map<String,Integer> cards = cardinalities(attributes);
-		
-		List<String> processed = new ArrayList<>();
-		
-		for (Attribute attr : attributes) {
-			
-			if (!attr.is(VALIDATABLE))
-				continue;
-			
-			AttributeDefinition def = attr.definition();
-			
-			if (processed.contains(def.id()))
-				continue;
-				
-			Integer card = cards.get(def.id()); 
-			
-			if (card==null)
-				card = 0;
-			
-			if (!def.range().inRange(card)) {
-				Violation v = violation(def);
-				v.description(format(occurrenceViolation,attr.qname(),card,def.range()));
-				violations.add(v); 
-			}
-			processed.add(def.id());
-		}
-	}
-	
-	private void checkLinkOccurrences(List<Violation> violations,NamedContainer<? extends Codelink> links) {
-		
-		Map<String,Integer> cards = cardinalities(links);
-		
-		List<String> processed = new ArrayList<>();
-		
-		for (Codelink attr : links) {
-			
-			LinkDefinition def = attr.definition();
-			
-			if (processed.contains(def.id()))
-				continue;
-				
-			Integer card = cards.get(def.id()); 
-			
-			if (card==null)
-				card = 0;
-			
-			if (!def.range().inRange(card)) {
-				
-				Violation v = violation(def);
-				v.description(format(occurrenceViolation,attr.qname(),card,def.range()));
-				violations.add(v); 
-			}
-			processed.add(def.id());
-		}
-	}
 	
 	
-	//helper 
-	private Map<String,Integer> cardinalities(Container<? extends Defined<?>> defined) {
-		
-		Map<String,Integer> cards = new HashMap<>();
-		
-		for (Defined<?> entity : defined) {
-			Identified def = entity.definition();
-			Integer card = cards.get(def.id());	
-			cards.put(def.id(), card==null? 1 : card+1);
-		}
-		
-		return cards;
-	}
+	// helpers
 	
-	
-	//helper
 	private boolean has(Object o) {
 		return o!=null;
 	}
@@ -248,7 +132,6 @@ public class ValidationManager {
 		return o==null;
 	}
 	
-	// helper
 	private boolean isBulkUpdate(Codelist.Private changeset) {
 
 		// at least one change to definitions, other than additions

@@ -1,6 +1,6 @@
 package org.cotrix.domain.validation;
 
-import static org.cotrix.domain.utils.ScriptEngineProvider.*;
+import static org.cotrix.common.script.ScriptEngineProvider.*;
 
 import java.util.Map;
 

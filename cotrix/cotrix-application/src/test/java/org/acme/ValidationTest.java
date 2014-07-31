@@ -41,7 +41,7 @@ public class ValidationTest extends ApplicationTest {
 	}
 	
 	@Test
-	public void attributeAreValidatedOnUpdate() {
+	public void attributesAreValidatedOnUpdate() {
 		
 		Attribute onetoomany = attribute().instanceOf(def).build();
 		Attribute moda = modify(a).value("toolong").build();
@@ -52,16 +52,30 @@ public class ValidationTest extends ApplicationTest {
 		
 		ManagedCode managed = manage(list.codes().lookup(modified.id()));
 		
-		System.out.println(managed.attribute(INVALID).value());
+		//System.out.println(managed.attribute(INVALID).value());
 		
 		assertNotNull(managed.attribute(INVALID));
-		
 		
 		modified = modify(code).attributes(delete(onetoomany),modify(a).value("ss").build()).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
 		assertNull(managed.attribute(INVALID));
+	}
+	
+	@Test
+	public void missingAAttributesAreDetectedOnUpdate() {
+		
+		Code modified = modify(code).attributes(delete(a)).build();
+		
+		codelists.update(modify(list).with(modified).build());
+		
+		ManagedCode managed = manage(list.codes().lookup(modified.id()));
+		
+		assertNotNull(managed.attribute(INVALID));
+		
+		//System.out.println(managed.attribute(INVALID).value());
+		
 	}
 	
 	@Test
@@ -75,7 +89,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		assertNotNull(managed.attribute(INVALID));
 		
-		System.out.println(managed.attribute(INVALID).value());
+		//System.out.println(managed.attribute(INVALID).value());
 	}
 	
 	@Test
