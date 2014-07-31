@@ -77,15 +77,18 @@ public class ChangelogManager {
 		//even if the impacted codes were a few, how much overhead would we be adding to the 
 		//traversal required underneatah to find the impact right subset of codes? 
 		//would need to measure. surely, fine-grain requires more work and we should not
-				
+		
+		long time = currentTimeMillis();
+		
 		for (Code.Private changed : list.codes()) 
 			handleModifiedMarkerWith(changed);
+		
+
+		log.trace("computed full changelog codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
 	}
 
 	private void processPunctual(Codelist.Private list, Codelist.Private changeset) {
 
-		long time = currentTimeMillis();
-		
 		for (Code.Private change : changeset.codes()) {
 
 			Status status = reveal(change).status();
@@ -99,7 +102,6 @@ public class ChangelogManager {
 			processCode(code,change);
 		}
 		
-		log.trace("computed full changelog codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
 	}
 
 	private void processCode(Code.Private changed, Code.Private change) {

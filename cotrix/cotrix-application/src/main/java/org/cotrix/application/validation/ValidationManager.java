@@ -17,10 +17,8 @@ import javax.inject.Singleton;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
@@ -134,16 +132,6 @@ public class ValidationManager {
 	
 	private boolean isBulkUpdate(Codelist.Private changeset) {
 
-		// at least one change to definitions, other than additions
-
-		for (AttributeDefinition.Private def : changeset.definitions())
-			if (def.status() != null)
-				return true;
-
-		for (LinkDefinition.Private def : changeset.links())
-			if (def.status() != null)
-				return true;
-
-		return false;
+		return changeset.definitions().size()>0 || changeset.links().size()>0;
 	}
 }
