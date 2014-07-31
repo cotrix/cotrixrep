@@ -1,4 +1,4 @@
-package org.cotrix.application.changelog;
+package org.cotrix.application.shared;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.utils.DomainUtils.*;

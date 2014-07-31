@@ -25,7 +25,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 
 	
 	@Override
-	public UpdateAction<Codelist> deleteCodelistLink(final String linkId) {
+	public UpdateAction<Codelist> deleteLinkdef(final String linkId) {
 		
 		return new UpdateAction<Codelist>() {
 			
@@ -63,7 +63,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 	
 	
 	@Override
-	public UpdateAction<Codelist> deleteDefinition(final String definitionId) {
+	public UpdateAction<Codelist> deleteAttrdef(final String definitionId) {
 		
 		return new UpdateAction<Codelist>() {
 			

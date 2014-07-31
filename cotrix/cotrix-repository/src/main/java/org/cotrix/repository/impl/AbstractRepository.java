@@ -2,6 +2,7 @@ package org.cotrix.repository.impl;
 
 import static java.lang.System.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.repository.impl.EventProducer.*;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.trait.EntityProvider;
@@ -137,6 +138,8 @@ public abstract class AbstractRepository<T extends Identified,
 		}
 		
 		log.trace("performed {} over {} in {} ms.",action,log(entity),currentTimeMillis()-time);
+		
+		producer.updates.fire(event(id, action));
 	}
 	
 	

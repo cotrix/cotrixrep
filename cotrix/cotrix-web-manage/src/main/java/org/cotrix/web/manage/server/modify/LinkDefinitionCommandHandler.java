@@ -56,7 +56,7 @@ public class LinkDefinitionCommandHandler {
 				return new UpdatedLinkDefinition(toUILinkDefinition(lookupLinkDefinition(codelistId, codelistChangeSet.id())));
 			}
 			case REMOVE: {
-				repository.update(codelistId, deleteCodelistLink(linkDefinition.getId()));
+				repository.update(codelistId, deleteLinkdef(linkDefinition.getId()));
 				return new UpdatedLinkDefinition(null);
 			}
 		}

@@ -1,11 +1,11 @@
 package org.acme;
 
-import static org.cotrix.domain.utils.ScriptEngine.*;
+import static org.cotrix.common.script.ScriptEngine.*;
 
 import javax.inject.Inject;
 
-import org.cotrix.domain.utils.ScriptEngine;
-import org.cotrix.domain.utils.ScriptEngineProvider;
+import org.cotrix.common.script.ScriptEngine;
+import org.cotrix.common.script.ScriptEngineProvider;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Assert;
 import org.junit.Test;

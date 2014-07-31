@@ -39,7 +39,7 @@ public class AttributeDefinitionCommandHandler {
 		
 		if (command.getAction()==REMOVE) {
 			
-			repository.update(codelist.id(), CodelistActions.deleteDefinition(definitionId));
+			repository.update(codelist.id(), CodelistActions.deleteAttrdef(definitionId));
 
 		}
 		else {

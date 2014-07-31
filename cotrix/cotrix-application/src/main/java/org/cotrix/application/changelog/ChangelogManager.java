@@ -1,5 +1,6 @@
 package org.cotrix.application.changelog;
 
+import static java.lang.System.*;
 import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
@@ -45,7 +46,6 @@ public class ChangelogManager {
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(changeset.id());
 		
-		
 		//changelog requires lineage
 		if (manage(list).hasno(PREVIOUS_VERSION)) 		
 			return;
@@ -62,6 +62,14 @@ public class ChangelogManager {
 			processPunctual(plist, pchangeset);
 	}
 	
+	public void update(String id) {
+	
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(id);
+		
+		processBulk(reveal(list));
+	}
+	
 	private void processBulk(Codelist.Private list) {
 		
 		//this seems coarse: any bulk change triggers a full traversal
@@ -76,6 +84,8 @@ public class ChangelogManager {
 
 	private void processPunctual(Codelist.Private list, Codelist.Private changeset) {
 
+		long time = currentTimeMillis();
+		
 		for (Code.Private change : changeset.codes()) {
 
 			Status status = reveal(change).status();
@@ -88,6 +98,8 @@ public class ChangelogManager {
 
 			processCode(code,change);
 		}
+		
+		log.trace("computed full changelog codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
 	}
 
 	private void processCode(Code.Private changed, Code.Private change) {

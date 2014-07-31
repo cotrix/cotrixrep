@@ -1,17 +1,14 @@
-package org.cotrix.domain.utils;
+package org.cotrix.common.script;
 
 import static java.lang.String.*;
 
 import javax.inject.Singleton;
 import javax.script.ScriptEngineManager;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Singleton
 public class JavascriptEngine implements ScriptEngine {
 
-	private static Logger log = LoggerFactory.getLogger(JavascriptEngine.class);
+	//private static Logger log = LoggerFactory.getLogger(JavascriptEngine.class);
 	
 	private static javax.script.ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
 	
@@ -27,7 +24,7 @@ public class JavascriptEngine implements ScriptEngine {
 					if (value==null || value.isEmpty())
 						value="null";
 					
-					log.trace("evaluating \"{}\" with {}", expression, (value=="null" || value.isEmpty())?"<no value>":": "+value);
+					//log.trace("evaluating \"{}\" with {}", expression, (value=="null" || value.isEmpty())?"<no value>":": "+value);
 					
 					engine.put($value, value);
 					
