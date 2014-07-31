@@ -251,8 +251,7 @@ public class AttributePanel extends Composite implements ItemEditingPanel<UIAttr
 		UIAttributeDefinition definition = detailsPanel.getDefinition();
 		if (definition!=null) {
 			boolean valueValid = evaluate(definition.getExpression(), detailsPanel.getValue());
-			detailsPanel.setValueFieldValid(valueValid);
-			valid &= valueValid;
+			detailsPanel.setValueFieldValid(valueValid, "Be warned, the current value does not satisfy all the schema constraints for "+name.getLocalPart().toUpperCase());
 		}
 
 		header.setSaveVisible(valid);

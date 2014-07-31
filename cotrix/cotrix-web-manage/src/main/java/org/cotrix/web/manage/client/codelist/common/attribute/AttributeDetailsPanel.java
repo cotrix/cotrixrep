@@ -349,8 +349,9 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		valueBox.setValue(value, false);
 	}
 	
-	public void setValueFieldValid(boolean valid) {
-		valueBox.setStyleName(style.textboxError(), !valid);
+	public void setValueFieldValid(boolean valid, String message) {
+		valueBox.setStyleName(style.textboxWarning(), !valid);
+		valueBox.setTitle(valid?"":message);
 	}
 	
 	public void setLanguageReadOnly(boolean readOnly) {
@@ -375,7 +376,7 @@ public class AttributeDetailsPanel extends Composite implements HasValueChangeHa
 		setLanguageReadOnly(readOnly);
 
 		valueBox.setEnabled(!readOnly);
-		if (readOnly) valueBox.setStyleName(style.textboxError(), false);
+		if (readOnly) setValueFieldValid(true, "");
 		
 		if (!readOnly) syncDefinibleFields();
 	}
