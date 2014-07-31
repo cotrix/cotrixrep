@@ -19,7 +19,7 @@ public class DefaultValidationService implements ValidationService {
 	@Override
 	public void validate(Codelist list) {
 		
-		validator.checkPunctual(list);
+		validator.checkBulk(list);
 	}
 	
 	@Override 

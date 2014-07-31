@@ -1,7 +1,9 @@
 package org.cotrix.application.validation;
 
+import static java.lang.Math.*;
 import static java.lang.System.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.common.async.TaskUpdate.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
@@ -16,9 +18,12 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.common.CommonUtils;
+import org.cotrix.common.async.CancelledTaskException;
+import org.cotrix.common.async.TaskContext;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.repository.CodelistRepository;
@@ -67,8 +72,41 @@ public class ValidationManager {
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(id);
 		
-		for (Code.Private code : reveal(list).codes())
+		TaskContext context = new TaskContext();
+		
+		float progress=0f;
+		
+		NamedContainer<? extends Code.Private> codes =  reveal(list).codes();
+		
+		int total = list.codes().size();
+		
+		//arbitrary
+		long step = round(max(10,floor(codes.size()/10)));
+		
+		int i=0;
+		
+		for (Code.Private code : codes) {
+			
 			check(list,code);
+			
+			i++;
+			progress++;
+			
+			if (i%step==0)
+				
+				if (context.isCancelled()) {
+					log.info("codelist update aborted on user request after {} codes.",i);
+					throw new CancelledTaskException("codelist creation aborted on user request");
+				}
+			
+				else {
+				
+					System.out.println("saving "+progress/total);
+					context.save(update(progress/total, "validated "+i+" codes"));
+				}
+			
+		}
+		
 		
 		log.trace("validated codelist {} in {} msec.",id,currentTimeMillis()-time);
 		

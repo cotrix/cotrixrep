@@ -120,7 +120,9 @@ public class ValidationTest extends ApplicationTest {
 		//delete def and remove issue
 
 		codelists.update(list.id(),CodelistActions.deleteAttrdef(def.id()));
-				
+			
+		validator.validate(list);
+		
 		assertNull(managed.attribute(INVALID));
 
 	}
