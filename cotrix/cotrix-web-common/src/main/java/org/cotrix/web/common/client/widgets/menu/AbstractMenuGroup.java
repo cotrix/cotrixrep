@@ -20,12 +20,12 @@ import com.google.gwt.view.client.SelectionChangeEvent;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<CheckMenuItem> {
+public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<AbstractMenuItem> {
 	
 	private HandlerManager handlerManager = new HandlerManager(this);
-	private List<CheckMenuItem> items = new ArrayList<CheckMenuItem>();
+	private List<AbstractMenuItem> items = new ArrayList<AbstractMenuItem>();
 	
-	protected void addItem(final CheckMenuItem item) {
+	protected void addItem(final AbstractMenuItem item) {
 		items.add(item);
 		item.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 			
@@ -36,11 +36,11 @@ public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<C
 		});
 	}
 	
-	public List<CheckMenuItem> getItems() {
+	public List<AbstractMenuItem> getItems() {
 		return items;
 	}
 
-	private void fireSelection(CheckMenuItem item) {
+	private void fireSelection(AbstractMenuItem item) {
 		SelectionEvent.fire(this, item);
 	}
 
@@ -50,7 +50,7 @@ public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<C
 	}
 
 	@Override
-	public HandlerRegistration addSelectionHandler(SelectionHandler<CheckMenuItem> handler) {
+	public HandlerRegistration addSelectionHandler(SelectionHandler<AbstractMenuItem> handler) {
 		return handlerManager.addHandler(SelectionEvent.getType(), handler);
 	}
 

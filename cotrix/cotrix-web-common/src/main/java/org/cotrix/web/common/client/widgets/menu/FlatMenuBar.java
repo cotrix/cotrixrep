@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.MenuItemSeparator;
 public class FlatMenuBar extends MenuBar {
 	
 	public interface Group {
-		List<CheckMenuItem> getItems();
+		List<AbstractMenuItem> getItems();
 	}
 	
 	private boolean isFirstElement = true;
@@ -37,7 +37,7 @@ public class FlatMenuBar extends MenuBar {
 	public void addGroup(final Group group) {
 		if (!isFirstElement) addSeparator();
 		isFirstElement = false;
-		for (CheckMenuItem item:group.getItems()) addItem(item);
+		for (AbstractMenuItem item:group.getItems()) addItem(item);
 	}
 	
 	@SuppressWarnings("deprecation")

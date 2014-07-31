@@ -9,6 +9,14 @@ import com.google.web.bindery.event.shared.binder.GenericEvent;
  *
  */
 public class MarkerHighlightEvent extends GenericEvent {
+	
+	public static MarkerHighlightEvent ADD(MarkerType type) {
+		return new MarkerHighlightEvent(type, Action.ADD);
+	}
+	
+	public static MarkerHighlightEvent REMOVE(MarkerType type) {
+		return new MarkerHighlightEvent(type, Action.REMOVE);
+	}
 
 	public enum Action {ADD, REMOVE};
 	

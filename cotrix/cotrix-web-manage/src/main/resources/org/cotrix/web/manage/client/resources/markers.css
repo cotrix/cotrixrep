@@ -22,14 +22,6 @@ bk CBD8DD fc 2a4f74
 	background-color: invalidBackgroundColor !important;
 }
 
-
-/* ANOTHER MARKER */
-@def anotherMarkerBackgroundColor #d6ffd5;
-@def anotherMarkerTextColor #2e5a2d;
-.anotherMarkerHighlight {
-	background-color: anotherMarkerBackgroundColor !important;
-}
-
 /* NEWCODE */
 @def newCodeBackgroundColor #C2FFCD;
 @def newCodeTextColor #464545;
@@ -47,6 +39,36 @@ bk CBD8DD fc 2a4f74
 .toolbarButton {
 	cursor: pointer;
 	margin-left: 5px;
+}
+
+.menuItem {
+	border-top-left-radius: 2px; 
+	border-top-right-radius: 2px; 
+	border-bottom-right-radius: 2px; 
+	border-bottom-left-radius: 2px; 
+	float: left; 
+	text-align: center; 
+	vertical-align: middle; 
+	font-size: 12px; 
+	border: none; 
+	width: 16px; 
+	height: 16px;
+	margin-right:8px;
+}
+
+.menuItemSelected {
+	border-top-left-radius: 2px; 
+	border-top-right-radius: 2px; 
+	border-bottom-right-radius: 2px; 
+	border-bottom-left-radius: 2px; 
+	float: left; 
+	text-align: center; 
+	vertical-align: middle; 
+	font-size: 12px; 
+	border: 2px solid rgb(153, 153, 153); 
+	width: 12px; 
+	height: 12px;
+	margin-right:8px;
 }
 
 @def selectedButtonColor #999;

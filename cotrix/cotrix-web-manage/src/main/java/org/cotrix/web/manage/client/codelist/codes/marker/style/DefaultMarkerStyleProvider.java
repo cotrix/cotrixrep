@@ -23,7 +23,7 @@ public class DefaultMarkerStyleProvider implements MarkerStyleProvider {
 	
 	@Inject
 	void init(DefaultBinder binder) {
-		styles = binder.bind(MarkersResource.style);
+		styles = binder.bind(MarkersResource.INSTANCE);
 	}
 	
 	@Override

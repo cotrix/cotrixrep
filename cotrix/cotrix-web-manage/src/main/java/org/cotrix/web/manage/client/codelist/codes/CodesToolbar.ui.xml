@@ -64,7 +64,10 @@
 					<g:PushButton ui:field="allNormals" styleName="{style.button} {style.leftButton}" title="Hide All">
 						<g:upFace image="{resources.allNormals}" />
 					</g:PushButton>
-					<m:MarkersToolbar ui:field="markersToolbar" styleName="{style.markersToolbar} {style.leftButton}"/>
+					<g:ToggleButton ui:field="markersMenuButton" styleName="{style.leftButton} {style.button}" title="Markers">
+						<g:upFace image="{resources.marker}" />
+						<g:downFace image="{resources.markerDown}" />
+					</g:ToggleButton>
 				</td>
 				<td class="{style.center}">
 					<div>

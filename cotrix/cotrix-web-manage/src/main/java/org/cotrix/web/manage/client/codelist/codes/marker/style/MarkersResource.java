@@ -13,7 +13,7 @@ import static org.cotrix.web.manage.client.codelist.codes.marker.MarkerType.*;
  */
 public interface MarkersResource extends MarkerStyleResource {
 	
-	public static final MarkersResource style = CotrixManagerResources.INSTANCE.markers();
+	public static final MarkersResource INSTANCE = CotrixManagerResources.INSTANCE.markers();
 	
 	@BackgroundColor(DELETED)
 	String deletedBackgroundColor();
@@ -28,11 +28,6 @@ public interface MarkersResource extends MarkerStyleResource {
 	String invalidTextColor();
 	@Highlight(INVALID)
 	String invalidHighlight();
-	
-	
-	String anotherMarkerBackgroundColor();
-	String anotherMarkerTextColor();
-	String anotherMarkerHighlight();
 	
 	@BackgroundColor(NEWCODE)
 	String newCodeBackgroundColor();
@@ -50,5 +45,8 @@ public interface MarkersResource extends MarkerStyleResource {
 	
 	String toolbarButton();
 	String selectedButtonColor();
+	
+	String menuItem();
+	String menuItemSelected();
 	
 }

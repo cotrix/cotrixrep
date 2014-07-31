@@ -3,7 +3,9 @@
  */
 package org.cotrix.web.manage.client.codelist.codes;
 
-import org.cotrix.web.manage.client.codelist.codes.marker.MarkersToolbar;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu;
+import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu.Listener;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -30,9 +33,7 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	
 	@UiField PushButton allColumns;
 	@UiField PushButton allNormals;
-	
-	@Inject
-	@UiField(provided=true) MarkersToolbar markersToolbar;
+	@UiField ToggleButton markersMenuButton;
 	
 	@UiField InlineLabel state;
 	@UiField Image stateLoader;
@@ -42,8 +43,23 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	protected ToolBarListener listener;
 	
 	@Inject
+	private MarkerMenu markerMenu;
+	
+	@Inject
 	public void init() {
 		initWidget(uiBinder.createAndBindUi(this));
+		markerMenu.setListener(new Listener() {
+			
+			@Override
+			public void onHide() {
+				markersMenuButton.setDown(false);
+			}
+			
+			@Override
+			public void onButtonClicked(MarkerType marker, boolean selected) {
+				listener.onMarkerMenu(marker, selected);
+			}
+		});
 	}
 	
 	@UiHandler("allColumns")
@@ -59,6 +75,11 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	@UiHandler("metadataButton")
 	protected void onMetadataClick(ClickEvent event) {
 		listener.onAction(Action.TO_METADATA);
+	}
+	
+	@UiHandler("markersMenuButton")
+	protected void onMarkersMenuButtonClick(ClickEvent event) {
+		markerMenu.show(markersMenuButton);
 	}
 
 	@Override

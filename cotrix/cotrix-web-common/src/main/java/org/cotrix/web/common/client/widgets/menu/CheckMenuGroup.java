@@ -12,7 +12,7 @@ import com.google.gwt.uibinder.client.UiChild;
 public class CheckMenuGroup extends AbstractMenuGroup {
 	
 	@UiChild(tagname="check")
-	public void add(final CheckMenuItem item) {
+	public void add(final AbstractMenuItem item) {
 		item.setManageSelection(true);
 		addItem(item);
 	}

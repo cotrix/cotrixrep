@@ -12,6 +12,8 @@ import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
+import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -83,6 +85,11 @@ public class CodesPanelPresenter implements Presenter {
 					case ALL_NORMAL: view.getCodeListEditor().showAllGroupsAsNormal(); break;
 					case TO_METADATA: codelistBus.fireEvent(SwitchPanelEvent.METADATA); break;
 				}
+			}
+
+			@Override
+			public void onMarkerMenu(MarkerType marker, boolean selected) {
+				codelistBus.fireEvent(selected?MarkerHighlightEvent.ADD(marker):MarkerHighlightEvent.REMOVE(marker));
 			}
 		});
 	}

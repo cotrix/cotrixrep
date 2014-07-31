@@ -7,7 +7,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.TextResource;
 import com.google.inject.Singleton;
 
 /**
@@ -30,6 +29,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	@Source("detailsPanel.css")
 	public DetailsPanelStyle detailsPanelStyle();
+	
+	@Source("menu.css")
+	public MenuStyle menuStyle();
 	
 	public MarkersResource markers();
 	
@@ -112,9 +114,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource markersHeader();
 	
-	@Source("test.json")
-	public TextResource testJson();
-	
+	public ImageResource marker();
+	public ImageResource markerDown();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();
@@ -149,5 +150,15 @@ public interface CotrixManagerResources extends ClientBundle {
 		String buttonCell();
 		String button();
 	}
+	
+	public interface MenuStyle extends CssResource {
+		String menuPopup();
+		String menuBar();
+		String menuItem();
+		String menuItemSelected();
+		String menuSeparatorInner();
+		String menuButton();
+	}
+	
 
 }

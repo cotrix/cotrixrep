@@ -13,7 +13,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 public class RadioMenuGroup extends AbstractMenuGroup {
 	
 	@UiChild(tagname="radio")
-	public void add(final CheckMenuItem item) {
+	public void add(final ImageMenuItem item) {
 		addItem(item);
 		
 		item.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -25,7 +25,7 @@ public class RadioMenuGroup extends AbstractMenuGroup {
 		});
 	}
 	
-	private void updateSelection(CheckMenuItem selectedItem) {
-		for (CheckMenuItem item:getItems()) item.setSelected(item == selectedItem);
+	private void updateSelection(ImageMenuItem selectedItem) {
+		for (AbstractMenuItem item:getItems()) item.setSelected(item == selectedItem);
 	}
 }

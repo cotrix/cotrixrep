@@ -3,16 +3,16 @@
  */
 package org.cotrix.web.manage.client.codelists;
 
-import org.cotrix.web.common.client.widgets.menu.CheckMenuItem;
+import org.cotrix.web.common.client.widgets.menu.AbstractMenuItem;
+import org.cotrix.web.common.client.widgets.menu.ImageMenuItem;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
@@ -34,18 +34,12 @@ public class CodelistsMenuImpl extends DecoratedPopupPanel implements CodelistsM
 	interface CodelistsMenuUiBinder extends UiBinder<Widget, CodelistsMenuImpl> {
 	}
 	
-	interface Style extends CssResource {
-		String menuPopup();
-	}
-
-	@UiField Style style;
-	
 	private Listener listener;
 
 	public CodelistsMenuImpl() {
 		super(true, false);
 		setWidget(uiBinder.createAndBindUi(this));
-		setStyleName(style.menuPopup());
+		setStyleName(CotrixManagerResources.INSTANCE.menuStyle().menuPopup());
 		addCloseHandler(new CloseHandler<PopupPanel>() {
 			
 			@Override
@@ -56,9 +50,10 @@ public class CodelistsMenuImpl extends DecoratedPopupPanel implements CodelistsM
 	}
 
 	@UiHandler({"ownershipFilterGroup", "includeFilterGroup", /*"sortGroup",*/ "group"})
-	public void onOwnershipSelection(SelectionEvent<CheckMenuItem> event) {
-		Log.trace("selected "+event.getSelectedItem().getValue());
-		String value = event.getSelectedItem().getValue().toUpperCase();
+	public void onOwnershipSelection(SelectionEvent<AbstractMenuItem> event) {
+		ImageMenuItem menuItem = (ImageMenuItem)event.getSelectedItem();
+		Log.trace("selected "+menuItem.getValue());
+		String value = menuItem.getValue().toUpperCase();
 		MenuButton button = MenuButton.valueOf(value);
 		fireButtonClick(button);
 		hide();
