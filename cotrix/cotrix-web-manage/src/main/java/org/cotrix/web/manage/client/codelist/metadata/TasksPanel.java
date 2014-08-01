@@ -82,8 +82,7 @@ public class TasksPanel extends LoadingPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
+				generateChangelog();
 			}
 		});
 		taskPanels.add(changelogTaskPanel);
@@ -109,6 +108,17 @@ public class TasksPanel extends LoadingPanel {
 			@Override
 			public void onSuccess(Void result) {
 				eventBus.fireEvent(new CodelistTaskCompleteEvent(CodelistTaskCompleteEvent.Task.VALIDATION));
+			}
+		}))));
+	}
+	
+	public void generateChangelog() {
+		Log.trace("generateChangelog");
+		service.generateCodelistChangelog(codelist.getId(), async(ignoreCancel(manageError(new SuccessCallback<Void>() {
+
+			@Override
+			public void onSuccess(Void result) {
+				eventBus.fireEvent(new CodelistTaskCompleteEvent(CodelistTaskCompleteEvent.Task.CHANGELOG_GENERATION));
 			}
 		}))));
 	}

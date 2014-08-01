@@ -22,6 +22,7 @@ import org.cotrix.action.CodelistAction;
 import org.cotrix.action.MainAction;
 import org.cotrix.action.ResourceType;
 import org.cotrix.action.events.CodelistActionEvents;
+import org.cotrix.application.ChangelogService;
 import org.cotrix.application.ValidationService;
 import org.cotrix.application.VersioningService;
 import org.cotrix.application.logbook.Logbook;
@@ -147,6 +148,9 @@ public class ManageServiceImpl implements ManageService {
 	
 	@Inject
 	private ValidationService validationService;
+	
+	@Inject
+	private ChangelogService changelogService;
 
 	/** 
 	 * {@inheritDoc}
@@ -496,5 +500,7 @@ public class ManageServiceImpl implements ManageService {
 	@CodelistTask(EDIT)
 	public void generateCodelistChangelog(@Id String codelistId) throws ServiceException {
 		logger.trace("generateCodelistChangelog codelistId: {}", codelistId);
+		Codelist codelist = repository.lookup(codelistId);
+		changelogService.track(codelist);
 	}
 }
