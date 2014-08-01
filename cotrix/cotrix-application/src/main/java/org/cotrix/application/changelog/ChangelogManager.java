@@ -104,8 +104,9 @@ public class ChangelogManager {
 
 			System.out.println(mcode.lastUpdated());
 			
+			Date codeUpdated = mcode.lastUpdated();
 			//process only if it has changed since the list was created
-			if (mcode.lastUpdated().after(listCreated)) {
+			if (codeUpdated!=null && mcode.lastUpdated().after(listCreated)) {
 			
 				handleModifiedMarkerWith(code);
 			}
