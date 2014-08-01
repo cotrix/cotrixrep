@@ -118,6 +118,10 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource markerDown();
 	
 	public ImageResource run();
+	public ImageResource runHover();
+	public ImageResource runDisabled();
+	
+	public ImageResource task();
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();

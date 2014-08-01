@@ -77,7 +77,7 @@ public class TasksPanel extends LoadingPanel {
 	}
 	
 	private void addTasks() {
-		TaskPanel changelogTaskPanel = new TaskPanel("CHANGELOG", "recompute all code changes since the previous version.");
+		TaskPanel changelogTaskPanel = new TaskPanel("CHANGELOG", "recalculate all changes in this version.");
 		changelogTaskPanel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -89,7 +89,7 @@ public class TasksPanel extends LoadingPanel {
 		taskPanels.add(changelogTaskPanel);
 		tasksPanelsContainer.add(changelogTaskPanel);
 		
-		TaskPanel validationTaskPanel = new TaskPanel("VALIDATION", "recheck schema constraint against alla codes.");
+		TaskPanel validationTaskPanel = new TaskPanel("VALIDATION", "recheck all schema constraints.");
 		validationTaskPanel.addClickHandler(new ClickHandler() {
 			
 			@Override
