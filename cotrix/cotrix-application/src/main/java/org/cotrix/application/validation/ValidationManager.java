@@ -8,6 +8,7 @@ import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
+import static org.cotrix.repository.CodelistQueries.*;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,29 +50,23 @@ public class ValidationManager {
 		
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(changeset.id());
-		
+
 		List<String> ids = new ArrayList<String>();
 		
-		for (Code change : changeset.codes())
-			ids.add(change.id());
+		for (Code.Private change : reveal(changeset).codes())
+			if (change.status()!=Status.DELETED)
+				ids.add(change.id());
 
-		for (Code.Private code : reveal(list).codes())
-			if (ids.contains(code.id()))
-				check(list,code);
+		//we could iterate directly over the list but we query for changed code
+		//to minimise object generation
+		for (Code code :codelists.get(codes(ids)))
+			 check(list,reveal(code));
 		
 	}
 	
 	public void checkBulk(Codelist list) {
 		
-		checkBulk(list.id());
-	}
-	
-	public void checkBulk(String id) {
-		
 		long time = currentTimeMillis();
-		
-		//we know this will succeed, an update has already taken place 
-		Codelist list = codelists.lookup(id);
 		
 		TaskContext context = new TaskContext();
 		
@@ -108,7 +104,7 @@ public class ValidationManager {
 		}
 		
 		
-		log.trace("validated codelist {} in {} msec.",id,currentTimeMillis()-time);
+		log.trace("validated codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
 		
 	}
 	

@@ -22,14 +22,4 @@ public class DefaultValidationService implements ValidationService {
 		validator.checkBulk(list);
 	}
 	
-	@Override 
-	public void validate(String id)  {
-		
-		Codelist list = codelists.lookup(id);
-		
-		if (list==null)
-			throw new IllegalArgumentException("codelist "+id+" is unknwon");
-			
-		validate(list);
-	}
 }
