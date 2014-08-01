@@ -6,6 +6,9 @@ package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
@@ -13,11 +16,13 @@ import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
+import org.cotrix.web.manage.client.codelist.metadata.AttributeDefinitionsPanel;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -26,12 +31,14 @@ import com.google.gwt.user.client.ui.IsWidget;
  */
 public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefinition> {
 	
+	private ConfirmDialog confirmDialog;
 	private AttributeDefinitionDetailsPanel detailsPanel;
 	private UIAttributeDefinition attributeDefinition;
 	
 	private boolean editing = false;
 	
-	public AttributeDefinitionEditor(UIAttributeDefinition attributeDefinition, AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle) {
+	public AttributeDefinitionEditor(ConfirmDialog confirmDialog, UIAttributeDefinition attributeDefinition, AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle) {
+		this.confirmDialog = confirmDialog;
 		this.detailsPanel = new AttributeDefinitionDetailsPanel(attributeDescriptionSuggestOracle);
 		this.attributeDefinition = attributeDefinition;
 	}
@@ -141,6 +148,17 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	@Override
 	public ImageResource getBullet() {
 		return null;
+	}
+
+	@Override
+	public void onEdit(final AsyncCallback<Boolean> callBack) {
+		confirmDialog.center("Watch out, this is irreversible and may impact on many codes at once.<br>You may also need to re-launch codelist tasks afterwards.", new ConfirmDialogListener() {
+			
+			@Override
+			public void onButtonClick(DialogButton button) {
+				callBack.onSuccess(button == AttributeDefinitionsPanel.CONTINUE);
+			}
+		}, AttributeDefinitionsPanel.CONTINUE, AttributeDefinitionsPanel.CANCEL);
 	}
 
 }

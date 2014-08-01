@@ -85,6 +85,7 @@ public class ConfirmDialogImpl extends PopupPanel implements ConfirmDialog {
 		for (final DialogButton button:buttons) {
 			Button dialogButton = new Button(button.getLabel());
 			dialogButton.setStyleName(button.getStyleName());
+			dialogButton.setWidth(button.getWidth()+"px");
 			dialogButton.addClickHandler(new ClickHandler() {
 				
 				@Override

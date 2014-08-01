@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
 
+import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
@@ -19,17 +20,19 @@ public class AttributeDefinitionEditingPanelFactory implements ItemEditingPanelF
 	
 	@Inject
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
-
+	
+	@Inject
+	private ConfirmDialog confirmDialog;
 	
 	@Override
 	public AttributeDefinitionPanel createPanel(UIAttributeDefinition item) {
-		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(item, attributeDescriptionSuggestOracle);
+		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(confirmDialog, item, attributeDescriptionSuggestOracle);
 		return attributeDefinitionPanel;
 	}
 
 	@Override
 	public AttributeDefinitionPanel createPanelForNewItem(UIAttributeDefinition item) {
-		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(item, attributeDescriptionSuggestOracle);
+		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(confirmDialog, item, attributeDescriptionSuggestOracle);
 		return attributeDefinitionPanel;
 	}
 

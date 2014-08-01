@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
+import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
@@ -13,7 +14,6 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogListener;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
-import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
@@ -46,6 +46,9 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 public class AttributeDefinitionsPanel extends Composite implements HasEditing {
+	
+	public static final DialogButton CONTINUE = new ConfirmDialog.SimpleDialogButton("Got it, go ahead", CommonResources.INSTANCE.css().blueButton(),200); 
+	public static final DialogButton CANCEL = new  ConfirmDialog.SimpleDialogButton("Cancel", CommonResources.INSTANCE.css().grayButton(), 98);
 
 	interface AttributeDefinitionsPanelUiBinder extends UiBinder<Widget, AttributeDefinitionsPanel> {}
 	interface AttributeDefinitionsPanelEventBinder extends EventBinder<AttributeDefinitionsPanel> {}
@@ -91,13 +94,13 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 		attributeDefinitionsPanel.setListener(new ItemsEditingListener<UIAttributeDefinition>() {
 			
 			@Override
-			public void onUpdate(UIAttributeDefinition attributeType) {
-				attributeTypeEditor.updated(attributeType);
+			public void onUpdate(UIAttributeDefinition attributeDefinition) {
+				attributeTypeEditor.updated(attributeDefinition);
 			}
 			
 			@Override
-			public void onCreate(UIAttributeDefinition attributeType) {
-				attributeTypeEditor.added(attributeType);
+			public void onCreate(UIAttributeDefinition attributeDefinition) {
+				attributeTypeEditor.added(attributeDefinition);
 			}
 
 			@Override
@@ -165,8 +168,17 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 
 	private void addNewAttributeType()
 	{
-		UIAttributeDefinition attributeType = factories.createAttributeType();
-		attributeDefinitionsPanel.addNewItemPanel(attributeType);
+		confirmDialog.center("Watch out, this is irreversible and may impact on many codes at once.<br>You may also need to re-launch codelist tasks afterwards.", new ConfirmDialogListener() {
+			
+			@Override
+			public void onButtonClick(DialogButton button) {
+				if (button == CONTINUE) {
+					UIAttributeDefinition attributeType = factories.createAttributeType();
+					attributeDefinitionsPanel.addNewItemPanel(attributeType);
+				}
+			}
+		}, CONTINUE, CANCEL);
+
 	}
 
 	private void removeSelectedAttributeType()
@@ -174,16 +186,16 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 		final UIAttributeDefinition selectedAttributeType = attributeDefinitionsPanel.getSelectedItem();
 		if (selectedAttributeType!=null) {
 			
-			confirmDialog.center("This will delete all the instances of this attribute|link.<br>Do you want to go ahead?", new ConfirmDialogListener() {
+			confirmDialog.center("Watch out, this is irreversible and may impact on many codes at once.<br>You may also need to re-launch codelist tasks afterwards.", new ConfirmDialogListener() {
 				
 				@Override
 				public void onButtonClick(DialogButton button) {
-					if (button == DialogButtonDefaultSet.CONTINUE) {
+					if (button == CONTINUE) {
 						attributeDefinitionsPanel.removeItem(selectedAttributeType);
 						attributeTypeEditor.removed(selectedAttributeType);
 					}
 				}
-			});
+			}, CONTINUE, CANCEL);
 			
 			
 		}

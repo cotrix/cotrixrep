@@ -99,7 +99,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	interface Binder extends UiBinder<Widget, CodesEditor> {}
 	interface CodelistEditorEventBinder extends EventBinder<CodesEditor> {}
 	
-	private DialogButton CONTINUE_BUTTON ;
+	private DialogButton CONTINUE_BUTTON;
 	private DialogButton MARK_BUTTON;
 	private DialogButton CANCEL_BUTTON;
 	
@@ -264,44 +264,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		CONTINUE_BUTTON = new DialogButton() {
-			
-			@Override
-			public String getStyleName() {
-				return CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton();
-			}
-			
-			@Override
-			public String getLabel() {
-				return "Continue And Remove";
-			}
-		};
-		
-		MARK_BUTTON = new DialogButton() {
-			
-			@Override
-			public String getStyleName() {
-				return CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton();
-			}
-			
-			@Override
-			public String getLabel() {
-				return "Mark Deleted Instead";
-			}
-		};
-		
-		CANCEL_BUTTON = new DialogButton() {
-			
-			@Override
-			public String getStyleName() {
-				return DialogButtonDefaultSet.CANCEL.getStyleName() + " " + style.cancelButton();
-			}
-			
-			@Override
-			public String getLabel() {
-				return DialogButtonDefaultSet.CANCEL.getLabel();
-			}
-		};
+		CONTINUE_BUTTON = new ConfirmDialog.SimpleDialogButton("Continue And Remove", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
+		MARK_BUTTON =  new ConfirmDialog.SimpleDialogButton("Mark Deleted Instead", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
+		CANCEL_BUTTON =  new ConfirmDialog.SimpleDialogButton(DialogButtonDefaultSet.CANCEL.getLabel(), DialogButtonDefaultSet.CANCEL.getStyleName() + " " + style.cancelButton(), 98);
 	}
 
 	@Inject

@@ -18,6 +18,7 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -26,20 +27,21 @@ import com.google.gwt.user.client.ui.IsWidget;
  *
  */
 public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
-	
+
 	public interface ItemEditor<T> extends HasValueChangeHandlers<Void> {
 		public void startEditing();
 		public void stopEditing();
-		
+		public void onEdit(AsyncCallback<Boolean> callBack);
+
 		public void read();
 		public void write();
 		public String getLabel();
 		public String getLabelValue();
-		
+
 		public boolean validate();
-		
+
 		public T getItem();
-		
+
 		public IsWidget getView();
 		public boolean isSwitchVisible();
 		public ImageResource getBullet();
@@ -57,20 +59,20 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 
 	public ItemPanel(ItemEditor<T> editor) {
 		this.editor = editor;
-		
+
 		header = new LabelHeader();
 		header.setSwitchVisible(editor.isSwitchVisible());
 		ImageResource bullet = editor.getBullet();
 		if (bullet!=null) header.setBulletImage(bullet);
-		
+
 		header.setSaveTitle("Save all changes.");
 		header.setRevertTitle("Discard all changes.");
 		header.setEditTitle("Make changes.");
-		
+
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
-		
+
 		IsWidget detailsPanel = editor.getView();
 		disclosurePanel.add(detailsPanel);
 		initWidget(disclosurePanel);
@@ -124,11 +126,11 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		editor.stopEditing();
 		editing = false;
 		editable = false;
-		
+
 		writeItem();
 		updateHeaderLabel();
 	}
-	
+
 	public void setSwitchVisible(boolean visible) {
 		header.setSwitchVisible(visible);
 	}
@@ -149,14 +151,27 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	}
 
 	private void onEdit() {
-		startEdit();
-		validate();
+		editor.onEdit(new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
+				if (result) {
+					startEdit();
+					validate();
+				}
+			}
+		});
+
 	}
-	
+
 	private void onSwitch(boolean isDown) {
 		if (listener!=null) listener.onSwitch(isDown);
 	}
-	
+
 	public void syncWithModel() {
 		writeItem();
 	}
@@ -195,7 +210,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	private void writeItem() {
 		editor.write();
 	}
-	
+
 	private void updateHeaderLabel() {
 		header.setHeaderLabel(editor.getLabel());
 		header.setHeaderLabelValue(editor.getLabelValue());

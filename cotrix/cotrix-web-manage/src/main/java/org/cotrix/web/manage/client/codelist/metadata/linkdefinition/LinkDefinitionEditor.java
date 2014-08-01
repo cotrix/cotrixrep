@@ -18,6 +18,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -145,5 +146,10 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	@Override
 	public ImageResource getBullet() {
 		return null;
+	}
+
+	@Override
+	public void onEdit(AsyncCallback<Boolean> callBack) {
+		callBack.onSuccess(true);
 	}
 }
