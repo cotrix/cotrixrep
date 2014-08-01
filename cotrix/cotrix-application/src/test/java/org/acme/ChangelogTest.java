@@ -141,6 +141,29 @@ public class ChangelogTest extends ApplicationTest {
 		System.out.println(manage(code).attribute(MODIFIED).value());
 
 	}
+
+	@Test
+	public void definitionChangesAreDetected() throws Exception {
+		
+		Code code = list.codes().lookup(origin);
+		
+		AttributeDefinition vdef = list.definitions().lookup(def.qname());
+		
+		Thread.sleep(1000);
+		
+		codelists.update(modify(list).definitions(modify(vdef).name("new").build()).build());
+		
+		changelog.track(list);
+
+		ManagedCode managed = manage(code);
+		
+		assertNotNull(managed.attribute(MODIFIED));
+
+		System.out.println(manage(code).attribute(MODIFIED).value());
+	
+		
+
+	}
 	
 	@Test
 	public void definitionRemovalsAreDetected() throws Exception {

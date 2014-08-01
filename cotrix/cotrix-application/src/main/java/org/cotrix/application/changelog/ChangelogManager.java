@@ -12,7 +12,6 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
 import java.lang.reflect.Type;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,7 +26,6 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
-import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -89,27 +87,25 @@ public class ChangelogManager {
 		long time = currentTimeMillis();
 		
 		
-		ManagedCodelist mlist = ManagedCodelist.manage(list);
+		//ManagedCodelist mlist = ManagedCodelist.manage(list);
 		
-		Date listCreated = mlist.created();
-		
-		System.out.println(listCreated);
+		//Date listCreated = mlist.created();
 		
 		for (Code.Private code : codes) {
 		
 			i++;
 			progress++;
 			
-			ManagedCode mcode = manage(code);
+			//ManagedCode mcode = manage(code);
 
-			System.out.println(mcode.lastUpdated());
+			//Date codeUpdated = mcode.lastUpdated();
 			
-			Date codeUpdated = mcode.lastUpdated();
 			//process only if it has changed since the list was created
-			if (codeUpdated!=null && mcode.lastUpdated().after(listCreated)) {
+			//TODO:must solve timestamp propagation problem first
+			//if (codeUpdated!=null && mcode.lastUpdated().after(listCreated))
 			
 				handleModifiedMarkerWith(code);
-			}
+			
 			
 			if (i%step==0)
 				
