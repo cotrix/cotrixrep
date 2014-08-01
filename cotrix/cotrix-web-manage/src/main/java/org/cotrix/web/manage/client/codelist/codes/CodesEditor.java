@@ -294,7 +294,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		StyledSafeHtmlRenderer codeCellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell() + " " + resource.dataGridStyle().codeCell());
 		cellRenderer.setAddTitle(true);
 		String codeCellStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor() + " " + resource.dataGridStyle().codeCell();
-		DoubleClickEditTextCell codeCell = new DoubleClickEditTextCell(codeCellStyle, codeCellRenderer);
+		final DoubleClickEditTextCell codeCell = new DoubleClickEditTextCell(codeCellStyle, codeCellRenderer);
 		codeCell.setReadOnly(!editable);
 		editableCells.add(codeCell);
 
@@ -306,8 +306,13 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void update(int index, UICode row, String value) {
-				row.getName().setLocalPart(value);
-				codeEditor.updated(row);
+				if (value != null && !value.isEmpty()) {
+					row.getName().setLocalPart(value);
+					codeEditor.updated(row);
+				} else {
+					codeCell.clearViewData(CodeKeyProvider.INSTANCE.getKey(row));
+					dataGrid.redrawRow(index);
+				}
 			}
 		});
 
