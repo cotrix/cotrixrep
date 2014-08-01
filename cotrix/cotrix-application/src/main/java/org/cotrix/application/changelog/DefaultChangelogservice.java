@@ -15,6 +15,6 @@ public class DefaultChangelogservice implements ChangelogService {
 	@Override
 	public void track(Codelist list) {
 		
-		changelog.update(list);
+		changelog.track(list);
 	}
 }

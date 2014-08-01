@@ -1,5 +1,6 @@
 package org.cotrix.application.changelog;
 
+import static java.lang.Math.*;
 import static java.lang.System.*;
 import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
@@ -16,11 +17,13 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.cotrix.common.async.CancelledTaskException;
+import org.cotrix.common.async.TaskContext;
+import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.trait.Status;
@@ -41,7 +44,7 @@ public class ChangelogManager {
 	@Inject
 	private CodelistRepository codelists;
 
-	public void updateWith(Codelist changeset) {
+	public void trackAfter(Codelist changeset) {
 	
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(changeset.id());
@@ -53,21 +56,15 @@ public class ChangelogManager {
 		Codelist.Private plist = reveal(list);
 		Codelist.Private pchangeset = reveal(changeset);
 		
-		if (isBulkUpdate(pchangeset))
-		
-			processBulk(plist);
-		
-		else //exclusive because bulk-handling currently processes all codes
-			
-			processPunctual(plist, pchangeset);
+		trackPunctual(plist, pchangeset);
 	}
 	
-	public void update(Codelist list) {
+	public void track(Codelist list) {
 	
-		processBulk(reveal(list));
+		trackBulk(reveal(list));
 	}
 	
-	private void processBulk(Codelist.Private list) {
+	private void trackBulk(Codelist.Private list) {
 		
 		//this seems coarse: any bulk change triggers a full traversal
 		//in practice we do expect shared defs to occur in most-to-all codes.
@@ -75,16 +72,46 @@ public class ChangelogManager {
 		//traversal required underneatah to find the impact right subset of codes? 
 		//would need to measure. surely, fine-grain requires more work and we should not
 		
+		TaskContext context = new TaskContext();
+		float progress=0f;
+		
+		NamedContainer<? extends Code.Private> codes =  reveal(list).codes();
+		
+		int total = list.codes().size();
+		
+		//arbitrary
+		long step = round(max(10,floor(codes.size()/10)));
+		
+		int i=0;
+		
+		
 		long time = currentTimeMillis();
 		
-		for (Code.Private changed : list.codes()) 
+		for (Code.Private changed : codes) {
+		
 			handleModifiedMarkerWith(changed);
+			
+			i++;
+			progress++;
+			
+			if (i%step==0)
+				
+				if (context.isCancelled()) {
+					log.info("cahngelog tracking aborted on user request after {} codes.",i);
+					throw new CancelledTaskException("changelog tracking aborted on user request");
+				}
+			
+				else {
+				
+					context.save(TaskUpdate.update(progress/total, "validated "+i+" codes"));
+				}
+		}
 		
 
-		log.trace("computed full changelog codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
+		log.trace("tracked changelog for {} in {} msec.",signatureOf(list),currentTimeMillis()-time);
 	}
 
-	private void processPunctual(Codelist.Private list, Codelist.Private changeset) {
+	private void trackPunctual(Codelist.Private list, Codelist.Private changeset) {
 
 		for (Code.Private change : changeset.codes()) {
 
@@ -96,12 +123,12 @@ public class ChangelogManager {
 
 			Code.Private code = list.codes().lookup(change.id());
 
-			processCode(code,change);
+			trackCode(code,change);
 		}
 		
 	}
 
-	private void processCode(Code.Private changed, Code.Private change) {
+	private void trackCode(Code.Private changed, Code.Private change) {
 
 		if (change.status() == null)
 
@@ -176,22 +203,6 @@ public class ChangelogManager {
 
 		stateof(modified).value(jsonBinder().toJson(entries, logtype));
 
-	}
-
-	// helper
-	private boolean isBulkUpdate(Codelist.Private changeset) {
-
-		// at least one change to definitions, other than additions
-
-		for (AttributeDefinition.Private def : changeset.definitions())
-			if (def.status() != null)
-				return true;
-
-		for (LinkDefinition.Private def : changeset.links())
-			if (def.status() != null)
-				return true;
-
-		return false;
 	}
 
 	private boolean marked(Object o) {

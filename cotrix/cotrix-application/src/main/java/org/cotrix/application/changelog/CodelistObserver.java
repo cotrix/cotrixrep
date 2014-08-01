@@ -15,7 +15,7 @@ public class CodelistObserver {
 
 	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
 		
-		log.updateWith(changeset);
+		log.trackAfter(changeset);
 		
 	}
 }

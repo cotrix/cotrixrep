@@ -91,20 +91,18 @@ public class ValidationManager {
 			if (i%step==0)
 				
 				if (context.isCancelled()) {
-					log.info("codelist update aborted on user request after {} codes.",i);
-					throw new CancelledTaskException("codelist creation aborted on user request");
+					log.info("codelist validation aborted on user request after {} codes.",i);
+					throw new CancelledTaskException("codelist validation aborted on user request");
 				}
 			
-				else {
-				
-					System.out.println("saving "+progress/total);
+				else
+					
 					context.save(update(progress/total, "validated "+i+" codes"));
-				}
 			
 		}
 		
 		
-		log.trace("validated codelist {} in {} msec.",list.id(),currentTimeMillis()-time);
+		log.trace("validated {} in {} msec.",signatureOf(list),currentTimeMillis()-time);
 		
 	}
 	
