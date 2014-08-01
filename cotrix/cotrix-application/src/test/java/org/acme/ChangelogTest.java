@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
+import org.cotrix.application.ChangelogService;
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
@@ -35,6 +36,9 @@ public class ChangelogTest extends ApplicationTest {
 	
 	@Inject
 	VersioningService service;
+
+	@Inject
+	ChangelogService changelog;
 	
 	@Inject
 	CodelistRepository codelists;
@@ -44,6 +48,7 @@ public class ChangelogTest extends ApplicationTest {
 	
 	@Inject
 	TestUser user;
+
 	
 	@Before
 	public void versionList() {
@@ -145,6 +150,8 @@ public class ChangelogTest extends ApplicationTest {
 		AttributeDefinition vdef = list.definitions().lookup(def.qname());
 		
 		codelists.update(list.id(),deleteAttrdef(vdef.id()));
+		
+		changelog.track(list);
 
 		ManagedCode managed = manage(code);
 		

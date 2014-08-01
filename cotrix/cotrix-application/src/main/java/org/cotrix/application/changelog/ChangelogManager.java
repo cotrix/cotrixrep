@@ -62,11 +62,8 @@ public class ChangelogManager {
 			processPunctual(plist, pchangeset);
 	}
 	
-	public void update(String id) {
+	public void update(Codelist list) {
 	
-		//we know this will succeed, an update has already taken place 
-		Codelist list = codelists.lookup(id);
-		
 		processBulk(reveal(list));
 	}
 	

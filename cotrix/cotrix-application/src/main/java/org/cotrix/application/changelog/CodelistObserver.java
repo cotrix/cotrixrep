@@ -6,7 +6,6 @@ import javax.inject.Singleton;
 
 import org.cotrix.common.events.Modified;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.repository.impl.EventProducer.UpdateActionEvent;
 
 @Singleton
 public class CodelistObserver {
@@ -17,12 +16,6 @@ public class CodelistObserver {
 	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
 		
 		log.updateWith(changeset);
-		
-	}
-	
-	public void onCodelistBulkUpdate(@Observes @Modified UpdateActionEvent event){
-		
-		log.update(event.id);
 		
 	}
 }

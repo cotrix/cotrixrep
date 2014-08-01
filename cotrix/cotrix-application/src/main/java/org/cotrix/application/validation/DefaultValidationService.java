@@ -5,16 +5,12 @@ import javax.inject.Singleton;
 
 import org.cotrix.application.ValidationService;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.repository.CodelistRepository;
 
 @Singleton
 public class DefaultValidationService implements ValidationService {
 
 	@Inject
-	CodelistRepository codelists;
-	
-	@Inject
-	ValidationManager validator;
+	private ValidationManager validator;
 	
 	@Override
 	public void validate(Codelist list) {
