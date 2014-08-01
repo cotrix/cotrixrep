@@ -149,6 +149,8 @@ public class ChangelogTest extends ApplicationTest {
 		
 		AttributeDefinition vdef = list.definitions().lookup(def.qname());
 		
+		Thread.sleep(1000);
+		
 		codelists.update(list.id(),deleteAttrdef(vdef.id()));
 		
 		changelog.track(list);

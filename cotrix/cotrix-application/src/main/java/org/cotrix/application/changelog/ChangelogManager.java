@@ -12,6 +12,7 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -84,15 +86,29 @@ public class ChangelogManager {
 		
 		int i=0;
 		
-		
 		long time = currentTimeMillis();
 		
-		for (Code.Private changed : codes) {
 		
-			handleModifiedMarkerWith(changed);
-			
+		ManagedCodelist mlist = ManagedCodelist.manage(list);
+		
+		Date listCreated = mlist.created();
+		
+		System.out.println(listCreated);
+		
+		for (Code.Private code : codes) {
+		
 			i++;
 			progress++;
+			
+			ManagedCode mcode = manage(code);
+
+			System.out.println(mcode.lastUpdated());
+			
+			//process only if it has changed since the list was created
+			if (mcode.lastUpdated().after(listCreated)) {
+			
+				handleModifiedMarkerWith(code);
+			}
 			
 			if (i%step==0)
 				
@@ -103,7 +119,7 @@ public class ChangelogManager {
 			
 				else {
 				
-					context.save(TaskUpdate.update(progress/total, "validated "+i+" codes"));
+					context.save(TaskUpdate.update(progress/total, "tracked "+i+" codes"));
 				}
 		}
 		
