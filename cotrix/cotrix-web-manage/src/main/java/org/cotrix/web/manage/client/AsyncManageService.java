@@ -19,5 +19,9 @@ public interface AsyncManageService extends RemoteService {
 	AsyncOutput<Void> removeCodelist(String codelistId) throws ServiceException;
 	
 	AsyncOutput<UICodelistInfo> createNewCodelistVersion(String codelistId, String newVersion) throws ServiceException;
+	
+	AsyncOutput<Void> validateCodelist(String codelistId) throws ServiceException;
+	
+	AsyncOutput<Void> generateCodelistChangelog(String codelistId) throws ServiceException;
 
 }

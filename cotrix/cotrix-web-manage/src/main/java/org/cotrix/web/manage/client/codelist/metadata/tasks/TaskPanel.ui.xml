@@ -1,0 +1,72 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style>
+	.table {
+		width: 100%;
+		background-color: #EFEFEF;
+		margin-bottom: 5px;
+		border-radius: 5px;
+	}
+	
+	.name {
+		padding-left: 5px;
+		padding-top: 15px;
+		color: #464545;
+		font-size: 20px;
+	}
+	
+	.iconCell {
+		padding-left: 5px;
+		padding-top: 15px;
+		width: 32px;
+		text-align: center;
+		vertical-align: top;
+	}
+	
+	.buttonCell {
+		padding-top: 15px;
+		width: 35px;
+		vertical-align: top;
+	}
+	
+	.button {
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.description {
+		padding-top: 4px;
+		padding-left: 5px;
+		padding-bottom: 15px;
+		color: #8A8A8A;
+		font-size: 13px;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table class="{style.table}">
+			<tr>
+				<td rowspan="2" class="{style.iconCell}">
+					<g:Image resource="{resources.task}" />
+				</td>
+				<td>
+					<g:Label ui:field="name" styleName="{style.name}" />
+				</td>
+				<td rowspan="2" class="{style.buttonCell}">
+					<g:PushButton ui:field="button" styleName="{style.button}">
+						<g:upFace image="{resources.run}" />
+						<g:upHoveringFace image="{resources.runHover}" />
+						<g:upDisabledFace image="{resources.runDisabled}"/>
+					</g:PushButton>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<g:Label ui:field="description" styleName="{style.description}" />
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

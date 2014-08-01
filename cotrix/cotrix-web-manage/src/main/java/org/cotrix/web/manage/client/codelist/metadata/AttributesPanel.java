@@ -45,10 +45,10 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
 public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {};
-	interface MetadataPanelUiBinder extends UiBinder<Widget, AttributesPanel> {}
+	interface AttributesPanelUiBinder extends UiBinder<Widget, AttributesPanel> {}
 	
 
-	private static MetadataPanelUiBinder uiBinder = GWT.create(MetadataPanelUiBinder.class);
+	private static AttributesPanelUiBinder uiBinder = GWT.create(AttributesPanelUiBinder.class);
 	
 	@UiField HTML header;
 

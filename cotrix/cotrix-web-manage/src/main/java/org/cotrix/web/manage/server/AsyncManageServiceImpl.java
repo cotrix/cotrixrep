@@ -51,7 +51,6 @@ public class AsyncManageServiceImpl extends AbstractAsyncService implements Asyn
 		});
 	}
 
-
 	@Override
 	public AsyncOutput<UICodelistInfo> createNewCodelistVersion(final String codelistId, final String newVersion) throws ServiceException {
 		logger.trace("asynccreateNewCodelistVersion codelistId: {} newVersion: {}", codelistId, newVersion);
@@ -60,6 +59,32 @@ public class AsyncManageServiceImpl extends AbstractAsyncService implements Asyn
 			@Override
 			public UICodelistInfo call() throws Exception {
 				return syncService.createNewCodelistVersion(codelistId, newVersion);
+			}
+		});
+	}
+
+	@Override
+	public AsyncOutput<Void> validateCodelist(final String codelistId) throws ServiceException {
+		logger.trace("validateCodelist codelistId: {}", codelistId);
+		return call(new Callable<Void>() {
+
+			@Override
+			public Void call() throws Exception {
+				syncService.validateCodelist(codelistId);
+				return AbstractFeatureCarrier.getVoid();
+			}
+		});
+	}
+
+	@Override
+	public AsyncOutput<Void> generateCodelistChangelog(final String codelistId) throws ServiceException {
+		logger.trace("generateCodelistChangelog codelistId: {}", codelistId);
+		return call(new Callable<Void>() {
+
+			@Override
+			public Void call() throws Exception {
+				syncService.generateCodelistChangelog(codelistId);
+				return AbstractFeatureCarrier.getVoid();
 			}
 		});
 	}

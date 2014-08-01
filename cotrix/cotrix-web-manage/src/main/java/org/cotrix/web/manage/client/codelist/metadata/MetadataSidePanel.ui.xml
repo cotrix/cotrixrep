@@ -45,8 +45,6 @@
 					verticalAlignment="middle" height="100%">
 					<g:ToggleButton ui:field="metadataButton" width="32px"
 						styleName="{style.button}" title="Codelist Attributes">
-						<g:downDisabledFace image="{resources.attributesDisabled}" />
-						<g:upDisabledFace image="{resources.attributesDisabled}" />
 						<g:upFace image="{resources.attributesUnselected}" />
 						<g:downFace image="{resources.attributesSelected}" />
 						<g:upHoveringFace image="{resources.attributesSelected}" />
@@ -59,11 +57,15 @@
 					</g:ToggleButton>
 					<g:ToggleButton ui:field="logbookButton" width="32px"
 						styleName="{style.button}" title="Codelist Logbook">
-						<g:downDisabledFace image="{resources.logbookDisabled}" />
-						<g:upDisabledFace image="{resources.logbookDisabled}" />
 						<g:upFace image="{resources.logbookUnselected}" />
 						<g:downFace image="{resources.logbookSelected}" />
 						<g:upHoveringFace image="{resources.logbookSelected}" />
+					</g:ToggleButton>
+					<g:ToggleButton ui:field="tasksButton" width="32px"
+						styleName="{style.button}" title="Codelist Tasks">
+						<g:upFace image="{resources.tasksUnselected}" />
+						<g:downFace image="{resources.tasksSelected}" />
+						<g:upHoveringFace image="{resources.tasksSelected}" />
 					</g:ToggleButton>
 				</g:HorizontalPanel>
 			</g:FlowPanel>
@@ -73,6 +75,7 @@
 				<v:AttributesPanel ui:field="attributesPanel" />
 				<v:UserPreferencesPanel ui:field="userPanel" />
 				<v:LogbookPanel ui:field="logbookPanel" />
+				<v:TasksPanel ui:field="tasksPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>
