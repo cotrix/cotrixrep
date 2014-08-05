@@ -10,7 +10,6 @@ import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -19,8 +18,9 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
-import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.logbook.LogbookEntryEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.metadata.logbook.LogbookEntryPanel;
@@ -34,12 +34,7 @@ import org.cotrix.web.manage.shared.ManagerUIFeature;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -56,15 +51,11 @@ import com.google.web.bindery.event.shared.binder.impl.GenericEventType;
 public class LogbookPanel extends LoadingPanel implements HasEditing {
 
 	interface LogbookPanelEventBinder extends EventBinder<LogbookPanel> {};
-	interface LogbookPanelUiBinder extends UiBinder<Widget, LogbookPanel> {}
-	
-	private static LogbookPanelUiBinder uiBinder = GWT.create(LogbookPanelUiBinder.class);
-	
-	@UiField HTML header;
 
-	@UiField(provided=true) ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel> entriesGrid;
+	@Inject
+	private SidePanel panel;
 
-	@UiField ItemToolbar toolBar;
+	private ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel> entriesGrid;
 	
 	@Inject
 	private HeaderBuilder headerBuilder;
@@ -93,11 +84,12 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	public void init(@CurrentCodelist UICodelist codelist) {
 
 		entriesGrid = new ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel>("No entries", editingPanelFactory);
+		panel.setContent(entriesGrid);
 
-		add(uiBinder.createAndBindUi(this));
+		add(panel);
 
-		toolBar.setVisible(ItemButton.PLUS, false);
-		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+		panel.getToolBar().setVisible(ItemButton.PLUS, false);
+		panel.getToolBar().addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
@@ -131,7 +123,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		header.setHTML(headerBuilder.getHeader("Logbook", codelist.getName().getLocalPart()));
+		panel.setHeader("Logbook", codelist.getName().getLocalPart(), "#000000");
 
 	}
 
@@ -176,7 +168,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setEnabled(ItemButton.MINUS, entryRemotionController.canRemove(), animate);
+		panel.getToolBar().setEnabled(ItemButton.MINUS, entryRemotionController.canRemove(), animate);
 	}
 
 	protected void removeSelectedEntry()

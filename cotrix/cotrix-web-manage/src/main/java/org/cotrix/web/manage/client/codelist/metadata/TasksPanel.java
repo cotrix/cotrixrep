@@ -13,22 +13,17 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
 import org.cotrix.web.manage.client.AsyncManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.CodelistTaskCompleteEvent;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.codelist.metadata.tasks.TaskPanel;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -40,20 +35,14 @@ import com.google.web.bindery.event.shared.binder.EventBinder;
 public class TasksPanel extends LoadingPanel {
 
 	interface TasksPanelEventBinder extends EventBinder<TasksPanel> {};
-	interface TasksPanelUiBinder extends UiBinder<Widget, TasksPanel> {}
-	
-
-	private static TasksPanelUiBinder uiBinder = GWT.create(TasksPanelUiBinder.class);
-	
-	@UiField HTML header;
-	
-	@UiField VerticalPanel tasksPanelsContainer;
-	
-	@Inject
-	private HeaderBuilder headerBuilder;
 
 	@Inject
-	protected CotrixManagerResources resources;
+	private SidePanel panel;
+	
+	private VerticalPanel tasksPanelsContainer;
+
+	@Inject
+	private CotrixManagerResources resources;
 	
 	@Inject
 	private AsyncManageServiceAsync service;
@@ -69,11 +58,16 @@ public class TasksPanel extends LoadingPanel {
 	@Inject
 	public void init() {
 
-		add(uiBinder.createAndBindUi(this));
+		tasksPanelsContainer = new VerticalPanel();
+		panel.setContent(tasksPanelsContainer);
+		
+		panel.hideToolbarButtons();
+		
+		add(panel);
 		
 		addTasks();
 		
-		header.setHTML(headerBuilder.getHeader("Tasks", codelist.getName().getLocalPart(), "#24676A"));
+		panel.setHeader("Tasks", codelist.getName().getLocalPart(), "#24676A");
 	}
 	
 	private void addTasks() {

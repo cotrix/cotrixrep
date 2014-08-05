@@ -7,7 +7,6 @@ import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -21,30 +20,25 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.common.GroupFactory;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
-import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
-import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -58,19 +52,12 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  */
 public class AttributesPanel extends ResizeComposite implements HasEditing {
 
-	interface Binder extends UiBinder<Widget, AttributesPanel> {}
 	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {}
 	
-	@UiField HTML header;
-	
-	@UiField(provided = true)
-	ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
-
-	@UiField
-	ItemToolbar toolBar;
-	
 	@Inject
-	private HeaderBuilder headerBuilder;
+	private SidePanel panel;
+	
+	private ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
 
 	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 
@@ -99,10 +86,9 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 		this.attributeEditor = DataEditor.build(this);
 
 		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
-
-		// Create the UiBinder.
-		Binder uiBinder = GWT.create(Binder.class);
-		initWidget(uiBinder.createAndBindUi(this));
+		panel.setContent(attributesGrid);
+		
+		initWidget(panel);
 		
 		attributesGrid.setListener(new ItemsEditingListener<UIAttribute>() {
 			
@@ -125,7 +111,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 		});
 
 		
-		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+		panel.getToolBar().addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
@@ -154,7 +140,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.PLUS, active);
+				panel.getToolBar().setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_CODELIST);
 
@@ -234,7 +220,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	}
 
 	private void updateRemoveButtonVisibility(boolean animate) {
-		toolBar.setEnabled(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
+		panel.getToolBar().setEnabled(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
 	}
 
 
@@ -309,7 +295,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 	private void setHeader()
 	{
-		header.setHTML(headerBuilder.getHeader("Attributes", visualizedCode!=null?visualizedCode.getName().getLocalPart():null));
+		panel.setHeader("Attributes", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
 	}
 
 	private void switchAttribute(UIAttribute attribute, SwitchState attributeSwitchState)

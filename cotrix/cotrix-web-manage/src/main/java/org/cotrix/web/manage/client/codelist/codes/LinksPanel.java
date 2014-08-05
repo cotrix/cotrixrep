@@ -8,7 +8,6 @@ import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -29,21 +28,17 @@ import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.data.CodeLink;
 import org.cotrix.web.manage.client.data.DataEditor;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.LinkGroup;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -55,17 +50,12 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  */
 public class LinksPanel extends LoadingPanel implements HasEditing {
 
-	interface LinksPanelUiBinder extends UiBinder<Widget, LinksPanel> {}
 	interface LinksPanelEventBinder extends EventBinder<LinksPanel> {}
 
-	@UiField HTML header;
-	
-	@UiField(provided=true) ItemsEditingPanel<UILink, LinkPanel> linksPanel;
-
-	@UiField ItemToolbar toolBar;
-	
 	@Inject
-	private HeaderBuilder headerBuilder;
+	private SidePanel panel;
+	
+	private ItemsEditingPanel<UILink, LinkPanel> linksPanel;
 
 	@Inject
 	protected ManageServiceAsync service;
@@ -91,10 +81,12 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	private UIFactories factories;
 
 	@Inject
-	public void init(LinksPanelUiBinder uiBinder) {
+	public void init() {
 		linkEditor = DataEditor.build(this);
 		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("no links", editingPanelFactory);
-		add(uiBinder.createAndBindUi(this));
+		panel.setContent(linksPanel);
+		
+		initWidget(panel);
 		
 		groupsAsColumn = new HashSet<LinkGroup>();
 		
@@ -121,7 +113,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 		
 		});
 		
-		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+		panel.getToolBar().addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
@@ -147,7 +139,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.PLUS, active);
+				panel.getToolBar().setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
@@ -155,7 +147,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.MINUS, active);
+				panel.getToolBar().setEnabled(ItemButton.MINUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
@@ -234,7 +226,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void updateHeader() {
-		header.setHTML(headerBuilder.getHeader("Links", visualizedCode!=null?visualizedCode.getName().getLocalPart():null));
+		panel.setHeader("Links", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
 	}
 	
 	private void updateBackground()

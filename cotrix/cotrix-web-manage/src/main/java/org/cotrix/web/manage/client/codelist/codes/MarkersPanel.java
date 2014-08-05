@@ -20,6 +20,7 @@ import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPa
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.MarkersEditingPanelListener;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.SwitchState;
 import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
@@ -27,18 +28,12 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -51,16 +46,13 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  */
 public class MarkersPanel extends ResizeComposite implements HasEditing {
 
-	interface Binder extends UiBinder<Widget, MarkersPanel> {}
 	interface MarkersPanelEventBinder extends EventBinder<MarkersPanel> {}
 
-	@UiField HTML header;
+	@Inject
+	private SidePanel panel;
 
 	@Inject
-	@UiField(provided=true) MarkersEditingPanel markersPanel;
-	
-	@Inject
-	private HeaderBuilder headerBuilder;
+	private MarkersEditingPanel markersPanel;
 
 	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 
@@ -84,10 +76,9 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 	public void init() {
 
 		this.attributeEditor = DataEditor.build(this);
-
-		// Create the UiBinder.
-		Binder uiBinder = GWT.create(Binder.class);
-		initWidget(uiBinder.createAndBindUi(this));
+		panel.setContent(markersPanel);
+		
+		initWidget(panel);
 
 		markersPanel.setListener(new MarkersEditingPanelListener() {
 
@@ -263,7 +254,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	private void setHeader()
 	{
-		header.setHTML(headerBuilder.getHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null));
+		panel.setHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
 	}
 
 	private void switchMarker(MarkerType type, UIAttribute attribute, SwitchState attributeSwitchState)

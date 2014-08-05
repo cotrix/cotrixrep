@@ -4,7 +4,6 @@ import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
@@ -15,6 +14,7 @@ import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.attribute.CodelistAttributeEditingPanelFactory;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -23,16 +23,10 @@ import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
-import org.cotrix.web.manage.client.util.HeaderBuilder;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -43,21 +37,13 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 public class AttributesPanel extends LoadingPanel implements HasEditing {
-
-	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {};
-	interface AttributesPanelUiBinder extends UiBinder<Widget, AttributesPanel> {}
 	
+	interface AttributesPanelEventBinder extends EventBinder<AttributesPanel> {}
 
-	private static AttributesPanelUiBinder uiBinder = GWT.create(AttributesPanelUiBinder.class);
-	
-	@UiField HTML header;
-
-	@UiField(provided=true) ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
-
-	@UiField ItemToolbar toolBar;
-	
 	@Inject
-	private HeaderBuilder headerBuilder;
+	private SidePanel panel;
+	
+	private ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
 
 	protected UICodelistMetadata metadata;
 
@@ -79,12 +65,13 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	public void init(@CurrentCodelist UICodelist codelist) {
 
 		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
+		panel.setContent(attributesGrid);
 
 		attributeEditor = DataEditor.build(this);
 
-		add(uiBinder.createAndBindUi(this));
+		add(panel);
 
-		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
+		panel.getToolBar().addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
 			public void onButtonClicked(ButtonClickedEvent event) {
@@ -113,7 +100,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		header.setHTML(headerBuilder.getHeader("Attributes", codelist.getName().getLocalPart()));
+		panel.setHeader("Attributes", codelist.getName().getLocalPart(), "#000000");
 	}
 
 	@Inject
@@ -124,7 +111,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.PLUS, active);
+				panel.getToolBar().setEnabled(ItemButton.PLUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 
@@ -132,7 +119,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.MINUS, active);
+				panel.getToolBar().setEnabled(ItemButton.MINUS, active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
