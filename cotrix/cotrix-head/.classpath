@@ -34,5 +34,17 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/lavoro/gwt-2.5.1 - REMOVED/gwt-user.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/lavoro/gwt-2.5.1%20-%20REMOVED/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/lavoro/gwt-2.5.1 - REMOVED/gwt-dev.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/lavoro/gwt-2.5.1%20-%20REMOVED/doc/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/lavoro/gwt-2.5.1 - REMOVED/validation-api-1.0.0.GA-sources.jar"/>
+	<classpathentry kind="lib" path="/home/lavoro/gwt-2.5.1 - REMOVED/validation-api-1.0.0.GA.jar" sourcepath="/home/lavoro/gwt-2.5.1 - REMOVED/validation-api-1.0.0.GA-sources.jar"/>
 	<classpathentry kind="output" path="target/cotrix-head-0.3.0-SNAPSHOT/WEB-INF/classes"/>
 </classpath>
