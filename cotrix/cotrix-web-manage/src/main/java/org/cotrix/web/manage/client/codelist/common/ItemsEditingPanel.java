@@ -18,7 +18,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
@@ -28,7 +27,7 @@ import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandle
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>> extends Composite implements HasEditing, HasSelectionChangedHandlers {
+public class ItemsEditingPanel<T> extends Composite implements HasEditing, HasSelectionChangedHandlers {
 
 	public interface ItemsEditingListener<T> {
 		public static enum SwitchState {DOWN, UP};
@@ -36,22 +35,6 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		public void onCreate(T item);
 		public void onUpdate(T item);
 		public void onSwitch(T item, SwitchState state);
-	}
-	
-	public interface ItemEditingPanel<T> extends IsWidget, HasEditing {
-		
-		/**
-		 * Sync the UI with the model.
-		 */
-		public void syncWithModel();
-		
-		/**
-		 * Called when the item is edited for the first time.
-		 */
-		public void enterEditMode();
-		public void setSelected(boolean selected);
-		public void setListener(ItemEditingPanelListener<T> listener);
-		public void setSwitchDown(boolean down);
 	}
 	
 	public interface ItemEditingPanelListener<T> {
@@ -68,19 +51,19 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	private VerticalPanel mainPanel;
 	private HTML emptyWidget;
 	private HorizontalPanel emptyWidgetContainer;
-	private List<P> panels = new ArrayList<P>();
+	private List<ItemPanel<T>> panels = new ArrayList<ItemPanel<T>>();
 
-	private P currentSelection;
+	private ItemPanel<T> currentSelection;
 
-	private InstanceMap<T, P> instances = new InstanceMap<T, P>();
+	private InstanceMap<T, ItemPanel<T>> instances = new InstanceMap<T, ItemPanel<T>>();
 
 	private ItemsEditingListener<T> listener;
 
 	private boolean editable;
 	
-	private ItemEditingPanelFactory<T,P> editingPanelFactory;
+	private ItemPanelFactory<T> editingPanelFactory;
 
-	public ItemsEditingPanel(String noItemsText, ItemEditingPanelFactory<T,P> editingPanelFactory) {
+	public ItemsEditingPanel(String noItemsText, ItemPanelFactory<T> editingPanelFactory) {
 		this.editingPanelFactory = editingPanelFactory;
 		
 		mainPanel = new VerticalPanel();
@@ -107,12 +90,12 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 	
 	public void synchWithModel(T item) {
-		P panel = instances.get(item);
+		ItemPanel<T> panel = instances.get(item);
 		panel.syncWithModel();
 	}
 	
 	public void setSwitchState(T item, SwitchState state) {
-		P panel = instances.get(item);
+		ItemPanel<T> panel = instances.get(item);
 		panel.setSwitchDown(state == SwitchState.DOWN);
 	}
 
@@ -121,7 +104,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 
 	public void removeItem(T item) {
-		P panel = instances.remove(item);
+		ItemPanel<T> panel = instances.remove(item);
 		if (panel == null) return;
 		remove(panel);
 		
@@ -129,7 +112,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 
 	public void clear() {
-		for (P panel:panels) mainPanel.remove(panel);
+		for (ItemPanel<T> panel:panels) mainPanel.remove(panel);
 		instances.clear();
 		
 		updateSelection(null);
@@ -138,7 +121,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 
 	public void addItemPanel(final T item) {
-		final P panel = editingPanelFactory.createPanel(item);
+		final ItemPanel<T> panel = editingPanelFactory.createPanel(item);
 		
 		panel.setEditable(editable);
 		panels.add(panel);
@@ -172,7 +155,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	}
 
 	public void addNewItemPanel(final T item) {
-		final P panel = editingPanelFactory.createPanelForNewItem(item);
+		final ItemPanel<T> panel = editingPanelFactory.createPanelForNewItem(item);
 		
 		instances.put(item, panel);
 		
@@ -227,13 +210,13 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 		//setStyleName(CotrixManagerResources.INSTANCE.css().noItemsBackground(), showEmptyWidget);
 	}
 	
-	private void remove(P toRemove) {
+	private void remove(ItemPanel<T> toRemove) {
 		mainPanel.remove(toRemove);
 		panels.remove(toRemove);
 		if (toRemove == currentSelection) updateSelection(null);
 	}
 
-	private void updateSelection(P selected) {
+	private void updateSelection(ItemPanel<T> selected) {
 		if (currentSelection!=null) currentSelection.setSelected(false);
 		if (selected!=null) selected.setSelected(true);
 		currentSelection = selected;
@@ -248,7 +231,7 @@ public class ItemsEditingPanel<T,P extends ItemsEditingPanel.ItemEditingPanel<T>
 	@Override
 	public void setEditable(boolean editable) {
 		this.editable = editable;
-		for (P panel:panels) panel.setEditable(editable);
+		for (ItemPanel<T> panel:panels) panel.setEditable(editable);
 	}
 
 	private void fireUpdate(T item) {

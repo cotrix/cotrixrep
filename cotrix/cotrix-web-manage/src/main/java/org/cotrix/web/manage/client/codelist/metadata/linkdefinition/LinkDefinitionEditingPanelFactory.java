@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.codelist.metadata.linkdefinition;
 
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
-import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -14,7 +14,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class LinkDefinitionEditingPanelFactory implements	ItemEditingPanelFactory<UILinkDefinition, LinkDefinitionPanel> {
+public class LinkDefinitionEditingPanelFactory implements ItemPanelFactory<UILinkDefinition> {
 
 	@Inject
 	private LinkDefinitionsCodelistInfoProvider codelistInfoProvider;

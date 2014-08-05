@@ -22,7 +22,6 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.link.LinkEditingPanelFactory;
-import org.cotrix.web.manage.client.codelist.codes.link.LinkPanel;
 import org.cotrix.web.manage.client.codelist.codes.link.ValueUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
@@ -55,7 +54,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	private SidePanel panel;
 	
-	private ItemsEditingPanel<UILink, LinkPanel> linksPanel;
+	private ItemsEditingPanel<UILink> linksPanel;
 
 	@Inject
 	protected ManageServiceAsync service;
@@ -83,7 +82,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init() {
 		linkEditor = DataEditor.build(this);
-		linksPanel = new ItemsEditingPanel<UILink, LinkPanel>("no links", editingPanelFactory);
+		linksPanel = new ItemsEditingPanel<UILink>("no links", editingPanelFactory);
 		panel.setContent(linksPanel);
 		
 		initWidget(panel);

@@ -21,7 +21,6 @@ import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.attributedefinition.AttributeDefinitionEditingPanelFactory;
-import org.cotrix.web.manage.client.codelist.metadata.attributedefinition.AttributeDefinitionPanel;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -57,7 +56,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 
 	@UiField FlowPanel itemsContainer;
 	
-	@UiField(provided=true) ItemsEditingPanel<UIAttributeDefinition, AttributeDefinitionPanel> attributeDefinitionsPanel;
+	@UiField(provided=true) ItemsEditingPanel<UIAttributeDefinition> attributeDefinitionsPanel;
 
 	@UiField HTMLPanel loaderContainer;
 	
@@ -87,7 +86,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 	public void init() {
 		attributeTypeEditor = DataEditor.build(this);
 		
-		attributeDefinitionsPanel = new ItemsEditingPanel<UIAttributeDefinition, AttributeDefinitionPanel>("Define an attribute.", editingPanelFactory);
+		attributeDefinitionsPanel = new ItemsEditingPanel<UIAttributeDefinition>("Define an attribute.", editingPanelFactory);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		

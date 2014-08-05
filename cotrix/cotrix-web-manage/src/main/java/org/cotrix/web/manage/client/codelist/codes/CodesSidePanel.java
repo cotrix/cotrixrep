@@ -44,6 +44,7 @@ public class CodesSidePanel extends ResizeComposite {
 		panel.addPanel(resources.linksSelected(), resources.linksUnselected(), "Code Links", linksPanel);
 		panel.addPanel(resources.markersSelected(), resources.markersUnselected(), "Code Markers", markersPanel);
 		
+		panel.showPanel(attributesPanel);
 		panel.showEmptyPanel(true);
 	}
 	

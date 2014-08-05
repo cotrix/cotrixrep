@@ -23,7 +23,6 @@ import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener.SwitchState;
 import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
 import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -57,7 +56,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	@Inject
 	private SidePanel panel;
 	
-	private ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
+	private ItemsEditingPanel<UIAttribute> attributesGrid;
 
 	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 
@@ -85,7 +84,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 		this.attributeEditor = DataEditor.build(this);
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
+		attributesGrid = new ItemsEditingPanel<UIAttribute>("No attributes", editingPanelFactory);
 		panel.setContent(attributesGrid);
 		
 		initWidget(panel);

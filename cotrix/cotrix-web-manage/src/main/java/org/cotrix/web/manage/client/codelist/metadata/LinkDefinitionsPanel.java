@@ -19,7 +19,6 @@ import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditi
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.linkdefinition.LinkDefinitionEditingPanelFactory;
-import org.cotrix.web.manage.client.codelist.metadata.linkdefinition.LinkDefinitionPanel;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -53,7 +52,7 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 
 	@UiField FlowPanel itemsContainer;
 
-	@UiField(provided=true) ItemsEditingPanel<UILinkDefinition, LinkDefinitionPanel> linkDefinitionsPanel;
+	@UiField(provided=true) ItemsEditingPanel<UILinkDefinition> linkDefinitionsPanel;
 
 	@UiField HTMLPanel loaderContainer;
 
@@ -80,7 +79,7 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 	public void init() {
 		linkTypeEditor = DataEditor.build(this);
 		
-		linkDefinitionsPanel = new ItemsEditingPanel<UILinkDefinition, LinkDefinitionPanel>("Define a link.", editingPanelFactory);
+		linkDefinitionsPanel = new ItemsEditingPanel<UILinkDefinition>("Define a link.", editingPanelFactory);
 		
 		initWidget(uiBinder.createAndBindUi(this));
 		

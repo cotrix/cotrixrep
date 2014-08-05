@@ -4,7 +4,6 @@
 package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
-import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
@@ -26,7 +25,7 @@ import com.google.gwt.user.client.ui.IsWidget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
+public class ItemPanel<T> extends Composite {
 
 	public interface ItemEditor<T> {
 		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler);
@@ -239,18 +238,15 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		header.setSaveVisible(valid);
 	}
 
-	@Override
 	public void setEditable(boolean editable) {
 		this.editable = editable;
 		updateHeaderButtons();
 	}
 
-	@Override
 	public void setListener(ItemEditingPanelListener<T> listener) {
 		this.listener = listener;
 	}
 
-	@Override
 	public void setSwitchDown(boolean down) {
 		header.setSwitchDown(down);
 	}

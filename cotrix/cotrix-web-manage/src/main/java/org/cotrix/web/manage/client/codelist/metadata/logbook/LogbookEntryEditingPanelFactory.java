@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
-import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.google.inject.Singleton;
@@ -13,7 +13,7 @@ import com.google.inject.Singleton;
  *
  */
 @Singleton
-public class LogbookEntryEditingPanelFactory implements ItemEditingPanelFactory<UILogbookEntry, LogbookEntryPanel> {
+public class LogbookEntryEditingPanelFactory implements ItemPanelFactory<UILogbookEntry> {
 	
 	@Override
 	public LogbookEntryPanel createPanel(UILogbookEntry item) {

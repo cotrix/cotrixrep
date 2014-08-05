@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.codelist.codes.link;
 
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
 
 import com.google.inject.Inject;
 
@@ -12,7 +12,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkEditingPanelFactory implements ItemEditingPanelFactory<UILink, LinkPanel> {
+public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	
 	@Inject
 	private LinksCodelistInfoProvider codelistInfoProvider;

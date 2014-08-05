@@ -5,7 +5,7 @@ package org.cotrix.web.manage.client.codelist.metadata.attribute;
 
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
-import org.cotrix.web.manage.client.codelist.common.ItemEditingPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -17,7 +17,7 @@ import com.google.inject.Inject;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class CodelistAttributeEditingPanelFactory implements ItemEditingPanelFactory<UIAttribute, AttributePanel> {
+public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UIAttribute> {
 	
 	@Inject
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;

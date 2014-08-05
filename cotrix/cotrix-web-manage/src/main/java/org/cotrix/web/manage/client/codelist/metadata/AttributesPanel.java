@@ -13,7 +13,6 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
 import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.attribute.CodelistAttributeEditingPanelFactory;
@@ -43,7 +42,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	private SidePanel panel;
 	
-	private ItemsEditingPanel<UIAttribute, AttributePanel> attributesGrid;
+	private ItemsEditingPanel<UIAttribute> attributesGrid;
 
 	protected UICodelistMetadata metadata;
 
@@ -64,7 +63,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init(@CurrentCodelist UICodelist codelist) {
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute, AttributePanel>("No attributes", editingPanelFactory);
+		attributesGrid = new ItemsEditingPanel<UIAttribute>("No attributes", editingPanelFactory);
 		panel.setContent(attributesGrid);
 
 		attributeEditor = DataEditor.build(this);

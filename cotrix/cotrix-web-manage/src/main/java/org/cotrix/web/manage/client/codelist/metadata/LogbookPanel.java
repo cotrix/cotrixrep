@@ -23,7 +23,6 @@ import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.logbook.LogbookEntryEditingPanelFactory;
-import org.cotrix.web.manage.client.codelist.metadata.logbook.LogbookEntryPanel;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
@@ -55,7 +54,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	private SidePanel panel;
 
-	private ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel> entriesGrid;
+	private ItemsEditingPanel<UILogbookEntry> entriesGrid;
 	
 	@Inject
 	private HeaderBuilder headerBuilder;
@@ -83,7 +82,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init(@CurrentCodelist UICodelist codelist) {
 
-		entriesGrid = new ItemsEditingPanel<UILogbookEntry, LogbookEntryPanel>("No entries", editingPanelFactory);
+		entriesGrid = new ItemsEditingPanel<UILogbookEntry>("No entries", editingPanelFactory);
 		panel.setContent(entriesGrid);
 
 		add(panel);
