@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.common;
+package org.cotrix.web.manage.client.codelist.common.attributed;
 
 import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FadeAnimation;

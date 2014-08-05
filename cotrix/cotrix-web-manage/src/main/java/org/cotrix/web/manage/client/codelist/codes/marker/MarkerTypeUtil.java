@@ -19,7 +19,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.common.attribute.GroupFactory;
+import org.cotrix.web.manage.client.codelist.common.GroupFactory;
 import org.cotrix.web.manage.shared.AttributeGroup;
 
 import com.google.inject.Inject;

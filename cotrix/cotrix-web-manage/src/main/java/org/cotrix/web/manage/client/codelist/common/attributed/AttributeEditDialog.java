@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelist.common;
+package org.cotrix.web.manage.client.codelist.common.attributed;
 
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIQName;

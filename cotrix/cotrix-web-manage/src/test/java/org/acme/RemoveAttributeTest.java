@@ -5,7 +5,7 @@ package org.acme;
 
 import static org.junit.Assert.*;
 
-import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.junit.Before;
 import org.junit.Test;
 

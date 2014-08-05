@@ -19,7 +19,7 @@ import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.MarkersEditingPanelListener;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel.SwitchState;
-import org.cotrix.web.manage.client.codelist.common.attribute.RemoveItemController;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;

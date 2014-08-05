@@ -15,7 +15,6 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.feature.AbstractFeatureCarrier.Void;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributesGridResources;
 import org.cotrix.web.manage.client.codelist.event.CreateNewVersionEvent;
 import org.cotrix.web.manage.client.codelist.event.RemoveCodelistEvent;
 import org.cotrix.web.manage.client.event.CloseCodelistEvent;
@@ -66,10 +65,6 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 	@Inject
 	private CodelistManagerPresenter codeListManagerPresenter;
 
-	@Inject
-	private void init(AttributesGridResources resources) {
-		resources.dataGridStyle().ensureInjected();
-	}
 
 	@Inject
 	private void bind(@CotrixBus EventBus cotrixBus) {
