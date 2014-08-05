@@ -1,6 +1,6 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
-import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanelContainer;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.user.client.ui.ResizeComposite;
@@ -14,7 +14,7 @@ import com.google.inject.Inject;
 public class MetadataSidePanel extends ResizeComposite {
 
 	@Inject
-	private SidePanel panel;
+	private SidePanelContainer panel;
 
 	@Inject
 	private AttributesPanel attributesPanel;

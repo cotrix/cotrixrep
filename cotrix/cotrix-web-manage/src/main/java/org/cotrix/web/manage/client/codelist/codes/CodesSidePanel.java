@@ -2,7 +2,7 @@ package org.cotrix.web.manage.client.codelist.codes;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
-import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanelContainer;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
@@ -22,7 +22,7 @@ public class CodesSidePanel extends ResizeComposite {
 	interface CodesSidePanelEventBinder extends EventBinder<CodesSidePanel> {}
 	
 	@Inject
-	private SidePanel panel;
+	private SidePanelContainer panel;
 	
 	@Inject
 	private AttributesPanel attributesPanel;
