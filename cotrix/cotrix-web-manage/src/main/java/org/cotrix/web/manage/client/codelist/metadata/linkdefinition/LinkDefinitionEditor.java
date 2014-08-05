@@ -15,7 +15,6 @@ import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -39,11 +38,6 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
 		return detailsPanel.addValueChangeHandler(handler);
-	}
-
-	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		detailsPanel.fireEvent(event);
 	}
 
 	@Override
@@ -151,5 +145,9 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	@Override
 	public void onEdit(AsyncCallback<Boolean> callBack) {
 		callBack.onSuccess(true);
+	}
+
+	@Override
+	public void onSave() {
 	}
 }

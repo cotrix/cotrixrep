@@ -1,0 +1,151 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style src="../../../resources/definitions.css" type="org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.HeaderStyle">
+	
+	@def TOP_PADDING 15px;
+	
+	.table {
+		width: 100%;
+		background-color: HOVER_GREY;
+		margin-top: 5px;
+		table-layout: fixed;
+	}
+	
+	.table:hover {
+		background-color: WIREFRAME_GREY;
+	}
+	
+	.tableSelected {
+		background-color: SELECTION_GREY;
+	}
+	
+	.tableDisabled {
+		/*background-color: DISABLED_GREY;*/
+	}
+	
+	.iconCell {
+		width: 32px;
+		text-align: center;
+		padding-left: 5px;
+		padding-top: TOP_PADDING;
+		vertical-align: top;
+	}
+	
+	.iconCellAlignMiddle {
+		padding-top: 0;
+		vertical-align: middle;
+	}
+	
+	.titleFocus {
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-top: TOP_PADDING;
+		
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.title {
+		color: TITLE_GREY;
+		font-size: LARGE;
+		
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	
+	.titleSmall {
+		font-size: MEDIUM;
+	}
+	
+	.titleDisabled {
+		color: DISABLED_GREY;
+	}
+	
+	.primaryButtonCell {
+		padding-top: TOP_PADDING;
+		width: 40px;
+		vertical-align: top;
+	}
+	
+	.primaryButton {
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.secondaryButtonCell {
+		padding-top: TOP_PADDING;
+		width: 25px;
+		vertical-align: top;
+	}
+	
+	.secondaryButton {
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.buttonCellAlignMiddle {
+		padding-top: 0;
+		vertical-align: middle;
+	}
+	
+	.subtitleFocus {
+		padding-top: 2px;
+		padding-left: 5px;
+		padding-right: 5px;
+		padding-bottom: 15px;
+		
+		cursor: pointer;
+		outline: none;
+	}
+	
+	.subtitle {
+		color: SUBTITLE_GREY;
+		font-size: SMALL;
+		line-height: 16px;
+		
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	
+	.subtitleDisabled {
+		color: DISABLED_GREY;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table ui:field="table" class="{style.table}">
+			<tr>
+				<td ui:field="iconCell" class="{style.iconCell}" rowspan="2">
+					<g:Image ui:field="icon"/>
+				</td>
+				<td>
+					<g:FocusPanel ui:field="titleFocus" styleName="{style.titleFocus}">
+						<g:Label ui:field="title" styleName="{style.title}" >VALIDATION WITH REALLY LONG TITLE</g:Label>
+					</g:FocusPanel>
+				</td>
+				<td ui:field="primaryButtonCell" class="{style.primaryButtonCell}" rowspan="2">
+					<g:PushButton ui:field="primaryButton" styleName="{style.primaryButton}">
+					</g:PushButton>
+				</td>
+				<td ui:field="firstButtonCell" class="{style.secondaryButtonCell}" rowspan="2">
+					<g:PushButton ui:field="firstButton" styleName="{style.secondaryButton}">
+					</g:PushButton>
+				</td>
+				<td ui:field="secondButtonCell" class="{style.secondaryButtonCell}" rowspan="2">
+					<g:PushButton ui:field="secondButton" styleName="{style.secondaryButton}">
+					</g:PushButton>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<g:FocusPanel ui:field="subtitleFocus" styleName="{style.subtitleFocus}">
+						<g:Label ui:field="subtitle" styleName="{style.subtitle}" >Runs validation with a realyl long subtitle</g:Label>
+					</g:FocusPanel>
+				</td>
+			</tr>
+		</table>
+
+	</g:HTMLPanel>
+</ui:UiBinder> 

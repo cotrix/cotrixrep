@@ -19,7 +19,6 @@ import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescripti
 import org.cotrix.web.manage.client.codelist.metadata.AttributeDefinitionsPanel;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -46,11 +45,6 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
 		return detailsPanel.addValueChangeHandler(handler);
-	}
-
-	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		detailsPanel.fireEvent(event);		
 	}
 
 	@Override
@@ -159,6 +153,11 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 				callBack.onSuccess(button == AttributeDefinitionsPanel.CONTINUE);
 			}
 		}, AttributeDefinitionsPanel.CONTINUE, AttributeDefinitionsPanel.CANCEL);
+	}
+
+	@Override
+	public void onSave() {
+		
 	}
 
 }

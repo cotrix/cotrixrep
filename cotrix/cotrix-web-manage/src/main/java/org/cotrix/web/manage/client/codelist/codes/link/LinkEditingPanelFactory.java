@@ -14,7 +14,6 @@ import com.google.inject.Inject;
  */
 public class LinkEditingPanelFactory implements ItemEditingPanelFactory<UILink, LinkPanel> {
 	
-	
 	@Inject
 	private LinksCodelistInfoProvider codelistInfoProvider;
 

@@ -12,11 +12,11 @@ import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
@@ -28,7 +28,9 @@ import com.google.gwt.user.client.ui.IsWidget;
  */
 public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 
-	public interface ItemEditor<T> extends HasValueChangeHandlers<Void> {
+	public interface ItemEditor<T> {
+		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler);
+		
 		public void startEditing();
 		public void stopEditing();
 		public void onEdit(AsyncCallback<Boolean> callBack);
@@ -45,6 +47,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 		public IsWidget getView();
 		public boolean isSwitchVisible();
 		public ImageResource getBullet();
+		void onSave();
 	}
 
 	private boolean readOnly;
@@ -146,6 +149,7 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	private void onSave() {
 		stopEdit();
 		readItem();
+		editor.onSave();
 		if (listener!=null) listener.onSave(editor.getItem());
 		updateHeaderLabel();
 	}
@@ -249,6 +253,10 @@ public class ItemPanel<T> extends Composite implements ItemEditingPanel<T> {
 	@Override
 	public void setSwitchDown(boolean down) {
 		header.setSwitchDown(down);
+	}
+
+	public void setReadOnly(boolean readOnly) {
+		this.readOnly = readOnly;
 	}
 
 }

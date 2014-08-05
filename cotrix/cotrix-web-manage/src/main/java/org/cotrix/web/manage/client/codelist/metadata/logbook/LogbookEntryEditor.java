@@ -9,7 +9,6 @@ import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -32,11 +31,6 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	@Override
 	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
 		return detailsPanel.addHandler(handler, ValueChangeEvent.getType());
-	}
-
-	@Override
-	public void fireEvent(GwtEvent<?> event) {
-		detailsPanel.fireEvent(event);		
 	}
 
 	@Override
@@ -97,5 +91,9 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	@Override
 	public void onEdit(AsyncCallback<Boolean> callBack) {
 		callBack.onSuccess(true);
+	}
+
+	@Override
+	public void onSave() {
 	}
 }
