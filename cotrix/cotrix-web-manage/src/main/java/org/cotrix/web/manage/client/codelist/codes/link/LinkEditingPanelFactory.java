@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.codelist.codes.link;
 
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 
 import com.google.inject.Inject;
 

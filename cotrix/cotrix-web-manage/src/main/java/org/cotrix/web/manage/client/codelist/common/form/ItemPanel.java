@@ -1,10 +1,10 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.common;
+package org.cotrix.web.manage.client.codelist.common.form;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
-import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemEditingPanelListener;
+import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
 import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;

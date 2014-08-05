@@ -5,7 +5,7 @@ package org.cotrix.web.manage.client.codelist.common.attribute;
 
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
-import org.cotrix.web.manage.client.codelist.common.ItemPanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

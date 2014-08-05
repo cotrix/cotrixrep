@@ -9,7 +9,7 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
-import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

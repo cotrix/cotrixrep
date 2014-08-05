@@ -4,7 +4,7 @@
 package org.cotrix.web.manage.client.codelist.metadata.linkdefinition;
 
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
-import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

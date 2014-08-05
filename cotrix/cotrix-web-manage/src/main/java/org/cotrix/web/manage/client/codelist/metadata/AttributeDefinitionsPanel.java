@@ -16,9 +16,9 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.ConfirmDialogLi
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
-import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
-import org.cotrix.web.manage.client.codelist.common.ItemsEditingPanel.ItemsEditingListener;
+import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.codelist.metadata.attributedefinition.AttributeDefinitionEditingPanelFactory;
 import org.cotrix.web.manage.client.data.DataEditor;

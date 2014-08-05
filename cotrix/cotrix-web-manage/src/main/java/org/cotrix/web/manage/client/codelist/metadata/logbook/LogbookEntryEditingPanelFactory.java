@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
-import org.cotrix.web.manage.client.codelist.common.ItemPanelFactory;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.google.inject.Singleton;

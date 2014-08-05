@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
-import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 

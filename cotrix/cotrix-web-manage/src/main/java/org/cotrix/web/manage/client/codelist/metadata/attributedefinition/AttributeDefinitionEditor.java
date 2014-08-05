@@ -14,8 +14,8 @@ import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
-import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.client.codelist.metadata.AttributeDefinitionsPanel;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;

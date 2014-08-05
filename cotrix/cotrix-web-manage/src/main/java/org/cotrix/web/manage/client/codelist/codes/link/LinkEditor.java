@@ -5,7 +5,7 @@ package org.cotrix.web.manage.client.codelist.codes.link;
 
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UILink;
-import org.cotrix.web.manage.client.codelist.common.ItemPanel.ItemEditor;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
