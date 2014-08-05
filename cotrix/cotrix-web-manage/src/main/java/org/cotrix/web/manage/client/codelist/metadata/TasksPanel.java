@@ -73,7 +73,7 @@ public class TasksPanel extends LoadingPanel {
 		
 		addTasks();
 		
-		header.setHTML(headerBuilder.getHeader("Tasks", codelist.getName().getLocalPart()));
+		header.setHTML(headerBuilder.getHeader("Tasks", codelist.getName().getLocalPart(), "#24676A"));
 	}
 	
 	private void addTasks() {
