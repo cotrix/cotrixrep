@@ -181,7 +181,7 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 	/**
 	 * holds the header widget.
 	 */
-	private final Widget header;
+	private final IsWidget header;
 
 	private boolean isAnimationEnabled = false;
 
@@ -190,7 +190,7 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 	/**
 	 * Creates an empty DisclosurePanel that is initially closed.
 	 */
-	public CustomDisclosurePanel(Widget header) {
+	public CustomDisclosurePanel(IsWidget header) {
 		this.header = header;
 		if (header instanceof HasClickHandlers) {
 			HasClickHandlers hasClickHandlers = (HasClickHandlers) header;
@@ -250,7 +250,7 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 	 * 
 	 * @return the widget currently being used as a header
 	 */
-	public Widget getHeader() {
+	public IsWidget getHeader() {
 		return header;
 	}
 
@@ -350,7 +350,7 @@ public class CustomDisclosurePanel extends Composite implements HasAnimation, Ha
 	@Override
 	protected void onEnsureDebugId(String baseID) {
 		super.onEnsureDebugId(baseID);
-		header.ensureDebugId(baseID + "-header");
+		//header.ensureDebugId(baseID + "-header");
 	}
 
 	private void setContentDisplay(boolean animate) {

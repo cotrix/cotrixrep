@@ -4,11 +4,13 @@
 package org.cotrix.web.manage.client.codelist.common.form;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader.HeaderListener;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
 import org.cotrix.web.manage.client.util.LabelHeader.Button;
-import org.cotrix.web.manage.client.util.LabelHeader.HeaderListener;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -53,16 +55,15 @@ public class ItemPanel<T> extends Composite {
 	private boolean editable;
 	private boolean editing;
 
-	private LabelHeader header;
+	private ItemPanelHeader header;
 	private ItemEditingPanelListener<T> listener;
 	private ItemEditor<T> editor;
 
 	private CustomDisclosurePanel disclosurePanel;
-
+	
 	public ItemPanel(ItemEditor<T> editor) {
-		this.editor = editor;
-
-		header = new LabelHeader();
+		this(editor, new LabelHeader());
+		LabelHeader header = (LabelHeader)this.header;
 		header.setSwitchVisible(editor.isSwitchVisible());
 		ImageResource bullet = editor.getBullet();
 		if (bullet!=null) header.setBulletImage(bullet);
@@ -70,10 +71,23 @@ public class ItemPanel<T> extends Composite {
 		header.setSaveTitle("Save all changes.");
 		header.setRevertTitle("Discard all changes.");
 		header.setEditTitle("Make changes.");
+	}
 
+	public ItemPanel(ItemEditor<T> editor, final ItemPanelHeader header) {
+		this.editor = editor;
+		this.header = header;
+		
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
 		disclosurePanel.setAnimationEnabled(true);
+		
+		header.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				disclosurePanel.toggle();
+			}
+		});
 
 		IsWidget detailsPanel = editor.getView();
 		disclosurePanel.add(detailsPanel);
@@ -131,10 +145,6 @@ public class ItemPanel<T> extends Composite {
 
 		writeItem();
 		updateHeaderLabel();
-	}
-
-	public void setSwitchVisible(boolean visible) {
-		header.setSwitchVisible(visible);
 	}
 
 	private void fireSelected() {

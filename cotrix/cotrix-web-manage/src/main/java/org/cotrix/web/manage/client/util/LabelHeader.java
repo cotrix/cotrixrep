@@ -5,13 +5,13 @@ package org.cotrix.web.manage.client.util;
 
 import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ImageResource;
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LabelHeader extends Composite implements HasClickHandlers {
+public class LabelHeader extends Composite implements ItemPanelHeader {
 
 	private static LinkTypeHeaderUiBinder uiBinder = GWT
 			.create(LinkTypeHeaderUiBinder.class);
@@ -46,11 +46,6 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 	}
 	
 	public enum Button {EDIT, SAVE, REVERT;}
-	
-	public interface HeaderListener {
-		public void onButtonClicked(Button button);
-		public void onSwitchChange(boolean isDown);
-	}
 
 	@UiField
 	HTMLPanel header;
@@ -123,6 +118,9 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		headerLabelValueAnimation = new FadeAnimation(headerLabelValue.getElement(), true);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void setSwitchVisible(boolean visible) {
 		images.getStyle().setWidth(visible?24:12, Unit.PX);
 		int index = visible?labelControls.getWidgetIndex(switchButton):labelControls.getWidgetIndex(bullet);
@@ -131,6 +129,10 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		if (visible) updateSwitchTooltip();
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setSwitchDown(boolean down) {
 		switchButton.setDown(down);
 		updateSwitchTooltip();
@@ -142,15 +144,27 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		bullet.setHeight(image.getHeight()+"px");
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setListener(HeaderListener listener) {
 		this.listener = listener;
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setHeaderLabel(String label) {
 		this.headerLabel.setText(label);
 		this.headerLabel.setTitle(label);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setHeaderLabelValue(String value) {
 		this.headerLabelValue.setText(value);
 		this.headerLabelValue.setTitle(value);
@@ -180,6 +194,10 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		this.headerLabel.addStyleName(style);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setHeaderSelected(boolean selected) {
 		header.setStyleName(style.headerSelected(), selected);
 	}
@@ -209,6 +227,9 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		if (listener!=null) listener.onButtonClicked(button);
 	}
 
+	/** 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public HandlerRegistration addClickHandler(ClickHandler handler) {
 		return headerBox.addClickHandler(handler);
@@ -218,19 +239,35 @@ public class LabelHeader extends Composite implements HasClickHandlers {
 		switchButton.setTitle(switchButton.isDown()?"Hide Column":"Show Column");
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setSaveVisible(boolean visible) {
 		saveAnimation.setVisibility(visible, Speed.VERY_FAST);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setRevertVisible(boolean visible) {
 		revertAnimation.setVisibility(visible, Speed.VERY_FAST);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setEditVisible(boolean visible) {
 		if (visible) controls.showWidget(controls.getWidgetIndex(edit));
 		editAnimation.setVisibility(visible, Speed.VERY_FAST);
 	}
 	
+	/** 
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void setControlsVisible(boolean visible) {
 		if (visible) controls.showWidget(controls.getWidgetIndex(completeControls));
 		completeControlsAnimation.setVisibility(visible, Speed.VERY_FAST);

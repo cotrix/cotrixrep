@@ -28,7 +28,7 @@ public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UI
 	@Override
 	public AttributePanel createPanel(UIAttribute item) {
 		AttributePanel attributePanel = new AttributePanel(item, false, attributeDescriptionSuggestOracle, attributeTypesCache);
-		attributePanel.setSwitchVisible(false);
+		//FIXME attributePanel.setSwitchVisible(false);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
@@ -36,7 +36,7 @@ public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UI
 	@Override
 	public AttributePanel createPanelForNewItem(UIAttribute item) {
 		AttributePanel attributePanel = new AttributePanel(item, false, attributeDescriptionSuggestOracle, attributeTypesCache);
-		attributePanel.setSwitchVisible(false);
+		//FIXME attributePanel.setSwitchVisible(false);
 		return attributePanel;
 	}
 
