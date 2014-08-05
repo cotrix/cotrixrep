@@ -1,16 +1,9 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
-import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 
@@ -20,56 +13,30 @@ import com.google.inject.Inject;
  */
 public class MetadataSidePanel extends ResizeComposite {
 
-	interface Binder extends UiBinder<Widget, MetadataSidePanel> { }
-	
-	private static Binder uiBinder = GWT.create(Binder.class);
-	
-	private ToggleButtonGroup buttonGroup = new ToggleButtonGroup();
-	@UiField ToggleButton metadataButton;
-	@UiField ToggleButton userButton;
-	@UiField ToggleButton logbookButton;
-	@UiField ToggleButton tasksButton;
-	
-	@UiField DeckLayoutPanel tools;
+	@Inject
+	private SidePanel panel;
+
+	@Inject
+	private AttributesPanel attributesPanel;
+
+	@Inject
+	private LogbookPanel logbookPanel;
 	
 	@Inject
-	@UiField(provided=true) AttributesPanel attributesPanel;
-	
-	@UiField UserPreferencesPanel userPanel;
+	private TasksPanel tasksPanel;
 	
 	@Inject
-	@UiField(provided=true) LogbookPanel logbookPanel;
-	
-	@Inject
-	@UiField(provided=true) TasksPanel tasksPanel;
+	private CotrixManagerResources resources;
 
 	@Inject
 	private void init() {
-		initWidget(uiBinder.createAndBindUi(this));
-		tools.showWidget(attributesPanel);
-
-		buttonGroup.addButton(metadataButton);
-		buttonGroup.addButton(userButton);
-		buttonGroup.addButton(logbookButton);
-		buttonGroup.addButton(tasksButton);
+		initWidget(panel);
 		
-		buttonGroup.setDown(metadataButton);
-	}
-	
-	
-	@UiHandler({"metadataButton", "userButton", "logbookButton", "tasksButton"})
-	protected void onButtonClicked(ClickEvent event)
-	{
-		Widget panel = getPanel((ToggleButton) event.getSource());
-		tools.showWidget(panel);
-	}
-	
-	private Widget getPanel(ToggleButton button) {
-		if (button == metadataButton) return attributesPanel;
-		if (button == userButton) return userPanel;
-		if (button == logbookButton) return logbookPanel;
-		if (button == tasksButton) return tasksPanel;
-		throw new IllegalArgumentException("Unknwown button "+button);
+			panel.addPanel(resources.attributesSelected(), resources.attributesUnselected(), "Codelist Attributes", attributesPanel);
+			panel.addPanel(resources.logbookSelected(), resources.logbookUnselected(), "Codelist Logbook", logbookPanel);
+			panel.addPanel(resources.tasksSelected(), resources.tasksUnselected(), "Codelist Tasks", tasksPanel);
+			
+			panel.showPanel(attributesPanel);
 	}
 
 	public AttributesPanel getAttributesPanel() {

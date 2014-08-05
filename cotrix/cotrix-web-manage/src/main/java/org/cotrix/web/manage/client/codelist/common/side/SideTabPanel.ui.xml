@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
+	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	<ui:style>
+	.header {
+		overflow: visible;
+		text-align: left;
+		color: #464545;
+		font-size: 16px;
+		background-color: #EFEFEF;
+		padding: 6px;
+	}
+	
+	.toolbar {
+		background-color: #ffffff;
+	}
+	</ui:style>
+	<g:DockLayoutPanel unit='PX'>
+		<g:north size="30">
+			<g:HTML ui:field="header" styleName="{style.header}" />
+		</g:north>
+		<g:center>
+			<g:ScrollPanel ui:field="contentPanel" width="100%" />
+		</g:center>
+		<g:south size="28">
+			<c:ItemToolbar ui:field="toolbar" />
+		</g:south>
+	</g:DockLayoutPanel>
+</ui:UiBinder> 

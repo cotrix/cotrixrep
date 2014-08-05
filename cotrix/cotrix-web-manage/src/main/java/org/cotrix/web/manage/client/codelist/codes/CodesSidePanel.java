@@ -1,19 +1,12 @@
 package org.cotrix.web.manage.client.codelist.codes;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
-import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
+import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.ui.DeckLayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
-import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -26,45 +19,32 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  */
 public class CodesSidePanel extends ResizeComposite {
 
-	interface Binder extends UiBinder<Widget, CodesSidePanel> {}
 	interface CodesSidePanelEventBinder extends EventBinder<CodesSidePanel> {}
 	
-	private static Binder uiBinder = GWT.create(Binder.class);
-	
-	private ToggleButtonGroup buttonGroup = new ToggleButtonGroup();
-	
-	@UiField ToggleButton attributesButton;
-	@UiField ToggleButton filtersButton;
-	@UiField ToggleButton linksButton;
-	@UiField ToggleButton markersButton;
-	
-	@UiField DeckLayoutPanel tools;
-	
-	@UiField EmptyPanel emptyPanel;
+	@Inject
+	private SidePanel panel;
 	
 	@Inject
-	@UiField(provided=true) AttributesPanel attributesPanel;
-	
-	@UiField FiltersPanel filtersPanel;
+	private AttributesPanel attributesPanel;
+
+	@Inject
+	private LinksPanel linksPanel;
 	
 	@Inject
-	@UiField(provided=true) LinksPanel linksPanel;
+	private MarkersPanel markersPanel;
 	
 	@Inject
-	@UiField(provided=true) MarkersPanel markersPanel;
+	private CotrixManagerResources resources;
 
 	@Inject
 	private void init() {
-		initWidget(uiBinder.createAndBindUi(this));
+		initWidget(panel);
+	
+		panel.addPanel(resources.attributesSelected(), resources.attributesUnselected(), "Code Attributes", attributesPanel);
+		panel.addPanel(resources.linksSelected(), resources.linksUnselected(), "Code Links", linksPanel);
+		panel.addPanel(resources.markersSelected(), resources.markersUnselected(), "Code Markers", markersPanel);
 		
-		buttonGroup.addButton(attributesButton);
-		buttonGroup.addButton(linksButton);
-		buttonGroup.addButton(filtersButton);
-		buttonGroup.addButton(markersButton);
-		
-		buttonGroup.setDown(attributesButton);
-		
-		showEmptyPanel(true);
+		panel.showEmptyPanel(true);
 	}
 	
 	@Inject
@@ -72,39 +52,9 @@ public class CodesSidePanel extends ResizeComposite {
 		binder.bindEventHandlers(this, codelistBus);
 	}
 	
-	@UiHandler({"attributesButton", "filtersButton", "linksButton", "markersButton"})
-	protected void onButtonClicked(ClickEvent event)
-	{
-		showPanel((ToggleButton) event.getSource());
-	}
-	
 	@EventHandler
 	void onCodeSelected(CodeSelectedEvent event) {
-		showEmptyPanel(event.getCode() == null);
-	}
-	
-	public void showEmptyPanel(boolean visible) {
-		
-		if (visible) {
-			tools.showWidget(emptyPanel);
-			buttonGroup.setEnabled(false);
-		} else {
-			showPanel(buttonGroup.getLastSelected());
-			buttonGroup.setEnabled(true);
-		}
-	}
-	
-	private void showPanel(ToggleButton button) {
-		Widget panel = getPanel(button);
-		tools.showWidget(panel);
-	}
-	
-	private Widget getPanel(ToggleButton button) {
-		if (button == attributesButton) return attributesPanel;
-		if (button == filtersButton) return filtersPanel;
-		if (button == linksButton) return linksPanel;
-		if (button == markersButton) return markersPanel;
-		throw new IllegalArgumentException("Unknwown button "+button);
+		panel.showEmptyPanel(event.getCode() == null);
 	}
 
 	public AttributesPanel getAttributesPanel() {
