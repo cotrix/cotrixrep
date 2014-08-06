@@ -28,11 +28,6 @@ public class LinkDefinitionEditingPanelFactory implements ItemPanelFactory<UILin
 		ItemPanel<UILinkDefinition> linkDefinitionPanel = new ItemPanel<UILinkDefinition>(editor, header);
 		return linkDefinitionPanel;
 	}
-
-	@Override
-	public ItemPanel<UILinkDefinition> createPanelForNewItem(UILinkDefinition item) {
-		return createPanel(item);
-	}
 	
 	private LabelHeader getHeader() {
 		LabelHeader header = new LabelHeader();

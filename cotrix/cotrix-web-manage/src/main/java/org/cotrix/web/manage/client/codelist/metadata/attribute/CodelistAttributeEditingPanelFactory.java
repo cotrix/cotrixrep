@@ -45,14 +45,6 @@ public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UI
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
-
-	@Override
-	public ItemPanel<UIAttribute> createPanelForNewItem(UIAttribute item) {
-		EditingHeader header = getHeader(item);
-		AttributeEditor editor = new AttributeEditor(item, false, attributeDescriptionSuggestOracle, attributeTypesCache);
-		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
-		return attributePanel;
-	}
 	
 	private EditingHeader getHeader(UIAttribute item) {
 		EditingHeader header = new EditingHeader(Attributes.isSystemAttribute(item)?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);

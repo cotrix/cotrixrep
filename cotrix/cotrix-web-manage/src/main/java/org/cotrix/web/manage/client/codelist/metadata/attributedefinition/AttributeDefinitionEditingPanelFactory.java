@@ -33,11 +33,6 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 		ItemPanel<UIAttributeDefinition> attributeDefinitionPanel = new ItemPanel<UIAttributeDefinition>(editor, header);
 		return attributeDefinitionPanel;
 	}
-
-	@Override
-	public ItemPanel<UIAttributeDefinition> createPanelForNewItem(UIAttributeDefinition item) {
-		return createPanel(item);
-	}
 	
 	private LabelHeader getHeader() {
 		LabelHeader header = new LabelHeader();

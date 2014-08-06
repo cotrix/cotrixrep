@@ -26,11 +26,6 @@ public class LogbookEntryEditingPanelFactory implements ItemPanelFactory<UILogbo
 		ItemPanel<UILogbookEntry> attributeDefinitionPanel = new ItemPanel<UILogbookEntry>(editor, header);
 		return attributeDefinitionPanel;
 	}
-
-	@Override
-	public ItemPanel<UILogbookEntry> createPanelForNewItem(UILogbookEntry item) {
-		return createPanel(item);
-	}
 	
 	private EditingHeader getHeader() {
 		EditingHeader header = new EditingHeader(icons.logBook());

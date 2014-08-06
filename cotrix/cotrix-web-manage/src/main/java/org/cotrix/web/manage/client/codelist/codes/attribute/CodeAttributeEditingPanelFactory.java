@@ -47,18 +47,6 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
-
-	@Override
-	public ItemPanel<UIAttribute> createPanelForNewItem(UIAttribute item) {
-		
-		//TODO check has definition attribute
-		AttributeEditor editor = new AttributeEditor(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
-		
-		EditingHeader header = buildHeader(item);
-		
-		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
-		return attributePanel;
-	}
 	
 	private EditingHeader buildHeader(UIAttribute item) {
 		EditingHeader header = new EditingHeader(Attributes.isSystemAttribute(item)?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);

@@ -10,5 +10,4 @@ package org.cotrix.web.manage.client.codelist.common.form;
 public interface ItemPanelFactory<T> {
 	
 	public ItemPanel<T> createPanel(T item);
-	public ItemPanel<T> createPanelForNewItem(T item);
 }

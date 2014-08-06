@@ -155,7 +155,7 @@ public class ItemsEditingPanel<T> extends Composite implements HasEditing, HasSe
 	}
 
 	public void addNewItemPanel(final T item) {
-		final ItemPanel<T> panel = editingPanelFactory.createPanelForNewItem(item);
+		final ItemPanel<T> panel = editingPanelFactory.createPanel(item);
 		
 		instances.put(item, panel);
 		
