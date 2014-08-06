@@ -3,7 +3,7 @@
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style src="../../../resources/definitions.css" type="org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.HeaderStyle">
 	
-	@def TOP_PADDING 15px;
+	@def VERTICAL_PADDING 10px;
 	
 	.table {
 		width: 100%;
@@ -28,7 +28,7 @@
 		width: 32px;
 		text-align: center;
 		padding-left: 5px;
-		padding-top: TOP_PADDING;
+		padding-top: VERTICAL_PADDING;
 		vertical-align: top;
 	}
 	
@@ -40,7 +40,7 @@
 	.titleFocus {
 		padding-left: 5px;
 		padding-right: 5px;
-		padding-top: TOP_PADDING;
+		padding-top: VERTICAL_PADDING;
 		
 		cursor: pointer;
 		outline: none;
@@ -49,6 +49,7 @@
 	.title {
 		color: TITLE_GREY;
 		font-size: LARGE;
+		line-height: 21px;
 		
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -64,7 +65,7 @@
 	}
 	
 	.primaryButtonCell {
-		padding-top: TOP_PADDING;
+		padding-top: VERTICAL_PADDING;
 		width: 40px;
 		vertical-align: top;
 	}
@@ -75,7 +76,7 @@
 	}
 	
 	.switchButtonCell {
-		padding-top: TOP_PADDING;
+		padding-top: VERTICAL_PADDING;
 		width: 40px;
 		vertical-align: top;
 	}
@@ -86,7 +87,7 @@
 	}
 	
 	.secondaryButtonCell {
-		padding-top: TOP_PADDING;
+		padding-top: VERTICAL_PADDING;
 		width: 25px;
 		vertical-align: top;
 	}
@@ -105,7 +106,7 @@
 		padding-top: 2px;
 		padding-left: 5px;
 		padding-right: 5px;
-		padding-bottom: 15px;
+		padding-bottom: VERTICAL_PADDING;
 		
 		cursor: pointer;
 		outline: none;

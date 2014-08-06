@@ -153,7 +153,7 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHeaderLabel(String label) {
+	public void setHeaderTitle(String label) {
 		this.headerLabel.setText(label);
 		this.headerLabel.setTitle(label);
 	}
@@ -162,7 +162,7 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setHeaderLabelValue(String value) {
+	public void setHeaderSubtitle(String value) {
 		this.headerLabelValue.setText(value);
 		this.headerLabelValue.setTitle(value);
 	}

@@ -248,7 +248,7 @@ public class HeaderPanel extends Composite {
 		button.getUpFace().setImage(new Image(resources.getUpFace()));
 		if (resources.getHover()!=null)button.getUpHoveringFace().setImage(new Image(resources.getHover()));
 		if (resources.getDisabled()!=null) button.getUpDisabledFace().setImage(new Image(resources.getDisabled()));
-		if (resources.getDownFace()!=null) button.getUpDisabledFace().setImage(new Image(resources.getDownFace()));
+		if (resources.getDownFace()!=null) button.getDownFace().setImage(new Image(resources.getDownFace()));
 		button.setTitle(resources.getTitle());
 	}	
 }

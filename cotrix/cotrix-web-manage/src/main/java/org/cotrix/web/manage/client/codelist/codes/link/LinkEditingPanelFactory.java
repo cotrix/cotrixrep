@@ -7,10 +7,10 @@ import static org.cotrix.web.manage.client.codelist.common.Icons.*;
 import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 import org.cotrix.web.common.shared.codelist.UILink;
+import org.cotrix.web.manage.client.codelist.common.form.EditingHeader;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
-import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
 
 import com.google.inject.Inject;
 

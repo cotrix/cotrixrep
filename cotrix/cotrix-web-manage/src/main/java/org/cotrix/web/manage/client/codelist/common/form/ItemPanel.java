@@ -92,6 +92,7 @@ public class ItemPanel<T> extends Composite {
 			public void onClose(CloseEvent<CustomDisclosurePanel> event) {
 				header.setEditVisible(false);
 				header.setControlsVisible(false);
+				header.setSwitchVisible(true);
 				fireSelected();
 			}
 		});
@@ -209,8 +210,8 @@ public class ItemPanel<T> extends Composite {
 	}
 
 	private void updateHeaderLabel() {
-		header.setHeaderLabel(editor.getHeaderTitle());
-		header.setHeaderLabelValue(editor.getHeaderSubtitle());
+		header.setHeaderTitle(editor.getHeaderTitle());
+		header.setHeaderSubtitle(editor.getHeaderSubtitle());
 	}
 
 	private void updateHeaderButtons() {

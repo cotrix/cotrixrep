@@ -11,10 +11,10 @@ import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDetailsPanel;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeEditor;
+import org.cotrix.web.manage.client.codelist.common.form.EditingHeader;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
-import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.util.Attributes;
 

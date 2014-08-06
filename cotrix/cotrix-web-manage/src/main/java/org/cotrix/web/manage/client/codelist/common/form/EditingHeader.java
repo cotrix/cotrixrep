@@ -1,9 +1,10 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.common.header;
+package org.cotrix.web.manage.client.codelist.common.form;
 
-import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader;
+import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
+import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.BandDimension;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -88,13 +89,13 @@ public class EditingHeader implements ItemPanelHeader {
 	}
 
 	@Override
-	public void setHeaderLabel(String label) {
-		header.setTitle(label);
+	public void setHeaderTitle(String title) {
+		header.setTitle(title);
 	}
 
 	@Override
-	public void setHeaderLabelValue(String value) {
-		header.setSubtitle(value);
+	public void setHeaderSubtitle(String subtitle) {
+		header.setSubtitle(subtitle);
 	}
 
 	@Override

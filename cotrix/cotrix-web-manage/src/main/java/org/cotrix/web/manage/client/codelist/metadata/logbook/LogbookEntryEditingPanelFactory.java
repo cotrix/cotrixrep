@@ -5,9 +5,9 @@ package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
 import static org.cotrix.web.manage.client.codelist.common.Icons.*;
 
+import org.cotrix.web.manage.client.codelist.common.form.EditingHeader;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
-import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 import com.google.inject.Singleton;

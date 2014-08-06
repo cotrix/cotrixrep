@@ -22,9 +22,9 @@ public interface ItemPanelHeader extends IsWidget {
 
 	public void setListener(HeaderListener listener);
 
-	public void setHeaderLabel(String label);
+	public void setHeaderTitle(String label);
 
-	public void setHeaderLabelValue(String value);
+	public void setHeaderSubtitle(String value);
 
 	public void setHeaderSelected(boolean selected);
 
