@@ -85,6 +85,7 @@ public class SidePanelContainer extends ResizeComposite {
 		if (visible) {
 			lastVisualized = panels.getVisibleWidget();
 			panels.showWidget(emptyPanel);
+			buttonGroup.setAllDown(false);
 			buttonGroup.setEnabled(false);
 		} else {
 			showPanel(lastVisualized);
@@ -95,5 +96,9 @@ public class SidePanelContainer extends ResizeComposite {
 	public void showPanel(Widget panel) {
 		panels.showWidget(panel);
 		buttonGroup.setDown(panelsIndex.get(panel));
+	}
+	
+	public void setEmptyPanelMessage(String message) {
+		emptyPanel.setMessage(message);
 	}
 }

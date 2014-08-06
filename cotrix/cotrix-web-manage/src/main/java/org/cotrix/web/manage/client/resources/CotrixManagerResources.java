@@ -18,7 +18,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public static final CotrixManagerResources INSTANCE = GWT.create(CotrixManagerResources.class);
 
-	@Source("style.css")
+	@Source({"style.css", "definitions.css"})
 	public CotrixManagerStyle css();
 	
 	@Source("propertyGrid.css")
@@ -129,6 +129,8 @@ public interface CotrixManagerResources extends ClientBundle {
 		String ICON_BLUE();
 		String LOGBOOK_RED();
 		String TASK_GREEN();
+		
+		String REGULAR();
 	}
 	
 	interface CotrixManagerStyle extends CssResource {

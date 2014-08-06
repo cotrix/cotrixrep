@@ -2,18 +2,18 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.common"
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
-	<ui:style>
+	<ui:style src="../../../resources/definitions.css">
 	.header {
 		overflow: visible;
 		text-align: left;
-		color: #464545;
+		color: TITLE_GREY;
 		font-size: 16px;
-		background-color: #EFEFEF;
+		background-color: FRAME_GREY;
 		padding: 6px;
 	}
 	
 	.toolbar {
-		background-color: #ffffff;
+		background-color: PANE_WHITE;
 	}
 	</ui:style>
 	<g:DockLayoutPanel unit='PX'>

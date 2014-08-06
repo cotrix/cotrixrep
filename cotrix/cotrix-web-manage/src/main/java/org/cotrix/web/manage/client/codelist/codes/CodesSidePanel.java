@@ -46,6 +46,8 @@ public class CodesSidePanel extends ResizeComposite {
 		panel.addPanel(icons.marker(), icons.markerDisabled(), "Code Markers", markersPanel);
 		
 		panel.showPanel(attributesPanel);
+		
+		panel.setEmptyPanelMessage("No code selected");
 		panel.showEmptyPanel(true);
 	}
 	

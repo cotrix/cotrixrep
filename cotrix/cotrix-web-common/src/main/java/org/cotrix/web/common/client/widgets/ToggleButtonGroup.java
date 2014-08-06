@@ -32,6 +32,11 @@ public class ToggleButtonGroup {
 		lastSelected = button;
 	}
 	
+	public void setAllDown(boolean down) {
+		for (ToggleButton button:buttons) button.setDown(down);
+		lastSelected = null;
+	}
+	
 	public void addButton(ToggleButton button) {
 		button.addClickHandler(clickHandler);
 		buttons.add(button);

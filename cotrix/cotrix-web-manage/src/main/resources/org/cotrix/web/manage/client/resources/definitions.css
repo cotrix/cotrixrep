@@ -29,3 +29,7 @@
 
 @def LIGHT 300;
 @def REGULAR 400;
+
+/** BORDERS **/
+@def RADIUS 2px;
+
