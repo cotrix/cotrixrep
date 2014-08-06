@@ -9,7 +9,8 @@ import static org.cotrix.web.manage.client.codelist.common.header.ButtonResource
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeEditor;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
@@ -36,17 +37,20 @@ public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UI
 	private AttributeDefinitionsCache attributeTypesCache;
 
 	@Override
-	public AttributePanel createPanel(UIAttribute item) {
+	public ItemPanel<UIAttribute> createPanel(UIAttribute item) {
 		EditingHeader header = getHeader(item);
-		AttributePanel attributePanel = new AttributePanel(item, false, attributeDescriptionSuggestOracle, attributeTypesCache, header);
+		AttributeEditor editor = new AttributeEditor(item, false, attributeDescriptionSuggestOracle, attributeTypesCache);
+	
+		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
 
 	@Override
-	public AttributePanel createPanelForNewItem(UIAttribute item) {
+	public ItemPanel<UIAttribute> createPanelForNewItem(UIAttribute item) {
 		EditingHeader header = getHeader(item);
-		AttributePanel attributePanel = new AttributePanel(item, false, attributeDescriptionSuggestOracle, attributeTypesCache, header);
+		AttributeEditor editor = new AttributeEditor(item, false, attributeDescriptionSuggestOracle, attributeTypesCache);
+		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
 		return attributePanel;
 	}
 	

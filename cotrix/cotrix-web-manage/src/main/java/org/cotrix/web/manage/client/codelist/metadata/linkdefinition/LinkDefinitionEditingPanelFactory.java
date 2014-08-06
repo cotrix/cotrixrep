@@ -4,6 +4,7 @@
 package org.cotrix.web.manage.client.codelist.metadata.linkdefinition;
 
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.util.LabelHeader;
 
@@ -21,19 +22,17 @@ public class LinkDefinitionEditingPanelFactory implements ItemPanelFactory<UILin
 	private LinkDefinitionsCodelistInfoProvider codelistInfoProvider;
 	
 	@Override
-	public LinkDefinitionPanel createPanel(UILinkDefinition item) {
+	public ItemPanel<UILinkDefinition> createPanel(UILinkDefinition item) {
 		LabelHeader header = getHeader();
-		LinkDefinitionPanel linkDefinitionPanel = new LinkDefinitionPanel(item, codelistInfoProvider, header);
+		LinkDefinitionEditor editor = new LinkDefinitionEditor(item, codelistInfoProvider);
+		ItemPanel<UILinkDefinition> linkDefinitionPanel = new ItemPanel<UILinkDefinition>(editor, header);
 		return linkDefinitionPanel;
 	}
 
 	@Override
-	public LinkDefinitionPanel createPanelForNewItem(UILinkDefinition item) {
-		LabelHeader header = getHeader();
-		LinkDefinitionPanel linkDefinitionPanel = new LinkDefinitionPanel(item, codelistInfoProvider, header);
-		return linkDefinitionPanel;
+	public ItemPanel<UILinkDefinition> createPanelForNewItem(UILinkDefinition item) {
+		return createPanel(item);
 	}
-	
 	
 	private LabelHeader getHeader() {
 		LabelHeader header = new LabelHeader();

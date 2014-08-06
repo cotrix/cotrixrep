@@ -7,6 +7,7 @@ import static org.cotrix.web.manage.client.codelist.common.Icons.*;
 import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 import org.cotrix.web.common.shared.codelist.UILink;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
@@ -28,17 +29,16 @@ public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	private LinksCodelistInfoProvider codelistInfoProvider;
 
 	@Override
-	public LinkPanel createPanel(UILink item) {
+	public ItemPanel<UILink> createPanel(UILink item) {
 		EditingHeader header = getHeader();
-		LinkPanel linkPanel = new LinkPanel(item, codelistInfoProvider, header);
+		LinkEditor editor = new LinkEditor(item, codelistInfoProvider);
+		ItemPanel<UILink> linkPanel = new ItemPanel<UILink>(editor, header);
 		return linkPanel;
 	}
 
 	@Override
-	public LinkPanel createPanelForNewItem(UILink item) {
-		EditingHeader header = getHeader();
-		LinkPanel linkPanel = new LinkPanel(item, codelistInfoProvider, header);
-		return linkPanel;
+	public ItemPanel<UILink> createPanelForNewItem(UILink item) {
+		return createPanel(item);
 	}
 	
 	private EditingHeader getHeader() {

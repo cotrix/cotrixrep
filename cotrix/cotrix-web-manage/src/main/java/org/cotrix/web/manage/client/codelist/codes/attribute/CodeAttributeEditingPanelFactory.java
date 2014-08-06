@@ -6,7 +6,8 @@ package org.cotrix.web.manage.client.codelist.codes.attribute;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributePanel;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeEditor;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.EditingHeader;
@@ -36,21 +37,30 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 
 	@Override
-	public AttributePanel createPanel(UIAttribute item) {
-		EditingHeader header = getHeader(item);
-		AttributePanel attributePanel = new AttributePanel(item, true, attributeDescriptionSuggestOracle, attributeTypesCache, header);
+	public ItemPanel<UIAttribute> createPanel(UIAttribute item) {
+		
+		AttributeEditor editor = new AttributeEditor(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
+		
+		EditingHeader header = buildHeader(item);
+		
+		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}
 
 	@Override
-	public AttributePanel createPanelForNewItem(UIAttribute item) {
-		EditingHeader header = getHeader(item);
-		AttributePanel attributePanel = new AttributePanel(item, true, attributeDescriptionSuggestOracle, attributeTypesCache, header);
+	public ItemPanel<UIAttribute> createPanelForNewItem(UIAttribute item) {
+		
+		//TODO check has definition attribute
+		AttributeEditor editor = new AttributeEditor(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
+		
+		EditingHeader header = buildHeader(item);
+		
+		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
 		return attributePanel;
 	}
 	
-	private EditingHeader getHeader(UIAttribute item) {
+	private EditingHeader buildHeader(UIAttribute item) {
 		EditingHeader header = new EditingHeader(Attributes.isSystemAttribute(item)?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
 		header.setSwitch(SWITCH);
 		header.setSmall();

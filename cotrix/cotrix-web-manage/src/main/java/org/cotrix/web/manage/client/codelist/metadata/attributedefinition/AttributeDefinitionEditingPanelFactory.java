@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
 import org.cotrix.web.manage.client.util.LabelHeader;
 
@@ -26,17 +27,16 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 	private ConfirmDialog confirmDialog;
 	
 	@Override
-	public AttributeDefinitionPanel createPanel(UIAttributeDefinition item) {
+	public ItemPanel<UIAttributeDefinition> createPanel(UIAttributeDefinition item) {
 		LabelHeader header = getHeader();
-		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(confirmDialog, item, attributeDescriptionSuggestOracle, header);
+		AttributeDefinitionEditor editor = new AttributeDefinitionEditor(confirmDialog, item, attributeDescriptionSuggestOracle);
+		ItemPanel<UIAttributeDefinition> attributeDefinitionPanel = new ItemPanel<UIAttributeDefinition>(editor, header);
 		return attributeDefinitionPanel;
 	}
 
 	@Override
-	public AttributeDefinitionPanel createPanelForNewItem(UIAttributeDefinition item) {
-		LabelHeader header = getHeader();
-		AttributeDefinitionPanel attributeDefinitionPanel = new AttributeDefinitionPanel(confirmDialog, item, attributeDescriptionSuggestOracle, header);
-		return attributeDefinitionPanel;
+	public ItemPanel<UIAttributeDefinition> createPanelForNewItem(UIAttributeDefinition item) {
+		return createPanel(item);
 	}
 	
 	private LabelHeader getHeader() {
