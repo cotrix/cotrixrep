@@ -11,7 +11,6 @@ import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -128,15 +127,4 @@ public class LinkEditor implements ItemEditor<UILink> {
 	public IsWidget getView() {
 		return detailsPanel;
 	}
-
-	@Override
-	public boolean isSwitchVisible() {
-		return true;
-	}
-
-	@Override
-	public ImageResource getBullet() {
-		return null;
-	}
-
 }

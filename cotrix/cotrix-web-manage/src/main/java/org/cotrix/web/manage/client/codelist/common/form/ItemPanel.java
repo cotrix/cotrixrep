@@ -7,7 +7,6 @@ import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader.Button;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader.HeaderListener;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemEditingPanelListener;
-import org.cotrix.web.manage.client.util.LabelHeader;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -18,7 +17,6 @@ import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -46,8 +44,6 @@ public class ItemPanel<T> extends Composite {
 		public T getItem();
 
 		public IsWidget getView();
-		public boolean isSwitchVisible();
-		public ImageResource getBullet();
 		void onSave();
 	}
 
@@ -60,18 +56,6 @@ public class ItemPanel<T> extends Composite {
 	private ItemEditor<T> editor;
 
 	private CustomDisclosurePanel disclosurePanel;
-	
-	public ItemPanel(ItemEditor<T> editor) {
-		this(editor, new LabelHeader());
-		LabelHeader header = (LabelHeader)this.header;
-		header.setSwitchVisible(editor.isSwitchVisible());
-		ImageResource bullet = editor.getBullet();
-		if (bullet!=null) header.setBulletImage(bullet);
-
-		header.setSaveTitle("Save all changes.");
-		header.setRevertTitle("Discard all changes.");
-		header.setEditTitle("Make changes.");
-	}
 
 	public ItemPanel(ItemEditor<T> editor, final ItemPanelHeader header) {
 		this.editor = editor;

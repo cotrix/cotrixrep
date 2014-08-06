@@ -20,7 +20,6 @@ import org.cotrix.web.manage.client.codelist.metadata.AttributeDefinitionsPanel;
 
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -117,11 +116,6 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	}
 
 	@Override
-	public boolean isSwitchVisible() {
-		return false;
-	}
-
-	@Override
 	public void startEditing() {
 		detailsPanel.setReadOnly(false);
 		detailsPanel.focusName();
@@ -137,11 +131,6 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	@Override
 	public String getLabelValue() {
 		return "";
-	}
-
-	@Override
-	public ImageResource getBullet() {
-		return null;
 	}
 
 	@Override
