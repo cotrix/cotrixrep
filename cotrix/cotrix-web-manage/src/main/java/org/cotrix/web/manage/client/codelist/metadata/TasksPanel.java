@@ -67,7 +67,7 @@ public class TasksPanel extends LoadingPanel {
 		
 		addTasks();
 		
-		panel.setHeader("Tasks", codelist.getName().getLocalPart(), "#24676A");
+		panel.setHeader("Tasks", codelist.getName().getLocalPart(), resources.definitions().TASK_GREEN());
 	}
 	
 	private void addTasks() {

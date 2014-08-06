@@ -254,7 +254,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	private void setHeader()
 	{
-		panel.setHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
+		panel.setHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null, resources.definitions().TASK_GREEN());
 	}
 
 	private void switchMarker(MarkerType type, UIAttribute attribute, SwitchState attributeSwitchState)

@@ -99,7 +99,7 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		panel.setHeader("Attributes", codelist.getName().getLocalPart(), "#000000");
+		panel.setHeader("Attributes", codelist.getName().getLocalPart(), resources.definitions().ICON_BLUE());
 	}
 
 	@Inject

@@ -12,10 +12,12 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -58,6 +60,9 @@ public class HeaderPanel extends Composite {
 	@UiField TableCellElement primaryButtonCell;
 	@UiField PushButton primaryButton;
 	
+	@UiField TableCellElement switchButtonCell;
+	@UiField ToggleButton switchButton;
+	
 	@UiField TableCellElement firstButtonCell;
 	@UiField PushButton firstButton;
 	
@@ -72,45 +77,77 @@ public class HeaderPanel extends Composite {
 	private ImageResource iconResource;
 	private ImageResource disabledIconResource;
 
-	public HeaderPanel(HeaderPanelConfiguration resources) {
+	public HeaderPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
-		setResources(resources);
+		
+		setPrimaryButtonVisible(false);
+		setSwitchVisible(false);
 		setSecondaryButtonsVisible(false);
+		
 		selected = false;
 		disabled = false;
 	}
-	
-	public void setResources(HeaderPanelConfiguration resources) {
-		setDimension(resources.getDimension());
-		
-		this.icon.setResource(resources.getIcon());
-		iconResource = resources.getIcon();
-		disabledIconResource = resources.getDisabledIcon();
-		
-		setPrimaryButton(resources.getPrimaryButton());
-		setFirstButton(resources.getFirstButton());
-		setSecondButton(resources.getSecondButton());
+	public void setIcon(ImageResource icon) {
+		setIcon(icon, null);
 	}
 	
-	private void setPrimaryButton(ButtonConfiguration resources) {
-		UIObject.setVisible(primaryButtonCell, resources != null);
-		if (resources != null) apply(resources, primaryButton); 
+	public void setIcon(ImageResource icon, ImageResource disabledIcon) {
+		this.icon.setResource(icon);
+		iconResource = icon;
+		disabledIconResource = disabledIcon;
 	}
 	
-	private void setFirstButton(ButtonConfiguration resources) {
-		UIObject.setVisible(firstButtonCell, resources != null);
-		if (resources != null) apply(resources, firstButton); 
+	public void setTitle(String title) {
+		this.title.setText(title);
 	}
 	
-	private void setSecondButton(ButtonConfiguration resources) {
-		UIObject.setVisible(secondButtonCell, resources != null);
-		if (resources != null) apply(resources, secondButton); 
+	public void setSubtitle(String subtitle) {
+		this.subtitle.setText(subtitle);
+	}
+	
+	public void setPrimaryButton(ButtonResources resources) {
+		apply(resources, primaryButton); 
+	}
+	
+	public void setSwitchButton(ButtonResources resources) {
+		apply(resources, switchButton); 
+	}
+	
+	public void setFirstButton(ButtonResources resources) {
+		apply(resources, firstButton); 
+	}
+	
+	public void setSecondButton(ButtonResources resources) {
+		apply(resources, secondButton); 
+	}
+	
+	public void setPrimaryButtonVisible(boolean visible) {
+		UIObject.setVisible(primaryButtonCell, visible);
+	}
+	
+	public void setSwitchVisible(boolean visible) {
+		UIObject.setVisible(switchButtonCell, visible);
 	}
 	
 	public void setSecondaryButtonsVisible(boolean visible) {
-		UIObject.setVisible(primaryButtonCell, !visible);
 		UIObject.setVisible(firstButtonCell, visible);
 		UIObject.setVisible(secondButtonCell, visible);
+	}
+	
+	public void setFirstButtonsVisible(boolean visible) {
+		UIObject.setVisible(firstButtonCell, visible);
+	}
+	
+	public void setSecondButtonsVisible(boolean visible) {
+		UIObject.setVisible(secondButtonCell, visible);
+	}
+	
+	public void setSwitchDown(boolean down) {
+		switchButton.setDown(down);
+	}
+	
+	public boolean isSwitchDown() {
+		return switchButton.isDown();
 	}
 	
 	public void setDimension(BandDimension dimension) {
@@ -131,12 +168,14 @@ public class HeaderPanel extends Composite {
 			case TOP: {
 				iconCell.removeClassName(style.iconCellAlignMiddle());
 				primaryButtonCell.removeClassName(style.buttonCellAlignMiddle());
+				switchButtonCell.removeClassName(style.buttonCellAlignMiddle());
 				firstButtonCell.removeClassName(style.buttonCellAlignMiddle());
 				secondButtonCell.removeClassName(style.buttonCellAlignMiddle());
 			} break;
 			case MIDDLE: {
 				iconCell.addClassName(style.iconCellAlignMiddle());
 				primaryButtonCell.addClassName(style.buttonCellAlignMiddle());
+				switchButtonCell.addClassName(style.buttonCellAlignMiddle());
 				firstButtonCell.addClassName(style.buttonCellAlignMiddle());
 				secondButtonCell.addClassName(style.buttonCellAlignMiddle());
 			} break;
@@ -173,6 +212,7 @@ public class HeaderPanel extends Composite {
 		title.setStyleName(style.titleDisabled(), disabled);
 		
 		primaryButton.setEnabled(!disabled);
+		switchButton.setEnabled(!disabled);
 		firstButton.setEnabled(!disabled);
 		secondButton.setEnabled(!disabled);
 		
@@ -192,6 +232,10 @@ public class HeaderPanel extends Composite {
 		primaryButton.addClickHandler(clickHandler);
 	}
 	
+	public void addSwitchButtonClickHandler(ClickHandler clickHandler) {
+		switchButton.addClickHandler(clickHandler);
+	}
+	
 	public void addFirstButtonClickHandler(ClickHandler clickHandler) {
 		firstButton.addClickHandler(clickHandler);
 	}
@@ -200,10 +244,11 @@ public class HeaderPanel extends Composite {
 		secondButton.addClickHandler(clickHandler);
 	}
 	
-	private static void apply(ButtonConfiguration resources, PushButton button) {
+	private static void apply(ButtonResources resources, CustomButton button) {
 		button.getUpFace().setImage(new Image(resources.getUpFace()));
-		button.getUpHoveringFace().setImage(new Image(resources.getHover()));
-		button.getUpDisabledFace().setImage(new Image(resources.getDisabled()));
+		if (resources.getHover()!=null)button.getUpHoveringFace().setImage(new Image(resources.getHover()));
+		if (resources.getDisabled()!=null) button.getUpDisabledFace().setImage(new Image(resources.getDisabled()));
+		if (resources.getDownFace()!=null) button.getUpDisabledFace().setImage(new Image(resources.getDownFace()));
 		button.setTitle(resources.getTitle());
 	}	
 }

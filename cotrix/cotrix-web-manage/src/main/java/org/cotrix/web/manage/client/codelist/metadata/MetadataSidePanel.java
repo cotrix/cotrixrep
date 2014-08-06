@@ -6,6 +6,8 @@ import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.inject.Inject;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -32,9 +34,9 @@ public class MetadataSidePanel extends ResizeComposite {
 	private void init() {
 		initWidget(panel);
 		
-			panel.addPanel(resources.attributesSelected(), resources.attributesUnselected(), "Codelist Attributes", attributesPanel);
-			panel.addPanel(resources.logbookSelected(), resources.logbookUnselected(), "Codelist Logbook", logbookPanel);
-			panel.addPanel(resources.tasksSelected(), resources.tasksUnselected(), "Codelist Tasks", tasksPanel);
+			panel.addPanel(icons.attribute(), icons.attributeDisabled(), "Codelist Attributes", attributesPanel);
+			panel.addPanel(icons.logBook(), icons.logBookDisabled(), "Codelist Logbook", logbookPanel);
+			panel.addPanel(icons.task(), icons.taskDisabled(), "Codelist Tasks", tasksPanel);
 			
 			panel.showPanel(attributesPanel);
 	}

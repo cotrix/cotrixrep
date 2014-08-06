@@ -4,6 +4,7 @@
 package org.cotrix.web.manage.client.codelist.metadata.logbook;
 
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
 /**
@@ -12,7 +13,7 @@ import org.cotrix.web.manage.shared.UILogbookEntry;
  */
 public class LogbookEntryPanel extends ItemPanel<UILogbookEntry> {
 
-	public LogbookEntryPanel(UILogbookEntry entry) {
-		super(new LogbookEntryEditor(entry));
+	public LogbookEntryPanel(UILogbookEntry entry, ItemPanelHeader header) {
+		super(new LogbookEntryEditor(entry), header);
 	}
 }

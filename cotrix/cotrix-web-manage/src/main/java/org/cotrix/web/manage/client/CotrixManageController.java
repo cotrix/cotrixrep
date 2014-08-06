@@ -97,6 +97,7 @@ public class CotrixManageController implements Presenter, ValueChangeHandler<Str
 		resources.attributeRow().ensureInjected();
 		resources.markers().ensureInjected();
 		resources.menuStyle().ensureInjected();
+		resources.definitions().ensureInjected();
 	}
 
 	@EventHandler

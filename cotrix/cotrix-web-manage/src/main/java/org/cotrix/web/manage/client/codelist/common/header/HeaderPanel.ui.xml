@@ -74,6 +74,17 @@
 		outline: none;
 	}
 	
+	.switchButtonCell {
+		padding-top: TOP_PADDING;
+		width: 40px;
+		vertical-align: top;
+	}
+	
+	.switchButton {
+		cursor: pointer;
+		outline: none;
+	}
+	
 	.secondaryButtonCell {
 		padding-top: TOP_PADDING;
 		width: 25px;
@@ -128,6 +139,10 @@
 				<td ui:field="primaryButtonCell" class="{style.primaryButtonCell}" rowspan="2">
 					<g:PushButton ui:field="primaryButton" styleName="{style.primaryButton}">
 					</g:PushButton>
+				</td>
+				<td ui:field="switchButtonCell" class="{style.switchButtonCell}" rowspan="2">
+					<g:ToggleButton ui:field="switchButton" styleName="{style.switchButton}">
+					</g:ToggleButton>
 				</td>
 				<td ui:field="firstButtonCell" class="{style.secondaryButtonCell}" rowspan="2">
 					<g:PushButton ui:field="firstButton" styleName="{style.secondaryButton}">

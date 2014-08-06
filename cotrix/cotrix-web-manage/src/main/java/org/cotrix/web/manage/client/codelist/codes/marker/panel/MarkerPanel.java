@@ -10,8 +10,14 @@ import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.event.MarkerEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerPanelHeader.HeaderListener;
 import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
+import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
+import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
+import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
+import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -21,6 +27,9 @@ import com.google.gwt.user.client.ui.Composite;
  *
  */
 public class MarkerPanel extends Composite {
+	
+	private static ButtonResources SWITCH = create().upFace(icons.markerChecked()).hover(icons.markerChecked()).downFace(icons.markerUnchecked()).title("Activate").build();
+	
 	
 	private static String INACTIVE_BACKGROUND_COLOR = "#FBFBFB";
 	private static String INACTIVE_LABEL_COLOR = "#d6d6d9";
@@ -37,7 +46,7 @@ public class MarkerPanel extends Composite {
 	private boolean editable;
 	private boolean active;
 
-	private MarkerPanelHeader header;
+	private HeaderPanel header;
 	private MarkerDetailsPanel detailsPanel;
 	private MarkerPanelListener listener;
 	private MarkerType markerType;
@@ -50,8 +59,11 @@ public class MarkerPanel extends Composite {
 		this.markerType = markerType;
 		this.markerStyle = markerStyle;
 		
-		header = new MarkerPanelHeader();
-		header.setHeaderLabel(markerType.getName());
+		header = new HeaderPanel();
+		header.setIcon(icons.marker());
+		header.setSwitchButton(SWITCH);
+		
+		header.setTitle(markerType.getName());
 		
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
@@ -70,18 +82,20 @@ public class MarkerPanel extends Composite {
 				fireUpdated(event.getValue());
 			}
 		});
-
-		header.setListener(new HeaderListener() {
-
+		
+		header.addSwitchButtonClickHandler(new ClickHandler() {
+			
 			@Override
-			public void onSwitchChange(boolean isDown) {
-				Log.trace("onSwitchChange "+isDown);
-				onSwitch(isDown);
+			public void onClick(ClickEvent event) {
+				onMarkerClicked();	
 			}
-
+		});
+		
+		header.addClickHandler(new ClickHandler() {
+			
 			@Override
-			public void onHeaderClicked() {
-				onMarkerClicked();		
+			public void onClick(ClickEvent event) {
+				disclosurePanel.toggle();
 			}
 		});
 
@@ -108,14 +122,15 @@ public class MarkerPanel extends Composite {
 		List<MarkerEvent> events = markerType.getEventExtractor().extract(value);
 		detailsPanel.setEvents(events);
 		
-		header.setActivationCheck(active);
-		header.setClickEnabled(active);
+		header.setSwitchDown(active);
+		header.setSwitchVisible(active);
 		updateDescriptionEditability();
 	}
 	
 	private void updateColors() {
-		header.setBackgroundColor(active?markerStyle.getBackgroundColor():INACTIVE_BACKGROUND_COLOR);
-		header.setLabelColor(active?markerStyle.getTextColor():INACTIVE_LABEL_COLOR);
+		header.setDisabled(!active);
+	//	header.setBackgroundColor(active?markerStyle.getBackgroundColor():INACTIVE_BACKGROUND_COLOR);
+	//	header.setLabelColor(active?markerStyle.getTextColor():INACTIVE_LABEL_COLOR);
 	}
 	
 
@@ -148,7 +163,8 @@ public class MarkerPanel extends Composite {
 		boolean descriptionEditable = !markerType.isDescriptionReadOnly() && editable && active;
 		detailsPanel.setReadOnly(!descriptionEditable);
 		boolean activable = !markerType.isReadOnly() && editable;
-		header.setActivationCheckEnabled(activable);
+		header.setSwitchDown(activable);
+		//header.setActivationCheckEnabled(activable);
 	}
 	
 	public void openDetails(boolean open) {

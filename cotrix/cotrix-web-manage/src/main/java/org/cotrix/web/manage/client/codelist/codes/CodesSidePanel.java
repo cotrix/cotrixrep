@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
+import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
 
 
 /**
@@ -40,9 +41,9 @@ public class CodesSidePanel extends ResizeComposite {
 	private void init() {
 		initWidget(panel);
 	
-		panel.addPanel(resources.attributesSelected(), resources.attributesUnselected(), "Code Attributes", attributesPanel);
-		panel.addPanel(resources.linksSelected(), resources.linksUnselected(), "Code Links", linksPanel);
-		panel.addPanel(resources.markersSelected(), resources.markersUnselected(), "Code Markers", markersPanel);
+		panel.addPanel(icons.attribute(), icons.attributeDisabled(), "Code Attributes", attributesPanel);
+		panel.addPanel(icons.link(), icons.linkDisabled(), "Code Links", linksPanel);
+		panel.addPanel(icons.marker(), icons.markerDisabled(), "Code Markers", markersPanel);
 		
 		panel.showPanel(attributesPanel);
 		panel.showEmptyPanel(true);

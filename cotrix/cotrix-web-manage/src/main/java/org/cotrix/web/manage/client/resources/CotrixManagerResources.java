@@ -33,6 +33,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("menu.css")
 	public MenuStyle menuStyle();
 	
+	public Definitions definitions();
+	
 	public MarkersResource markers();
 	
 	public ImageResource table();
@@ -122,6 +124,12 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource runDisabled();
 	
 	public ImageResource task();
+	
+	interface Definitions extends CssResource {
+		String ICON_BLUE();
+		String LOGBOOK_RED();
+		String TASK_GREEN();
+	}
 	
 	interface CotrixManagerStyle extends CssResource {
 		String editor();

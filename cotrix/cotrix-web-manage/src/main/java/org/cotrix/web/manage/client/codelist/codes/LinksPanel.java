@@ -225,7 +225,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	}
 	
 	private void updateHeader() {
-		panel.setHeader("Links", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
+		panel.setHeader("Links", visualizedCode!=null?visualizedCode.getName().getLocalPart():null, resources.definitions().LOGBOOK_RED());
 	}
 	
 	private void updateBackground()

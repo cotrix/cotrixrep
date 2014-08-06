@@ -122,7 +122,7 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
-		panel.setHeader("Logbook", codelist.getName().getLocalPart(), "#000000");
+		panel.setHeader("Logbook", codelist.getName().getLocalPart(), resources.definitions().LOGBOOK_RED());
 
 	}
 

@@ -3,45 +3,43 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.tasks;
 
-import com.google.gwt.core.client.GWT;
+import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
+import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
+
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
+import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
+import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class TaskPanel extends Composite implements HasClickHandlers {
+public class TaskPanel extends Composite {
 
-	private static TaskPanelUiBinder uiBinder = GWT.create(TaskPanelUiBinder.class);
-
-	interface TaskPanelUiBinder extends UiBinder<Widget, TaskPanel> {
-	}
-
-	@UiField Label name;
-	@UiField PushButton button;
-	@UiField Label description;
+	private static ButtonResources PLAY = create().upFace(icons.play()).hover(icons.playHover()).disabled(icons.playDisabled()).title("Make changes.").build();
+	
+	private HeaderPanel panel;
 	
 	public TaskPanel(String name, String description) {
-		initWidget(uiBinder.createAndBindUi(this));
-		this.name.setText(name);
-		this.description.setText(description);
+		panel = new HeaderPanel();
+		panel.setIcon(icons.task(), icons.taskDisabled());
+		panel.setPrimaryButton(PLAY);
+		panel.setPrimaryButtonVisible(true);
+		
+		initWidget(panel);
+		setWidth("100%");
+		
+		panel.setTitle(name);
+		panel.setSubtitle(description);
 	}
 
-	@Override
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return button.addClickHandler(handler);
+	public void addClickHandler(ClickHandler handler) {
+		panel.addPrimaryButtonClickHandler(handler);
 	}
 	
 	public void setEnabled(boolean enabled) {
-		button.setEnabled(enabled);
+		panel.setDisabled(!enabled);
 	}
 
 }

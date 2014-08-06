@@ -44,8 +44,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	interface Style extends CssResource {
 		String headerSelected();
 	}
-	
-	public enum Button {EDIT, SAVE, REVERT;}
 
 	@UiField
 	HTMLPanel header;
@@ -231,8 +229,8 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return headerBox.addClickHandler(handler);
+	public void addClickHandler(ClickHandler handler) {
+		headerBox.addClickHandler(handler);
 	}
 	
 	private void updateSwitchTooltip() {

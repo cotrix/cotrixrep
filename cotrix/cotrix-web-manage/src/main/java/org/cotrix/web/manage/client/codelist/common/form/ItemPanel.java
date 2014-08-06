@@ -4,10 +4,10 @@
 package org.cotrix.web.manage.client.codelist.common.form;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader.Button;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader.HeaderListener;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemEditingPanelListener;
 import org.cotrix.web.manage.client.util.LabelHeader;
-import org.cotrix.web.manage.client.util.LabelHeader.Button;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -235,11 +235,13 @@ public class ItemPanel<T> extends Composite {
 			header.setControlsVisible(editing);
 			header.setRevertVisible(editing);
 			header.setSaveVisible(false);
+			header.setSwitchVisible(false);
 		} else {
 			header.setEditVisible(false);
 			header.setControlsVisible(false);
 			header.setRevertVisible(false);
 			header.setSaveVisible(false);
+			header.setSwitchVisible(true);
 		}
 	}
 

@@ -1,9 +1,6 @@
 package org.cotrix.web.manage.client.codelist.common.form;
 
-import org.cotrix.web.manage.client.util.LabelHeader.Button;
-
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.IsWidget;
 
 /**
@@ -12,7 +9,11 @@ import com.google.gwt.user.client.ui.IsWidget;
  */
 public interface ItemPanelHeader extends IsWidget {
 	
+	public enum Button {EDIT, SAVE, REVERT;}
+	
 	public interface HeaderListener {
+		
+		
 		public void onButtonClicked(Button button);
 		public void onSwitchChange(boolean isDown);
 	}
@@ -27,7 +28,7 @@ public interface ItemPanelHeader extends IsWidget {
 
 	public void setHeaderSelected(boolean selected);
 
-	public HandlerRegistration addClickHandler(ClickHandler handler);
+	public void addClickHandler(ClickHandler handler);
 
 	public void setSaveVisible(boolean visible);
 
@@ -36,5 +37,7 @@ public interface ItemPanelHeader extends IsWidget {
 	public void setEditVisible(boolean visible);
 
 	public void setControlsVisible(boolean visible);
+	
+	public void setSwitchVisible(boolean visible);
 
 }

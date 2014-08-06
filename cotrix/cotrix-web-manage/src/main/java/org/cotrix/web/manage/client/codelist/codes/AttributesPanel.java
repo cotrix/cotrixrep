@@ -294,7 +294,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 	private void setHeader()
 	{
-		panel.setHeader("Attributes", visualizedCode!=null?visualizedCode.getName().getLocalPart():null,"#000000");
+		panel.setHeader("Attributes", visualizedCode!=null?visualizedCode.getName().getLocalPart():null, resources.definitions().ICON_BLUE());
 	}
 
 	private void switchAttribute(UIAttribute attribute, SwitchState attributeSwitchState)
