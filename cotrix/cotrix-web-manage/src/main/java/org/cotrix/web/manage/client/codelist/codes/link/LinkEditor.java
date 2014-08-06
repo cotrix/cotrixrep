@@ -80,12 +80,12 @@ public class LinkEditor implements ItemEditor<UILink> {
 
 	@Override
 	public String getHeaderTitle() {
-		return ValueUtils.getLocalPart(link.getDefinitionName());
+		return link.getValue()!=null?link.getValue():"Calculating...";
 	}
 
 	@Override
 	public String getHeaderSubtitle() {
-		return "";
+		return ValueUtils.getLocalPart(link.getDefinitionName());
 	}
 
 	@Override

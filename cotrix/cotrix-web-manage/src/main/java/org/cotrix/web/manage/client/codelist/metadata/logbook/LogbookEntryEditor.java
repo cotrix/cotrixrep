@@ -36,12 +36,12 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 
 	@Override
 	public String getHeaderTitle() {
-		return entry.getEvent().toString();
+		return entry.getTimestamp();
 	}
 	
 	@Override
 	public String getHeaderSubtitle() {
-		return ": "+entry.getTimestamp();
+		return entry.getEvent().toString();
 	}
 
 	@Override

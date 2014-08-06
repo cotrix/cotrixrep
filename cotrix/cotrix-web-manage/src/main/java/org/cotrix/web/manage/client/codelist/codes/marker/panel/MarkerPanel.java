@@ -62,6 +62,7 @@ public class MarkerPanel extends Composite {
 		header = new HeaderPanel();
 		header.setIcon(icons.marker());
 		header.setSwitchButton(SWITCH);
+		header.setSwitchVisible(true);
 		
 		header.setTitle(markerType.getName());
 		

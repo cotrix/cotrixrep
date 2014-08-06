@@ -8,7 +8,6 @@ import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelHeader;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -57,8 +55,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	DeckPanel labelControls;
 	@UiField
 	Image bullet;
-	@UiField
-	ToggleButton switchButton;
 	
 	@UiField
 	InlineLabel headerLabel;
@@ -119,11 +115,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	 * {@inheritDoc}
 	 */
 	public void setSwitchVisible(boolean visible) {
-		images.getStyle().setWidth(visible?24:12, Unit.PX);
-		int index = visible?labelControls.getWidgetIndex(switchButton):labelControls.getWidgetIndex(bullet);
-		labelControls.showWidget(index);
-		
-		if (visible) updateSwitchTooltip();
 	}
 	
 	/** 
@@ -131,8 +122,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	 */
 	@Override
 	public void setSwitchDown(boolean down) {
-		switchButton.setDown(down);
-		updateSwitchTooltip();
 	}
 	
 	public void setBulletImage(ImageResource image) {
@@ -214,12 +203,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 		fireOnClick(Button.REVERT);
 	}
 	
-	@UiHandler("switchButton")
-	void onSwitch(ClickEvent event) {
-		updateSwitchTooltip();
-		if (listener!=null) listener.onSwitchChange(switchButton.isDown());
-	}
-	
 	private void fireOnClick(Button button) {
 		if (listener!=null) listener.onButtonClicked(button);
 	}
@@ -230,10 +213,6 @@ public class LabelHeader extends Composite implements ItemPanelHeader {
 	@Override
 	public void addClickHandler(ClickHandler handler) {
 		headerBox.addClickHandler(handler);
-	}
-	
-	private void updateSwitchTooltip() {
-		switchButton.setTitle(switchButton.isDown()?"Hide Column":"Show Column");
 	}
 	
 	/** 
