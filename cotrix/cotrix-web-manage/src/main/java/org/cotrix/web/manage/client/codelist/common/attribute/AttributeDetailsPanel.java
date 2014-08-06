@@ -140,6 +140,8 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 	
 	private void syncDefinibleFields() {
 		setNameReadOnly(readOnly || nameBoxReadOnly);
+		//setNameNotEditable(nameBoxReadOnly);
+		
 		setLanguageReadOnly(readOnly || languageBoxReadOnly);
 		setTypeReadOnly(readOnly || typeBoxReadOnly);
 	}
@@ -298,6 +300,10 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 	public void setNameReadOnly(boolean readOnly) {
 		nameBox.setEnabled(!readOnly);
 		if (readOnly) nameBox.setStyleName(style.textboxError(), false);
+	}
+	
+	public void setNameNotEditable(boolean notEditable) {
+		nameBox.setStyleName(style.notEditableField(), notEditable);
 	}
 	
 	public String getType() {

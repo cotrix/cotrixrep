@@ -1,21 +1,23 @@
 .table {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 3px;
+    margin-top: 3px;
 }
 
 .headerCell {
-    border: 1px solid #c2c2c2;
+    border: 1px solid PANE_WHITE;
     overflow: hidden;
-    color: #5A5A5A;
+    color: TITLE_GREY;
     font-size: 14px;
     vertical-align: middle;
     width: 80px;
-    background-color: #efefef;
+    background-color: HOVER_GREY;
     padding: 8px 8px 8px 10px;
 }
 
 .valueCell {
-    border: 1px solid #c2c2c2;
+    border: 1px solid PANE_WHITE;
     overflow: hidden;
     vertical-align: middle;
     height:36px;
@@ -23,9 +25,9 @@
 }
 
 .valueCellLeft {
-    border-left: 1px solid #c2c2c2;
-    border-top: 1px solid #c2c2c2;
-    border-bottom: 1px solid #c2c2c2;
+    border-left: 1px solid PANE_WHITE;
+    border-top: 1px solid PANE_WHITE;
+    border-bottom: 1px solid PANE_WHITE;
     overflow: hidden;
     vertical-align: middle;
     height:36px;
@@ -33,8 +35,8 @@
 }
 
 .valueCellCenter {
-    border-top: 1px solid #c2c2c2;
-    border-bottom: 1px solid #c2c2c2;
+    border-top: 1px solid PANE_WHITE;
+    border-bottom: 1px solid PANE_WHITE;
     overflow: hidden;
     vertical-align: middle;
     height:36px;
@@ -42,19 +44,23 @@
 }
 
 .valueCellRight {
-    border-top: 1px solid #c2c2c2;
-    border-right: 1px solid #c2c2c2;
-    border-bottom: 1px solid #c2c2c2;
+    border-top: 1px solid PANE_WHITE;
+    border-right: 1px solid PANE_WHITE;
+    border-bottom: 1px solid PANE_WHITE;
     overflow: hidden;
     vertical-align: middle;
     height:36px;
     padding: 0px 3px 0px 3px;
 }
 
+.notEditableField {
+	color: DISABLED_GREY !important;
+}
+
 .textbox {
     border: none;
     border-color: transparent;
-    color: #4f4e4e;
+    color: SUBTITLE_GREY;
     padding-left: 6px;
     font-size: 14px;
     height: 27px;
@@ -134,7 +140,7 @@
 
 .listbox {
     font-size: 14px;
-    color: #4f4e4e;
+    color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: none;
@@ -149,9 +155,6 @@
 }
 
 .listbox:hover {
-    font-size: 14px;
-    color: #4f4e4e;
-    height: 29px;
     border-radius: 5px;
     background-color: transparent;
     border: 1px solid #999;
@@ -165,9 +168,6 @@
 }
 
 .listbox:disabled {
-    font-size: 14px;
-    color: #4f4e4e;
-    height: 29px;
     outline: none;
     border: none;
     border-color: transparent;
@@ -182,7 +182,7 @@
 
 .suggestionbox {
     font-size: 14px;
-    color: #4f4e4e;
+    color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: 1px solid transparent;
@@ -192,9 +192,6 @@
 }
 
 .suggestionbox:hover {
-    font-size: 14px;
-    color: #4f4e4e;
-    height: 29px;
     border-radius: 5px;
     background-color: transparent;
     border: 1px solid #999;
@@ -204,9 +201,6 @@
 }
 
 .suggestionbox:disabled {
-    font-size: 14px;
-    color: #4f4e4e;
-    height: 29px;
     outline: none;
     border: none;
     border-color: transparent;
@@ -215,9 +209,6 @@
     padding-top: 1px;
 }
 .suggestionbox:hover:disabled {
-    font-size: 14px;
-    color: #4f4e4e;
-    height: 29px;
     outline: none;
     border: none;
     border-color: transparent;
@@ -232,7 +223,7 @@
     padding-left: 4px;
     padding-top: 3px;
 	font-size: 14px;
-	color: #4f4e4e;
+	color: SUBTITLE_GREY;
 }
 
 .suggestionboxTextbox:disabled {
@@ -240,8 +231,6 @@
     border: none;
     padding-left: 6px;
 	padding-top: 0px;
-	font-size: 14px;
-	color: #4f4e4e;
 	background-color: transparent;
 	text-overflow: ellipsis;
 }
@@ -267,7 +256,7 @@
 
 .suggestionItem {
 	padding: 2px 6px;
-	color: #4f4e4e;
+	color: SUBTITLE_GREY;
 	cursor: default;
 }
 
@@ -291,7 +280,7 @@
 .textarea {
     border: none;
     border-color: transparent;
-    color: #4f4e4e;
+    color: SUBTITLE_GREY;
     padding-left: 6px;
     font-size: 14px;
  /*   height: 27px;*/

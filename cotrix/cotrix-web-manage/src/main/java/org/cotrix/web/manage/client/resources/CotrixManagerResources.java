@@ -27,7 +27,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	@Source("attributeRow.css")
 	public AttributeRowStyle attributeRow();
 	
-	@Source("detailsPanel.css")
+	@Source({"detailsPanel.css", "definitions.css"})
 	public DetailsPanelStyle detailsPanelStyle();
 	
 	@Source("menu.css")

@@ -20,6 +20,8 @@ public interface DetailsPanelStyle extends CssResource {
 	String valueCellCenter();
 	String valueCellRight();
 	
+	String notEditableField();
+	
 	String textbox();
 	String textboxError();
 	String textboxWarning();
