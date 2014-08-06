@@ -6,11 +6,7 @@ package org.cotrix.web.manage.client.codelist.metadata.logbook;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -21,14 +17,9 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	private LogbookEntryDetailsPanel detailsPanel;
 	private UILogbookEntry entry;
 	
-	public LogbookEntryEditor(UILogbookEntry entry) {
-		this.detailsPanel = new LogbookEntryDetailsPanel();
+	public LogbookEntryEditor(UILogbookEntry entry, LogbookEntryDetailsPanel detailsPanel) {
+		this.detailsPanel = detailsPanel;
 		this.entry = entry;
-	}
-
-	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
-		return detailsPanel.addHandler(handler, ValueChangeEvent.getType());
 	}
 
 	@Override
@@ -44,12 +35,12 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getHeaderTitle() {
 		return entry.getEvent().toString();
 	}
 	
 	@Override
-	public String getLabelValue() {
+	public String getHeaderSubtitle() {
 		return ": "+entry.getTimestamp();
 	}
 
@@ -64,16 +55,11 @@ public class LogbookEntryEditor implements ItemEditor<UILogbookEntry> {
 	}
 
 	@Override
-	public IsWidget getView() {
-		return detailsPanel;
+	public void onStartEditing() {
 	}
 
 	@Override
-	public void startEditing() {
-	}
-
-	@Override
-	public void stopEditing() {
+	public void onStopEditing() {
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDefinitionSuggestOracle.AttributeTypeSuggestion;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemView;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -23,7 +24,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class AttributeDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
+public class AttributeDetailsPanel extends Composite implements ItemView {
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();

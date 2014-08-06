@@ -6,6 +6,7 @@ package org.cotrix.web.manage.client.codelist.codes.attribute;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
+import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDetailsPanel;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeEditor;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
@@ -38,12 +39,15 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 
 	@Override
 	public ItemPanel<UIAttribute> createPanel(UIAttribute item) {
-		
-		AttributeEditor editor = new AttributeEditor(item, true, attributeDescriptionSuggestOracle, attributeTypesCache);
-		
+
 		EditingHeader header = buildHeader(item);
 		
-		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(editor, header);
+		AttributeDetailsPanel view = new AttributeDetailsPanel(attributeDescriptionSuggestOracle, attributeTypesCache);
+		view.setDefinitionVisible(true);
+		
+		AttributeEditor editor = new AttributeEditor(item, view);
+		
+		ItemPanel<UIAttribute> attributePanel = new ItemPanel<UIAttribute>(header, view, editor);
 		attributePanel.setReadOnly(Attributes.isSystemAttribute(item));
 		return attributePanel;
 	}

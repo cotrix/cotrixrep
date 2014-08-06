@@ -24,8 +24,9 @@ public class LinkDefinitionEditingPanelFactory implements ItemPanelFactory<UILin
 	@Override
 	public ItemPanel<UILinkDefinition> createPanel(UILinkDefinition item) {
 		LabelHeader header = getHeader();
-		LinkDefinitionEditor editor = new LinkDefinitionEditor(item, codelistInfoProvider);
-		ItemPanel<UILinkDefinition> linkDefinitionPanel = new ItemPanel<UILinkDefinition>(editor, header);
+		LinkDefinitionDetailsPanel view = new LinkDefinitionDetailsPanel(codelistInfoProvider);
+		LinkDefinitionEditor editor = new LinkDefinitionEditor(item, view);
+		ItemPanel<UILinkDefinition> linkDefinitionPanel = new ItemPanel<UILinkDefinition>(header, view, editor);
 		return linkDefinitionPanel;
 	}
 	

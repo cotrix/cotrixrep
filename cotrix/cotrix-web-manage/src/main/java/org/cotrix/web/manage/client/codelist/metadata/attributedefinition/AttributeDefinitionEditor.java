@@ -14,14 +14,10 @@ import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
-import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.client.codelist.metadata.AttributeDefinitionsPanel;
 
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -35,15 +31,10 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	
 	private boolean editing = false;
 	
-	public AttributeDefinitionEditor(ConfirmDialog confirmDialog, UIAttributeDefinition attributeDefinition, AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle) {
+	public AttributeDefinitionEditor(ConfirmDialog confirmDialog, UIAttributeDefinition attributeDefinition, AttributeDefinitionDetailsPanel detailsPanel) {
 		this.confirmDialog = confirmDialog;
-		this.detailsPanel = new AttributeDefinitionDetailsPanel(attributeDescriptionSuggestOracle);
+		this.detailsPanel = detailsPanel;
 		this.attributeDefinition = attributeDefinition;
-	}
-
-	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
-		return detailsPanel.addValueChangeHandler(handler);
 	}
 
 	@Override
@@ -81,7 +72,7 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	}
 
 	@Override
-	public String getLabel() {
+	public String getHeaderTitle() {
 		if (!editing) return ValueUtils.getLocalPart(attributeDefinition.getName());
 		
 		UIQName name = detailsPanel.getName();
@@ -111,25 +102,20 @@ public class AttributeDefinitionEditor implements ItemEditor<UIAttributeDefiniti
 	}
 
 	@Override
-	public IsWidget getView() {
-		return detailsPanel;
-	}
-
-	@Override
-	public void startEditing() {
+	public void onStartEditing() {
 		detailsPanel.setReadOnly(false);
 		detailsPanel.focusName();
 		editing = true;
 	}
 
 	@Override
-	public void stopEditing() {
+	public void onStopEditing() {
 		detailsPanel.setReadOnly(true);
 		editing = false;
 	}
 
 	@Override
-	public String getLabelValue() {
+	public String getHeaderSubtitle() {
 		return "";
 	}
 

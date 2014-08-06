@@ -14,10 +14,7 @@ import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction.Func
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -29,14 +26,9 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	private UILinkDefinition definition;
 	private boolean editing = false;
 	
-	public LinkDefinitionEditor(UILinkDefinition linkDefinition, LinkDefinitionsCodelistInfoProvider codelistInfoProvider) {
+	public LinkDefinitionEditor(UILinkDefinition linkDefinition, LinkDefinitionDetailsPanel detailsPanel) {
 		this.definition = linkDefinition;
-		detailsPanel = new LinkDefinitionDetailsPanel(codelistInfoProvider);
-	}
-
-	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
-		return detailsPanel.addValueChangeHandler(handler);
+		this.detailsPanel = detailsPanel;
 	}
 
 	@Override
@@ -57,7 +49,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getHeaderTitle() {
 		if (!editing) return ValueUtils.getLocalPart(definition.getName());
 		
 		UIQName name = detailsPanel.getName();
@@ -107,12 +99,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	}
 
 	@Override
-	public IsWidget getView() {
-		return detailsPanel;
-	}
-
-	@Override
-	public void startEditing() {
+	public void onStartEditing() {
 		detailsPanel.setReadOnly(false);
 		detailsPanel.setCodelistReadonly(definition.getTargetCodelist() != null); 
 		detailsPanel.focusName();
@@ -120,14 +107,14 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	}
 
 	@Override
-	public void stopEditing() {
+	public void onStopEditing() {
 		detailsPanel.setReadOnly(true);
 		editing = false;
 		
 	}
 	
 	@Override
-	public String getLabelValue() {
+	public String getHeaderSubtitle() {
 		return "";
 	}
 

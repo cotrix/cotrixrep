@@ -9,10 +9,7 @@ import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -23,24 +20,19 @@ public class LinkEditor implements ItemEditor<UILink> {
 	private UILink link;
 	private LinkDetailsPanel detailsPanel;
 	
-	public LinkEditor(UILink link, LinksCodelistInfoProvider codelistInfoProvider) {
+	public LinkEditor(UILink link, LinkDetailsPanel detailsPanel) {
 		this.link = link;
-		this.detailsPanel = new LinkDetailsPanel(codelistInfoProvider);
+		this.detailsPanel = detailsPanel;
 	}
 
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
-		return detailsPanel.addValueChangeHandler(handler);
-	}
-
-	@Override
-	public void startEditing() {
+	public void onStartEditing() {
 		detailsPanel.setValueVisible(false);
 		detailsPanel.setReadOnly(false);
 	}
 
 	@Override
-	public void stopEditing() {
+	public void onStopEditing() {
 		detailsPanel.setReadOnly(true);
 	}
 
@@ -87,12 +79,12 @@ public class LinkEditor implements ItemEditor<UILink> {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getHeaderTitle() {
 		return ValueUtils.getLocalPart(link.getDefinitionName());
 	}
 
 	@Override
-	public String getLabelValue() {
+	public String getHeaderSubtitle() {
 		return "";
 	}
 
@@ -121,10 +113,5 @@ public class LinkEditor implements ItemEditor<UILink> {
 	@Override
 	public UILink getItem() {
 		return link;
-	}
-
-	@Override
-	public IsWidget getView() {
-		return detailsPanel;
 	}
 }

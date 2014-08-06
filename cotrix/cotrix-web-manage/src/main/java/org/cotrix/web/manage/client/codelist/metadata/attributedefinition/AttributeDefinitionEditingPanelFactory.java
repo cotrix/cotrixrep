@@ -29,8 +29,11 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 	@Override
 	public ItemPanel<UIAttributeDefinition> createPanel(UIAttributeDefinition item) {
 		LabelHeader header = getHeader();
-		AttributeDefinitionEditor editor = new AttributeDefinitionEditor(confirmDialog, item, attributeDescriptionSuggestOracle);
-		ItemPanel<UIAttributeDefinition> attributeDefinitionPanel = new ItemPanel<UIAttributeDefinition>(editor, header);
+		AttributeDefinitionDetailsPanel view = new AttributeDefinitionDetailsPanel(attributeDescriptionSuggestOracle);
+		
+		AttributeDefinitionEditor editor = new AttributeDefinitionEditor(confirmDialog, item, view);
+		
+		ItemPanel<UIAttributeDefinition> attributeDefinitionPanel = new ItemPanel<UIAttributeDefinition>(header, view, editor);
 		return attributeDefinitionPanel;
 	}
 	

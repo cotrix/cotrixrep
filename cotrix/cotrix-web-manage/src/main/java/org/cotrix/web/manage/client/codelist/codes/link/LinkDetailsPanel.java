@@ -15,6 +15,7 @@ import org.cotrix.web.manage.client.codelist.codes.link.LinkDefinitionSuggestOra
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.common.attributed.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemView;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
 import org.cotrix.web.manage.shared.UICodeInfo;
@@ -25,7 +26,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -45,7 +45,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
+public class LinkDetailsPanel extends Composite implements ItemView {
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();

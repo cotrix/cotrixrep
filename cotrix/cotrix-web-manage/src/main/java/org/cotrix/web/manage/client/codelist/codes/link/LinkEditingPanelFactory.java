@@ -31,8 +31,9 @@ public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	@Override
 	public ItemPanel<UILink> createPanel(UILink item) {
 		EditingHeader header = getHeader();
-		LinkEditor editor = new LinkEditor(item, codelistInfoProvider);
-		ItemPanel<UILink> linkPanel = new ItemPanel<UILink>(editor, header);
+		LinkDetailsPanel view = new LinkDetailsPanel(codelistInfoProvider);
+		LinkEditor editor = new LinkEditor(item, view);
+		ItemPanel<UILink> linkPanel = new ItemPanel<UILink>(header, view, editor);
 		return linkPanel;
 	}
 	

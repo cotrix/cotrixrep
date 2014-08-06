@@ -21,6 +21,7 @@ import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction.Func
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.common.attributed.AttributesPanel;
+import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemView;
 import org.cotrix.web.manage.client.codelist.metadata.linkdefinition.CodelistSuggestOracle.CodelistSuggestion;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 import org.cotrix.web.manage.client.util.Attributes;
@@ -34,7 +35,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -56,7 +56,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class LinkDefinitionDetailsPanel extends Composite implements HasValueChangeHandlers<Void>{
+public class LinkDefinitionDetailsPanel extends Composite implements ItemView {
 
 	public static final String CODE_NAME_VALUE_TYPE = Document.get().createUniqueId();
 	public static final CodeNameValue CODE_NAME_TYPE = new CodeNameValue();

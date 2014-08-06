@@ -8,14 +8,10 @@ import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
-import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemEditor;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.IsWidget;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -29,25 +25,18 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 	//FIXME
 //			if (Attributes.isSystemAttribute(attribute)) header.addHeaderStyle(CotrixManagerResources.INSTANCE.css().systemAttributeDisclosurePanelLabel());
 
-
-	public AttributeEditor(UIAttribute attribute, boolean hasDefinition, AttributeDescriptionSuggestOracle oracle, AttributeDefinitionsCache attributeTypesCache) {
+	public AttributeEditor(UIAttribute attribute, AttributeDetailsPanel detailsPanel) {
 		this.attribute = attribute;
-		detailsPanel = new AttributeDetailsPanel(oracle, attributeTypesCache);
-		detailsPanel.setDefinitionVisible(hasDefinition);
-	}
-	
-	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler) {
-		return detailsPanel.addValueChangeHandler(handler);
+		this.detailsPanel = detailsPanel;
 	}
 
 	@Override
-	public void startEditing() {
+	public void onStartEditing() {
 		detailsPanel.setReadOnly(false);
 	}
 
 	@Override
-	public void stopEditing() {
+	public void onStopEditing() {
 		detailsPanel.setReadOnly(true);
 		
 	}
@@ -94,12 +83,12 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getHeaderTitle() {
 		return ValueUtils.getLocalPart(attribute.getName());
 	}
 
 	@Override
-	public String getLabelValue() {
+	public String getHeaderSubtitle() {
 		String valueLabel = attribute.getValue()!=null?attribute.getValue():"n/a";
 		return ": "+valueLabel;
 		//FIXME
@@ -143,11 +132,6 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 	@Override
 	public UIAttribute getItem() {
 		return attribute;
-	}
-
-	@Override
-	public IsWidget getView() {
-		return detailsPanel;
 	}
 
 	@Override

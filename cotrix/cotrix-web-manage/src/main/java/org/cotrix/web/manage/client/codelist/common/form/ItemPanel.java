@@ -12,11 +12,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -26,25 +26,26 @@ import com.google.gwt.user.client.ui.IsWidget;
  *
  */
 public class ItemPanel<T> extends Composite {
+	
+	public interface ItemView extends IsWidget, HasValueChangeHandlers<Void> {
+	}
 
 	public interface ItemEditor<T> {
-		public HandlerRegistration addValueChangeHandler(ValueChangeHandler<Void> handler);
-		
-		public void startEditing();
-		public void stopEditing();
+	
+		public void onStartEditing();
+		public void onStopEditing();
 		public void onEdit(AsyncCallback<Boolean> callBack);
+		public void onSave();
 
 		public void read();
 		public void write();
-		public String getLabel();
-		public String getLabelValue();
+		
+		public String getHeaderTitle();
+		public String getHeaderSubtitle();
 
 		public boolean validate();
 
 		public T getItem();
-
-		public IsWidget getView();
-		void onSave();
 	}
 
 	private boolean readOnly;
@@ -57,7 +58,7 @@ public class ItemPanel<T> extends Composite {
 
 	private CustomDisclosurePanel disclosurePanel;
 
-	public ItemPanel(ItemEditor<T> editor, final ItemPanelHeader header) {
+	public ItemPanel(final ItemPanelHeader header, ItemView view, ItemEditor<T> editor) {
 		this.editor = editor;
 		this.header = header;
 		
@@ -73,11 +74,10 @@ public class ItemPanel<T> extends Composite {
 			}
 		});
 
-		IsWidget detailsPanel = editor.getView();
-		disclosurePanel.add(detailsPanel);
+		disclosurePanel.add(view);
 		initWidget(disclosurePanel);
 
-		editor.addValueChangeHandler(new ValueChangeHandler<Void>() {
+		view.addValueChangeHandler(new ValueChangeHandler<Void>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<Void> event) {
@@ -123,7 +123,7 @@ public class ItemPanel<T> extends Composite {
 			}
 		});
 
-		editor.stopEditing();
+		editor.onStopEditing();
 		editing = false;
 		editable = false;
 
@@ -186,14 +186,14 @@ public class ItemPanel<T> extends Composite {
 
 	private void startEdit() {
 		editing = true;
-		editor.startEditing();
+		editor.onStartEditing();
 		updateHeaderButtons();
 		updateHeaderLabel();
 	}
 
 	private void stopEdit() {
 		editing = false;
-		editor.stopEditing();
+		editor.onStopEditing();
 		updateHeaderButtons();	
 	}
 
@@ -209,8 +209,8 @@ public class ItemPanel<T> extends Composite {
 	}
 
 	private void updateHeaderLabel() {
-		header.setHeaderLabel(editor.getLabel());
-		header.setHeaderLabelValue(editor.getLabelValue());
+		header.setHeaderLabel(editor.getHeaderTitle());
+		header.setHeaderLabelValue(editor.getHeaderSubtitle());
 	}
 
 	private void updateHeaderButtons() {
