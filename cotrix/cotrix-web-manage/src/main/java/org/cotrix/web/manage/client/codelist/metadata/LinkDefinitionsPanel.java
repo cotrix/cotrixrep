@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 import java.util.Collection;
 
 import org.cotrix.web.common.client.factory.UIFactories;
@@ -82,6 +84,9 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 		linkDefinitionsPanel = new ItemsEditingPanel<UILinkDefinition>("Define a link.", editingPanelFactory);
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		toolBar.setButtonResource(ItemButton.MINUS, RED_MINUS);
+		toolBar.setButtonResource(ItemButton.PLUS, RED_PLUS);
 		
 		linkDefinitionsPanel.setListener(new ItemsEditingListener<UILinkDefinition>() {
 			

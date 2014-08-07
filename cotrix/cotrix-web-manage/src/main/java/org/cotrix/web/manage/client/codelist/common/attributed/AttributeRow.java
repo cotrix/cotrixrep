@@ -3,7 +3,6 @@
  */
 package org.cotrix.web.manage.client.codelist.common.attributed;
 
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.util.FadeAnimation;
 import org.cotrix.web.common.client.util.FadeAnimation.Speed;
 import org.cotrix.web.common.client.widgets.AdvancedTextBox;
@@ -19,8 +18,9 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -94,7 +94,8 @@ public class AttributeRow extends AbstractRow {
 		valueTextBox.addValueChangeHandler(changeHandler);
 		valueTextBox.addKeyUpHandler(keyUpHandler);
 		
-		deleteButton = new PushButton(new Image(CommonResources.INSTANCE.minus()));
+		deleteButton = new PushButton();
+		RED_MINUS.apply(deleteButton);
 		deleteButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
 		deleteButton.addClickHandler(new ClickHandler() {
 			
@@ -105,7 +106,8 @@ public class AttributeRow extends AbstractRow {
 		});
 		deleteButtonAnimation = new FadeAnimation(deleteButton.getElement());
 		
-		fullEditButton = new PushButton(new Image(CotrixManagerResources.INSTANCE.edit()));
+		fullEditButton = new PushButton();
+		RED_EDIT.apply(fullEditButton);
 		fullEditButton.setStyleName(ATTRIBUTE_ROW_STYLE.button());
 		fullEditButton.addClickHandler(new ClickHandler() {
 			

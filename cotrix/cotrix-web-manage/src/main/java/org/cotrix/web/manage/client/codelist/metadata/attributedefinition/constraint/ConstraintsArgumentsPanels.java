@@ -115,15 +115,16 @@ public class ConstraintsArgumentsPanels extends Composite implements HasValueCha
 		public void addArgumentPanel(int row, String argument) {
 			
 			Label label = new Label(argument);
-			label.setStyleName(CotrixManagerResources.INSTANCE.propertyGrid().argumentLabel());
+			label.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().label());
 			argumentsPanel.setWidget(row, 0, label);
+			argumentsPanel.getCellFormatter().setStyleName(row, 0, CotrixManagerResources.INSTANCE.detailsPanelStyle().headerCellNoBackground());
 			argumentsPanel.getCellFormatter().setWidth(row, 0, "80px");
-			argumentsPanel.getCellFormatter().setHeight(row, 0, "31px");
 
 			TextBox textBox = new TextBox();
 			textBox.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().textbox());
 			argumentsPanel.setWidget(row, 1, textBox);
 			
+			argumentsPanel.getCellFormatter().setStyleName(row, 1, CotrixManagerResources.INSTANCE.detailsPanelStyle().valueCell());
 			argumentsPanel.getCellFormatter().getElement(row, 1).getStyle().setPaddingLeft(3, Unit.PX);
 			argumentsPanel.getCellFormatter().getElement(row, 1).getStyle().setPaddingRight(3, Unit.PX);
 

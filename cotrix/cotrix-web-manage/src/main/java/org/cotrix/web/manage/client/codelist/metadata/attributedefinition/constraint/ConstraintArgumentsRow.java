@@ -6,10 +6,10 @@ package org.cotrix.web.manage.client.codelist.metadata.attributedefinition.const
 import java.util.List;
 
 import org.cotrix.web.common.client.widgets.table.AbstractRow;
+import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
 import org.cotrix.web.manage.client.codelist.metadata.attributedefinition.constraint.ConstraintRow.Button;
 import org.cotrix.web.manage.client.codelist.metadata.attributedefinition.constraint.ConstraintRow.ConstraintRowListener;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.client.resources.CotrixManagerResources.PropertyGridStyle;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class ConstraintArgumentsRow extends AbstractRow implements ConstraintRowListener {
 	
-	private static final PropertyGridStyle propertyGridStyles = CotrixManagerResources.INSTANCE.propertyGrid();
+	private static final DetailsPanelStyle style = CotrixManagerResources.INSTANCE.detailsPanelStyle();
 
 	private static final int LABEL_COL = 0;
 	private static final int VALUE_COL = 1;
@@ -63,11 +63,10 @@ public class ConstraintArgumentsRow extends AbstractRow implements ConstraintRow
 	public void setup() {
 			
 		addCell(LABEL_COL, label);
-		setCellStyle(LABEL_COL, propertyGridStyles.header());
-		table.getCellFormatter().getElement(rowIndex, LABEL_COL).getStyle().setBackgroundColor("#efefef");
+		setCellStyle(LABEL_COL, style.headerCell());
 
 		addCell(VALUE_COL, argumentsPanels);
-		setCellStyle(VALUE_COL, propertyGridStyles.value());
+		setCellStyle(VALUE_COL, style.valueCell());
 		table.getFlexCellFormatter().setColSpan(rowIndex, VALUE_COL, 3);
 	}
 	

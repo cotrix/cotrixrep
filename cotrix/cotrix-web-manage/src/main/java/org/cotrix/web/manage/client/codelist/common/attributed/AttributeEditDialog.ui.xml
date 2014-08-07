@@ -25,7 +25,7 @@
 	}
 	</ui:style>
 	<g:HTMLPanel styleName="{commonresources.css.dialogBox}"
-		width="300px" height="260px">
+		width="300px" height="270px">
 		<div class="{commonresources.css.dialogTitle}" id="signup.title">
 			Edit Attribute
 		</div>

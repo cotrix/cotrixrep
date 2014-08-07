@@ -7,7 +7,7 @@
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='common'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style>
+	<ui:style src="../../resources/definitions.css">
 	
 	.cell {
 		vertical-align: middle;
@@ -21,11 +21,11 @@
 	.label {
 		font-size: 35px;
 		height: 60px;
-		color: #5674b9;
+		color: ICON_BLUE;
 	}
 	
 	.container {
-		border: 1px solid lightgray;
+		border: 1px solid FRAME_GREY;
 		border-radius: 5px;
 	}
 	

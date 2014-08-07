@@ -21,6 +21,8 @@ public interface Icons extends ClientBundle {
 	
 	public static ButtonResources RED_MINUS = create().upFace(icons.redRemove()).hover(icons.redRemoveHover()).disabled(icons.removeDisabled()).title("Remove").build();
 	public static ButtonResources RED_PLUS = create().upFace(icons.redAdd()).hover(icons.redAddHover()).disabled(icons.addDisabled()).title("Add").build();
+	
+	public static ButtonResources RED_EDIT = create().upFace(icons.redEdit()).hover(icons.redEditHover()).title("Make changes.").build();
 
 	
 	@Source("org/cotrix/web/manage/client/codelist/common/addDisabled.png")

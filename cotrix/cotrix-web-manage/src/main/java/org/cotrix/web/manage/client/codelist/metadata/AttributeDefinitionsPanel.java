@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 import java.util.Collection;
 
 import org.cotrix.web.common.client.factory.UIFactories;
@@ -89,6 +91,9 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 		attributeDefinitionsPanel = new ItemsEditingPanel<UIAttributeDefinition>("Define an attribute.", editingPanelFactory);
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		toolBar.setButtonResource(ItemButton.MINUS, BLUE_MINUS);
+		toolBar.setButtonResource(ItemButton.PLUS, BLUE_PLUS);
 		
 		attributeDefinitionsPanel.setListener(new ItemsEditingListener<UIAttributeDefinition>() {
 			

@@ -16,6 +16,16 @@
     padding: 8px 8px 8px 10px;
 }
 
+.headerCellNoBackground {
+	
+    overflow: hidden;
+    color: TITLE_GREY;
+    font-size: 14px;
+    vertical-align: middle;
+    width: 80px;
+    padding: 8px 8px 8px 10px;
+}
+
 .valueCell {
     border: 1px solid PANE_WHITE;
     overflow: hidden;

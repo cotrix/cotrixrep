@@ -20,7 +20,7 @@ import com.google.inject.Inject;
  */
 public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	
-	private static ButtonResources EDIT = create().upFace(icons.redEdit()).hover(icons.redEditHover()).title("Make changes.").build();
+
 	private static ButtonResources REVERT = create().upFace(icons.redCancel()).hover(icons.redCancelHover()).title("Discard all changes.").build();
 	private static ButtonResources SAVE = create().upFace(icons.redSave()).hover(icons.redSaveHover()).title("Save all changes.").build();
 	private static ButtonResources SWITCH = create().upFace(icons.columnToggle()).hover(icons.columnToggleHover()).downFace(icons.columnToggleDown()).title("To column").build();
@@ -38,7 +38,7 @@ public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	}
 	
 	private EditingHeader getHeader() {
-		EditingHeader header = new EditingHeader(icons.link(), EDIT, REVERT, SAVE);
+		EditingHeader header = new EditingHeader(icons.link(), RED_EDIT, REVERT, SAVE);
 		header.setSwitch(SWITCH);
 		header.setSmall();
 		return header;
