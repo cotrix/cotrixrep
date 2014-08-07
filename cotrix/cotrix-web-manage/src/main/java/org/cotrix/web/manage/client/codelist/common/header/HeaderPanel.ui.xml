@@ -1,7 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style src="../../../resources/definitions.css" type="org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.HeaderStyle">
+	<ui:style src="definitions.css" type="org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.HeaderStyle">
 	
 	@def VERTICAL_PADDING 10px;
 	

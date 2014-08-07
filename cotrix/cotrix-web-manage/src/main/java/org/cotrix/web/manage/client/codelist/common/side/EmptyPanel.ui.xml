@@ -4,7 +4,7 @@
 	xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
 	<ui:with field='resources'
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
-	<ui:style src="../../../resources/definitions.css">
+	<ui:style src="definitions.css">
 		.header {
 			background-color: FRAME_GREY;
 		}

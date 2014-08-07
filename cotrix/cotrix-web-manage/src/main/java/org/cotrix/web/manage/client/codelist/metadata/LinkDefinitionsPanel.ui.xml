@@ -7,7 +7,7 @@
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='common'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style src="../../resources/definitions.css">
+	<ui:style src="definitions.css">
 		.cell {
 			vertical-align: middle;
 			padding: 5px;
