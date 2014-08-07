@@ -62,8 +62,6 @@ public class LinkEditor implements ItemEditor<UILink> {
 		
 		link.setTargetId(code!=null?code.getId():null);
 		link.setTargetName(code!=null?code.getName():null);
-		
-	
 
 		link.setAttributes(detailsPanel.getAttributes());
 	}
