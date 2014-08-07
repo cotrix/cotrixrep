@@ -59,6 +59,7 @@ public class MarkerPanel extends Composite {
 		header.setSwitchVisible(true);
 		
 		header.setTitle(markerType.getName());
+		header.setSubtitle(markerType.getDescription());
 		
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");

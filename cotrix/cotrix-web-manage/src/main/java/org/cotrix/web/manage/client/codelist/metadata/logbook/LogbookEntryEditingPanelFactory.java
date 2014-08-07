@@ -30,6 +30,7 @@ public class LogbookEntryEditingPanelFactory implements ItemPanelFactory<UILogbo
 	
 	private EditingHeader getHeader() {
 		EditingHeader header = new EditingHeader(icons.logBook());
+		header.setSmall();
 		return header;
 	}
 

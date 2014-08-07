@@ -41,6 +41,7 @@ public class LinkDefinitionEditingPanelFactory implements ItemPanelFactory<UILin
 	
 	private EditingHeader getHeader() {
 		EditingHeader header = new EditingHeader(icons.link(), EDIT, REVERT, SAVE);
+		header.setSmall();
 		return header;
 	}
 

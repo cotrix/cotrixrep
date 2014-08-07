@@ -135,7 +135,7 @@
 				</td>
 				<td>
 					<g:FocusPanel ui:field="titleFocus" styleName="{style.titleFocus}">
-						<g:Label ui:field="title" styleName="{style.title}" >VALIDATION WITH REALLY LONG TITLE</g:Label>
+						<g:Label ui:field="title" styleName="{style.title}" />
 					</g:FocusPanel>
 				</td>
 				<td ui:field="primaryButtonCell" class="{style.primaryButtonCell}" rowspan="2">
@@ -158,7 +158,7 @@
 			<tr>
 				<td>
 					<g:FocusPanel ui:field="subtitleFocus" styleName="{style.subtitleFocus}">
-						<g:Label ui:field="subtitle" styleName="{style.subtitle}" >Runs validation with a realyl long subtitle</g:Label>
+						<g:Label ui:field="subtitle" styleName="{style.subtitle}" />
 					</g:FocusPanel>
 				</td>
 			</tr>

@@ -47,6 +47,7 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 	
 	private EditingHeader buildHeader() {
 		EditingHeader header = new EditingHeader(icons.attribute(), EDIT, REVERT, SAVE);
+		header.setSmall();
 		return header;
 	}
 
