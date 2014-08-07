@@ -184,7 +184,7 @@ public class ConstraintsPanel implements HasValueChangeHandlers<Void> {
 
 		constraintsRows.clear();
 		constraintsArgumentRows.clear();
-		fireValueChanged();
+		//fireValueChanged();
 	}
 	
 	private void addConstraint(UIConstraint constraint) {

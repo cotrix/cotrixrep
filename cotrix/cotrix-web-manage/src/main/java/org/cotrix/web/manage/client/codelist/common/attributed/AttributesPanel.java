@@ -189,7 +189,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		for (AttributeRow row:rows) deattachRow(row);
 		rows.clear();
 		attributes.clear();
-		fireValueChanged();
+		//fireValueChanged();
 	}
 	
 	private void addAttribute(UIAttribute attribute) {
