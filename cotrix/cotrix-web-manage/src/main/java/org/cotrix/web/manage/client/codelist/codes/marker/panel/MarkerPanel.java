@@ -8,7 +8,6 @@ import java.util.List;
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.event.MarkerEvent;
-import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkerPanelHeader.HeaderListener;
 import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
 import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
@@ -28,17 +27,11 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public class MarkerPanel extends Composite {
 	
-	private static ButtonResources SWITCH = create().upFace(icons.markerChecked()).hover(icons.markerChecked()).downFace(icons.markerUnchecked()).title("Activate").build();
-	
-	
-	private static String INACTIVE_BACKGROUND_COLOR = "#FBFBFB";
-	private static String INACTIVE_LABEL_COLOR = "#d6d6d9";
+	private static ButtonResources SWITCH = create().upFace(icons.markerUnchecked()).hover(icons.markerUnchecked()).downFace(icons.markerChecked()).title("Activate").build();
 	
 	public interface MarkerPanelListener {
 		public void onMarkerActived(String description);
 		public void onMarkerUnactived();
-
-		public void onSwitch(boolean isDown);
 		
 		public void onUpdate(String description);
 	}
@@ -124,14 +117,12 @@ public class MarkerPanel extends Composite {
 		detailsPanel.setEvents(events);
 		
 		header.setSwitchDown(active);
-		header.setSwitchVisible(active);
 		updateDescriptionEditability();
 	}
 	
 	private void updateColors() {
-		header.setDisabled(!active);
-	//	header.setBackgroundColor(active?markerStyle.getBackgroundColor():INACTIVE_BACKGROUND_COLOR);
-	//	header.setLabelColor(active?markerStyle.getTextColor():INACTIVE_LABEL_COLOR);
+		if (active) header.setBackgroundColor(markerStyle.getBackgroundColor());
+		else header.resetBackgroundColor();
 	}
 	
 
@@ -156,16 +147,11 @@ public class MarkerPanel extends Composite {
 		if (listener!=null) listener.onUpdate(description);
 	}
 	
-	private void onSwitch(boolean isDown) {
-		if (listener!=null) listener.onSwitch(isDown);
-	}
-	
 	private void updateDescriptionEditability() {
 		boolean descriptionEditable = !markerType.isDescriptionReadOnly() && editable && active;
 		detailsPanel.setReadOnly(!descriptionEditable);
 		boolean activable = !markerType.isReadOnly() && editable;
-		header.setSwitchDown(activable);
-		//header.setActivationCheckEnabled(activable);
+		header.setSwitchVisible(activable);
 	}
 	
 	public void openDetails(boolean open) {
@@ -179,9 +165,5 @@ public class MarkerPanel extends Composite {
 
 	public void setListener(MarkerPanelListener listener) {
 		this.listener = listener;
-	}
-
-	public void setSwitchDown(boolean down) {
-		header.setSwitchDown(down);
 	}
 }

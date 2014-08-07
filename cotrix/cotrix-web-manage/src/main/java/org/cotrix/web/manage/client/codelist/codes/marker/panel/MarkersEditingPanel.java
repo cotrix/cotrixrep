@@ -82,11 +82,6 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 			markerPanel.setListener(new MarkerPanelListener() {
 				
 				@Override
-				public void onSwitch(boolean isDown) {
-					fireSwitch(markerType, isDown);
-				}
-				
-				@Override
 				public void onUpdate(String description){
 					fireUpdate(markerType, description);
 				}
@@ -123,7 +118,7 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 	}
 	
 	public void setSwitchState(MarkerType markerType, SwitchState state) {
-		panels.get(markerType).setSwitchDown(state == SwitchState.DOWN);
+		//panels.get(markerType).setSwitchDown(state == SwitchState.DOWN);
 	}
 	
 	public void setMarkerOpen(MarkerType markerType, boolean open) {
@@ -152,9 +147,9 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 		if (listener!=null) listener.onMarkerUpdate(type, description);
 	}
 
-	private void fireSwitch(MarkerType type, boolean isDown) {
+	/*private void fireSwitch(MarkerType type, boolean isDown) {
 		if (listener!=null) listener.onMarkerSwitch(type, bindings.get(type), isDown?SwitchState.DOWN:SwitchState.UP);
-	}
+	}*/
 
 	private void fireMarkerActived(MarkerType type, String description) {
 		if (listener!=null) listener.onMarkerActived(type, description);

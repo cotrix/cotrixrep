@@ -76,9 +76,12 @@ public class HeaderPanel extends Composite {
 	private boolean disabled;
 	private ImageResource iconResource;
 	private ImageResource disabledIconResource;
+	private String defaultBackgroundColor;
 
 	public HeaderPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
+		
+		defaultBackgroundColor = table.getStyle().getBackgroundColor();
 		
 		setPrimaryButtonVisible(false);
 		setSwitchVisible(false);
@@ -148,6 +151,14 @@ public class HeaderPanel extends Composite {
 	
 	public boolean isSwitchDown() {
 		return switchButton.isDown();
+	}
+	
+	public void setBackgroundColor(String color) {
+		table.getStyle().setBackgroundColor(color);
+	}
+	
+	public void resetBackgroundColor() {
+		table.getStyle().setBackgroundColor(defaultBackgroundColor);
 	}
 	
 	public void setDimension(BandDimension dimension) {
