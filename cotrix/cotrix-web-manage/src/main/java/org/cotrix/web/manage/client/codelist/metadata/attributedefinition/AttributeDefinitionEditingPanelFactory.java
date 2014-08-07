@@ -3,12 +3,16 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
 
+import static org.cotrix.web.common.client.widgets.button.ButtonResourceBuilder.*;
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
+import org.cotrix.web.manage.client.codelist.common.form.EditingHeader;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
-import org.cotrix.web.manage.client.util.LabelHeader;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -20,6 +24,10 @@ import com.google.inject.Singleton;
 @Singleton
 public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<UIAttributeDefinition> {
 	
+	private static ButtonResources EDIT = create().upFace(icons.blueEdit()).hover(icons.blueEditHover()).title("Make changes.").build();
+	private static ButtonResources REVERT = create().upFace(icons.blueCancel()).hover(icons.blueCancelHover()).title("Discard all changes.").build();
+	private static ButtonResources SAVE = create().upFace(icons.blueSave()).hover(icons.blueSaveHover()).title("Save all changes.").build();
+	
 	@Inject
 	private AttributeDescriptionSuggestOracle attributeDescriptionSuggestOracle;
 	
@@ -28,7 +36,7 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 	
 	@Override
 	public ItemPanel<UIAttributeDefinition> createPanel(UIAttributeDefinition item) {
-		LabelHeader header = getHeader();
+		EditingHeader header = buildHeader();
 		AttributeDefinitionDetailsPanel view = new AttributeDefinitionDetailsPanel(attributeDescriptionSuggestOracle);
 		
 		AttributeDefinitionEditor editor = new AttributeDefinitionEditor(confirmDialog, item, view);
@@ -37,13 +45,8 @@ public class AttributeDefinitionEditingPanelFactory implements ItemPanelFactory<
 		return attributeDefinitionPanel;
 	}
 	
-	private LabelHeader getHeader() {
-		LabelHeader header = new LabelHeader();
-		header.setSwitchVisible(false);
-
-		header.setSaveTitle("Save all changes.");
-		header.setRevertTitle("Discard all changes.");
-		header.setEditTitle("Make changes.");
+	private EditingHeader buildHeader() {
+		EditingHeader header = new EditingHeader(icons.attribute(), EDIT, REVERT, SAVE);
 		return header;
 	}
 
