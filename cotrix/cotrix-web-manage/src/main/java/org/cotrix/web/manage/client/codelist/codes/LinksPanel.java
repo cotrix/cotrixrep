@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.codelist.codes;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,6 +86,9 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 		linkEditor = DataEditor.build(this);
 		linksPanel = new ItemsEditingPanel<UILink>("no links", editingPanelFactory);
 		panel.setContent(linksPanel);
+		
+		panel.getToolBar().setButtonResource(ItemButton.MINUS, RED_MINUS);
+		panel.getToolBar().setButtonResource(ItemButton.PLUS, RED_PLUS);
 		
 		initWidget(panel);
 		

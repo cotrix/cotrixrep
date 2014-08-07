@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 import java.util.List;
 
 import org.cotrix.web.common.client.async.AsyncUtils;
@@ -84,6 +86,9 @@ public class LogbookPanel extends LoadingPanel implements HasEditing {
 
 		entriesGrid = new ItemsEditingPanel<UILogbookEntry>("No entries", editingPanelFactory);
 		panel.setContent(entriesGrid);
+		
+		panel.getToolBar().setButtonResource(ItemButton.MINUS, RED_MINUS);
+		panel.getToolBar().setButtonResource(ItemButton.PLUS, RED_PLUS);
 
 		add(panel);
 

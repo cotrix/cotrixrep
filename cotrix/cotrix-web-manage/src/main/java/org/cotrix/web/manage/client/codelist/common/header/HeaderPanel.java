@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelist.common.header;
 
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableElement;
@@ -12,7 +14,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -109,19 +110,19 @@ public class HeaderPanel extends Composite {
 	}
 	
 	public void setPrimaryButton(ButtonResources resources) {
-		apply(resources, primaryButton); 
+		resources.apply(primaryButton); 
 	}
 	
 	public void setSwitchButton(ButtonResources resources) {
-		apply(resources, switchButton); 
+		resources.apply(switchButton); 
 	}
 	
 	public void setFirstButton(ButtonResources resources) {
-		apply(resources, firstButton); 
+		resources.apply(firstButton); 
 	}
 	
 	public void setSecondButton(ButtonResources resources) {
-		apply(resources, secondButton); 
+		resources.apply(secondButton); 
 	}
 	
 	public void setPrimaryButtonVisible(boolean visible) {
@@ -255,11 +256,5 @@ public class HeaderPanel extends Composite {
 		secondButton.addClickHandler(clickHandler);
 	}
 	
-	private static void apply(ButtonResources resources, CustomButton button) {
-		button.getUpFace().setImage(new Image(resources.getUpFace()));
-		if (resources.getHover()!=null)button.getUpHoveringFace().setImage(new Image(resources.getHover()));
-		if (resources.getDisabled()!=null) button.getUpDisabledFace().setImage(new Image(resources.getDisabled()));
-		if (resources.getDownFace()!=null) button.getDownFace().setImage(new Image(resources.getDownFace()));
-		button.setTitle(resources.getTitle());
-	}	
+	
 }

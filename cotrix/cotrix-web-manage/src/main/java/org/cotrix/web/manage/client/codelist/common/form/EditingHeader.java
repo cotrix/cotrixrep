@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.common.form;
 
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel.BandDimension;
 

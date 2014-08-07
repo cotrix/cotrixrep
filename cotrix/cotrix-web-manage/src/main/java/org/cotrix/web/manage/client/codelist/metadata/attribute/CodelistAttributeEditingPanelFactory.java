@@ -3,9 +3,10 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.attribute;
 
+import static org.cotrix.web.common.client.widgets.button.ButtonResourceBuilder.*;
 import static org.cotrix.web.manage.client.codelist.common.Icons.*;
-import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.manage.client.codelist.cache.AttributeDefinitionsCache;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
@@ -14,7 +15,6 @@ import org.cotrix.web.manage.client.codelist.common.attribute.AttributeEditor;
 import org.cotrix.web.manage.client.codelist.common.form.EditingHeader;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanelFactory;
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.util.Attributes;
 

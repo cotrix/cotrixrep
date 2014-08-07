@@ -3,13 +3,14 @@
  */
 package org.cotrix.web.manage.client.codelist.metadata.tasks;
 
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
+
+import static org.cotrix.web.common.client.widgets.button.ButtonResourceBuilder.*;
 import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
-import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"

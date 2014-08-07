@@ -7,6 +7,7 @@ import java.util.Set;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
@@ -77,6 +78,9 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 		this.attributeEditor = DataEditor.build(this);
 		panel.setContent(markersPanel);
+		
+		panel.getToolBar().setVisible(ItemButton.MINUS, false);
+		panel.getToolBar().setVisible(ItemButton.PLUS, false);
 		
 		initWidget(panel);
 

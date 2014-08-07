@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.common.header;
+package org.cotrix.web.common.client.widgets.button;
 
 import com.google.gwt.resources.client.ImageResource;
 

@@ -1,5 +1,7 @@
 package org.cotrix.web.manage.client.codelist.metadata;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
@@ -65,6 +67,9 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 		attributesGrid = new ItemsEditingPanel<UIAttribute>("No attributes", editingPanelFactory);
 		panel.setContent(attributesGrid);
+		
+		panel.getToolBar().setButtonResource(ItemButton.MINUS, BLUE_MINUS);
+		panel.getToolBar().setButtonResource(ItemButton.PLUS, BLUE_PLUS);
 
 		attributeEditor = DataEditor.build(this);
 

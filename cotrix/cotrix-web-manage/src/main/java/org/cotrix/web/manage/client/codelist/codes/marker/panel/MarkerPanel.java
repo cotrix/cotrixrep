@@ -6,13 +6,14 @@ package org.cotrix.web.manage.client.codelist.codes.marker.panel;
 import java.util.List;
 
 import org.cotrix.web.common.client.widgets.CustomDisclosurePanel;
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.event.MarkerEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.style.MarkerStyle;
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResources;
 import org.cotrix.web.manage.client.codelist.common.header.HeaderPanel;
+
+import static org.cotrix.web.common.client.widgets.button.ButtonResourceBuilder.*;
 import static org.cotrix.web.manage.client.codelist.common.Icons.icons;
-import static org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilder.*;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ClickEvent;

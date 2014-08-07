@@ -1,6 +1,8 @@
-package org.cotrix.web.manage.client.codelist.common.header;
+package org.cotrix.web.common.client.widgets.button;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.CustomButton;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -56,4 +58,12 @@ public class ButtonResources {
 	public void setDownFace(ImageResource downFace) {
 		this.downFace = downFace;
 	}
+	
+	public void apply(CustomButton button) {
+		button.getUpFace().setImage(new Image(upFace));
+		if (hover!=null)button.getUpHoveringFace().setImage(new Image(hover));
+		if (disabled!=null) button.getUpDisabledFace().setImage(new Image(disabled));
+		if (downFace!=null) button.getDownFace().setImage(new Image(downFace));
+		button.setTitle(title);
+	}	
 }

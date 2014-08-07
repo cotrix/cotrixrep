@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.common.client.widgets;
 
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.shared.EventHandler;
@@ -70,6 +72,13 @@ public class ItemToolbar extends Composite {
 		switch (button) {
 			case MINUS: minus.setVisible(visible); break;
 			case PLUS: plus.setVisible(visible); break;
+		}
+	}
+	
+	public void setButtonResource(ItemButton button, ButtonResources resources) {
+		switch (button) {
+			case MINUS: resources.apply(minus); break;
+			case PLUS: resources.apply(plus); break;
 		}
 	}
 

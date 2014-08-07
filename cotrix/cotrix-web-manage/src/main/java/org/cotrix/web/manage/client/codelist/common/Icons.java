@@ -1,5 +1,9 @@
 package org.cotrix.web.manage.client.codelist.common;
 
+import static org.cotrix.web.common.client.widgets.button.ButtonResourceBuilder.*;
+
+import org.cotrix.web.common.client.widgets.button.ButtonResources;
+
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
@@ -11,6 +15,13 @@ import com.google.gwt.resources.client.ImageResource;
 public interface Icons extends ClientBundle {
 
 	public static Icons icons = GWT.create(Icons.class);
+	
+	public static ButtonResources BLUE_MINUS = create().upFace(icons.blueRemove()).hover(icons.blueRemoveHover()).disabled(icons.removeDisabled()).title("Remove").build();
+	public static ButtonResources BLUE_PLUS = create().upFace(icons.blueAdd()).hover(icons.blueAddHover()).disabled(icons.addDisabled()).title("Add").build();
+	
+	public static ButtonResources RED_MINUS = create().upFace(icons.redRemove()).hover(icons.redRemoveHover()).disabled(icons.removeDisabled()).title("Remove").build();
+	public static ButtonResources RED_PLUS = create().upFace(icons.redAdd()).hover(icons.redAddHover()).disabled(icons.addDisabled()).title("Add").build();
+
 	
 	@Source("org/cotrix/web/manage/client/codelist/common/addDisabled.png")
 	ImageResource addDisabled();

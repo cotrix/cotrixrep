@@ -1,10 +1,9 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.common.header;
+package org.cotrix.web.common.client.widgets.button;
 
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilderGrammar.Title;
-import org.cotrix.web.manage.client.codelist.common.header.ButtonResourceBuilderGrammar.*;
+import org.cotrix.web.common.client.widgets.button.ButtonResourceBuilderGrammar.*;
 
 import com.google.gwt.resources.client.ImageResource;
 

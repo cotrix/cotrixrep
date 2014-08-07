@@ -44,6 +44,8 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
 import com.google.web.bindery.event.shared.binder.EventHandler;
 
+import static org.cotrix.web.manage.client.codelist.common.Icons.*;
+
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -86,6 +88,9 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 		attributesGrid = new ItemsEditingPanel<UIAttribute>("No attributes", editingPanelFactory);
 		panel.setContent(attributesGrid);
+		
+		panel.getToolBar().setButtonResource(ItemButton.MINUS, BLUE_MINUS);
+		panel.getToolBar().setButtonResource(ItemButton.PLUS, BLUE_PLUS);
 		
 		initWidget(panel);
 		
