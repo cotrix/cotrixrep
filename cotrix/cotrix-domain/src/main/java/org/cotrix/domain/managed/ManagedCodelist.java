@@ -13,7 +13,10 @@ public class ManagedCodelist extends ManagedEntity<Codelist> {
 	}
 	
 	
-	ManagedCodelist(Codelist list) {
+	public ManagedCodelist() {
+	}
+	
+	public ManagedCodelist(Codelist list) {
 		super(list);
 	}
 	

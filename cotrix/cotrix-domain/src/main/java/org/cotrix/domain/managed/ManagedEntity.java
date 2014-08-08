@@ -15,15 +15,20 @@ import org.cotrix.domain.trait.Attributed;
 public abstract class ManagedEntity<T extends Attributed> {
 
 
-	private final T managed;
+	private T managed;
 	
+	ManagedEntity() {}
 
 	ManagedEntity(T entity) {
-		this.managed=entity;
+		set(entity);
 	}
 	
 	public T managed() {
 		return managed;
+	}
+	
+	public void set(T entity) {
+		this.managed=entity;
 	}
 	
 	public Date created() {

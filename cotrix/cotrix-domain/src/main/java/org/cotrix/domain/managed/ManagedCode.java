@@ -11,12 +11,16 @@ import org.cotrix.domain.codelist.Code;
 //read-only interface over codes with support for systemic attributes
 public class ManagedCode extends ManagedEntity<Code> {
 
-	
+	//convenience over one-time wrapping
 	public static ManagedCode manage(Code code) {
 		return new ManagedCode(code);
 	}
 	
-	ManagedCode(Code code) {
+	
+	public ManagedCode() {}
+	
+	
+	public ManagedCode(Code code) {
 		super(code);
 	}
 	

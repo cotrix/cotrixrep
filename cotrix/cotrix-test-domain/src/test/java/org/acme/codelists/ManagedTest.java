@@ -19,7 +19,6 @@ import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;
 import org.cotrix.test.TestUser;
-import org.junit.Before;
 import org.junit.Test;
 
 public class ManagedTest extends ApplicationTest {
@@ -44,16 +43,7 @@ public class ManagedTest extends ApplicationTest {
 					.build();
 		
 	
-	ManagedCode managed;
-	
-	
-	
-	@Before
-	public void setup() {
-		
-		managed = manage(code);
-	
-	}
+	ManagedCode managed = new ManagedCode(code);
 	
 	@Test
 	public void accessCreationDate() {
