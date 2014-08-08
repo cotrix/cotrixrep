@@ -86,7 +86,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		if (rel==null)
 			throw new IllegalStateException(id()+" has an orphaned codelist link");
 				
-		return NeoCodelistLink.factory.beanFrom(rel.getEndNode());
+		return NeoLinkDefinition.factory.beanFrom(rel.getEndNode());
 	}
 	
 	@Override

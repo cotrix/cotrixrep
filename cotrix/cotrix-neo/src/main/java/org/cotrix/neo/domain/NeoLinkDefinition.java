@@ -21,26 +21,26 @@ import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoCodelistLink extends NeoNamed implements LinkDefinition.State {
+public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State {
 
 	public static final NeoStateFactory<LinkDefinition.State> factory = new NeoStateFactory<LinkDefinition.State>() {
 		
 		@Override
 		public LinkDefinition.State beanFrom(Node node) {
-			return new NeoCodelistLink(node);
+			return new NeoLinkDefinition(node);
 		}
 		
 		@Override
 		public Node nodeFrom(LinkDefinition.State state) {
-			return new NeoCodelistLink(state).node();
+			return new NeoLinkDefinition(state).node();
 		}
 	};
 	
-	public NeoCodelistLink(Node node) {
+	public NeoLinkDefinition(Node node) {
 		super(node);
 	}
 	
-	public NeoCodelistLink(LinkDefinition.State state) {
+	public NeoLinkDefinition(LinkDefinition.State state) {
 
 		super(LINKDEF,state);	
 		
@@ -90,7 +90,7 @@ public class NeoCodelistLink extends NeoNamed implements LinkDefinition.State {
 		Relationship rel = node().getSingleRelationship(Relations.LOL,OUTGOING);
 		
 		if (rel!=null)
-			return new LinkOfLink(NeoCodelistLink.factory.beanFrom(rel.getEndNode()).entity());
+			return new LinkOfLink(NeoLinkDefinition.factory.beanFrom(rel.getEndNode()).entity());
 		
 		//name-based: return constant
 		return NameLink.INSTANCE;

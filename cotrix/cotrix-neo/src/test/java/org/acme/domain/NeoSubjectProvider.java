@@ -23,11 +23,11 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoAttribute;
-import org.cotrix.neo.domain.NeoDefinition;
+import org.cotrix.neo.domain.NeoAttributeDefinition;
 import org.cotrix.neo.domain.NeoCode;
 import org.cotrix.neo.domain.NeoCodelink;
 import org.cotrix.neo.domain.NeoCodelist;
-import org.cotrix.neo.domain.NeoCodelistLink;
+import org.cotrix.neo.domain.NeoLinkDefinition;
 import org.cotrix.neo.domain.NeoUser;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -65,10 +65,10 @@ public class NeoSubjectProvider implements SubjectProvider {
 			provided = new Attribute.Private(like(object, Attribute.Private.class,NeoAttribute.factory));
 		
 		else if (object instanceof AttributeDefinition)
-			provided = new AttributeDefinition.Private(like(object, AttributeDefinition.Private.class,NeoDefinition.factory));
+			provided = new AttributeDefinition.Private(like(object, AttributeDefinition.Private.class,NeoAttributeDefinition.factory));
 
 		else if (object instanceof LinkDefinition)
-			provided = new LinkDefinition.Private(like(object,LinkDefinition.Private.class,NeoCodelistLink.factory)); 
+			provided = new LinkDefinition.Private(like(object,LinkDefinition.Private.class,NeoLinkDefinition.factory)); 
 
 		else if (object instanceof Codelink)
 			provided = new Codelink.Private(like(object, Codelink.Private.class,NeoCodelink.factory));

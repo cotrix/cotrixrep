@@ -14,26 +14,26 @@ import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoDefinition extends NeoIdentified implements AttributeDefinition.State {
+public class NeoAttributeDefinition extends NeoIdentified implements AttributeDefinition.State {
 
 	public static final NeoStateFactory<AttributeDefinition.State> factory = new NeoStateFactory<AttributeDefinition.State>() {
 		
 		@Override
 		public AttributeDefinition.State beanFrom(Node node) {
-			return new NeoDefinition(node);
+			return new NeoAttributeDefinition(node);
 		}
 		
 		@Override
 		public Node nodeFrom(AttributeDefinition.State state) {
-			return new NeoDefinition(state).node();
+			return new NeoAttributeDefinition(state).node();
 		}
 	};
 	
-	public NeoDefinition(Node node) {
+	public NeoAttributeDefinition(Node node) {
 		super(node);
 	}
 
-	public NeoDefinition(AttributeDefinition.State state) {
+	public NeoAttributeDefinition(AttributeDefinition.State state) {
 		
 		super(ATTRDEF,state);
 		

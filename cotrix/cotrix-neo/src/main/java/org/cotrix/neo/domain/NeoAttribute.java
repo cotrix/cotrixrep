@@ -56,7 +56,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 		if (rel==null)
 			throw new IllegalStateException(id()+" has an orphaned definition link");
 				
-		return NeoDefinition.factory.beanFrom(rel.getEndNode());
+		return NeoAttributeDefinition.factory.beanFrom(rel.getEndNode());
 
 	}
 
@@ -76,7 +76,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 				target = softResolve(state, ATTRDEF);
 			
 			if (target==null)
-				target =NeoDefinition.factory.nodeFrom(state);
+				target =NeoAttributeDefinition.factory.nodeFrom(state);
 			
 			node().createRelationshipTo(target,Relations.INSTANCEOF);
 		
