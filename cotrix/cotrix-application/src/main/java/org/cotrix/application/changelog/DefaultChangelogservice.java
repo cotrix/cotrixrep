@@ -13,8 +13,8 @@ public class DefaultChangelogservice implements ChangelogService {
 	private ChangelogManager changelog;
 	
 	@Override
-	public void track(Codelist list) {
+	public void track(Codelist list,boolean optimise) {
 		
-		changelog.track(list);
+		changelog.track(list,optimise);
 	}
 }

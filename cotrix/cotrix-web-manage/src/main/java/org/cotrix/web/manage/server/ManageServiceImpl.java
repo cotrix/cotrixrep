@@ -501,6 +501,9 @@ public class ManageServiceImpl implements ManageService {
 	public void generateCodelistChangelog(@Id String codelistId) throws ServiceException {
 		logger.trace("generateCodelistChangelog codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		changelogService.track(codelist);
+		
+		//TODO: can trigger optimisation when user is allowed to say so (based on timestamps)
+		boolean optimised =false;
+		changelogService.track(codelist,optimised);
 	}
 }

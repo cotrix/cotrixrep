@@ -153,7 +153,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).definitions(modify(vdef).name("new").build()).build());
 		
-		changelog.track(list);
+		changelog.track(list,false);
 
 		ManagedCode managed = manage(code);
 		
@@ -176,7 +176,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(list.id(),deleteAttrdef(vdef.id()));
 		
-		changelog.track(list);
+		changelog.track(list,false);
 
 		ManagedCode managed = manage(code);
 		

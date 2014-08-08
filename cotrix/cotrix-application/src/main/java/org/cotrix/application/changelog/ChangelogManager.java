@@ -12,6 +12,7 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
 import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.NamedContainer;
 import org.cotrix.domain.common.NamedStateContainer;
 import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -59,18 +61,21 @@ public class ChangelogManager {
 		trackPunctual(plist, pchangeset);
 	}
 	
-	public void track(Codelist list) {
-	
-		trackBulk(reveal(list));
+	public void track(Codelist list, boolean optimise) {
+		
+		Codelist.Private plist = reveal(list);
+		
+		if (optimise)
+			trackBulkOptimised(plist);
+		else
+			trackBulk(reveal(plist));
 	}
 	
 	private void trackBulk(Codelist.Private list) {
 		
-		//this seems coarse: any bulk change triggers a full traversal
-		//in practice we do expect shared defs to occur in most-to-all codes.
-		//even if the impacted codes were a few, how much overhead would we be adding to the 
-		//traversal required underneatah to find the impact right subset of codes? 
-		//would need to measure. surely, fine-grain requires more work and we should not
+		//this seems coarse: any schema change triggers a full traversal
+		//in practice we do expect changes to propagate to most-to-all codes.
+		//mostly we cannot conveniently detect that codes have changed because the schema has.
 		
 		TaskContext context = new TaskContext();
 		float progress=0f;
@@ -86,23 +91,64 @@ public class ChangelogManager {
 		
 		long time = currentTimeMillis();
 		
+		for (Code.Private code : codes) {
 		
-		//ManagedCodelist mlist = ManagedCodelist.manage(list);
+			i++;
+			progress++;
+			
+			handleModifiedMarkerWith(code);
+			
+			if (i%step==0)
+				
+				if (context.isCancelled()) {
+					log.info("cahngelog tracking aborted on user request after {} codes.",i);
+					throw new CancelledTaskException("changelog tracking aborted on user request");
+				}
+			
+				else {
+				
+					context.save(TaskUpdate.update(progress/total, "tracked "+i+" codes"));
+				}
+		}
 		
-		//Date listCreated = mlist.created();
+
+		log.trace("tracked changelog for {} in {} msec.",signatureOf(list),currentTimeMillis()-time);
+	}
+	
+	private void trackBulkOptimised(Codelist.Private list) {
+		
+		TaskContext context = new TaskContext();
+
+		float progress=0f;
+		
+		NamedContainer<? extends Code.Private> codes =  reveal(list).codes();
+		
+		int total = list.codes().size();
+		
+		//arbitrary
+		long step = round(max(10,floor(codes.size()/10)));
+		
+		int i=0;
+		
+		long time = currentTimeMillis();
+		
+		
+		ManagedCodelist mlist = ManagedCodelist.manage(list);
+		
+		Date listCreated = mlist.created();
 		
 		for (Code.Private code : codes) {
 		
 			i++;
 			progress++;
 			
-			//ManagedCode mcode = manage(code);
+			ManagedCode mcode = manage(code);
 
-			//Date codeUpdated = mcode.lastUpdated();
+			Date codeUpdated = mcode.lastUpdated();
 			
 			//process only if it has changed since the list was created
-			//TODO:must solve timestamp propagation problem first
-			//if (codeUpdated!=null && mcode.lastUpdated().after(listCreated))
+			
+			if (codeUpdated!=null && mcode.lastUpdated().after(listCreated))
 			
 				handleModifiedMarkerWith(code);
 			
