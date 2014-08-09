@@ -11,7 +11,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
 import org.junit.Test;

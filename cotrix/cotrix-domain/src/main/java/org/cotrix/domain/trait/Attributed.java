@@ -1,13 +1,18 @@
 package org.cotrix.domain.trait;
 
+import static java.text.DateFormat.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
+import java.text.ParseException;
+import java.util.Collection;
+import java.util.Date;
+
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.BeanContainer;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -20,27 +25,29 @@ public interface Attributed {
 	
 	//public read-only interface
 	
-	/**
-	 * Returns the attributes of this object.
-	 * 
-	 * @return the attributes
-	 */
-	NamedContainer<? extends Attribute> attributes();
+	Container<? extends Attribute> attributes();
 	
+	Date created();
 	
+	Date lastUpdated();
+	
+	String lastUpdatedBy();
+	
+	String originId();
 	
 	//private state interface
 	
-	interface State {
+	interface Bean {
 		
-		NamedStateContainer<Attribute.State> attributes();
+		BeanContainer<Attribute.Bean> attributes();
 		
 	}
 	
 
+	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State> extends Identified.Abstract<SELF,S> implements Attributed {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends Bean & Identified.Bean> extends Identified.Private<SELF,S> implements Attributed {
 
 
 		public Abstract(S state) {
@@ -51,11 +58,62 @@ public interface Attributed {
 		
 
 		@Override
-		public NamedContainer.Private<Attribute.Private,Attribute.State> attributes() {
+		public Container.Private<Attribute.Private,Attribute.Bean> attributes() {
 			
-			return namedContainer(state().attributes());
+			return new Container.Private<>(bean().attributes());
 		
 		}
+		
+		@Override
+		public Date created() {
+			
+			String val = lookup(CREATION_TIME);
+			
+			try {
+				return val==null? null : getDateTimeInstance().parse(val);
+			}
+			catch(ParseException e) {
+				throw unchecked(e);
+			}
+		}
+		
+		@Override
+		public Date lastUpdated() {
+			
+			String val = lookup(UPDATE_TIME);
+			
+			try {
+				return val==null? created():getDateTimeInstance().parse(val);
+			}
+			catch(Exception e) {
+				throw unchecked(e);
+			}
+		}
+		
+		@Override
+		public String lastUpdatedBy() {
+			
+			return lookup(UPDATED_BY);
+			
+		}
+
+		
+		@Override
+		public String originId() {
+			
+			return lookup(PREVIOUS_VERSION_ID);
+			
+		}
+		
+		
+		public String lookup(Named def) {
+			
+			Collection<Attribute.Private> matches  = attributes().get(def);
+			
+			return matches.isEmpty() ? null : matches.iterator().next().value();
+		
+		}
+	
 
 		@Override
 		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {
@@ -65,7 +123,7 @@ public interface Attributed {
 			attributes().update(changeset.attributes());
 			
 			//these may be materialised from storage, sacrifice legibility for minimal handling
-			NamedStateContainer<Attribute.State> attributes = state().attributes();
+			BeanContainer<Attribute.Bean> attributes = bean().attributes();
 			
 			if (timestampIn(attributes))
 		
@@ -79,16 +137,16 @@ public interface Attributed {
 		}
 
 		//helpers
-		private boolean timestampIn(NamedStateContainer<Attribute.State> attributes) {
-			return attributes.contains(UPDATE_TIME);
+		private boolean timestampIn(BeanContainer<Attribute.Bean> attributes) {
+			return attributes.contains(UPDATE_TIME.qname());
 		}
 		
-		private void updateTimestampAndUserIn(NamedStateContainer<Attribute.State> attributes) {
-			attributes.lookup(UPDATE_TIME).value(time());
-			attributes.lookup(UPDATED_BY).value(currentUser().name());
+		private void updateTimestampAndUserIn(BeanContainer<Attribute.Bean> attributes) {
+			attributes.getFirst(UPDATE_TIME.qname()).value(time());
+			attributes.getFirst(UPDATED_BY.qname()).value(currentUser().name());
 		}
 		
-		private void addTimestampAndUserTo(NamedStateContainer<Attribute.State> attributes) {
+		private void addTimestampAndUserTo(BeanContainer<Attribute.Bean> attributes) {
 			attributes.add(stateof(attribute().instanceOf(UPDATE_TIME).value(time())));
 			attributes.add(stateof(attribute().instanceOf(UPDATED_BY).value(currentUser().name())));
 		}

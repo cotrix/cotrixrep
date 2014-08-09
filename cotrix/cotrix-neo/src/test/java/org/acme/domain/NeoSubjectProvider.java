@@ -11,12 +11,12 @@ import javax.enterprise.inject.Alternative;
 import org.acme.SubjectProvider;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.Attribute.State;
+import org.cotrix.domain.attributes.Attribute.Bean;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -38,9 +38,9 @@ import org.neo4j.graphdb.Node;
 public class NeoSubjectProvider implements SubjectProvider {
 
 	@Override
-	public NamedStateContainer<Attribute.State> like(Attribute.State... states) {
-		NeoContainer<State> container = new NeoContainer<>(newnode(CODE), Relations.ATTRIBUTE, NeoAttribute.factory);
-		for (Attribute.State state : states)
+	public BeanContainer<Attribute.Bean> like(Attribute.Bean... states) {
+		NeoContainer<Bean> container = new NeoContainer<>(newnode(CODE), Relations.ATTRIBUTE, NeoAttribute.factory);
+		for (Attribute.Bean state : states)
 			container.add(state);
 		return container;
 	}
@@ -74,19 +74,19 @@ public class NeoSubjectProvider implements SubjectProvider {
 			provided = new Codelink.Private(like(object, Codelink.Private.class,NeoCodelink.factory));
 
 		else if (object instanceof Named) {
-			Named.State s = (Named.State) reveal(object, Named.Abstract.class).state();
+			Named.Bean s = (Named.Bean) reveal(object, Named.Abstract.class).bean();
 			provided = new Named.Abstract(s) {
 			};
 		}
 		
 		else if (object instanceof Attributed) {
-			Attributed.State s = (Attributed.State) reveal(object, Attributed.Abstract.class).state();
+			Attributed.Bean s = (Attributed.Bean) reveal(object, Attributed.Abstract.class).bean();
 			provided = new Attributed.Abstract(s) {
 			};
 		}
 		
 		else if (object instanceof Identified)
-			provided = new Identified.Abstract(reveal(object, Identified.Abstract.class).state()) {
+			provided = new Identified.Private(reveal(object, Identified.Private.class).bean()) {
 			};
 
 		else
@@ -97,9 +97,9 @@ public class NeoSubjectProvider implements SubjectProvider {
 	
 	//helper
 	
-	private <S extends Identified.State,T extends Identified.Abstract<T,S>> S like(Object o, Class<T> type, NeoStateFactory<S> factory) {
+	private <S extends Identified.Bean,T extends Identified.Private<T,S>> S like(Object o, Class<T> type, NeoStateFactory<S> factory) {
 		
-		S state = reveal(o,type).state();
+		S state = reveal(o,type).bean();
 		Node node = factory.nodeFrom(state);
 		return factory.beanFrom(node);
 	}

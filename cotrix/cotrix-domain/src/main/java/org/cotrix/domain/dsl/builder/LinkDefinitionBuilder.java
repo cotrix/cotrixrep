@@ -11,7 +11,6 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
@@ -19,6 +18,7 @@ import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClau
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.LinkDefinitionMS;
@@ -76,7 +76,7 @@ public class LinkDefinitionBuilder  {
 			if (list.isChangeset())
 				throw new IllegalArgumentException("invalid link: target codelist cannot be a changeset");
 			
-			state.target(list.state());
+			state.target(list.bean());
 			
 			return LinkDefinitionBuilder.this.new OptClause();
 		}

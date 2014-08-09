@@ -1,10 +1,10 @@
-package org.cotrix.domain.codelist;
+package org.cotrix.domain.links;
 
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Definition;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
@@ -12,36 +12,21 @@ import org.cotrix.domain.values.ValueFunction;
 
 public interface LinkDefinition extends Attributed, Definition {
 
-	/**
-	 * Returns the target codelist.
-	 * 
-	 * @return the target codelist
-	 */
 	Codelist target();
 	
-	/**
-	 * Returns the type of values of link instances.
-	 * @return the type
-	 */
 	LinkValueType valueType();
 	
-	
-	/**
-	 * Returns the function that yields values of link instances.
-	 * @return the function
-	 */
 	ValueFunction function();
 	
-	/**
-	 * Returns the occurrence range for link instances.
-	 * @return the range
-	 */
 	Range range();
 		
 	
-	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
+	
+	
+	
+	static interface State extends Identified.Bean, Attributed.Bean, Named.Bean, BeanOf<Private> {
 
-		Codelist.State target();
+		Codelist.Bean target();
 		
 		LinkValueType valueType();
 		
@@ -51,17 +36,17 @@ public interface LinkDefinition extends Attributed, Definition {
 		
 		void function(ValueFunction function);
 
-		void target(Codelist.State state);
+		void target(Codelist.Bean state);
 		
 		Range range();
 		
 		void range(Range type);
 	}
 
-	/**
-	 * A {@link Named.Abstract} implementation of {@link LinkDefinition}.
-	 * 
-	 */
+	
+	
+	
+	
 	public class Private extends Named.Abstract<Private,State> implements LinkDefinition {
 
 		public Private(LinkDefinition.State state) {
@@ -70,23 +55,23 @@ public interface LinkDefinition extends Attributed, Definition {
 
 		@Override
 		public Codelist target() {
-			return state().target() == null ? null : new Codelist.Private(state().target());
+			return bean().target() == null ? null : new Codelist.Private(bean().target());
 		}
 		
 		@Override
 		public LinkValueType valueType() {
-			return state().valueType();
+			return bean().valueType();
 		}
 		
 		
 		@Override
 		public ValueFunction function() {
-			return state().function();
+			return bean().function();
 		}
 		
 		@Override
 		public Range range() {
-			return state().range();
+			return bean().range();
 		}
 
 		@Override
@@ -94,21 +79,21 @@ public interface LinkDefinition extends Attributed, Definition {
 
 			super.update(changeset);
 			
-			LinkValueType newtype = changeset.state().valueType();
+			LinkValueType newtype = changeset.bean().valueType();
 			
 			if (newtype!=null)
-				state().valueType(newtype);
+				bean().valueType(newtype);
 			
 			
-			ValueFunction newfunction = changeset.state().function();
+			ValueFunction newfunction = changeset.bean().function();
 			
 			if (newfunction!=null)
-				state().function(newfunction);
+				bean().function(newfunction);
 			
-			Range newrange = changeset.state().range();
+			Range newrange = changeset.bean().range();
 			
 			if (newrange!=null)
-				state().range(newrange);
+				bean().range(newrange);
 			
 			//ignore target, DSL should have prevented this statically anyway
 		}

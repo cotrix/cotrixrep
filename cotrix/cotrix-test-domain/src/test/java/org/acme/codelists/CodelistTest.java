@@ -12,7 +12,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.memory.CodelistMS;
@@ -102,12 +102,12 @@ public class CodelistTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		Codelist.State state = reveal(list).state();
+		Codelist.Bean state = reveal(list).bean();
 
 		//can simply check for equals at this stage
 		CodelistMS clone = new CodelistMS(state);
 		
-		assertTrue(clone.attributes().contains(attr));
+		assertTrue(clone.attributes().contains(attr.qname()));
 	}
 	
 	@Test
@@ -125,7 +125,7 @@ public class CodelistTest extends DomainTest {
 		assertEquals(list.id(),managed.originId());
 		assertEquals(list.version(),managed.previousVersion());
 		
-		ManagedCode managedCode = ManagedCode.manage(versioned.codes().lookup(code.qname()));
+		ManagedCode managedCode = ManagedCode.manage(versioned.codes().getFirst(code));
 				
 		assertEquals(code.id(), managedCode.originId());
 		assertEquals(code.qname(),managedCode.originName());
@@ -140,7 +140,7 @@ public class CodelistTest extends DomainTest {
 		
 		Codelist versioned = reveal(list).bump("2");
 
-		Code vcode = versioned.codes().lookup(code.qname());
+		Code vcode = versioned.codes().getFirst(code);
 		
 		Attribute vshared = vcode.attributes().lookup(shared.id());
 		Attribute vshared2 = vcode.attributes().lookup(shared2.id());
@@ -165,7 +165,7 @@ public class CodelistTest extends DomainTest {
 		
 		Codelist versioned = reveal(list).bump("2");
 
-		Code vcode = versioned.codes().lookup(code.qname());
+		Code vcode = versioned.codes().getFirst(code);
 		
 		Codelink vlink1 = vcode.links().lookup(link1.id());
 		Codelink vlink2 = vcode.links().lookup(link2.id());
@@ -213,10 +213,10 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals(changeset.qname(),list.qname());
 		
-		assertTrue(list.definitions().contains(newdef.qname()));
-		assertFalse(list.attributes().contains(attr.qname()));
-		assertTrue(list.links().contains(newlink.qname()));
-		assertFalse(list.codes().contains(code.qname()));
+		assertTrue(list.definitions().contains(newdef));
+		assertFalse(list.attributes().contains(attr));
+		assertTrue(list.links().contains(newlink));
+		assertFalse(list.codes().contains(code));
 		
 	}
 

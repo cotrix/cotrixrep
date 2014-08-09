@@ -12,7 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
 
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;

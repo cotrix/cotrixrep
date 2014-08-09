@@ -13,8 +13,8 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.links.LinkDefinition;
 
 public class ChangelogProducer {
 	
@@ -37,7 +37,7 @@ public class ChangelogProducer {
 	
 	private void addAttributesChanges(Code origin, Code current){
 		
-		NamedContainer<? extends Attribute> attributesBefore = origin.attributes();
+		Container<? extends Attribute> attributesBefore = origin.attributes();
 
 		List<String> matched = new ArrayList<String>();
 		
@@ -79,7 +79,7 @@ public class ChangelogProducer {
 	private void addLinkChanges(Code origin, Code current){
 		
 		
-		NamedContainer<? extends Codelink> linksBefore = origin.links();
+		Container<? extends Codelink> linksBefore = origin.links();
 
 		List<String> matched = new ArrayList<String>();
 

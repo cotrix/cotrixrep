@@ -32,7 +32,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	@Override
 	public ValueClause instanceOf(AttributeDefinition def) {
 		
-		state.definition(reveal(def).state());
+		state.definition(reveal(def).bean());
 		
 		return this;
 	}

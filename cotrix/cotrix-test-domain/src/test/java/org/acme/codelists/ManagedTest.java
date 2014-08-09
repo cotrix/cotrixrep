@@ -102,7 +102,7 @@ public class ManagedTest extends ApplicationTest {
 		
 		Codelist versioned = versioning.bump(list).to("2.0");
 		
-		ManagedCode managedVersioned = manage(versioned.codes().lookup(code.qname()));
+		ManagedCode managedVersioned = manage(versioned.codes().getFirst(code));
 		
 		assertEquals(code.id(), managedVersioned.originId());
 		assertEquals(code.qname(), managedVersioned.originName());

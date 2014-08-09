@@ -111,7 +111,7 @@ public enum CommonDefinition implements Named {
 	
 	//just handy, cleans client code
 	public AttributeDefinition.State state() {
-		return reveal(def).state();
+		return reveal(def).bean();
 	}
 	
 	//enables behavioural forks (e.g. store full def or just name...) 

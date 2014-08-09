@@ -18,7 +18,7 @@ public class NamedTest extends DomainTest {
 	@Test
 	public void namesMustBeValid() {
 		
-		Named.State state = new NamedMS();
+		Named.Bean state = new NamedMS();
 		
 		try {
 			state.qname(null);

@@ -2,13 +2,13 @@ package org.cotrix.domain.common;
 
 import java.util.Iterator;
 
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 
-public class IteratorAdapter<T,S extends EntityProvider<? extends T>> implements Iterator<T> {
+public class IteratorAdapter<T,B extends BeanOf<? extends T>> implements Iterator<T> {
 	
-	Iterator<S> inner;
+	Iterator<B> inner;
 	
-	public IteratorAdapter(Iterator<S> iterator) {
+	public IteratorAdapter(Iterator<B> iterator) {
 		this.inner=iterator;
 	}
 	

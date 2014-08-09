@@ -6,10 +6,10 @@ import static org.cotrix.domain.links.NameLink.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.codelist.LinkDefinition.Private;
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkValueType;
+import org.cotrix.domain.links.LinkDefinition.Private;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueFunction;
 
@@ -21,7 +21,7 @@ import org.cotrix.domain.values.ValueFunction;
  */
 public class LinkDefinitionMS extends NamedMS implements LinkDefinition.State {
 
-	private Codelist.State target;
+	private Codelist.Bean target;
 	private LinkValueType type;
 	private ValueFunction function;
 	private Range range;
@@ -75,11 +75,11 @@ public class LinkDefinitionMS extends NamedMS implements LinkDefinition.State {
 		this.function = function;
 	}
 	
-	public Codelist.State target() {
+	public Codelist.Bean target() {
 		return target;
 	}
 	
-	public void target(Codelist.State list) {
+	public void target(Codelist.Bean list) {
 		notNull("list",list);
 		this.target=list;
 	}

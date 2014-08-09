@@ -6,5 +6,5 @@ import org.cotrix.domain.codelist.Code;
 
 public interface LinkValueType {
 
-	List<Object> valueIn(String linkId,Code.State target, List<String> chain);
+	List<Object> valueIn(String linkId,Code.Bean target, List<String> chain);
 }

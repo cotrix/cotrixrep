@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.cotrix.action.Action;
 import org.cotrix.domain.memory.UserMS;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 
 /**
@@ -117,7 +117,7 @@ public interface User extends Identified {
 	
 	//private state interface
 	
-	interface State extends Identified.State, EntityProvider<User.Private> {
+	interface State extends Identified.Bean, BeanOf<User.Private> {
 	
 		String name();
 
@@ -146,7 +146,7 @@ public interface User extends Identified {
 	
 	
 	
-	class Private extends Identified.Abstract<Private,State> implements User, Serializable {
+	class Private extends Identified.Private<Private,State> implements User, Serializable {
 
 		private static final long serialVersionUID = 1L;
 
@@ -168,17 +168,17 @@ public interface User extends Identified {
 		
 		@Override
 		public String name() {
-			return state().name();
+			return bean().name();
 		}
 
 		@Override
 		public String fullName() {
-			return state().fullName();
+			return bean().fullName();
 		}
 
 		@Override
 		public String email() {
-			return state().email();
+			return bean().email();
 		}
 
 		
@@ -204,7 +204,7 @@ public interface User extends Identified {
 			}
 			
 			//set processing outcome
-			state().roles(newRoles);
+			bean().roles(newRoles);
 
 		}
 		
@@ -215,7 +215,7 @@ public interface User extends Identified {
 			
 			Collection<Role> roles = new HashSet<Role>();
 
-			for (Role r : state().roles()) {
+			for (Role r : bean().roles()) {
 				roles.addAll(r.roles());
 				roles.add(r);
 			}
@@ -225,7 +225,7 @@ public interface User extends Identified {
 
 		@Override
 		public Collection<Role> directRoles() {
-			return Collections.unmodifiableCollection(state().roles());
+			return Collections.unmodifiableCollection(bean().roles());
 		}
 		
 
@@ -234,19 +234,19 @@ public interface User extends Identified {
 
 			notNull("role", role);
 
-			return role.isIn(state().roles());
+			return role.isIn(bean().roles());
 		}
 
 		@Override
 		public boolean isDirectly(Role role) {
-			return state().roles().contains(role);
+			return bean().roles().contains(role);
 		}
 		
 		
 		
 		@Override
 		public Collection<Action> directPermissions() {
-			return Collections.unmodifiableCollection(state().permissions());
+			return Collections.unmodifiableCollection(bean().permissions());
 		}
 		
 		@Override
@@ -254,7 +254,7 @@ public interface User extends Identified {
 
 			//compute permission closure
 			
-			ArrayList<Action> permissions = new ArrayList<Action>(state().permissions());
+			ArrayList<Action> permissions = new ArrayList<Action>(bean().permissions());
 
 			for (Role role : roles())
 				for (Action p : role.permissions())
@@ -281,18 +281,18 @@ public interface User extends Identified {
 		}
 
 		@Override
-		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(User.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
 
 			if (changeset.fullName() != null && !changeset.fullName().equals(fullName()))
-				state().fullName(changeset.fullName());
+				bean().fullName(changeset.fullName());
 
 			if (changeset.email() != null && !changeset.email().equals(email()))
-				state().email(changeset.email());
+				bean().email(changeset.email());
 
 			//replace permissions
-			state().permissions(changeset.directPermissions());
+			bean().permissions(changeset.directPermissions());
 
 			//replace roles
 			set(changeset.directRoles());

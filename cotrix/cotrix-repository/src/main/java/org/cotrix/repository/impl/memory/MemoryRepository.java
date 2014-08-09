@@ -11,12 +11,12 @@ import javax.enterprise.event.Observes;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.common.events.ApplicationLifecycleEvents.Shutdown;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Criterion;
 import org.cotrix.repository.spi.StateRepository;
 
-public abstract class MemoryRepository<S extends Identified.State> implements StateRepository<S> {
+public abstract class MemoryRepository<S extends Identified.Bean> implements StateRepository<S> {
 
 	private final Map<String,S> objects = new HashMap<String,S>();
 	
@@ -87,7 +87,7 @@ public abstract class MemoryRepository<S extends Identified.State> implements St
 	}
 	
 	
-	public <R, SR extends EntityProvider<? extends R>> Collection<R> adapt(Collection<SR> results) {
+	public <R, SR extends BeanOf<? extends R>> Collection<R> adapt(Collection<SR> results) {
 		Collection<R> adapted = new ArrayList<R>();
 		for (SR result : results)
 			adapted.add(result.entity());

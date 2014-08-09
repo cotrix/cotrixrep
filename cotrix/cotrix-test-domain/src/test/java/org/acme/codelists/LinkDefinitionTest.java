@@ -12,8 +12,8 @@ import javax.xml.namespace.QName;
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.memory.LinkDefinitionMS;
@@ -36,8 +36,8 @@ public class LinkDefinitionTest extends DomainTest {
 
 		//defaults
 		assertEquals(NameLink.INSTANCE,newlink.valueType());
-		assertEquals(identity,reveal(newlink).state().function());
-		assertEquals(arbitrarily,reveal(newlink).state().range());
+		assertEquals(identity,reveal(newlink).bean().function());
+		assertEquals(arbitrarily,reveal(newlink).bean().range());
 		
 		//name-based
 		newlink  = linkdef().name(name).target(target).anchorToName().build();
@@ -62,11 +62,11 @@ public class LinkDefinitionTest extends DomainTest {
 		//value functions
 		newlink  = linkdef().name(name).target(target).transformWith(lowercase).build();
 		
-		assertEquals(lowercase,reveal(newlink).state().function());
+		assertEquals(lowercase,reveal(newlink).bean().function());
 		
 		newlink  = linkdef().name(name).target(target).occurs(atmost(5)).build();
 		
-		assertEquals(atmost(5),reveal(newlink).state().range());
+		assertEquals(atmost(5),reveal(newlink).bean().range());
 	}
 	
 	@Test
@@ -118,7 +118,7 @@ public class LinkDefinitionTest extends DomainTest {
 							.occurs(once)
 							.attributes(someAttribute()).build());
 		
-		LinkDefinition.State state = reveal(fullLinkWithoutDefaults).state();
+		LinkDefinition.State state = reveal(fullLinkWithoutDefaults).bean();
 		
 		LinkDefinitionMS clone = new LinkDefinitionMS(state);
 
@@ -128,7 +128,7 @@ public class LinkDefinitionTest extends DomainTest {
 		assertEquals(state.function(),clone.function());
 		assertEquals(state.range(),clone.range());
 		
-		for (Attribute.State attr : clone.attributes()) {
+		for (Attribute.Bean attr : clone.attributes()) {
 			//System.out.println(attr.name());
 			assertTrue(clone.attributes().contains(attr.qname()));
 		}

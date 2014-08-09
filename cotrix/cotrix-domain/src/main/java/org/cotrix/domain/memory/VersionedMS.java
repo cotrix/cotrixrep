@@ -10,7 +10,7 @@ import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 
-public abstract class VersionedMS extends NamedMS implements Versioned.State, Identified.State, Attributed.State, Named.State {
+public abstract class VersionedMS extends NamedMS implements Versioned.State, Identified.Bean, Attributed.Bean, Named.Bean {
 
 	private Version version;
 
@@ -22,7 +22,7 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 		super(id,status);
 	}
 	
-	public <T extends Attributed.State & Versioned.State & Named.State> VersionedMS(T state) {
+	public <T extends Attributed.Bean & Versioned.State & Named.Bean> VersionedMS(T state) {
 		super(state);
 		version(state.version());
 	}

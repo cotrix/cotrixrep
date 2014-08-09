@@ -28,7 +28,7 @@ public class MappingTest extends ApplicationTest {
 		
 		Attribute a = attribute().name("a").value("v").ofType("t").in("l").build();
 		
-		Attribute.State created = reveal(a).state();
+		Attribute.Bean created = reveal(a).bean();
 		
 		try (Transaction tx = store.beginTx()) {
 				
@@ -48,7 +48,7 @@ public class MappingTest extends ApplicationTest {
 		
 		Attribute a = attribute().instanceOf(CREATION_TIME.get()).value("v").build();
 		
-		Attribute.State created = reveal(a).state();
+		Attribute.Bean created = reveal(a).bean();
 		
 		try (Transaction tx = store.beginTx()) {
 				
@@ -69,7 +69,7 @@ public class MappingTest extends ApplicationTest {
 		Attribute a = attribute().name("a").value("v").ofType("t").in("l").build();
 		Code c = code().name("n").attributes(a).build();
 		
-		Code.State created = reveal(c).state();
+		Code.Bean created = reveal(c).bean();
 		
 		try (Transaction tx = store.beginTx()) {
 			
@@ -86,7 +86,7 @@ public class MappingTest extends ApplicationTest {
 			assertTrue(retrieved.attributes().contains(a.id()));
 			
 			
-			assertTrue(retrieved.attributes().contains(reveal(a).state()));
+			assertTrue(retrieved.attributes().contains(reveal(a).id()));
 			assertTrue(retrieved.attributes().contains(a.qname()));
 				
 			
@@ -105,7 +105,7 @@ public class MappingTest extends ApplicationTest {
 		Code c = code().name("n").attributes(a).build();
 		Codelist cl = codelist().name("n").with(c).version("1.3").build();
 		
-		Codelist.State created = reveal(cl).state();
+		Codelist.Bean created = reveal(cl).bean();
 		
 		try (Transaction tx = store.beginTx()) {
 			

@@ -16,8 +16,8 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.validation.Constraint;
 
 
@@ -42,7 +42,7 @@ public class Validator {
 		return violations;
 	}
 	
-	private void checkAttributes(List<Violation> violations,NamedContainer<? extends AttributeDefinition> defs, NamedContainer<? extends Attribute> attributes) {
+	private void checkAttributes(List<Violation> violations,Container<? extends AttributeDefinition> defs, Container<? extends Attribute> attributes) {
 		
 		
 		//safer not to rely on definition equality 
@@ -87,7 +87,7 @@ public class Validator {
 			
 	}
 	
-	private void checkLinks(List<Violation> violations,NamedContainer<? extends LinkDefinition> defs, NamedContainer<? extends Codelink> links) {
+	private void checkLinks(List<Violation> violations,Container<? extends LinkDefinition> defs, Container<? extends Codelink> links) {
 	
 		//safer not to rely on definition equality 
 		Map<String,LinkDefinition> defmap = new HashMap<String,LinkDefinition>();

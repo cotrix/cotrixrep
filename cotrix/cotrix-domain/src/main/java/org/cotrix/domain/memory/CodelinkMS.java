@@ -9,12 +9,12 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelink.Private;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Status;
 
-public final class CodelinkMS extends AttributedMS implements Codelink.State {
+public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
 
-	private Code.State target;
+	private Code.Bean target;
 	private LinkDefinition.State definition;
 
 	public CodelinkMS() {
@@ -24,7 +24,7 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 		super(id,status);
 	}
 	
-	public CodelinkMS(Codelink.State state, Map<String,Object> context) {
+	public CodelinkMS(Codelink.Bean state, Map<String,Object> context) {
 		
 		//links preserve identifiers
 		super(state.id(),state);
@@ -58,12 +58,12 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 	}
 	
 	@Override
-	public Code.State target() {
+	public Code.Bean target() {
 		return target;
 	}
 
 	@Override
-	public void target(Code.State target) {
+	public void target(Code.Bean target) {
 
 		notNull("target",target);
 
@@ -96,9 +96,9 @@ public final class CodelinkMS extends AttributedMS implements Codelink.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Codelink.State))
+		if (!(obj instanceof Codelink.Bean))
 			return false;
-		Codelink.State other = (Codelink.State) obj;
+		Codelink.Bean other = (Codelink.Bean) obj;
 		if (definition == null) {
 			if (other.definition() != null)
 				return false;

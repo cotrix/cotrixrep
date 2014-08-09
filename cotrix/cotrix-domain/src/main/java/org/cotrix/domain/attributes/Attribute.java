@@ -5,71 +5,33 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.trait.Defined;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
-/**
- * A descriptive attribute for a domain object.
- * 
- * @author Fabio Simeoni
- * 
- */
+
 public interface Attribute extends Identified, Named, Defined<AttributeDefinition> {
 
-	//public read-only interface
-	
-	/**
-	 * Returns the broad semantics of this attribute.
-	 * 
-	 * @return the type
-	 */
+
 	QName type();
 
 	
-	/**
-	 * Returns <code>true</code> if this attribute's definition has a given type.
-	 * @param type the type
-	 * @return <code>true</code> if this attribute's definition supports the given type
-	 */
 	boolean is(QName type);
 	
-	/**
-	 * Returns <code>true</code> if this attribute's definition supports a given facet.
-	 * @param facet the facet
-	 * @return <code>true</code> if this attribute's definition supports the given facet
-	 */
 	boolean is(Facet facet);
 	
-	
-	/**
-	 * Returns the current value of this attribute
-	 * 
-	 * @return the value, <code>null</code> if the attribute has no current value.
-	 */
 	String value();
 
-	
-	/**
-	 * Returns the language of this attribute's value
-	 * 
-	 * @return the language
-	 */
 	String language();
 	
-	
-	/**
-	 * Returns the description of this attribute
-	 * 
-	 * @return the language
-	 */
 	String description();
 	
 
-	//private state-based interface
+	//private state interface
 	
-	interface State extends Identified.State, Named.State, EntityProvider<Private> {
+	interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
 
+		
 		AttributeDefinition.State definition();
 		
 		void definition(AttributeDefinition.State definition);
@@ -98,50 +60,50 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	
 	//private implementation: delegates to state bean
 	
-	final class Private extends Identified.Abstract<Private,State> implements Attribute {
+	final class Private extends Identified.Private<Private,Bean> implements Attribute {
 
-		public Private(Attribute.State state) {
+		public Private(Attribute.Bean state) {
 			super(state);
 		}
 		
 		@Override
 		public AttributeDefinition definition() {
-			return state().definition().entity();
+			return bean().definition().entity();
 		}
 
 		@Override
 		public QName qname() {
-			return state().qname();
+			return bean().qname();
 		}
 
 		@Override
 		public QName type() {
-			return state().type();
+			return bean().type();
 		}
 		
 		@Override
 		public boolean is(QName type) {
-			return state().is(type);
+			return bean().is(type);
 		}
 		
 		@Override
 		public boolean is(Facet facet) {
-			return state().is(facet);
+			return bean().is(facet);
 		}
 		
 		@Override
 		public String value() {
-			return state().value();
+			return bean().value();
 		}
 
 		@Override
 		public String language() {
-			return state().language();
+			return bean().language();
 		}
 		
 		@Override
 		public String description() {
-			return state().description();
+			return bean().description();
 		}
 
 		@Override
@@ -152,25 +114,25 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 			//TODO keep temporarily for retro-compatibility, update should occur at definition level.
 			
 			if (changeset.value() != null)
-				state().value(changeset.value() == NULL_STRING ? null : changeset.value());
+				bean().value(changeset.value() == NULL_STRING ? null : changeset.value());
 				
 			if (changeset.qname() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
 			if (changeset.qname() != null)
-				state().qname(changeset.qname());
+				bean().qname(changeset.qname());
 
 			if (changeset.type() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute type " + type() + " cannot be erased");
 			
 			if (changeset.type() != null)
-				state().type(changeset.type());
+				bean().type(changeset.type());
 
 			if (changeset.language() != null)
-				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
+				bean().language(changeset.language() == NULL_STRING ? null : changeset.language());
 			
 			if (changeset.description() != null)
-				state().description(changeset.description() == NULL_STRING ? null : changeset.description());
+				bean().description(changeset.description() == NULL_STRING ? null : changeset.description());
 
 		}
 		

@@ -17,7 +17,7 @@ public class NeoVersioned extends NeoNamed implements Versioned.State {
 		super(node);
 	}
 	
-	public <S extends Named.State & Attributed.State & Versioned.State> NeoVersioned(NodeType type, S state) {
+	public <S extends Named.Bean & Attributed.Bean & Versioned.State> NeoVersioned(NodeType type, S state) {
 		super(type,state);
 		
 		version(state.version());

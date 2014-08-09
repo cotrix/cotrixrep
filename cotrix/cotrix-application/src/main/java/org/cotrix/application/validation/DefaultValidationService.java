@@ -6,7 +6,6 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.common.async.TaskUpdate.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
@@ -25,9 +24,8 @@ import org.cotrix.common.async.TaskContext;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -61,7 +59,7 @@ public class DefaultValidationService implements ValidationService {
 		//we could iterate directly over the list but we query for changed code
 		//to minimise object generation
 		for (Code code :codelists.get(codes(ids)))
-			check(list,manage(code));
+			check(list,reveal(code));
 	}
 	
 	public void validate(Codelist list) {
@@ -72,7 +70,7 @@ public class DefaultValidationService implements ValidationService {
 		
 		float progress=0f;
 		
-		NamedContainer<? extends Code.Private> codes =  reveal(list).codes();
+		Container<? extends Code.Private> codes =  reveal(list).codes();
 		
 		int total = list.codes().size();
 		
@@ -81,13 +79,9 @@ public class DefaultValidationService implements ValidationService {
 		
 		int i=0;
 		
-		ManagedCode managed = new ManagedCode();
-		
 		for (Code.Private code : codes) {
 			
-			managed.set(code);
-			
-			check(list,managed);
+			check(list,code);
 			
 			i++;
 			progress++;
@@ -110,15 +104,13 @@ public class DefaultValidationService implements ValidationService {
 		
 	}
 	
-	private void check(Codelist list, ManagedCode managed) {
-		
-		Code.Private code = reveal(managed.managed());
+	private void check(Codelist list, Code.Private code) {
 		
 		List<Violation> violations = validator.check(list, code);
 		
-		Attribute invalid = managed.attribute(INVALID);
+		Attribute invalid = code.attributes().getFirst(INVALID);
 		
-		NamedStateContainer<Attribute.State> attributes = code.state().attributes();
+		BeanContainer<Attribute.Bean> attributes = code.bean().attributes();
 		
 		
 		if (violations.isEmpty()) {
@@ -134,7 +126,7 @@ public class DefaultValidationService implements ValidationService {
 		if (hasno(invalid)) {
 			
 			attributes.add(stateof(attribute().instanceOf(INVALID)));
-			invalid = managed.attribute(INVALID);
+			invalid = code.attributes().getFirst(INVALID);
 		}
 		else {
 			

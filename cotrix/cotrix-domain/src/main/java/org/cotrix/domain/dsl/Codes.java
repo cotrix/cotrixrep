@@ -3,9 +3,6 @@ package org.cotrix.domain.dsl;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.trait.Status.*;
 
-import java.util.Arrays;
-import java.util.Collection;
-
 import javax.xml.namespace.QName;
 
 import org.cotrix.common.CommonUtils;
@@ -14,17 +11,14 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.common.StateContainer;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
 import org.cotrix.domain.dsl.builder.CodelinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
-import org.cotrix.domain.dsl.builder.LinkDefinitionBuilder;
 import org.cotrix.domain.dsl.builder.DefinitionBuilder;
+import org.cotrix.domain.dsl.builder.LinkDefinitionBuilder;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
@@ -35,17 +29,13 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
-import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
-import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
+import org.cotrix.domain.links.LinkDefinition;
+import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.AttributeMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.CodelinkMS;
-import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.memory.CodelistMS;
-import org.cotrix.domain.memory.AttrDefinitionMS;
-import org.cotrix.domain.trait.EntityProvider;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.values.DefaultType;
 
 /**
@@ -184,43 +174,7 @@ public class Codes {
 		return modifyLinkDef(link.id());
 	}
 	
-	//simplifies construction through method parameter inference (not available on constructors in Java 6..)
-	
-	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T,S> container(StateContainer<S> elements) {
-		return new Container.Private<T,S>(elements);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <T extends Identified.Abstract<T,S>, S extends Identified.State & EntityProvider<T>> Container.Private<T, S> container(S ... elements) {
-		return container(beans(elements));
-	}
-	
-	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T,S> namedContainer(NamedStateContainer<S> elements) {
-		return new NamedContainer.Private<T, S>(elements);
-	}
-	
-	public static <S extends Identified.State> StateContainer<S> beans(Collection<S> elements) {
-		return new StateContainer.Default<S>(elements);
-	}
-	
-	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(Collection<S> elements) {
-		return new NamedStateContainer.Default<S>(elements);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static <S extends Identified.State> StateContainer<S> beans(S ... elements) {
-		return new StateContainer.Default<S>(Arrays.asList(elements));
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <S extends Identified.State & Named.State> NamedStateContainer<S> namedBeans(S ... elements) {
-		return new NamedStateContainer.Default<S>(Arrays.asList(elements));
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Identified.Abstract<T,S> & Named, S extends Identified.State & Named.State & EntityProvider<T>> NamedContainer.Private<T, S> namedContainer(S ... elements) {
-		return namedContainer(namedBeans(elements));
-	}
+	///////////////////////////////////////////////////////////////////////////////////
 	
 	public static Attribute.Private reveal(Attribute attribute) {
 		notNull("attribute",attribute);

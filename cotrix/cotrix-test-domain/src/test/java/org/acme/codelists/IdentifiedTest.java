@@ -13,7 +13,7 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void newEntitiesHaveIdentifiers() {
 		
-		Identified.Abstract<?,?> e = like(new MyEntity(new IdentifiedMS()));
+		Identified.Private<?,?> e = like(new MyEntity(new IdentifiedMS()));
 		
 		assertNotNull(e.id());
 		assertNull(e.status());
@@ -114,9 +114,9 @@ public class IdentifiedTest extends DomainTest {
 	}
 	
 	
-	static class MyEntity extends Identified.Abstract<MyEntity,Identified.State> {
+	static class MyEntity extends Identified.Private<MyEntity,Identified.Bean> {
 		
-		public MyEntity(Identified.State state) {
+		public MyEntity(Identified.Bean state) {
 			super(state);
 		}
 	};

@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
-public class AttributedMS extends IdentifiedMS implements Attributed.State {
+public class AttributedMS extends IdentifiedMS implements Attributed.Bean {
 
-	private NamedStateContainer<Attribute.State> attributes = new NamedStateContainer.Default<Attribute.State>();
+	private BeanContainer<Attribute.Bean> attributes = new BeanContainerMS<Attribute.Bean>();
 
 	public AttributedMS() {
 		
@@ -28,49 +28,49 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		super(id,status);
 	}
 
-	public AttributedMS(Attributed.State other,Map<String,Object> context) {
+	public AttributedMS(Attributed.Bean other,Map<String,Object> context) {
 		
 		this();
 		
-		for (Attribute.State attribute : other.attributes())			
+		for (Attribute.Bean attribute : other.attributes())			
 			if (attribute.is(INHERITABLE))
 				attributes.add(new AttributeMS(attribute,context));				
 	}
 	
-	public AttributedMS(Attributed.State other) {
+	public AttributedMS(Attributed.Bean other) {
 		
 		this(other,null);			
 	}
 	
 	//create with id
-	public AttributedMS(String id,Attributed.State other,Map<String,Object> context) {
+	public AttributedMS(String id,Attributed.Bean other,Map<String,Object> context) {
 		
 		super(id);
 		
 		attributes.add(timestamp());
 		
-		for (Attribute.State attribute : other.attributes())			
+		for (Attribute.Bean attribute : other.attributes())			
 			if (attribute.is(INHERITABLE))
 				attributes.add(new AttributeMS(attribute,context));				
 	}
 
 		
 		
-	public AttributedMS(String id,Attributed.State other) {
+	public AttributedMS(String id,Attributed.Bean other) {
 		
 		this(id,other,null);			
 	}
 	
 	@Override
-	public NamedStateContainer<Attribute.State> attributes() {
+	public BeanContainer<Attribute.Bean> attributes() {
 		return attributes;
 	}
 	
-	public void attributes(Collection<Attribute.State> attributes) {
+	public void attributes(Collection<Attribute.Bean> attributes) {
 		
 		notNull("attributes",attributes);
 	
-		for (Attribute.State a : attributes)
+		for (Attribute.Bean a : attributes)
 			this.attributes.add(a);
 		
 	}
@@ -82,9 +82,9 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Attributed.State))
+		if (!(obj instanceof Attributed.Bean))
 			return false;
-		Attributed.State other = (Attributed.State) obj;
+		Attributed.Bean other = (Attributed.Bean) obj;
 		if (attributes == null) {
 			if (other.attributes() != null)
 				return false;
@@ -98,7 +98,7 @@ public class AttributedMS extends IdentifiedMS implements Attributed.State {
 		
 	
 	//helpers
-	private Attribute.State timestamp() {
+	private Attribute.Bean timestamp() {
 		return stateof(attribute().instanceOf(CREATION_TIME).value(time()));
 	}
 }

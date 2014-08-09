@@ -11,7 +11,7 @@ import org.cotrix.neo.NeoNodeFactory;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
 
-public abstract class NeoIdentified implements Identified.State {
+public abstract class NeoIdentified implements Identified.Bean {
 	
 	private final Node node;
 	
@@ -21,7 +21,7 @@ public abstract class NeoIdentified implements Identified.State {
 	}
 	
 	//add scenario: node is created
-	public NeoIdentified(NodeType type,Identified.State state) {
+	public NeoIdentified(NodeType type,Identified.Bean state) {
 		
 		this(newnode(type));
 		
@@ -47,7 +47,7 @@ public abstract class NeoIdentified implements Identified.State {
 		return null;
 	}
 	
-	public Node resolve(Named.State state, NodeType type) {
+	public Node resolve(Named.Bean state, NodeType type) {
 		
 		//persisted already?
 		if (state instanceof NeoIdentified)
@@ -71,7 +71,7 @@ public abstract class NeoIdentified implements Identified.State {
 	}
 
 	
-	public Node softResolve(Named.State state, NodeType type) {
+	public Node softResolve(Named.Bean state, NodeType type) {
 		
 		try{
 			
@@ -98,9 +98,9 @@ public abstract class NeoIdentified implements Identified.State {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Identified.State))
+		if (!(obj instanceof Identified.Bean))
 			return false;
-		Identified.State other = (Identified.State) obj;
+		Identified.Bean other = (Identified.Bean) obj;
 		return id().equals(other.id());
 	}
 	

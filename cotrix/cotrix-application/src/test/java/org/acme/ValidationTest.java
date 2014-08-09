@@ -91,7 +91,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		ManagedCode managed = manage(list.codes().lookup(code.qname()));
+		ManagedCode managed = manage(list.codes().getFirst(code));
 		
 		assertNotNull(managed.attribute(INVALID));
 		
@@ -113,7 +113,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		ManagedCode managed = manage(list.codes().lookup(code.qname()));
+		ManagedCode managed = manage(list.codes().getFirst(code));
 		
 		assertNotNull(managed.attribute(INVALID));
 

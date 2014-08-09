@@ -6,7 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Definition;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueType;
@@ -70,7 +70,7 @@ public interface AttributeDefinition extends Definition {
 	
 		
 	//state interface
-	static interface State extends Identified.State, Named.State, EntityProvider<Private> {
+	static interface State extends Identified.Bean, Named.Bean, BeanOf<Private> {
 
 		QName type();
 
@@ -97,7 +97,7 @@ public interface AttributeDefinition extends Definition {
 	}
 
 	//private implementation: delegates to state bean
-	public class Private extends Identified.Abstract<Private,State> implements AttributeDefinition {
+	public class Private extends Identified.Private<Private,State> implements AttributeDefinition {
 
 		public Private(AttributeDefinition.State state) {
 			super(state);
@@ -105,44 +105,44 @@ public interface AttributeDefinition extends Definition {
 		
 		@Override
 		public boolean isShared() {
-			return state().isShared();
+			return bean().isShared();
 		}
 		
 		@Override
 		public QName qname() {
-			return state().qname();
+			return bean().qname();
 		}
 		
 		@Override
 		public QName type() {
-			return state().type();
+			return bean().type();
 		}
 		
 		@Override
 		public boolean is(QName name) {
-			return state().is(name);
+			return bean().is(name);
 		}
 		
 		@Override
 		public boolean is(Facet facet) {
-			return state().is(facet);
+			return bean().is(facet);
 		}
 
 		@Override
 		public String language() {
-			return state().language();
+			return bean().language();
 		}
 
 		@Override
 		public ValueType valueType() {
-			return state().valueType();
+			return bean().valueType();
 		}
 		
 		
 		
 		@Override
 		public Range range() {
-			return state().range();
+			return bean().range();
 		}
 
 		@Override
@@ -155,32 +155,32 @@ public interface AttributeDefinition extends Definition {
 				throw new IllegalArgumentException("attribute name " + qname() + " cannot be erased");
 			
 			if (changeset.qname() != null)
-				state().qname(changeset.qname());
+				bean().qname(changeset.qname());
 
 			//type (cannot be reset)
 			if (changeset.type() == NULL_QNAME)
 				throw new IllegalArgumentException("attribute type " + type() + " cannot be erased");
 				
 			if (changeset.type() != null)
-				state().type(changeset.type());
+				bean().type(changeset.type());
 
 			
 			//lang (can be reset)
 			if (changeset.language() != null)
-				state().language(changeset.language() == NULL_STRING ? null : changeset.language());
+				bean().language(changeset.language() == NULL_STRING ? null : changeset.language());
 
 			
 			//value type
 			ValueType newtype = changeset.valueType();
 			
 			if (newtype!=null)
-				state().valueType(newtype);
+				bean().valueType(newtype);
 			
 			//range
 			Range newrange = changeset.range();
 			
 			if (newrange!=null)
-				state().range(newrange);
+				bean().range(newrange);
 		}
 
 		@Override

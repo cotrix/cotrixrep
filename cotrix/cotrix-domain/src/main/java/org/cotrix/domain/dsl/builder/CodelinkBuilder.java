@@ -10,11 +10,11 @@ import java.util.Collection;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.CodelinkMS;
 
 /**
@@ -42,7 +42,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 		if (privatecode.isChangeset())
 			throw new IllegalArgumentException("invalid link: target code cannot be a changeset");
 		
-		Code.State target = privatecode.state();
+		Code.Bean target = privatecode.bean();
 		
 		state.target(target);
 		
@@ -79,7 +79,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 			if (type.isChangeset())
 				throw new IllegalArgumentException("invalid link: link type cannot be a changeset");
 			
-			state.definition(type.state());
+			state.definition(type.bean());
 			
 			return CodelinkBuilder.this;
 		}

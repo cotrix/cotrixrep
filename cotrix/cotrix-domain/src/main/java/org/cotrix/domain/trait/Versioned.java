@@ -31,7 +31,7 @@ public interface Versioned {
 
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.State & Attributed.State & Named.State> extends Named.Abstract<SELF,S> implements Versioned {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.Bean & Attributed.Bean & Named.Bean> extends Named.Abstract<SELF,S> implements Versioned {
 
 		public Abstract(S state) {
 			super(state);
@@ -40,7 +40,7 @@ public interface Versioned {
 		
 		@Override
 		public String version() {
-			return state().version() == null ? null : state().version().value();
+			return bean().version() == null ? null : bean().version().value();
 		}
 
 		
@@ -56,13 +56,13 @@ public interface Versioned {
 		};
 		
 		public void build(S state) {
-			state.version(state().version());
+			state.version(bean().version());
 		};
 		
 
 		public SELF bump(String version) {
 
-			Version newVersion = state().version().bumpTo(version);
+			Version newVersion = bean().version().bumpTo(version);
 
 			SELF copy = copyWith(newVersion);
 

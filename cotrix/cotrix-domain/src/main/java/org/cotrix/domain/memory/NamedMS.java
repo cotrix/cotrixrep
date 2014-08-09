@@ -11,7 +11,7 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 
 
-public class NamedMS extends AttributedMS implements Named.State, Attributed.State {
+public class NamedMS extends AttributedMS implements Named.Bean, Attributed.Bean {
 
 	private QName name;
 	
@@ -22,11 +22,11 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 		super(id,status);
 	}
 	
-	public <T extends Named.State & Attributed.State> NamedMS(T state) {		
+	public <T extends Named.Bean & Attributed.Bean> NamedMS(T state) {		
 		this(state,null);
 	}
 	
-	public <T extends Named.State & Attributed.State> NamedMS(T state,Map<String,Object> context) {		
+	public <T extends Named.Bean & Attributed.Bean> NamedMS(T state,Map<String,Object> context) {		
 		super(state,context);
 		qname(state.qname());
 	}
@@ -49,9 +49,9 @@ public class NamedMS extends AttributedMS implements Named.State, Attributed.Sta
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Named.State))
+		if (!(obj instanceof Named.Bean))
 			return false;
-		Named.State other = (Named.State) obj;
+		Named.Bean other = (Named.Bean) obj;
 		if (name == null) {
 			if (other.qname() != null)
 				return false;

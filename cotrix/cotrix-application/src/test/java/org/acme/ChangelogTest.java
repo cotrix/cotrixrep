@@ -70,7 +70,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(code).build());
 
-		ManagedCode managedCode = manage(list.codes().lookup(code.qname()));
+		ManagedCode managedCode = manage(list.codes().getFirst(code));
 		
 		assertNotNull(managedCode.attribute(NEW));
 		
@@ -79,13 +79,13 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void modifiedCodesAreMarked() {
 		
-		Code versionedCode = list.codes().lookup(origin);
+		Code versionedCode = list.codes().getFirst(origin);
 		
 		Code modified = modify(versionedCode).name("modified").build();
 		
 		codelists.update(modify(list).with(modified).build());
 
-		ManagedCode managed = manage(list.codes().lookup(modified.qname()));
+		ManagedCode managed = manage(list.codes().getFirst(modified));
 		
 		assertNull(managed.attribute(NEW));
 		
@@ -98,7 +98,7 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void codenameChangesAreDetected() {
 		
-		Code versionedCode = list.codes().lookup(origin);
+		Code versionedCode = list.codes().getFirst(origin);
 		
 		Code modified = modify(versionedCode).name("modified").build();
 		
@@ -113,9 +113,9 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void attrChangesAreDetected() throws Exception {
 		
-		Code code = list.codes().lookup(origin);
+		Code code = list.codes().getFirst(origin);
 		
-		Attribute attribute = code.attributes().lookup(a);
+		Attribute attribute = code.attributes().getFirst(a);
 		
 		Attribute mattr = modify(attribute).name("aa").in("en").ofType(NAME_TYPE).value("someval").build();
 		Attribute nattr = attribute().name("b").value("val").build();	
@@ -145,9 +145,9 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void definitionChangesAreDetected() throws Exception {
 		
-		Code code = list.codes().lookup(origin);
+		Code code = list.codes().getFirst(origin);
 		
-		AttributeDefinition vdef = list.definitions().lookup(def.qname());
+		AttributeDefinition vdef = list.definitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		
@@ -168,9 +168,9 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void definitionRemovalsAreDetected() throws Exception {
 		
-		Code code = list.codes().lookup(origin);
+		Code code = list.codes().getFirst(origin);
 		
-		AttributeDefinition vdef = list.definitions().lookup(def.qname());
+		AttributeDefinition vdef = list.definitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		

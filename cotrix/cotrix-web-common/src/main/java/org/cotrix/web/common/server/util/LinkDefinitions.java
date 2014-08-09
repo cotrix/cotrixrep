@@ -6,8 +6,8 @@ package org.cotrix.web.common.server.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.links.LinkValueType;

@@ -6,8 +6,6 @@ import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.managed.ManagedCode.*;
-import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
@@ -25,9 +23,8 @@ import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.managed.ManagedCode;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -53,7 +50,7 @@ public class DefaultChangelogService implements ChangelogService {
 		Codelist list = codelists.lookup(changeset.id());
 		
 		//changelog requires lineage
-		if (manage(list).hasno(PREVIOUS_VERSION)) 		
+		if (!list.attributes().contains(PREVIOUS_VERSION)) 		
 			return;
 		
 		Codelist.Private plist = reveal(list);
@@ -70,7 +67,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		float progress=0f;
 		
-		NamedContainer<? extends Code.Private> codes =  reveal(list).codes();
+		Container<? extends Code.Private> codes =  reveal(list).codes();
 		
 		int total = list.codes().size();
 		
@@ -81,18 +78,14 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		long time = currentTimeMillis();
 		
-		Date listCreated = manage(list).created();
-		
-		ManagedCode mcode = new ManagedCode();
+		Date listCreated = list.created();
 		
 		for (Code.Private code : codes) {
 		
 			i++;
 			progress++;
 			
-			mcode.set(code);
-			
-			Date codeUpdated = mcode.lastUpdated();
+			Date codeUpdated = code.lastUpdated();
 			
 			//process only if it has changed since this list's version was created
 			
@@ -137,7 +130,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		if (change.status() == null)
 
-			aaddNewMarkerTo(changed.state().attributes());
+			aaddNewMarkerTo(changed.bean().attributes());
 
 		else
 
@@ -145,25 +138,24 @@ public class DefaultChangelogService implements ChangelogService {
 
 	}
 
-	private void aaddNewMarkerTo(NamedStateContainer<Attribute.State> attributes) {
+	private void aaddNewMarkerTo(BeanContainer<Attribute.Bean> attributes) {
 
 		attributes.add(stateof(attribute().instanceOf(NEW).value("TRUE")));
 	}
 
 	private void handleModifiedMarkerWith(Code.Private changed) {
 
-		NamedStateContainer<Attribute.State> attributes = changed.state().attributes();
+		BeanContainer<Attribute.Bean> attributes = changed.bean().attributes();
 
-		ManagedCode managed = manage(changed);
-
-		Attribute modified = managed.attribute(MODIFIED);
-
-		String originId = managed.originId();
+		String originId = changed.originId();
 
 		// by now we know codelist has lineage, but this update may be for a new
 		// code
 		if (notmarked(originId))
 			return;
+		
+		
+		Attribute modified = changed.attributes().getFirst(MODIFIED);
 
 		// fetch the past
 		Code origin = codelists.get(code(originId));
@@ -198,7 +190,7 @@ public class DefaultChangelogService implements ChangelogService {
 		} else {
 
 			attributes.add(stateof(attribute().instanceOf(MODIFIED)));
-			modified = managed.attribute(MODIFIED); // remember persistence
+			modified = changed.attributes().getFirst(MODIFIED); // remember persistence
 
 		}
 

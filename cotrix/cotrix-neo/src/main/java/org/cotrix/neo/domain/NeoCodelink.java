@@ -7,23 +7,23 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoCodelink extends NeoAttributed implements Codelink.State {
+public class NeoCodelink extends NeoAttributed implements Codelink.Bean {
 
-	public static final NeoStateFactory<Codelink.State> factory = new NeoStateFactory<Codelink.State>() {
+	public static final NeoStateFactory<Codelink.Bean> factory = new NeoStateFactory<Codelink.Bean>() {
 		
 		@Override
-		public Codelink.State beanFrom(Node node) {
+		public Codelink.Bean beanFrom(Node node) {
 			return new NeoCodelink(node);
 		}
 		
 		@Override
-		public Node nodeFrom(Codelink.State state) {
+		public Node nodeFrom(Codelink.Bean state) {
 			return new NeoCodelink(state).node();
 		}
 	};
@@ -32,7 +32,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 		super(node);
 	}
 	
-	public NeoCodelink(Codelink.State state) {
+	public NeoCodelink(Codelink.Bean state) {
 
 		super(CODELINK,state);	
 		
@@ -57,7 +57,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public Code.State target() {
+	public Code.Bean target() {
 		
 		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
 		
@@ -66,7 +66,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.State {
 	}
 	
 	@Override
-	public void target(Code.State state) {
+	public void target(Code.Bean state) {
 		
 		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
 		

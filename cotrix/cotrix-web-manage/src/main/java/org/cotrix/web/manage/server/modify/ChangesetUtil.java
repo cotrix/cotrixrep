@@ -18,11 +18,11 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
@@ -225,7 +225,7 @@ public class ChangesetUtil {
 		return clause.build();
 	}
 	
-	private static List<Attribute> buildChangeSet(List<UIAttribute> uiAttributes, NamedContainer<? extends Attribute> oldAttributes) {
+	private static List<Attribute> buildChangeSet(List<UIAttribute> uiAttributes, Container<? extends Attribute> oldAttributes) {
 		
 		List<Attribute> changeSet = new ArrayList<>();
 		
@@ -270,7 +270,7 @@ public class ChangesetUtil {
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
 	}
 	
-	private static LinkDefinition findCodelistLink(String id, NamedContainer<? extends LinkDefinition> namedContainer) {
+	private static LinkDefinition findCodelistLink(String id, Container<? extends LinkDefinition> namedContainer) {
 		for (LinkDefinition codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
 		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}

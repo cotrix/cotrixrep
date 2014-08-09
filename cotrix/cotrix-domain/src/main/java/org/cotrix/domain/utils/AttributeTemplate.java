@@ -36,10 +36,10 @@ public class AttributeTemplate {
 	
 	public boolean matches(Attribute attribute) {
 		
-		return matches(reveal(attribute).state());
+		return matches(reveal(attribute).bean());
 	}
 
-	public boolean matches(Attribute.State attribute) {
+	public boolean matches(Attribute.Bean attribute) {
 	
 		return matches(template.qname(), attribute.qname()) &&
 			   matches(template.type(), attribute.type()) &&

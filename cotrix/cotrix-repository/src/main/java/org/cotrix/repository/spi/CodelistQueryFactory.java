@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;

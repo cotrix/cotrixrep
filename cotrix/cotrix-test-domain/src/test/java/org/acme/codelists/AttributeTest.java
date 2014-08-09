@@ -97,7 +97,7 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 
-		Attribute.State state = reveal(untyped).state();
+		Attribute.Bean state = reveal(untyped).bean();
 	
 		AttributeMS clone = new AttributeMS(state);
 		

@@ -27,8 +27,8 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.Codelist.State;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.codelist.Codelist.Bean;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.trait.Named;
@@ -51,13 +51,13 @@ import org.cotrix.repository.spi.CodelistQueryFactory;
  * 
  */
 @ApplicationScoped @Alternative @Priority(DEFAULT)
-public class MCodelistRepository extends MemoryRepository<Codelist.State> implements CodelistQueryFactory, CodelistActionFactory {
+public class MCodelistRepository extends MemoryRepository<Codelist.Bean> implements CodelistQueryFactory, CodelistActionFactory {
 
 	@Inject
 	TaskContext context;
 	
 	@Override
-	public void add(State list) {
+	public void add(Bean list) {
 		
 		//simulate progress
 		int total = list.codes().size()+list.definitions().size()+list.links().size()+list.attributes().size();
@@ -84,7 +84,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 		
 		notNull("identifier", id);
 		
-		for (Codelist.State list : getAll())
+		for (Codelist.Bean list : getAll())
 			for (LinkDefinition.State link : list.links())
 				if (link.target().id().equals(id))
 					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
@@ -194,9 +194,9 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			
 			public Collection<Code> executeInMemory() {
 				
-				Collection<Code.State> codes = new ArrayList<Code.State>();
+				Collection<Code.Bean> codes = new ArrayList<Code.Bean>();
 				
-				for (Code.State c : lookup(codelistId).codes())
+				for (Code.Bean c : lookup(codelistId).codes())
 						codes.add(c);
 				
 				return adapt(codes);
@@ -211,7 +211,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			
 			public Collection<CodelistCoordinates> executeInMemory() {
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
-				for (Codelist.State list : getAll())
+				for (Codelist.Bean list : getAll())
 					coordinates.add(coordsOf(list));
 				return coordinates;
 			}
@@ -228,9 +228,9 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			public Collection<Code> executeInMemory() {
 
 				
-				Collection<Code.State> codes = new ArrayList<Code.State>();
+				Collection<Code.Bean> codes = new ArrayList<Code.Bean>();
 
-				for (Codelist.State list : getAll()) 
+				for (Codelist.Bean list : getAll()) 
 					for (String id : ids) 
 						if (list.codes().contains(id))
 							codes.add(list.codes().get(Arrays.asList(id)).iterator().next());
@@ -248,7 +248,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			@Override
 			public Code execute() {
 
-				for (Codelist.State list : getAll()) 
+				for (Codelist.Bean list : getAll()) 
 					if (list.codes().contains(id))
 						return list.codes().get(Arrays.asList(id)).iterator().next().entity();
 				
@@ -268,7 +268,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 
 				Collection<CodelistCoordinates> coordinates = new HashSet<CodelistCoordinates>();
 				
-				for (Codelist.State list : getAll())
+				for (Codelist.Bean list : getAll())
 					if (!fp.allRolesOver(list.id(), codelists).isEmpty())
 						coordinates.add(coordsOf(list));
 
@@ -285,7 +285,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.State> implem
 			@Override
 			public CodelistSummary execute() {
 
-				Codelist.State state = lookup(id);
+				Codelist.Bean state = lookup(id);
 
 				if (state == null)
 					throw new IllegalStateException("no such codelist: " + id);

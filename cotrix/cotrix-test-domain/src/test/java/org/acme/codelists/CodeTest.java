@@ -14,7 +14,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.AttrDefinitionMS;
 import org.cotrix.domain.memory.CodeMS;
 import org.cotrix.domain.memory.LinkDefinitionMS;
@@ -90,7 +90,7 @@ public class CodeTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		Code.State state = reveal(code).state();
+		Code.Bean state = reveal(code).bean();
 		
 		Map<String,Object> context = new HashMap<>();
 		
@@ -122,8 +122,8 @@ public class CodeTest extends DomainTest {
 		
 		assertEquals(changeset.qname(),code.qname());
 		
-		assertFalse(code.attributes().contains(attr.qname()));
-		assertFalse(code.links().contains(link.qname()));
+		assertFalse(code.attributes().contains(attr));
+		assertFalse(code.links().contains(link));
 		
 	}
 	

@@ -23,7 +23,7 @@ public interface Identified {
 
 	//private state interface
 	
-	interface State {
+	interface Bean {
 	
 		String id();
 		
@@ -33,29 +33,29 @@ public interface Identified {
 	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>, S extends State> implements Identified {
+	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> implements Identified {
 
 		//NOTE: we need SELF because we have a covariant method #update(SELF)
 		//NOTE:	we need S to give state back to subclasses
 		
-		private S state;
+		private B bean;
 		
 		
-		public Abstract(S state) {
+		public Private(B bean) {
 			
-			notNull("state",state);
+			notNull("bean",bean);
 			
-			this.state=state;
+			this.bean=bean;
 		}
 		
-		public S state() {
-			return state;
+		public B bean() {
+			return bean;
 		}
 
 		
 		@Override
 		public String id() {
-			return state.id();
+			return bean.id();
 		}
 
 		public boolean isChangeset() {
@@ -63,7 +63,7 @@ public interface Identified {
 		}
 
 		public Status status() {
-			return state.status();
+			return bean.status();
 		}
 
 
@@ -72,10 +72,10 @@ public interface Identified {
 			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
 			
 			if (isChangeset())
-				throw new IllegalStateException("entity " + state.id() + "("+getClass().getCanonicalName()+") is a changeset and cannot be updated");
+				throw new IllegalStateException("entity " + bean.id() + "("+getClass().getCanonicalName()+") is a changeset and cannot be updated");
 
 			if (!changeset.isChangeset() || changeset.status() != Status.MODIFIED)
-				throw new IllegalArgumentException("entity " + state.id() + "("+getClass().getCanonicalName()+") cannot be updated with a "
+				throw new IllegalArgumentException("entity " + bean.id() + "("+getClass().getCanonicalName()+") cannot be updated with a "
 						+ (changeset.status() == null ? "NEW" : changeset.status()) + " object");
 
 			if (!id().equals(changeset.id()))
@@ -90,7 +90,7 @@ public interface Identified {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((state == null) ? 0 : state.hashCode());
+			result = prime * result + ((bean == null) ? 0 : bean.hashCode());
 			return result;
 		}
 
@@ -101,13 +101,13 @@ public interface Identified {
 				return true;
 			if (obj == null)
 				return false;
-			if (!(obj instanceof Abstract))
+			if (!(obj instanceof Private))
 				return false;
-			Abstract other = (Abstract) obj;
-			if (state == null) {
-				if (other.state != null)
+			Private other = (Private) obj;
+			if (bean == null) {
+				if (other.bean != null)
 					return false;
-			} else if (!state.equals(other.state))
+			} else if (!bean.equals(other.bean))
 				return false;
 			return true;
 		}

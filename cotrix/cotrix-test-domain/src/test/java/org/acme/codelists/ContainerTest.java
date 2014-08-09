@@ -2,7 +2,6 @@ package org.acme.codelists;
 
 import static java.util.Arrays.*;
 import static org.acme.codelists.Fixture.*;
-import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.junit.Assert.*;
 
@@ -10,10 +9,8 @@ import java.util.Iterator;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.common.StateContainer;
 import org.junit.Test;
 
 @SuppressWarnings({"rawtypes","unchecked"})
@@ -23,7 +20,7 @@ public class ContainerTest extends DomainTest {
 	public void beansMustBeValid() {
 		
 		try {
-			new Container.Private<>(null);
+			new Container.Private<>((BeanContainer)null);
 		}
 		catch(IllegalArgumentException e){}
 	}
@@ -34,13 +31,11 @@ public class ContainerTest extends DomainTest {
 		Attribute a1 = attribute().name(name).build();
 		Attribute a2 = attribute().name(name2).build();
 		
-		StateContainer<Attribute.State> beans = likes(a1,a2);
+		BeanContainer<Attribute.Bean> beans = likes(a1,a2);
 		
-		Container.Private c = container(beans);
+		Container.Private c = new Container.Private<>(beans);
 		
-
 		assertEquals(2,c.size());
-		assertEquals(beans,c.state());
 		
 	}
 	
@@ -50,7 +45,7 @@ public class ContainerTest extends DomainTest {
 		Attribute a1 = attribute().name(name).build();
 		Attribute a2 = attribute().name(name2).build();
 		
-		Container.Private c = container(likes(a1,a2));
+		Container c = new Container.Private<>(likes(a1,a2));
 		
 		assertTrue(c.contains(a1));
 		assertTrue(c.contains(a2));
@@ -71,17 +66,17 @@ public class ContainerTest extends DomainTest {
 		Attribute a2 = attribute().name("b").build();
 		Attribute a3 = attribute().name("b").build();
 		
-		NamedContainer c = namedContainer(likes(a1,a2,a3));
+		Container c = new Container.Private<>(likes(a1,a2,a3));
 		
-		assertTrue(c.contains(q("a")));
+		assertTrue(c.contains(a1));
 		assertFalse(c.contains(q("c")));
 		
-		assertEquals(asList(a1),c.getAll(q("a")));
-		assertEquals(a1,c.lookup(q("a")));
-		assertEquals(asList(a2,a3),c.getAll(q("b")));
+		assertEquals(asList(a1),c.get(a1));
+		assertEquals(a1,c.getFirst(a1));
+		assertEquals(asList(a2,a3),c.get(a3));
 		
 		try {
-			c.lookup(q("b"));
+			c.getFirst(a3);
 		}
 		catch(IllegalStateException e) {}
 
@@ -89,29 +84,29 @@ public class ContainerTest extends DomainTest {
 		
 	}
 	
-	@Test(expected=IllegalStateException.class)
+	@Test
 	public void entitiesCanBeLookedup() {
 		
 		
 		Attribute a = attribute().name(name).build();
 		
-		Container.Private c = container(likes(a));
+		Container.Private c = new Container.Private<>(likes(a));
 		
-		assertTrue(c.contains(a.id()));
+		assertTrue(c.contains(a));
 		
 		assertEquals(a,c.lookup(a.id()));
 		
-		c.lookup("bad");
+		assertNull(c.lookup("bad"));
 	}
 	
 	@Test
 	public void entitiesCanBeAdded() {
 		
-		Container.Private c = container();
+		Container.Private c = new Container.Private<>();
 		
 		Attribute a = attribute().name(name).build();
 		
-		Container.Private changeset = container(likes(a));
+		Container.Private changeset = new Container.Private<>(likes(a));
 		
 		c.update(changeset);
 		
@@ -124,16 +119,16 @@ public class ContainerTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).build();
 		
-		Container.Private c = container(likes(a));
+		Container.Private c = new Container.Private<>(likes(a));
 		
 		Attribute deleted = deleteAttribute(a.id());
 		
-		Container.Private changeset = container(reveal(deleted,Attribute.Private.class).state());
+		Container.Private changeset = new Container.Private<>(reveal(deleted));
 		
 		c.update(changeset);
 		
 		assertEquals(0,c.size());
-		assertFalse(c.contains(a.qname()));
+		assertFalse(c.contains(a));
 	}
 	
 	
@@ -142,21 +137,17 @@ public class ContainerTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).build();
 		
-		NamedStateContainer sc = likes(a);
+		BeanContainer sc = likes(a);
 		
-		Container.Private c = container(sc);
+		Container.Private c = new Container.Private<>(sc);
 		
 		Attribute modified = modifyAttribute(a.id()).name(name2).build();
 
-		Container.Private changeset = container(stateOf(modified));
+		Container.Private changeset = new Container.Private<>(reveal(modified));
 		
 		c.update(changeset);
 		
 		assertEquals(1,c.size());
 		assertTrue(sc.contains(modified.qname()));
-	}
-	
-	private Attribute.State stateOf(Attribute a) {
-		return reveal(a,Attribute.Private.class).state();
 	}
 }

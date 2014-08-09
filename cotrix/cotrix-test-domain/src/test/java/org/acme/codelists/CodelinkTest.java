@@ -19,7 +19,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.memory.LinkDefinitionMS;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class CodelinkTest extends DomainTest {
 		assertEquals(listLink,link.definition());
 		assertEquals(link.definition().qname(),link.qname());
 		
-		assertEquals(a,link.attributes().lookup(a.qname()));
+		assertEquals(a,link.attributes().getFirst(a));
 	}
 	
 	@Test
@@ -130,7 +130,7 @@ public class CodelinkTest extends DomainTest {
 		
 		Codelink link = link().instanceOf(someCodelistLink()).target(someTarget()).attributes(a).build();
 		
-		Codelink.State state = reveal(link).state();
+		Codelink.Bean state = reveal(link).bean();
 		
 		Map<String,Object> context = new HashMap<>();
 		
@@ -140,7 +140,7 @@ public class CodelinkTest extends DomainTest {
 
 		assertEquals(state.qname(),clone.qname());
 		
-		for (Attribute.State attr : clone.attributes()) {
+		for (Attribute.Bean attr : clone.attributes()) {
 			//System.out.println(attr.name());
 			assertTrue(clone.attributes().contains(attr.qname()));
 		}
@@ -196,19 +196,19 @@ public class CodelinkTest extends DomainTest {
 			//normal update
 			else if (link.id().equals(link4.id())) {
 				assertEquals(code4.id(),link.target().id());
-				assertTrue(link.attributes().contains(a.qname()));
+				assertTrue(link.attributes().contains(a));
 			}	
 			
 			//group semantics
 			else if (link.id().equals(link3.id())) {
 				assertEquals(code4.qname(),link.target().qname());
-				assertFalse(link.attributes().contains(a.qname()));
+				assertFalse(link.attributes().contains(a));
 			}	
 				
 			//untouched
 			else if (link.id().equals(link5.id())) {
 				assertEquals(code5.id(),link.target().id());
-				assertTrue(link.attributes().contains(a.qname()));
+				assertTrue(link.attributes().contains(a));
 			}
 		}
 	}
@@ -292,7 +292,7 @@ public class CodelinkTest extends DomainTest {
 		reveal(list2).update(reveal(changeset));
 			
 		//detect cycle
-		code1.links().lookup(link1.qname()).value();
+		code1.links().getFirst(link1).value();
 		
 		
 		
@@ -336,7 +336,7 @@ public class CodelinkTest extends DomainTest {
 		
 		reveal(link).update(reveal(changeset));
 		
-		assertNotNull(link.attributes().lookup(a.qname()));
+		assertNotNull(link.attributes().getFirst(a));
 		
 	}
 	

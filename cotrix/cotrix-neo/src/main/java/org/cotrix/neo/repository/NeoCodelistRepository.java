@@ -10,7 +10,7 @@ import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.Codelist.State;
+import org.cotrix.domain.codelist.Codelist.Bean;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.NeoCodelist;
 import org.cotrix.repository.CodelistRepository;
@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped @Alternative @Priority(RUNTIME)
-public class NeoCodelistRepository implements StateRepository<Codelist.State> {
+public class NeoCodelistRepository implements StateRepository<Codelist.Bean> {
 
 	private static Logger log = LoggerFactory.getLogger(NeoCodelistRepository.class);
 	
@@ -34,7 +34,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	
 	
 	@Override
-	public void add(State list) {
+	public void add(Bean list) {
 		
 		try {
 			
@@ -56,7 +56,7 @@ public class NeoCodelistRepository implements StateRepository<Codelist.State> {
 	}
 
 	@Override
-	public State lookup(String id) {
+	public Bean lookup(String id) {
 		
 		Node node = node(CODELIST,id);
 

@@ -5,7 +5,7 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.repository.impl.EventProducer.*;
 
 import org.cotrix.common.CommonUtils;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.repository.Query;
 import org.cotrix.repository.Repository;
@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 //validates inputs and delegates to persistence-specific implementations based on private API 
 
 public abstract class AbstractRepository<T extends Identified, 
-										 P extends Identified.Abstract<P,S>,
-										 S extends Identified.State & EntityProvider<P>> 
+										 P extends Identified.Private<P,S>,
+										 S extends Identified.Bean & BeanOf<P>> 
 										  
 										implements Repository<T>
 {
@@ -60,7 +60,7 @@ public abstract class AbstractRepository<T extends Identified,
 		if (delegate.contains(implementation.id()))
 			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
 		
-		delegate.add(implementation.state());
+		delegate.add(implementation.bean());
 		
 		producer.additions.fire(entity);
 		
@@ -99,7 +99,7 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		notNull("changeset",changeset);
 		
-		Identified.Abstract implementation = retype(changeset);
+		Identified.Private implementation = retype(changeset);
 
 		if (!implementation.isChangeset())
 			throw new IllegalArgumentException(log(changeset)+"is not a changeset");
@@ -109,7 +109,7 @@ public abstract class AbstractRepository<T extends Identified,
 		if (state==null)
 			throw new IllegalStateException(log(changeset)+" is not in this repository, hence cannot be updated.");
 			
-		Identified.Abstract entity = state.entity();
+		Identified.Private entity = state.entity();
 		
 		entity.update(implementation);
 		

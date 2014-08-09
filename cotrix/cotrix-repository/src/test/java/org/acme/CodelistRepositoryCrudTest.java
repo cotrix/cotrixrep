@@ -10,8 +10,8 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.test.ApplicationTest;
@@ -48,20 +48,20 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		Codelist target = addAndRetrieve(codelist().name("linked").with(t1,t2).build());
 
 		//prepare a list that links to target
-		LinkDefinition listLink = linkdef().name("link").target(target).build();
+		LinkDefinition linkdef = linkdef().name("link").target(target).build();
 		
-		Codelist source = addAndRetrieve(codelist().name("linking").links(listLink).build());
+		Codelist source = addAndRetrieve(codelist().name("linking").links(linkdef).build());
 		
 		
 		//add two codes with links
 		
-		t1 = target.codes().lookup(q("target1"));
-		t2 = target.codes().lookup(q("target2"));
+		t1 = target.codes().getFirst(t1);
+		t2 = target.codes().getFirst(t2);
 	
-		listLink = source.links().lookup(q("link"));
+		linkdef = source.links().getFirst(linkdef);
 		
-		Codelink link1 = link().instanceOf(listLink).target(t1).build();
-		Codelink link2 = link().instanceOf(listLink).target(t2).build();
+		Codelink link1 = link().instanceOf(linkdef).target(t1).build();
+		Codelink link2 = link().instanceOf(linkdef).target(t2).build();
 				
 		
 		Code s1 = code().name("target1").links(link1).build();
@@ -140,17 +140,17 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist target = addAndRetrieve(codelist().name("name").build());
 
-		LinkDefinition link = linkdef().name("name").target(target).build();
+		LinkDefinition linkdef = linkdef().name("name").target(target).build();
 		
 		Codelist list = addAndRetrieve(codelist().name("name").build());
 
-		Codelist changeset =  modifyCodelist(list.id()).links(link).build();
+		Codelist changeset =  modifyCodelist(list.id()).links(linkdef).build();
 		
 		repository.update(changeset);
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertEquals(NameLink.INSTANCE,retrieved.links().lookup(q("name")).valueType());
+		assertEquals(NameLink.INSTANCE,retrieved.links().getFirst(linkdef).valueType());
 		
 	}
 	
@@ -163,11 +163,13 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		repository.add(list);
 		
-		repository.update(modifyCodelist(list.id()).with(modifyCode(code.id()).name("name2").build()).build());
+		Code modified = modifyCode(code.id()).name("name2").build();
+		
+		repository.update(modifyCodelist(list.id()).with(modified).build());
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.codes().contains(q("name2")));
+		assertTrue(retrieved.codes().contains(modified));
 		
 	}
 	
@@ -188,7 +190,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().contains(q("name2")));
+		assertTrue(retrieved.links().contains(targetChangeset));
 		
 	}
 	
@@ -197,21 +199,21 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist target = addAndRetrieve(codelist().name("name1").build());
 
-		LinkDefinition link = linkdef().name("name").target(target).build();
+		LinkDefinition linkdef = linkdef().name("name").target(target).build();
 		
-		Codelist list = addAndRetrieve(codelist().name("name").links(link).build());
+		Codelist list = addAndRetrieve(codelist().name("name").links(linkdef).build());
 
 		Attribute a = attribute().name("n").value("v").build();
 		
-		LinkDefinition linkChangeset =  modifyLinkDef(link.id()).anchorTo(a).build();
+		LinkDefinition modlinkdef =  modifyLinkDef(linkdef.id()).anchorTo(a).build();
 		
-		Codelist changeset =  modifyCodelist(list.id()).links(linkChangeset).build();
+		Codelist changeset =  modifyCodelist(list.id()).links(modlinkdef).build();
 		
 		repository.update(changeset);
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().lookup(q("name")).valueType() instanceof AttributeLink);
+		assertTrue(retrieved.links().getFirst(linkdef).valueType() instanceof AttributeLink);
 		
 	}
 	
@@ -232,7 +234,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 
 		Codelist retrieved = repository.lookup(list.id());
 
-		assertEquals(retrieved.attributes().lookup(q("n")).value(), "v2");
+		assertEquals(retrieved.attributes().getFirst(a).value(), "v2");
 	}
 	
 	@Test

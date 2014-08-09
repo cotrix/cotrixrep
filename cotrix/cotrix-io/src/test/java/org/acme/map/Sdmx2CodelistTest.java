@@ -43,13 +43,13 @@ public class Sdmx2CodelistTest extends DomainTest {
 		
 		assertEquals(2,codelist.definitions().size());
 		
-		Code c1 = codelist.codes().lookup(q("c1"));
-		Code c2 = codelist.codes().lookup(q("c2"));
-		Code c3 = codelist.codes().lookup(q("c3"));
+		Code c1 = codelist.codes().getFirst(q("c1"));
+		Code c2 = codelist.codes().getFirst(q("c2"));
+		Code c3 = codelist.codes().getFirst(q("c3"));
 		
-		AttributeDefinition d1 = c1.attributes().lookup(DEFAULT.get(NAME)).definition();
-		AttributeDefinition d2 = c2.attributes().lookup(DEFAULT.get(NAME)).definition();
-		AttributeDefinition d3 = c3.attributes().lookup(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d1 = c1.attributes().getFirst(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d2 = c2.attributes().getFirst(DEFAULT.get(NAME)).definition();
+		AttributeDefinition d3 = c3.attributes().getFirst(DEFAULT.get(NAME)).definition();
 		
 		assertEquals(d1,d2);
 		assertNotEquals(d1,d3);

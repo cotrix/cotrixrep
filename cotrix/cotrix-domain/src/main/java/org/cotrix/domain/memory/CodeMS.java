@@ -8,14 +8,14 @@ import java.util.Map;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
 
-public final class CodeMS extends NamedMS implements Code.State, Attributed.State {
+public final class CodeMS extends NamedMS implements Code.Bean, Attributed.Bean {
 
-	private NamedStateContainer<Codelink.State> links = new NamedStateContainer.Default<Codelink.State>();
+	private BeanContainer<Codelink.Bean> links = new BeanContainerMS<Codelink.Bean>();
 
 	public CodeMS() {
 	}
@@ -24,30 +24,30 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 		super(id,status);
 	}
 
-	public CodeMS(Code.State state) {
+	public CodeMS(Code.Bean state) {
 		
 		this(state,null);
 	}
 	
-	public CodeMS(Code.State state,Map<String,Object> context) {
+	public CodeMS(Code.Bean state,Map<String,Object> context) {
 		
 		super(state,context);
 		
-		for (Codelink.State link : state.links())
+		for (Codelink.Bean link : state.links())
 			links.add(new CodelinkMS(link,context));
 	}
 	
-	public NamedStateContainer<Codelink.State> links() {
+	public BeanContainer<Codelink.Bean> links() {
 		return links;
 	}
 	
 	
 
-	public void links(Collection<Codelink.State> Codelink) {
+	public void links(Collection<Codelink.Bean> Codelink) {
 
 		notNull("links", links);
 		
-		for (Codelink.State link : Codelink)
+		for (Codelink.Bean link : Codelink)
 			this.links.add(link);
 	}
 	
@@ -63,9 +63,9 @@ public final class CodeMS extends NamedMS implements Code.State, Attributed.Stat
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Code.State))
+		if (!(obj instanceof Code.Bean))
 			return false;
-		Code.State other = (Code.State) obj;
+		Code.Bean other = (Code.Bean) obj;
 		if (links == null) {
 			if (other.links() != null)
 				return false;

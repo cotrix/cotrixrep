@@ -26,11 +26,11 @@ public class AttributeLink implements LinkValueType {
 	
 	
 	@Override
-	public List<Object> valueIn(String linkId, Code.State code,List<String> ids) {
+	public List<Object> valueIn(String linkId, Code.Bean code,List<String> ids) {
 	
 		List<Object> matches = new ArrayList<>();
 		
-		for (Attribute.State a : code.attributes()) 
+		for (Attribute.Bean a : code.attributes()) 
 			if (template.matches(a))
 				matches.add(a.value());
 	

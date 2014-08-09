@@ -11,9 +11,9 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.links.AttributeLink;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.trait.Definition;
@@ -49,23 +49,23 @@ public class DomainUtils {
 	
 	/////////////////////////////////////
 	
-	public static Attribute.State stateof(Attribute a) {
-		return reveal(a).state();
+	public static Attribute.Bean stateof(Attribute a) {
+		return reveal(a).bean();
 	}
 	
 	public static AttributeDefinition.State stateof(AttributeDefinition def) {
-		return reveal(def).state();
+		return reveal(def).bean();
 	}
 
 	public static LinkDefinition.State stateof(LinkDefinition def) {
-		return reveal(def).state();
+		return reveal(def).bean();
 	}
 	
-	public static Code.State stateof(Code c) {
-		return reveal(c).state();
+	public static Code.Bean stateof(Code c) {
+		return reveal(c).bean();
 	}
 	
-	public static Attribute.State stateof(AttributeGrammar.ValueClause clause) {
+	public static Attribute.Bean stateof(AttributeGrammar.ValueClause clause) {
 		return stateof(clause.build());
 	}
 	

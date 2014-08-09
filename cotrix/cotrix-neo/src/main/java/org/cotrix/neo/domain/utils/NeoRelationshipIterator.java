@@ -4,10 +4,15 @@ import java.util.Iterator;
 
 import org.neo4j.graphdb.Relationship;
 
+//moved from nodes to entities during lazy iteration: iterates over entities generated from relationships' end nodes
 public class NeoRelationshipIterator<S> implements Iterator<S> {
 
 	private final Iterator<Relationship> inner;
 	private final NeoBeanFactory<S> factory;
+	
+	public NeoRelationshipIterator(Iterable<Relationship> relationships,NeoBeanFactory<S> provider) {
+		this(relationships.iterator(),provider);
+	}
 	
 	public NeoRelationshipIterator(Iterator<Relationship> inner,NeoBeanFactory<S> provider) {
 		this.inner = inner;

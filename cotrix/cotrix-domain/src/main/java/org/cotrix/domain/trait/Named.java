@@ -24,7 +24,7 @@ public interface Named {
 	
 	
 	
-	interface State extends Identified.State {
+	interface Bean extends Identified.Bean {
 		
 		QName qname();
 		
@@ -35,7 +35,7 @@ public interface Named {
 	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Attributed.State> extends Attributed.Abstract<SELF,S> implements Named {
+	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends Bean & Attributed.Bean> extends Attributed.Abstract<SELF,S> implements Named {
 		
 		
 		public Abstract(S state) {
@@ -44,7 +44,7 @@ public interface Named {
 		
 		@Override
 		public QName qname() {
-			return state().qname();
+			return bean().qname();
 		}
 
 		
@@ -56,9 +56,9 @@ public interface Named {
 			
 			if (changeset.qname()!=null)
 				if (changeset.qname()==NULL_QNAME)
-					throw new IllegalArgumentException("code name "+state().qname()+" cannot be erased");
+					throw new IllegalArgumentException("code name "+bean().qname()+" cannot be erased");
 				else 
-					state().qname(changeset.qname());
+					bean().qname(changeset.qname());
 		}
 		
 	}

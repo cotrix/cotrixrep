@@ -9,8 +9,8 @@ import org.cotrix.common.async.TaskContext;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -18,19 +18,19 @@ import org.neo4j.graphdb.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NeoCodelist extends NeoVersioned implements Codelist.State {
+public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(NeoCodelist.class);
 
-	public static final NeoStateFactory<Codelist.State> factory = new NeoStateFactory<Codelist.State>() {
+	public static final NeoStateFactory<Codelist.Bean> factory = new NeoStateFactory<Codelist.Bean>() {
 		
 		@Override
-		public Codelist.State beanFrom(Node node) {
+		public Codelist.Bean beanFrom(Node node) {
 			return new NeoCodelist(node);
 		}
 		
 		@Override
-		public Node nodeFrom(Codelist.State state) {
+		public Node nodeFrom(Codelist.Bean state) {
 			
 			return new NeoCodelist(state).node();
 		}
@@ -41,7 +41,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	}
 	
 	
-	public NeoCodelist(Codelist.State state) {
+	public NeoCodelist(Codelist.Bean state) {
 		
 		super(CODELIST,state);	
 	
@@ -72,7 +72,7 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 		//arbitrary
 		long step = round(max(10,floor(codes/10)));
 		
-		for (Code.State c : state.codes()) {
+		for (Code.Bean c : state.codes()) {
 			
 			if (i%step==0)
 			
@@ -99,17 +99,17 @@ public class NeoCodelist extends NeoVersioned implements Codelist.State {
 	}
 	
 	@Override
-	public NamedStateContainer<Code.State> codes() {
+	public BeanContainer<Code.Bean> codes() {
 		return new NeoContainer<>(node(),Relations.CODE,NeoCode.factory);
 	}
 	
 	@Override
-	public NamedStateContainer<LinkDefinition.State> links() {
+	public BeanContainer<LinkDefinition.State> links() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoLinkDefinition.factory);
 	}
 	
 	@Override
-	public NamedStateContainer<AttributeDefinition.State> definitions() {
+	public BeanContainer<AttributeDefinition.State> definitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoAttributeDefinition.factory);
 	}
 	

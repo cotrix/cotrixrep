@@ -12,7 +12,7 @@ import org.cotrix.domain.trait.Status;
  * 
  * @author Fabio Simeoni
  */
-public class IdentifiedMS implements Identified.State {
+public class IdentifiedMS implements Identified.Bean {
 
 	public static boolean testmode = false;
 	
@@ -77,9 +77,9 @@ public class IdentifiedMS implements Identified.State {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof Identified.State))
+		if (!(obj instanceof Identified.Bean))
 			return false;
-		Identified.State other = (Identified.State) obj;
+		Identified.Bean other = (Identified.Bean) obj;
 		if (id == null) {
 			if (other.id() != null)
 				return false;

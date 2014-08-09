@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attribute.Private;
-import org.cotrix.domain.attributes.Attribute.State;
+import org.cotrix.domain.attributes.Attribute.Bean;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -17,17 +17,17 @@ import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoAttribute extends NeoIdentified implements Attribute.State {
+public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 
-	public static final NeoStateFactory<Attribute.State> factory = new NeoStateFactory<Attribute.State>() {
+	public static final NeoStateFactory<Attribute.Bean> factory = new NeoStateFactory<Attribute.Bean>() {
 		
 		@Override
-		public State beanFrom(Node node) {
+		public Bean beanFrom(Node node) {
 			return new NeoAttribute(node);
 		}
 		
 		@Override
-		public Node nodeFrom(State state) {
+		public Node nodeFrom(Bean state) {
 			return new NeoAttribute(state).node();
 		}
 	};
@@ -36,7 +36,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.State {
 		super(node);
 	}
 
-	public NeoAttribute(Attribute.State state) {
+	public NeoAttribute(Attribute.Bean state) {
 		
 		super(ATTRIBUTE,state);
 		

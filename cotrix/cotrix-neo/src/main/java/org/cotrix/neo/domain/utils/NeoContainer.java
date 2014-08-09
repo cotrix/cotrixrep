@@ -2,7 +2,6 @@ package org.cotrix.neo.domain.utils;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
-import static org.neo4j.graphdb.Direction.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,8 +9,7 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.NamedStateContainer;
-import org.cotrix.domain.trait.Identified;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -19,76 +17,78 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoContainer<S extends Identified.State & Named.State> implements NamedStateContainer<S>  {
+
+//besides additions, each operation performs a lazy traversal
+//there is no local indexing to optimise chatty session.
+//event at large cardinalities, we're assuming nodes remain in cache for the session.
+
+//id-based access is memory-efficient, i.e. creates no unnecessary beans. 
+//name-based access is memory-inefficient, creates unnecessary beans to retain encapsulation (
+//                                          some beans don't have names, derive them)
+
+
+public class NeoContainer<S extends Named.Bean> implements BeanContainer<S>  {
  
-	private final Node node;
-	private final Relations type;
-	private final NeoStateFactory<S> factory;
+	private final Node owner;
+	private final Relations relation;
+	private final NeoStateFactory<S> make;
 	
-	public NeoContainer(Node node, Relations type,NeoStateFactory<S> mapper) {
-		this.node=node;
-		this.type=type;
-		this.factory=mapper;
+	public NeoContainer(Node node, Relations relation,NeoStateFactory<S> factory) {
+
+		this.owner=node;
+		this.relation=relation;
+		this.make=factory;
+	
 	}
 	
 	@Override
 	public Iterator<S> iterator() {
-		return new NeoRelationshipIterator<>(node.getRelationships(OUTGOING,type).iterator(),factory);
+		return new NeoRelationshipIterator<>(relationships(),make);
 	}
 
 	@Override
 	public int size() {
-		return count(node.getRelationships(OUTGOING, type));
+		
+		return count(relationships());
+	
+	}
+	
+	@Override
+	public void add(S element) {
+		
+		owner.createRelationshipTo(make.nodeFrom(element), relation);
+		
 	}
 
 	@Override
 	public void remove(String id) {
-				
-		Iterator<Relationship> it = node.getRelationships(Direction.OUTGOING,type).iterator();
-		while (it.hasNext()) {
-			Relationship rel = it.next();
-			Node n = rel.getEndNode();
+		
+		for (Node n :nodes())
+			
 			if (id.equals(n.getProperty(id_prop))) {
 				NeoUtils.removeNode(n);
 				break;
 			}
-		}
 	}
-
 	
-	@Override
-	public boolean contains(Identified.State element) {
-		return contains(element.id());
-	}
+
 	
 	@Override
 	public S lookup(String id) {
 		
-		for (Node n : nodes())
-			if (id.equals(n.getProperty(id_prop)))
-				return factory.beanFrom(n);
+		Node node = nodeWith(id);
 		
-		return null;
+		return node == null ? null: make.beanFrom(node);
 	}
 	
 	@Override
 	public boolean contains(String id) {
 		
-		for (Node n : nodes())
-			if (id.equals(n.getProperty(id_prop)))
-				return true;
-		
-		return false;
+		return nodeWith(id)!=null;
 		
 	}
-
-	@Override
-	public void add(S element) {
-		
-		node.createRelationshipTo(factory.nodeFrom(element), type);
-		
-	}
-
+	
+	
 	@Override
 	public Collection<S> get(Collection<String> ids) {
 		
@@ -96,20 +96,18 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 		
 		Collection<String> idCopy = new ArrayList<>(ids);
 		
-		for (Node n : nodes()) {
+		for (Node node : nodes())
 			
-			Object nodeId = n.getProperty(id_prop);
-			
-			if (idCopy.contains(nodeId)) {
+			if (idCopy.contains(idOf(node))) {
 				
-				matches.add(factory.beanFrom(n));
+				matches.add(make.beanFrom(node));
 				
-				idCopy.remove(nodeId);
+				idCopy.remove(idOf(node));
 				
 				if (idCopy.isEmpty())
 					break;
 			}
-		}
+		
 				
 		return matches;
 	}
@@ -117,52 +115,81 @@ public class NeoContainer<S extends Identified.State & Named.State> implements N
 	@Override
 	public boolean contains(QName name) {
 		
-		for (Node n : nodes()) 
-			if (name.equals(factory.beanFrom(n).qname()))
+		for (Node node : nodes())  {
+		
+			//inefficient: create and discard
+			//but must retain encapsulation (e.g. attributes derive their names from definitions)
+			S bean = make.beanFrom(node);
+			
+			if (name.equals(bean.qname()))   
 				return true;
+		}
 		
 		return false;
 	}
 	
 	@Override
-	public boolean contains(Named named) {
-		return contains(named.qname());
-	}
-	
-	@Override
-	public Collection<S> getAll(QName name) {
+	public Collection<S> get(QName name) {
 		
 		Collection<S> matches = new ArrayList<>();
 		
-		for (Node n : nodes())
-			if (name.equals(factory.beanFrom(n).qname()))
-				matches.add(factory.beanFrom(n));
+		for (Node n : nodes()) {
+			
+			//inefficient: create and potentially discard
+			//but must retain encapsulation (e.g. attributes derive their names from definitions)
+			S bean = make.beanFrom(n);
+			
+			if (name.equals(bean.qname()))
+				matches.add(bean);
+		}
 		
 		return matches;
 	}
 	
 	@Override
-	public S lookup(QName name) throws IllegalStateException {
+	public S getFirst(QName name) throws IllegalStateException {
 		
-		Collection<S> matches = getAll(name);
+		for (Node n : nodes()) {
+			
+			//inefficient: create and potentially discard
+			//but must retain encapsulation (e.g. attributes derive their names from definitions)
+			S bean = make.beanFrom(n);
+			
+			if (name.equals(bean.qname()))
+				return bean;
+		}
 		
-		if (matches.size()==1)
-			return matches.iterator().next();
-		else
-			throw new IllegalStateException("zero or more than one element with name "+name);
+		return null;
 	}
 	
-	@Override
-	public S lookup(Named named) throws IllegalStateException {
-		return lookup(named.qname());
-	}
 	
 	//helpers
 	
-	private Iterable<Node> nodes() {
-		return new Nodes(node.getRelationships(Direction.OUTGOING,type));
+	private Iterable<Relationship> relationships() {
+		return owner.getRelationships(Direction.OUTGOING,relation);
 	}
 	
+	private Iterable<Node> nodes() {
+		return new Nodes(relationships());
+	}
+	
+	private Node nodeWith(String id) {
+		
+		//repeat lookup idiom
+		for (Node n : nodes())
+			if (id.equals(idOf(n)))
+				return n;
+		
+		return null;
+	}
+	
+	private String idOf(Node n) {
+		
+		return (String) n.getProperty(id_prop,null);
+			
+	}
+	
+	//iterates over relationships' end nodes
 	private class Nodes implements Iterable<Node> {
 
 		private final Iterable<Relationship> elements;

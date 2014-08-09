@@ -8,10 +8,10 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.neo4j.graphdb.Direction.*;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.Codelist.State;
-import org.cotrix.domain.codelist.LinkDefinition;
+import org.cotrix.domain.codelist.Codelist.Bean;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.NameLink;
@@ -57,7 +57,7 @@ public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State 
 	}
 	
 	@Override
-	public Codelist.State target() {
+	public Codelist.Bean target() {
 		
 		Relationship rel = node().getSingleRelationship(Relations.LINK,OUTGOING);
 		
@@ -69,7 +69,7 @@ public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State 
 	}
 	
 	@Override
-	public void target(State state) {
+	public void target(Bean state) {
 		
 		Node target = resolve(state, CODELIST);
 		
@@ -112,7 +112,7 @@ public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State 
 			
 			LinkDefinition link = ((LinkOfLink) state).target();
 			
-			Node target = resolve(reveal(link).state(),CODELINK);
+			Node target = resolve(reveal(link).bean(),CODELINK);
 			
 			//allow orphan semantics
 			if (target!=null)

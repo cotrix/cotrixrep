@@ -6,9 +6,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Defined;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
@@ -40,15 +41,15 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 	
 	
 
-	static interface State extends Identified.State, Attributed.State, Named.State, EntityProvider<Private> {
+	static interface Bean extends Identified.Bean, Attributed.Bean, Named.Bean, BeanOf<Private> {
 
 		LinkDefinition.State definition();
 
 		void definition(LinkDefinition.State state);
 
-		Code.State target();
+		Code.Bean target();
 
-		void target(Code.State code);
+		void target(Code.Bean code);
 
 	}
 
@@ -56,16 +57,16 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 	 * An {@link Attributed.Abstract} implementation of {@link Codelink}.
 	 * 
 	 */
-	public class Private extends Attributed.Abstract<Private, State> implements Codelink {
+	public class Private extends Attributed.Abstract<Private, Bean> implements Codelink {
 
-		public Private(Codelink.State state) {
+		public Private(Codelink.Bean state) {
 			super(state);
 		}
 		
 		@Override
 		public QName qname() {
 			//safe: type cannot be or become null
-			return state().definition().qname();
+			return bean().definition().qname();
 		}
 		
 		@Override
@@ -91,29 +92,29 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		@Override
 		public List<Object> value() {
 
-			return resolve(this.state(), this.definition().state(),new ArrayList<String>());
+			return resolve(this.bean(), this.definition().bean(),new ArrayList<String>());
 
 		}
 		
 		@Override
 		public Code target() {
-			return new Code.Private(state().target());
+			return new Code.Private(bean().target());
 		}
 
 		@Override
 		public LinkDefinition.Private definition() {
-			return new LinkDefinition.Private(state().definition());
+			return new LinkDefinition.Private(bean().definition());
 		}
 
 		@Override
-		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(Codelink.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
 			
-			Code.State newtarget = changeset.state().target();
+			Code.Bean newtarget = changeset.bean().target();
 
 			if (newtarget != null)
-				state().target(newtarget);
+				bean().target(newtarget);
 			
 			// wont'update type
 		}
@@ -121,13 +122,13 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		
 		@Override
 		public String toString() {
-			return "Codelink [id="+id()+", definition=" + state().definition() + " :--> " + state().target().id()+"]" ;
+			return "Codelink [id="+id()+", definition=" + bean().definition() + " :--> " + bean().target().id()+"]" ;
 		}
 		
 		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
-		public static List<Object> resolve(Codelink.State link, LinkDefinition.State type, List<String> ids) {
+		public static List<Object> resolve(Codelink.Bean link, LinkDefinition.State type, List<String> ids) {
 
 			if (ids.contains(link.id())) {
 				StringBuilder cycle = new StringBuilder();

@@ -14,20 +14,20 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.AttributeDefinition.State;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.trait.Versioned;
 
-public final class CodelistMS extends VersionedMS implements Codelist.State {
+public final class CodelistMS extends VersionedMS implements Codelist.Bean {
 
-	private NamedStateContainer<Code.State> codes = new NamedStateContainer.Default<Code.State>();
+	private BeanContainer<Code.Bean> codes = new BeanContainerMS<Code.Bean>();
 
-	private NamedStateContainer<LinkDefinition.State> links = new NamedStateContainer.Default<LinkDefinition.State>();
+	private BeanContainer<LinkDefinition.State> links = new BeanContainerMS<LinkDefinition.State>();
 
-	private NamedStateContainer<AttributeDefinition.State> defs = new NamedStateContainer.Default<AttributeDefinition.State>();
+	private BeanContainer<AttributeDefinition.State> defs = new BeanContainerMS<AttributeDefinition.State>();
 	
 	public CodelistMS() {
 	}
@@ -36,7 +36,7 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 		super(id,status);
 	}
 
-	public CodelistMS(Codelist.State state) {
+	public CodelistMS(Codelist.Bean state) {
 		
 		super(state);
 		
@@ -54,8 +54,8 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 			context.put(def.id(), clone);
 		}
 		
-		for (Code.State code : state.codes()) {
-			Code.State copy = new CodeMS(code,context);
+		for (Code.Bean code : state.codes()) {
+			Code.Bean copy = new CodeMS(code,context);
 			copy.attributes().add(nameof(code));
 			copy.attributes().add(idof(code));
 			codes.add(copy);
@@ -69,11 +69,11 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	
 	
 	@Override
-	public NamedStateContainer<State> definitions() {
+	public BeanContainer<State> definitions() {
 		return defs;
 	}
 	
-	public NamedStateContainer<LinkDefinition.State> links() {
+	public BeanContainer<LinkDefinition.State> links() {
 		return links;
 	}
 
@@ -93,16 +93,16 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 			this.links.add(link);
 	}
 
-	public void codes(Collection<Code.State> codes) {
+	public void codes(Collection<Code.Bean> codes) {
 
 		notNull("codes", codes);
 
-		for(Code.State code : codes)
+		for(Code.Bean code : codes)
 			this.codes.add(code);
 	}
 	
 	@Override
-	public NamedStateContainer<Code.State> codes() {
+	public BeanContainer<Code.Bean> codes() {
 		return codes;
 	}
 	
@@ -117,9 +117,9 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Codelist.State))
+		if (!(obj instanceof Codelist.Bean))
 			return false;
-		Codelist.State other = (Codelist.State) obj;
+		Codelist.Bean other = (Codelist.Bean) obj;
 		if (codes == null) {
 			if (other.codes() != null)
 				return false;
@@ -135,17 +135,17 @@ public final class CodelistMS extends VersionedMS implements Codelist.State {
 	
 	//helpers
 	
-	private Attribute.State nameof(Named.State named) {
+	private Attribute.Bean nameof(Named.Bean named) {
 		
 		return stateof(attribute().instanceOf(PREVIOUS_VERSION_NAME).value(named.qname().toString()).build());
 	}
 	
-	private Attribute.State idof(Identified.State identified) {
+	private Attribute.Bean idof(Identified.Bean identified) {
 		
 		return stateof(attribute().instanceOf(PREVIOUS_VERSION_ID).value(identified.id()).build());
 	}
 	
-	private Attribute.State versionof(Versioned.State versioned) {
+	private Attribute.Bean versionof(Versioned.State versioned) {
 		
 		return stateof(attribute().instanceOf(PREVIOUS_VERSION).value(versioned.version().value()).build());
 	}

@@ -12,7 +12,7 @@ public class NameLink implements LinkValueType {
 	private NameLink() {}
 	
 	@Override
-	public List<Object> valueIn(String linkId, Code.State code,List<String> ids) {
+	public List<Object> valueIn(String linkId, Code.Bean code,List<String> ids) {
 		
 		return Collections.<Object>singletonList(code.qname());
 	

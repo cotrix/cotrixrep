@@ -4,12 +4,12 @@ import java.util.Iterator;
 
 import org.neo4j.graphdb.Node;
 
-public class NeoNodeIterator<S> implements Iterator<S> {
+public class NeoNodeIterator<B> implements Iterator<B> {
 
 	private final Iterator<Node> inner;
-	private final NeoBeanFactory<S> factory;
+	private final NeoBeanFactory<B> factory;
 	
-	public NeoNodeIterator(Iterator<Node> inner,NeoBeanFactory<S> provider) {
+	public NeoNodeIterator(Iterator<Node> inner,NeoBeanFactory<B> provider) {
 		this.inner = inner;
 		this.factory=provider;
 	}
@@ -20,7 +20,7 @@ public class NeoNodeIterator<S> implements Iterator<S> {
 	}
 
 	@Override
-	public S next() {
+	public B next() {
 		return factory.beanFrom(inner.next());
 	}
 

@@ -15,7 +15,7 @@ import org.cotrix.domain.trait.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class AttributeMS extends IdentifiedMS implements Attribute.State {
+public final class AttributeMS extends IdentifiedMS implements Attribute.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(Attribute.class);
 	
@@ -34,11 +34,11 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 	}
 	
 	
-	public AttributeMS(Attribute.State state) {
+	public AttributeMS(Attribute.Bean state) {
 		this(state,new HashMap<String,Object>());
 	}
 
-	public AttributeMS(Attribute.State state, Map<String,Object> context) {
+	public AttributeMS(Attribute.Bean state, Map<String,Object> context) {
 		
 		//attributes preserve identifiers
 		super(state.id());
@@ -150,7 +150,7 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		Attribute.State other = (Attribute.State) obj;
+		Attribute.Bean other = (Attribute.Bean) obj;
 		if (definition == null) {
 			if (other.definition() != null)
 				return false;

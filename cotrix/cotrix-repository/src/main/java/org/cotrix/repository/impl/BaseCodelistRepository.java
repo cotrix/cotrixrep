@@ -13,13 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist.Private,Codelist.State> implements CodelistRepository {
+public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist.Private,Codelist.Bean> implements CodelistRepository {
 
 	//logs 'on behalf' of interface, for clarity
 	private static Logger log = LoggerFactory.getLogger(CodelistRepository.class);
 	
 	@Inject
-	public BaseCodelistRepository(StateRepository<Codelist.State> repository, EventProducer producer) {
+	public BaseCodelistRepository(StateRepository<Codelist.Bean> repository, EventProducer producer) {
 		super(repository,producer);
 	}
 	

@@ -9,8 +9,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.memory.IdentifiedMS;
 import org.cotrix.test.ApplicationTest;
 import org.junit.AfterClass;
@@ -36,18 +36,18 @@ public abstract class DomainTest extends ApplicationTest {
 	}
 	
 	
-	protected NamedStateContainer<Attribute.State> likes(Attribute ... attributes) {
+	protected BeanContainer<Attribute.Bean> likes(Attribute ... attributes) {
 		
-		Collection<Attribute.State> states = new ArrayList<>();
+		Collection<Attribute.Bean> states = new ArrayList<>();
 		
 		for (Attribute a : attributes)
-			states.add(reveal(a, Attribute.Private.class).state());
+			states.add(reveal(a, Attribute.Private.class).bean());
 		
-		return provider.like(states.toArray(new Attribute.State[0]));
+		return provider.like(states.toArray(new Attribute.Bean[0]));
 	}
 	
 	
-	protected <S,T extends NamedContainer<S>> List<S> list(T container) {
+	protected <S,T extends Container<S>> List<S> list(T container) {
 		
 		List<S> list = new ArrayList<>();
 		for (S s : container)

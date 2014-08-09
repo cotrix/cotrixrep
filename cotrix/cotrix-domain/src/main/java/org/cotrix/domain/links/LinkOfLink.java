@@ -12,7 +12,6 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelink;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.LinkDefinition;
 
 public class LinkOfLink implements LinkValueType {
 
@@ -33,11 +32,11 @@ public class LinkOfLink implements LinkValueType {
 	}
 	
 	@Override
-	public List<Object> valueIn(String id, Code.State code, List<String> ids) {
+	public List<Object> valueIn(String id, Code.Bean code, List<String> ids) {
 		
 		List<Object> matches = new ArrayList<>();
 		
-		for (Codelink.State link : code.links()) {
+		for (Codelink.Bean link : code.links()) {
 			
 			LinkDefinition.State linktype = link.definition();
 			
@@ -52,7 +51,7 @@ public class LinkOfLink implements LinkValueType {
 	
 	public boolean matches(LinkDefinition link) {
 		
-		return matches(reveal(link).state());
+		return matches(reveal(link).bean());
 	}
 
 	public boolean matches(LinkDefinition.State link) {
@@ -67,7 +66,7 @@ public class LinkOfLink implements LinkValueType {
 			   && matches(type==null?NameLink.INSTANCE:type, link.valueType());
 	}
 	
-	private boolean matches(String id, Codelist.State val) {
+	private boolean matches(String id, Codelist.Bean val) {
 		
 		return id == null || (val!=null && id.equals(val.id()));
 	}

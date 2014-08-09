@@ -154,11 +154,11 @@ public class Table2CodelistTest extends DomainTest {
 		
 		AttributeDefinition def = list.definitions().iterator().next();
 		
-		Code code1 = list.codes().lookup(q("1"));
-		Code code2 = list.codes().lookup(q("3"));
+		Code code1 = list.codes().getFirst(q("1"));
+		Code code2 = list.codes().getFirst(q("3"));
 		
-		Attribute attr1 = code1.attributes().lookup(q("n"));
-		Attribute attr2 = code2.attributes().lookup(q("n"));
+		Attribute attr1 = code1.attributes().getFirst(q("n"));
+		Attribute attr2 = code2.attributes().getFirst(q("n"));
 		
 		assertEquals(attr1.definition(), attr2.definition());
 		assertEquals(def, attr2.definition());

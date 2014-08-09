@@ -1,17 +1,14 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.dsl.Codes.*;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cotrix.domain.common.NamedContainer;
-import org.cotrix.domain.common.NamedStateContainer;
+import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.memory.BeanContainerMS;
 import org.cotrix.domain.memory.CodelinkMS;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.EntityProvider;
+import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
@@ -29,37 +26,37 @@ public interface Code extends Identified,Attributed,Named {
 	 * Returns the {@link Codelink}s of this code.
 	 * @return the links
 	 */
-	NamedContainer<? extends Codelink> links();
+	Container<? extends Codelink> links();
 	
 	
 	
 	//private state interface
 	
-	interface State extends Identified.State, Named.State, Attributed.State, EntityProvider<Private> {
+	interface Bean extends Identified.Bean, Named.Bean, Attributed.Bean, BeanOf<Private> {
 		
-		NamedStateContainer<Codelink.State> links();
+		BeanContainer<Codelink.Bean> links();
 		
 	}
 	
 	
 	//private logic
 	
-	final class Private extends Named.Abstract<Private,State> implements Code {
+	final class Private extends Named.Abstract<Private,Bean> implements Code {
 
-		public Private(Code.State state) {
+		public Private(Code.Bean state) {
 			super(state);
 		}
 		
 		
 		@Override
-		public NamedContainer.Private<Codelink.Private,Codelink.State> links() {
+		public Container.Private<Codelink.Private,Codelink.Bean> links() {
 			
-			return namedContainer(state().links());
+			return new Container.Private<>(bean().links());
 			
 		}
 		
 		@Override
-		public void update(Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(Code.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
 			
@@ -75,12 +72,12 @@ public interface Code extends Identified,Attributed,Named {
 		//simplest approach is two-phase: 
 		//1) perform normal update (verifying a))
 		//2) perform second update to align other group members 
-		private void updateLinks(Private changeset) {
+		private void updateLinks(Code.Private changeset) {
 			
 			//redirected: links that change targets
-			Map<String,Code.State> redirected = new HashMap<>();
+			Map<String,Code.Bean> redirected = new HashMap<>();
 			
-			for (Codelink.State change : changeset.state().links())
+			for (Codelink.Bean change : changeset.bean().links())
 				if (change.target()!=null)
 					redirected.put(change.id(),change.target());
 			
@@ -91,16 +88,16 @@ public interface Code extends Identified,Attributed,Named {
 			}
 			
 			//use redirected to remember target changes for phase 2)
-			Map<String,Code.State> targetUpdates = new HashMap<>();
+			Map<String,Code.Bean> targetUpdates = new HashMap<>();
 			
-			for (Codelink.State link : state().links()) {
+			for (Codelink.Bean link : bean().links()) {
 				
 				if (!redirected.containsKey(link.id()))
 					continue;
 				
-				Code.State update = redirected.get(link.id());
+				Code.Bean update = redirected.get(link.id());
 				String current = link.target().id();
-				Code.State knownUpdate = targetUpdates.get(current);
+				Code.Bean knownUpdate = targetUpdates.get(current);
 				
 				if (knownUpdate==null)
 					targetUpdates.put(current,update);
@@ -117,10 +114,10 @@ public interface Code extends Identified,Attributed,Named {
 			
 			
 			//post-process to align remaining group member
-			Collection<Codelink.State>  changes = new ArrayList<>();
+			BeanContainerMS<Codelink.Bean>  changes = new BeanContainerMS<>();
 			
 			//redirect those that still need to
-			for (Codelink.State link : state().links()) {
+			for (Codelink.Bean link : bean().links()) {
 				String target = link.target().id();
 				if (targetUpdates.containsKey(target)) {
 					CodelinkMS change = new CodelinkMS(link.id(),Status.MODIFIED);
@@ -130,7 +127,7 @@ public interface Code extends Identified,Attributed,Named {
 			}
 			
 			//compensation update
-			links().update(namedContainer(namedBeans(changes)));
+			links().update(new Container.Private<>(changes));
 		}
 				
 		

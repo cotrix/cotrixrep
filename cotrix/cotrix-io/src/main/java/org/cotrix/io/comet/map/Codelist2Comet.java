@@ -27,7 +27,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.NamedContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;
 import org.fao.fi.comet.mapping.model.DataProvider;
@@ -67,11 +67,11 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		report().log(item("mapping codelist "+codelist.qname()+"("+codelist.id()+") to Comet")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
-		NamedContainer<? extends Attribute> attributes = codelist.attributes();
+		Container<? extends Attribute> attributes = codelist.attributes();
 		
 		DataProvider source = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), codelist.version());
 		
-		String previous = attributes.contains(PREVIOUS_VERSION.qname()) ? attributes.lookup(PREVIOUS_VERSION.qname()).value():null;
+		String previous = attributes.contains(PREVIOUS_VERSION) ? attributes.getFirst(PREVIOUS_VERSION).value():null;
 		
 		DataProvider target = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), previous);
 		
@@ -120,13 +120,13 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 	}
 	
 	
-	private List<MappingDetail> targets(NamedContainer<? extends Attribute> attrs, Codelist2CometDirectives directives) {
+	private List<MappingDetail> targets(Container<? extends Attribute> attrs, Codelist2CometDirectives directives) {
 		
 		List<MappingDetail> targets = new ArrayList<>();
 		
 		for (QName name : directives.targetAttributes())
 			
-			for (Attribute attr : attrs.getAll(name))
+			for (Attribute attr : attrs.get(name))
 				
 				try {
 					
@@ -162,7 +162,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 	}
 	
 	
-	private PropertyList properties(NamedContainer<? extends Attribute> attributes) {
+	private PropertyList properties(Container<? extends Attribute> attributes) {
 		
 		List<Property> properties = new ArrayList<>();
 		

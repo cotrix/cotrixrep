@@ -79,7 +79,7 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		AttributeDefinition.State state = reveal(def).state();
+		AttributeDefinition.State state = reveal(def).bean();
 		AttrDefinitionMS clone = new AttrDefinitionMS(state);
 		
 		assertEquals(clone,state);

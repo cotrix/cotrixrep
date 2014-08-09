@@ -105,8 +105,8 @@ public abstract class ManagedEntity<T extends Attributed> {
 	 * @throws IllegalStateException if there are two or more attributes with the given definition.
 	 */
 	public Attribute attribute(CommonDefinition def) {
-		return managed().attributes().contains(def.qname()) ?
-			managed().attributes().lookup(def.qname()):
+		return managed().attributes().contains(def) ?
+			managed().attributes().getFirst(def):
 			null;
 	}
 }
