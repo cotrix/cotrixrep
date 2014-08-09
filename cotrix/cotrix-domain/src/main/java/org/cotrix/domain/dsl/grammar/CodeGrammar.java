@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.grammar;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinksClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
@@ -18,5 +18,5 @@ public class CodeGrammar {
 	
 	public static interface CodeChangeClause extends NameClause<OptionalClause>, OptionalClause {}
 
-	public static interface OptionalClause extends LinksClause<Codelink,OptionalClause>, AttributeClause<Code,OptionalClause> {}
+	public static interface OptionalClause extends LinksClause<Link,OptionalClause>, AttributeClause<Code,OptionalClause> {}
 }

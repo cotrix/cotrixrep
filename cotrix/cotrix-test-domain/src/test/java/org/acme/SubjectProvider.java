@@ -8,7 +8,7 @@ import javax.enterprise.inject.Alternative;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.memory.BeanContainerMS;
+import org.cotrix.domain.memory.MBeanContainer;
 
 //allows persistence bindings to provide equivalent of in-memory objects 
 //as subjects to domain tests
@@ -28,7 +28,7 @@ public interface SubjectProvider {
 		
 		@Override
 		public BeanContainer<Attribute.Bean> like(Attribute.Bean ... attributes) {
-			return new BeanContainerMS<>(asList(attributes));
+			return new MBeanContainer<>(asList(attributes));
 		}
 	}
 }

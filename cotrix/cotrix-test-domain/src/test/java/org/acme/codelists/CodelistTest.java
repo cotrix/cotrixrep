@@ -10,12 +10,12 @@ import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.managed.ManagedCodelist;
-import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.memory.MCodelist;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,8 +33,8 @@ public class CodelistTest extends DomainTest {
 	
 	LinkDefinition link = linkdef().name(name).target(target).build();
 	
-	Codelink link1 = link().instanceOf(link).target(tcode1).build();
-	Codelink link2 = link().instanceOf(link).target(tcode2).build();
+	Link link1 = link().instanceOf(link).target(tcode1).build();
+	Link link2 = link().instanceOf(link).target(tcode2).build();
 	
 	Code code = code().name(name).attributes(shared,shared2).links(link1,link2).build();
 	String version = "0.1";
@@ -105,7 +105,7 @@ public class CodelistTest extends DomainTest {
 		Codelist.Bean state = reveal(list).bean();
 
 		//can simply check for equals at this stage
-		CodelistMS clone = new CodelistMS(state);
+		MCodelist clone = new MCodelist(state);
 		
 		assertTrue(clone.attributes().contains(attr.qname()));
 	}
@@ -136,7 +136,7 @@ public class CodelistTest extends DomainTest {
 	public void versioningPreservesAttributeSharing() {
 		
 		//same state to begin with
-		assertSame(stateof(shared.definition()),stateof(shared2.definition()));
+		assertSame(beanOf(shared.definition()),beanOf(shared2.definition()));
 		
 		Codelist versioned = reveal(list).bump("2");
 
@@ -149,10 +149,10 @@ public class CodelistTest extends DomainTest {
 		assertEquals(shared.definition(),vshared.definition());
 		
 		//but state is distinct
-		assertNotSame(stateof(shared.definition()),stateof(vshared.definition()));
+		assertNotSame(beanOf(shared.definition()),beanOf(vshared.definition()));
 
 		//whilst state sharing is preserved
-		assertSame(stateof(vshared.definition()),stateof(vshared2.definition()));
+		assertSame(beanOf(vshared.definition()),beanOf(vshared2.definition()));
 		
 		
 	}
@@ -161,23 +161,23 @@ public class CodelistTest extends DomainTest {
 	public void versioningPreservesLinkSharing() {
 		
 		//same state to begin with
-		assertSame(stateof(link1.definition()),stateof(link2.definition()));
+		assertSame(beanOf(link1.definition()),beanOf(link2.definition()));
 		
 		Codelist versioned = reveal(list).bump("2");
 
 		Code vcode = versioned.codes().getFirst(code);
 		
-		Codelink vlink1 = vcode.links().lookup(link1.id());
-		Codelink vlink2 = vcode.links().lookup(link2.id());
+		Link vlink1 = vcode.links().lookup(link1.id());
+		Link vlink2 = vcode.links().lookup(link2.id());
 
 		//equivalent to original TODO: this is unstable
 		//assertEquals(link1.definition(),vlink1.definition());
 		
 		//but state is distinct
-		assertNotSame(stateof(link1.definition()),stateof(vlink1.definition()));
+		assertNotSame(beanOf(link1.definition()),beanOf(vlink1.definition()));
 		
 		//whilst state sharing is preserved
-		assertSame(stateof(vlink1.definition()),stateof(vlink2.definition()));
+		assertSame(beanOf(vlink1.definition()),beanOf(vlink2.definition()));
 		
 	}
 	

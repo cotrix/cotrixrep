@@ -12,7 +12,7 @@ import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.domain.user.User.Private;
 
-public class UserMS extends IdentifiedMS implements User.State {
+public class MUser extends MIdentified implements User.State {
 
 	private String userName;
 	private String fullName;
@@ -21,14 +21,14 @@ public class UserMS extends IdentifiedMS implements User.State {
 	private Set<Action> permissions = new HashSet<Action>();
 	private Set<Role> roles = new HashSet<Role>();
 	
-	public UserMS() {
+	public MUser() {
 	}
 	
-	public UserMS(String id) {
+	public MUser(String id) {
 		super(id);
 	}
 	
-	public UserMS(String id, Status status) {
+	public MUser(String id, Status status) {
 		super(id,status);
 	}
 	

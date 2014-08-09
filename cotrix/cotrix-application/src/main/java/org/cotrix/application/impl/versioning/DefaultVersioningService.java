@@ -39,7 +39,7 @@ public class DefaultVersioningService implements VersioningService {
 		
 		notNull("object", object);
 		
-		final Versioned.Abstract<?,?> versionable = reveal(object,Versioned.Abstract.class);
+		final Versioned.Private<?,?> versionable = reveal(object,Versioned.Private.class);
 		
 		return new VersionClause<T>() {
 			

@@ -10,14 +10,14 @@ import org.cotrix.domain.version.Version;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
 
-public class NeoVersioned extends NeoNamed implements Versioned.State {
+public class NeoVersioned extends NeoAttributed implements Versioned.Bean {
 
 
 	public NeoVersioned(Node node) {
 		super(node);
 	}
 	
-	public <S extends Named.Bean & Attributed.Bean & Versioned.State> NeoVersioned(NodeType type, S state) {
+	public <S extends Named.Bean & Attributed.Bean & Versioned.Bean> NeoVersioned(NodeType type, S state) {
 		super(type,state);
 		
 		version(state.version());

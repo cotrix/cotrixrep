@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.links.LinkDefinition;
@@ -42,7 +42,7 @@ public class CodeLinkCommandHandler {
 		
 		CodeChangeClause clause = modifyCode(codeId);
 		UILink link = command.getItem();
-		Codelink changeset = null;
+		Link changeset = null;
 		
 		switch (command.getAction()) {
 			case ADD: {
@@ -54,7 +54,7 @@ public class CodeLinkCommandHandler {
 				Codelist codelist = repository.lookup(codelistId);
 				LinkDefinition linkType = codelist.links().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
-				Codelink oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
+				Link oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
 				changeset = ChangesetUtil.updateCodelink(link, oldLink, linkType, code);
 				break;
 			}
@@ -69,7 +69,7 @@ public class CodeLinkCommandHandler {
 		repository.update(codelistChangeset);
 		
 		UICode updatedCode = Codelists.toUiCode(getCode(codelistId, codeId));
-		Codelink updatedCodeLink = getCodelink(codelistId, codeId, changeset.id());
+		Link updatedCodeLink = getCodelink(codelistId, codeId, changeset.id());
 		UILink updatedLink = updatedCodeLink==null?null:Codelists.toUiLink(updatedCodeLink);
 		return new UpdatedLink(updatedCode, updatedLink);
 	}
@@ -79,8 +79,8 @@ public class CodeLinkCommandHandler {
 		return null;
 	}
 	
-	protected Codelink getCodelink(String codelistId, String codeId, String id) {
-		for (Codelink link:repository.lookup(codelistId).codes().lookup(codeId).links()) if (link.id().equals(id)) return link;
+	protected Link getCodelink(String codelistId, String codeId, String id) {
+		for (Link link:repository.lookup(codelistId).codes().lookup(codeId).links()) if (link.id().equals(id)) return link;
 		return null;
 	}
 }

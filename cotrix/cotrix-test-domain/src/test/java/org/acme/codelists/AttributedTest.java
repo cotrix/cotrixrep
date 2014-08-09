@@ -4,7 +4,7 @@ import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.memory.AttributedMS;
+import org.cotrix.domain.memory.MAttributed;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 import org.junit.Test;
@@ -16,7 +16,7 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void attributesMustBeValid() {
 		
-		AttributedMS state = new AttributedMS();
+		MAttributed state = new MAttributed();
 		
 		try {
 			state.attributes(null);
@@ -28,7 +28,7 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void creationTimeIsTracked() {
 		
-		Attributed e = like(new MyEntity(new AttributedMS()));
+		Attributed e = like(new MyEntity(new MAttributed()));
 		
 		assertTrue(e.attributes().contains(CREATION_TIME));
 		
@@ -38,7 +38,7 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void creationTimeIsNotTrackedOnChangesets() {
 		
-		Attributed e = like(new MyEntity(new AttributedMS("someid",Status.MODIFIED)));
+		Attributed e = like(new MyEntity(new MAttributed("someid",Status.MODIFIED)));
 		
 		assertFalse(e.attributes().contains(CREATION_TIME));
 		
@@ -47,9 +47,9 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void updateTimeIsTracked() {
 		
-		Attributed.Abstract e = like(new MyEntity(new AttributedMS()));
+		Attributed.Private e = like(new MyEntity(new MAttributed()));
 	
-		Attributed.Abstract changeset = new MyEntity(new AttributedMS(e.id(),Status.MODIFIED));
+		Attributed.Private changeset = new MyEntity(new MAttributed(e.id(),Status.MODIFIED));
 		
 		e.update(changeset);
 		
@@ -64,9 +64,9 @@ public class AttributedTest extends DomainTest {
 	
 	
 	
-	static class MyEntity extends Attributed.Abstract<MyEntity,AttributedMS> {
+	static class MyEntity extends Attributed.Private<MyEntity,MAttributed> {
 		
-		public MyEntity(AttributedMS state) {
+		public MyEntity(MAttributed state) {
 			super(state);
 		}
 	};

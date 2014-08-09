@@ -15,7 +15,7 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.action.UserAction;
 import org.cotrix.domain.dsl.builder.UserBuilder;
 import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
-import org.cotrix.domain.memory.UserMS;
+import org.cotrix.domain.memory.MUser;
 import org.cotrix.domain.user.Role;
 
 public class Roles {
@@ -24,7 +24,7 @@ public class Roles {
 	//notes must have a constant identifier (here the very role name) because if they were generated they would be JVM-specific
 	//and equality comparisons against the constants below would fail after a restart.
 	public static ThirdClause role(String name) {
-		return new UserBuilder(new UserMS(name)).name(name).fullName(name).noMail();
+		return new UserBuilder(new MUser(name)).name(name).fullName(name).noMail();
 	}
 	
 	// the role of generic users, typically right after sign up: can view and logout

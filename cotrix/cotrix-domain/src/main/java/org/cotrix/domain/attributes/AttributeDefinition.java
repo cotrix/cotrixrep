@@ -18,59 +18,24 @@ import org.cotrix.domain.values.ValueType;
  */
 public interface AttributeDefinition extends Definition {
 
-	/**
-	 * Returns the broad semantics of instances.
-	 * 
-	 * @return the type
-	 */
 	QName type();
 	
 	
-	/**
-	 * Returns <code>true</code> if this definition has a given type.
-	 * @param type the type
-	 * @return <code>true</code> if this definition supports the given type
-	 */
 	boolean is(QName type);
 	
-	/**
-	 * Returns <code>true</code> if this definition supports a given facet.
-	 * @param facet the facet
-	 * @return <code>true</code> if this definition supports the given facet
-	 */
 	boolean is(Facet facet);
 
-	/**
-	 * Returns the natural language of instance values.
-	 * 
-	 * @return the language, or <code>null</code> if instance values are in no natural language
-	 */
 	String language();
 	
-	/**
-	 * Returns the data type of instance values.
-	 * 
-	 * @return the data type
-	 */
 	ValueType valueType();
 	
-	/**
-	 * Returns the range with which instances can occur in context.
-	 * @return the range
-	 */
 	Range range();
-	
-	
-	/**
-	 * Returns <code>true</code> if this definition is shared by many instances.
-	 * @return  <code>true</code> if this definition is shared by many instances
-	 */
+		
 	boolean isShared();
 	
 	
 		
-	//state interface
-	static interface State extends Identified.Bean, Named.Bean, BeanOf<Private> {
+	static interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
 
 		QName type();
 
@@ -97,9 +62,9 @@ public interface AttributeDefinition extends Definition {
 	}
 
 	//private implementation: delegates to state bean
-	public class Private extends Identified.Private<Private,State> implements AttributeDefinition {
+	public class Private extends Identified.Private<Private,Bean> implements AttributeDefinition {
 
-		public Private(AttributeDefinition.State state) {
+		public Private(AttributeDefinition.Bean state) {
 			super(state);
 		}
 		

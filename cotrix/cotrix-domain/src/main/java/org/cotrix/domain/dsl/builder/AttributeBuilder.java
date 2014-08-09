@@ -12,7 +12,7 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.ValueClause;
-import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.memory.MAttribute;
 
 /**
  * Builds {@link Attribute}s.
@@ -22,10 +22,10 @@ import org.cotrix.domain.memory.AttributeMS;
  */
 public class AttributeBuilder implements AttributeNewClause, AttributeChangeClause, ValueClause {
 
-	private final AttributeMS state;
+	private final MAttribute state;
 
 	
-	public AttributeBuilder(AttributeMS state) {
+	public AttributeBuilder(MAttribute state) {
 		this.state = state;
 	}
 	

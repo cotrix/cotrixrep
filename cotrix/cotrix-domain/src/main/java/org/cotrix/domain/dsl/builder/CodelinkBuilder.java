@@ -9,13 +9,13 @@ import java.util.Collection;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.CodelinkMS;
+import org.cotrix.domain.memory.MLink;
 
 /**
  * Builds {@link Attribute}s.
@@ -26,9 +26,9 @@ import org.cotrix.domain.memory.CodelinkMS;
 public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,OptionalClause>, CodelinkChangeClause {
 
 	
-	private final CodelinkMS state;
+	private final MLink state;
 	
-	public CodelinkBuilder(CodelinkMS state) {
+	public CodelinkBuilder(MLink state) {
 		this.state = state;
 	}
 	
@@ -62,7 +62,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 	
 	
 	@Override
-	public Codelink build() {
+	public Link build() {
 		return state.entity();
 	}
 	

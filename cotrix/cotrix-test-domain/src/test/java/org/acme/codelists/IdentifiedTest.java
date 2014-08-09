@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import static org.cotrix.domain.trait.Status.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.memory.IdentifiedMS;
+import org.cotrix.domain.memory.MIdentified;
 import org.cotrix.domain.trait.Identified;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void newEntitiesHaveIdentifiers() {
 		
-		Identified.Private<?,?> e = like(new MyEntity(new IdentifiedMS()));
+		Identified.Private<?,?> e = like(new MyEntity(new MIdentified()));
 		
 		assertNotNull(e.id());
 		assertNull(e.status());
@@ -24,14 +24,14 @@ public class IdentifiedTest extends DomainTest {
 	public void identifierAndStatusMustBeValid() {
 		
 		try {
-			like(new MyEntity(new IdentifiedMS(null,MODIFIED)));
+			like(new MyEntity(new MIdentified(null,MODIFIED)));
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
 		
 		
 		try {
-			like(new MyEntity(new IdentifiedMS("id",null)));
+			like(new MyEntity(new MIdentified("id",null)));
 			fail();
 		}
 		catch(IllegalArgumentException e) {}
@@ -41,7 +41,7 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void changesetsCannotBeNull() {
 		
-		MyEntity e = new MyEntity(new IdentifiedMS());
+		MyEntity e = new MyEntity(new MIdentified());
 		
 		try {
 			e.update(null);
@@ -54,8 +54,8 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void changesetsCannotBeNew() {
 		
-		MyEntity e = new MyEntity(new IdentifiedMS());
-		MyEntity newEntity = new MyEntity(new IdentifiedMS());
+		MyEntity e = new MyEntity(new MIdentified());
+		MyEntity newEntity = new MyEntity(new MIdentified());
 		
 		try {
 			e.update(newEntity);
@@ -68,7 +68,7 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void changesetsMustMatchIdentifiers() {
 		
-		MyEntity e = new MyEntity(new IdentifiedMS());
+		MyEntity e = new MyEntity(new MIdentified());
 		
 		try {
 			e.update(null);
@@ -76,7 +76,7 @@ public class IdentifiedTest extends DomainTest {
 		}
 		catch(IllegalArgumentException ex) {}
 		
-		MyEntity changeset = new MyEntity(new IdentifiedMS("another",MODIFIED));
+		MyEntity changeset = new MyEntity(new MIdentified("another",MODIFIED));
 		
 		try {
 			e.update(changeset);
@@ -89,7 +89,7 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void changesetsCannotBeUpdated() {
 		
-		MyEntity changeset = new MyEntity(new IdentifiedMS("someid",MODIFIED){});
+		MyEntity changeset = new MyEntity(new MIdentified("someid",MODIFIED){});
 		
 		try {
 			changeset.update(changeset);
@@ -102,8 +102,8 @@ public class IdentifiedTest extends DomainTest {
 	@Test
 	public void changesetsCannotBeDirectlyDeleted() {
 		
-		MyEntity e = new MyEntity(new IdentifiedMS());
-		MyEntity changeset = new MyEntity(new IdentifiedMS("someid",DELETED));
+		MyEntity e = new MyEntity(new MIdentified());
+		MyEntity changeset = new MyEntity(new MIdentified("someid",DELETED));
 		
 		try {
 			e.update(changeset);

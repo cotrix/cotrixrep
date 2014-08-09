@@ -12,12 +12,12 @@ import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.AttrDefinitionMS;
-import org.cotrix.domain.memory.CodeMS;
-import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.MAttrDef;
+import org.cotrix.domain.memory.MCode;
+import org.cotrix.domain.memory.MLinkDef;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,7 +34,7 @@ public class CodeTest extends DomainTest {
 	Code targetcode = code().name(name2).build();
 	Codelist target = codelist().name(name).with(targetcode).build();
 	LinkDefinition linkdef = linkdef().name(name).target(target).build();
-	Codelink link = link().instanceOf(linkdef).target(targetcode).build();
+	Link link = link().instanceOf(linkdef).target(targetcode).build();
 	
 	Code code = code()
 					.name(name)
@@ -90,16 +90,16 @@ public class CodeTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		Code.Bean state = reveal(code).bean();
+		Code.Bean bean = beanOf(code);
 		
 		Map<String,Object> context = new HashMap<>();
 		
-		context.put(def.id(), new AttrDefinitionMS(stateof(def)));
-		context.put(linkdef.id(), new LinkDefinitionMS(stateof(linkdef)));
+		context.put(def.id(), new MAttrDef(beanOf(def)));
+		context.put(linkdef.id(), new MLinkDef(beanOf(linkdef)));
 		
-		CodeMS clone = new CodeMS(state,context);
+		MCode clone = new MCode(bean,context);
 		
-		assertEquals(state.qname(),clone.qname());
+		assertEquals(bean.qname(),clone.qname());
 		assertTrue(clone.attributes().contains(attr.qname()));
 		assertTrue(clone.links().contains(link.qname()));
 		

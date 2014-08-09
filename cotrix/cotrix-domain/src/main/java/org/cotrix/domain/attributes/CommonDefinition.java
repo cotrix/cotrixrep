@@ -110,7 +110,7 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//just handy, cleans client code
-	public AttributeDefinition.State state() {
+	public AttributeDefinition.Bean state() {
 		return reveal(def).bean();
 	}
 	

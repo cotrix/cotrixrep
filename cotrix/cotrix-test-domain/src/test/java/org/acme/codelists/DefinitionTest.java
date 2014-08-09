@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.memory.AttrDefinitionMS;
+import org.cotrix.domain.memory.MAttrDef;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,8 +79,8 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		AttributeDefinition.State state = reveal(def).bean();
-		AttrDefinitionMS clone = new AttrDefinitionMS(state);
+		AttributeDefinition.Bean state = reveal(def).bean();
+		MAttrDef clone = new MAttrDef(state);
 		
 		assertEquals(clone,state);
 		

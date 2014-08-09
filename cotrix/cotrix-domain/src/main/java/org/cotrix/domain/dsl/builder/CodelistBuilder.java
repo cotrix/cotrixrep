@@ -17,7 +17,7 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.memory.MCodelist;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
@@ -29,10 +29,10 @@ import org.cotrix.domain.version.Version;
  */
 public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause {
 
-	private final CodelistMS state;
+	private final MCodelist state;
 	
 	
-	public CodelistBuilder(CodelistMS state) {
+	public CodelistBuilder(MCodelist state) {
 		this.state = state;
 	}
 	

@@ -10,7 +10,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 
 public class LinkOfLink implements LinkValueType {
@@ -36,12 +36,12 @@ public class LinkOfLink implements LinkValueType {
 		
 		List<Object> matches = new ArrayList<>();
 		
-		for (Codelink.Bean link : code.links()) {
+		for (Link.Bean link : code.links()) {
 			
-			LinkDefinition.State linktype = link.definition();
+			LinkDefinition.Bean linktype = link.definition();
 			
 			if (matches(linktype))
-				for (Object match : Codelink.Private.resolve(link,linktype,ids))
+				for (Object match : Link.Private.resolve(link,linktype,ids))
 					matches.add(match);
 		}
 		
@@ -54,7 +54,7 @@ public class LinkOfLink implements LinkValueType {
 		return matches(reveal(link).bean());
 	}
 
-	public boolean matches(LinkDefinition.State link) {
+	public boolean matches(LinkDefinition.Bean link) {
 		
 		QName name = target.qname();
 		String id = target.target() == null? null : target.target().id();

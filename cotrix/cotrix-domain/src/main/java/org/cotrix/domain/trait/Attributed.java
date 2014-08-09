@@ -7,12 +7,11 @@ import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.text.ParseException;
-import java.util.Collection;
 import java.util.Date;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 
 /**
  * A domain object with {@link Attribute}s.
@@ -23,9 +22,8 @@ import org.cotrix.domain.common.BeanContainer;
 public interface Attributed {
 
 	
-	//public read-only interface
-	
 	Container<? extends Attribute> attributes();
+	
 	
 	Date created();
 	
@@ -35,9 +33,8 @@ public interface Attributed {
 	
 	String originId();
 	
-	//private state interface
 	
-	interface Bean {
+	interface Bean extends Named.Bean {
 		
 		BeanContainer<Attribute.Bean> attributes();
 		
@@ -47,13 +44,16 @@ public interface Attributed {
 	
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends Bean & Identified.Bean> extends Identified.Private<SELF,S> implements Attributed {
+	abstract class Private<SELF extends Private<SELF,B>,B extends Bean> 
+							
+							extends Named.Private<SELF,B> 
+							
+							implements Attributed {
 
-
-		public Abstract(S state) {
+		
+		public Private(B bean) {
 			
-			super(state);
-
+			super(bean);
 		}
 		
 
@@ -67,7 +67,7 @@ public interface Attributed {
 		@Override
 		public Date created() {
 			
-			String val = lookup(CREATION_TIME);
+			String val = valueOf(CREATION_TIME);
 			
 			try {
 				return val==null? null : getDateTimeInstance().parse(val);
@@ -80,7 +80,7 @@ public interface Attributed {
 		@Override
 		public Date lastUpdated() {
 			
-			String val = lookup(UPDATE_TIME);
+			String val = valueOf(UPDATE_TIME);
 			
 			try {
 				return val==null? created():getDateTimeInstance().parse(val);
@@ -93,7 +93,7 @@ public interface Attributed {
 		@Override
 		public String lastUpdatedBy() {
 			
-			return lookup(UPDATED_BY);
+			return valueOf(UPDATED_BY);
 			
 		}
 
@@ -101,16 +101,16 @@ public interface Attributed {
 		@Override
 		public String originId() {
 			
-			return lookup(PREVIOUS_VERSION_ID);
+			return valueOf(PREVIOUS_VERSION_ID);
 			
 		}
 		
 		
-		public String lookup(Named def) {
+		public String valueOf(Named def) {
 			
-			Collection<Attribute.Private> matches  = attributes().get(def);
+			Attribute a  = attributes().getFirst(def);
 			
-			return matches.isEmpty() ? null : matches.iterator().next().value();
+			return a==null ? null : a.value();
 		
 		}
 	
@@ -147,8 +147,8 @@ public interface Attributed {
 		}
 		
 		private void addTimestampAndUserTo(BeanContainer<Attribute.Bean> attributes) {
-			attributes.add(stateof(attribute().instanceOf(UPDATE_TIME).value(time())));
-			attributes.add(stateof(attribute().instanceOf(UPDATED_BY).value(currentUser().name())));
+			attributes.add(beanOf(attribute().instanceOf(UPDATE_TIME).value(time())));
+			attributes.add(beanOf(attribute().instanceOf(UPDATED_BY).value(currentUser().name())));
 		}
 		
 	}

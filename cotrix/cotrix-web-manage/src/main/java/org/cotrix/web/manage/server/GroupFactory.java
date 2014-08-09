@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.utils.Constants;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.manage.shared.AttributeGroup;
@@ -73,19 +73,19 @@ public class GroupFactory {
 		}
 	};
 	
-	private static final GroupGenerator<Codelink, LinkGroup> LINK_GROUP_GENERATOR = new GroupGenerator<Codelink, LinkGroup>() {
+	private static final GroupGenerator<Link, LinkGroup> LINK_GROUP_GENERATOR = new GroupGenerator<Link, LinkGroup>() {
 
 		@Override
-		public LinkGroup generate(Codelink link) {
+		public LinkGroup generate(Link link) {
 			boolean isSystemGroup = link.definition()!=null?link.definition().equals(Constants.SYSTEM_TYPE):false;
 			return new LinkGroup(ValueUtils.safeValue(link.qname()), isSystemGroup);
 		}
 	};
 	
-	private static final ItemProvider<Codelink> CODELINKS_PROVIDER = new ItemProvider<Codelink>() {
+	private static final ItemProvider<Link> CODELINKS_PROVIDER = new ItemProvider<Link>() {
 
 		@Override
-		public Iterable<? extends Codelink> getItems(Code code) {
+		public Iterable<? extends Link> getItems(Code code) {
 			return code.links();
 		}
 	};

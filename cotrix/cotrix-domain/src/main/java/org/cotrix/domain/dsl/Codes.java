@@ -9,7 +9,7 @@ import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
@@ -30,12 +30,12 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.AttrDefinitionMS;
-import org.cotrix.domain.memory.AttributeMS;
-import org.cotrix.domain.memory.CodeMS;
-import org.cotrix.domain.memory.CodelinkMS;
-import org.cotrix.domain.memory.CodelistMS;
-import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.MAttrDef;
+import org.cotrix.domain.memory.MAttribute;
+import org.cotrix.domain.memory.MCode;
+import org.cotrix.domain.memory.MCodelist;
+import org.cotrix.domain.memory.MLink;
+import org.cotrix.domain.memory.MLinkDef;
 import org.cotrix.domain.values.DefaultType;
 
 /**
@@ -55,11 +55,11 @@ public class Codes {
 	}
 	
 	public static AttributeNewClause attribute() {
-		return new AttributeBuilder(new AttributeMS());
+		return new AttributeBuilder(new MAttribute());
 	}
 	
 	public static AttributeChangeClause modifyAttribute(String id) {
-		return new AttributeBuilder(new AttributeMS(id,MODIFIED));
+		return new AttributeBuilder(new MAttribute(id,MODIFIED));
 	}
 	
 	public static AttributeChangeClause modify(Attribute attribute) {
@@ -68,7 +68,7 @@ public class Codes {
 	}
 	
 	public static Attribute deleteAttribute(String id) {
-		return new AttributeMS(id,DELETED).entity();
+		return new MAttribute(id,DELETED).entity();
 	}
 	
 	public static Attribute delete(Attribute attribute) {
@@ -77,11 +77,11 @@ public class Codes {
 	}
 	
 	public static AttributeDefinitionNewClause attrdef() {
-		return new DefinitionBuilder(new AttrDefinitionMS());
+		return new DefinitionBuilder(new MAttrDef());
 	}
 	
 	public static AttributeDefinitionChangeClause modifyAttrDef(String id) {
-		return new DefinitionBuilder(new AttrDefinitionMS(id,MODIFIED));
+		return new DefinitionBuilder(new MAttrDef(id,MODIFIED));
 	}
 	
 	public static AttributeDefinitionChangeClause modify(AttributeDefinition def) {
@@ -98,15 +98,15 @@ public class Codes {
 	}
 	
 	public static Code ascode(QName name) {
-		return new CodeBuilder(new CodeMS()).name(name).build();
+		return new CodeBuilder(new MCode()).name(name).build();
 	}
 	
 	public static CodeNewClause code() {
-		return new CodeBuilder(new CodeMS());
+		return new CodeBuilder(new MCode());
 	}
 	
 	public static CodeChangeClause modifyCode(String id) {
-		return new CodeBuilder(new CodeMS(id,MODIFIED));
+		return new CodeBuilder(new MCode(id,MODIFIED));
 	}
 	
 	public static CodeChangeClause modify(Code code) {
@@ -115,7 +115,7 @@ public class Codes {
 	}
 	
 	public static Code deleteCode(String id) {
-		return new CodeMS(id,DELETED).entity();
+		return new MCode(id,DELETED).entity();
 	}
 	
 	public static Code delete(Code code) {
@@ -126,11 +126,11 @@ public class Codes {
 	
 	
 	public static CodelistNewClause codelist() {
-		return new CodelistBuilder(new CodelistMS());
+		return new CodelistBuilder(new MCodelist());
 	}
 	
 	public static CodelistChangeClause modifyCodelist(String id) {
-		return new CodelistBuilder(new CodelistMS(id,MODIFIED));
+		return new CodelistBuilder(new MCodelist(id,MODIFIED));
 	}
 	
 	public static CodelistChangeClause modify(Codelist list) {
@@ -139,34 +139,34 @@ public class Codes {
 	}
 		
 	public static CodelinkNewClause link() {
-		return new CodelinkBuilder(new CodelinkMS()).new NewClause();
+		return new CodelinkBuilder(new MLink()).new NewClause();
 	}
 	
 	public static CodelinkChangeClause modifyLink(String id) {
-		return new CodelinkBuilder(new CodelinkMS(id,MODIFIED));
+		return new CodelinkBuilder(new MLink(id,MODIFIED));
 	}
 	
-	public static CodelinkChangeClause modify(Codelink link) {
+	public static CodelinkChangeClause modify(Link link) {
 		notNull("code link",link);
 		return modifyLink(link.id());
 	}
 
-	public static Codelink deleteLink(String id) {
-		return new CodelinkMS(id,DELETED).entity();
+	public static Link deleteLink(String id) {
+		return new MLink(id,DELETED).entity();
 	}
 
-	public static Codelink delete(Codelink link) {
+	public static Link delete(Link link) {
 		notNull("code link",link);
 		return deleteLink(link.id());
 	}
 	
 	
 	public static LinkDefinitionNewClause linkdef() {
-		return new LinkDefinitionBuilder(new LinkDefinitionMS()).new NewClause();
+		return new LinkDefinitionBuilder(new MLinkDef()).new NewClause();
 	}
 	
 	public static LinkDefinitionChangeClause modifyLinkDef(String id) {
-		return new LinkDefinitionBuilder(new LinkDefinitionMS(id, MODIFIED)).new ChangeClause();
+		return new LinkDefinitionBuilder(new MLinkDef(id, MODIFIED)).new ChangeClause();
 	}
 	
 	public static LinkDefinitionChangeClause modify(LinkDefinition link) {
@@ -201,9 +201,9 @@ public class Codes {
 		return CommonUtils.reveal(link,LinkDefinition.Private.class);
 	}
 	
-	public static Codelink.Private reveal(Codelink link) {
+	public static Link.Private reveal(Link link) {
 		notNull("code link",link);
-		return CommonUtils.reveal(link,Codelink.Private.class);
+		return CommonUtils.reveal(link,Link.Private.class);
 	}
 	
 }

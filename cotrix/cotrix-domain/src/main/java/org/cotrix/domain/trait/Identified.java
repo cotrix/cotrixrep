@@ -2,27 +2,12 @@ package org.cotrix.domain.trait;
 
 import static org.cotrix.common.CommonUtils.*;
 
-/**
- * The read-only interface common to all domain entities.
- * 
- * @author Fabio Simeoni
- * 
- */
 public interface Identified {
 
 	
-	//public read-only interface
-	
-	/**
-	 * Returns the identifier of this object.
-	 * 
-	 * @return the identifier
-	 */
 	String id();
 
 
-	//private state interface
-	
 	interface Bean {
 	
 		String id();
@@ -31,12 +16,11 @@ public interface Identified {
 
 	}
 	
-	//private logic
 	
 	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> implements Identified {
 
-		//NOTE: we need SELF because we have a covariant method #update(SELF)
-		//NOTE:	we need S to give state back to subclasses
+		//we need (to emulate) SELF because we have a covariant method #update(SELF)
+		//we need B to give bean back to subclasses
 		
 		private B bean;
 		
@@ -48,6 +32,7 @@ public interface Identified {
 			this.bean=bean;
 		}
 		
+		
 		public B bean() {
 			return bean;
 		}
@@ -55,10 +40,13 @@ public interface Identified {
 		
 		@Override
 		public String id() {
+			
 			return bean.id();
+		
 		}
 
 		public boolean isChangeset() {
+			
 			return status() == Status.MODIFIED || status() == Status.DELETED;
 		}
 
@@ -69,7 +57,7 @@ public interface Identified {
 
 		public void update(SELF changeset) throws IllegalArgumentException, IllegalStateException {
 
-			notNull(this.getClass().getCanonicalName()+"'s changeset",changeset);
+			notNull("changeset",changeset);
 			
 			if (isChangeset())
 				throw new IllegalStateException("entity " + bean.id() + "("+getClass().getCanonicalName()+") is a changeset and cannot be updated");
@@ -84,7 +72,7 @@ public interface Identified {
 
 		}
 		
-		//delegates to state
+		//delegates to bean
 		
 		@Override
 		public int hashCode() {

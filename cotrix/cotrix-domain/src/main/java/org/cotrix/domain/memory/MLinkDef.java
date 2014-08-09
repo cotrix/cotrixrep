@@ -2,48 +2,45 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.common.Ranges.*;
-import static org.cotrix.domain.links.NameLink.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.LinkDefinition.Private;
+import org.cotrix.domain.links.LinkValueType;
+import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueFunction;
 
-/**
- * Initialisation parameters for {@link LinkDefinition}s.
- * 
- * @author Fabio Simeoni
- *
- */
-public class LinkDefinitionMS extends NamedMS implements LinkDefinition.State {
+public class MLinkDef extends MAttributed implements LinkDefinition.Bean {
 
 	private Codelist.Bean target;
 	private LinkValueType type;
 	private ValueFunction function;
 	private Range range;
 	
-	public LinkDefinitionMS() {
-		valueType(INSTANCE);
+	public MLinkDef() {
+		
+		valueType(NameLink.INSTANCE);
+		
 		function(identity);
 		range(arbitrarily);
 		
 	}
 	
-	public LinkDefinitionMS(String id,Status status) {
+	public MLinkDef(String id,Status status) {
 		super(id,status);
 	}
 	
-	public LinkDefinitionMS(LinkDefinition.State state) {
-		super(state);
+	public MLinkDef(LinkDefinition.Bean other) {
 		
-		target(state.target());
-		valueType(state.valueType());
-		range(state.range());
-		function(state.function());
+		super(other);
+		
+		target(other.target());
+		valueType(other.valueType());
+		range(other.range());
+		function(other.function());
 	}
 
 	public LinkValueType valueType() {
@@ -107,9 +104,9 @@ public class LinkDefinitionMS extends NamedMS implements LinkDefinition.State {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof LinkDefinition.State))
+		if (!(obj instanceof LinkDefinition.Bean))
 			return false;
-		LinkDefinition.State other = (LinkDefinition.State) obj;
+		LinkDefinition.Bean other = (LinkDefinition.Bean) obj;
 		if (function == null) {
 			if (other.function() != null)
 				return false;

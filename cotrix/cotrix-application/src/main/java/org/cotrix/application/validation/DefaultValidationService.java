@@ -125,7 +125,7 @@ public class DefaultValidationService implements ValidationService {
 		
 		if (hasno(invalid)) {
 			
-			attributes.add(stateof(attribute().instanceOf(INVALID)));
+			attributes.add(beanOf(attribute().instanceOf(INVALID)));
 			invalid = code.attributes().getFirst(INVALID);
 		}
 		else {
@@ -141,7 +141,7 @@ public class DefaultValidationService implements ValidationService {
 			
 		}
 		
-		stateof(invalid).value(CommonUtils.jsonBinder().toJson(violations,type));
+		beanOf(invalid).value(CommonUtils.jsonBinder().toJson(violations,type));
 	}
 	
 	

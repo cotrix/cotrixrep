@@ -4,23 +4,10 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-/**
- * A named domain object.
- * 
- * @author Fabio Simeoni
- *
- */
 public interface Named {
 
 	
-	//public read-only interface
-	
-	/**
-	 * Returns the name of this object.
-	 * @return the name
-	 */
 	QName qname();
-	
 	
 	
 	
@@ -33,28 +20,33 @@ public interface Named {
 
 	
 	
-	//private logic
+	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> 
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends Bean & Attributed.Bean> extends Attributed.Abstract<SELF,S> implements Named {
+						 extends Identified.Private<SELF,B> implements Named {
 		
 		
-		public Abstract(S state) {
-			super(state);
+		public Private(B bean) {
+		
+			super(bean);
+		
 		}
+		
 		
 		@Override
 		public QName qname() {
+		
 			return bean().qname();
+		
 		}
 
 		
 		@Override
-		public void update(SELF changeset) throws IllegalArgumentException ,IllegalStateException {
+		public void update(SELF changeset) {
 			
 			super.update(changeset);
 			
-			
 			if (changeset.qname()!=null)
+				
 				if (changeset.qname()==NULL_QNAME)
 					throw new IllegalArgumentException("code name "+bean().qname()+" cannot be erased");
 				else 

@@ -32,9 +32,9 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
 
 		
-		AttributeDefinition.State definition();
+		AttributeDefinition.Bean definition();
 		
-		void definition(AttributeDefinition.State definition);
+		void definition(AttributeDefinition.Bean definition);
 		
 		
 		QName type();

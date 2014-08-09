@@ -7,43 +7,43 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
-import org.cotrix.domain.codelist.Codelink.Private;
+import org.cotrix.domain.codelist.Link;
+import org.cotrix.domain.codelist.Link.Private;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Status;
 
-public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
+public final class MLink extends MAttributed implements Link.Bean {
 
 	private Code.Bean target;
-	private LinkDefinition.State definition;
+	private LinkDefinition.Bean definition;
 
-	public CodelinkMS() {
+	public MLink() {
 	}
 	
-	public CodelinkMS(String id,Status status) {
+	public MLink(String id,Status status) {
 		super(id,status);
 	}
 	
-	public CodelinkMS(Codelink.Bean state, Map<String,Object> context) {
+	public MLink(Link.Bean other, Map<String,Object> context) {
 		
 		//links preserve identifiers
-		super(state.id(),state);
+		super(other.id(),other);
 		
 		notNull("sharing context",context);
 		
-		target(state.target());
+		target(other.target());
 		
-		definition(cloneDefinitionInContext(state.definition(),context));
+		definition(cloneDefinitionInContext(other.definition(),context));
 	}
 	
 	
 	//helper
-	private LinkDefinition.State cloneDefinitionInContext(LinkDefinition.State def, Map<String,Object> context) {
+	private LinkDefinition.Bean cloneDefinitionInContext(LinkDefinition.Bean def, Map<String,Object> context) {
 		
 		if (context==null || !context.containsKey(def.id()))
 			throw new AssertionError("application error: definition cannot be shared during copy");
 		
-		return (LinkDefinition.State) context.get(def.id());
+		return (LinkDefinition.Bean) context.get(def.id());
 			
 	}
 
@@ -54,7 +54,7 @@ public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
 	
 	@Override
 	public void qname(QName name) {
-		throw new UnsupportedOperationException("codelink names are read-only");
+		//overrides super to avoid adding a property that should remain virtual
 	}
 	
 	@Override
@@ -71,14 +71,14 @@ public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
 	}
 
 	@Override
-	public LinkDefinition.State definition() {
+	public LinkDefinition.Bean definition() {
 		
 		return definition;
 	
 	}
 
 	@Override
-	public void definition(LinkDefinition.State definition) {
+	public void definition(LinkDefinition.Bean definition) {
 		
 		notNull("definition",definition);
 
@@ -87,7 +87,7 @@ public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
 	
 	@Override
 	public Private entity() {
-		return new Codelink.Private(this);
+		return new Link.Private(this);
 	}
 
 	@Override
@@ -96,9 +96,9 @@ public final class CodelinkMS extends AttributedMS implements Codelink.Bean {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Codelink.Bean))
+		if (!(obj instanceof Link.Bean))
 			return false;
-		Codelink.Bean other = (Codelink.Bean) obj;
+		Link.Bean other = (Link.Bean) obj;
 		if (definition == null) {
 			if (other.definition() != null)
 				return false;

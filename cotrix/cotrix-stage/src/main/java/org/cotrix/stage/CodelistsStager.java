@@ -25,7 +25,7 @@ import org.cotrix.common.events.ApplicationLifecycleEvents.FirstTime;
 import org.cotrix.common.events.ApplicationLifecycleEvents.Ready;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.user.User;
@@ -174,7 +174,7 @@ public class CodelistsStager {
 
 		for (Code code : target.codes()) {
 			
-			Collection<Codelink> codelinks = new ArrayList<>();
+			Collection<Link> codelinks = new ArrayList<>();
 			
 			codelinks.add(link().instanceOf(nameLink).target(code).build());
 			
@@ -187,14 +187,14 @@ public class CodelistsStager {
 				
 				LinkDefinition attributeLink = links.get(name);
 				
-				Codelink link = link().instanceOf(attributeLink).target(code).build();
+				Link link = link().instanceOf(attributeLink).target(code).build();
 				
 				codelinks.add(link);
 			
 			}
 			
 			codes.add(
-					code().name("code="+i).links(codelinks.toArray(new Codelink[0])).build()
+					code().name("code="+i).links(codelinks.toArray(new Link[0])).build()
 			);
 		}	
 		

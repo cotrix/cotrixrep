@@ -2,33 +2,37 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 
-import java.util.Map;
-
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 
 
-public class NamedMS extends AttributedMS implements Named.Bean, Attributed.Bean {
+public class MNamed extends MIdentified implements Named.Bean {
 
 	private QName name;
 	
-	public NamedMS() {		
+	public MNamed() {		
 	}
 
-	public NamedMS(String id,Status status) {
+	public MNamed(String id,Status status) {
 		super(id,status);
 	}
 	
-	public <T extends Named.Bean & Attributed.Bean> NamedMS(T state) {		
-		this(state,null);
+	public MNamed(String id) {
+		super(id);
 	}
 	
-	public <T extends Named.Bean & Attributed.Bean> NamedMS(T state,Map<String,Object> context) {		
-		super(state,context);
-		qname(state.qname());
+	public MNamed(Named.Bean other) {	
+		
+		qname(other.qname());
+	}
+	
+	public MNamed(String id, Named.Bean other) {	
+		
+		this(id);
+		
+		qname(other.qname());
 	}
 	
 	public QName qname() {

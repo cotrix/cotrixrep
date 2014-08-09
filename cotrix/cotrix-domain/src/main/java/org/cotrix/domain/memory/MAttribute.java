@@ -9,13 +9,13 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.AttributeDefinition.State;
+import org.cotrix.domain.attributes.AttributeDefinition.Bean;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.trait.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class AttributeMS extends IdentifiedMS implements Attribute.Bean {
+public final class MAttribute extends MIdentified implements Attribute.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(Attribute.class);
 	
@@ -23,22 +23,22 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.Bean {
 	private String description;
 	
 	//by default, attribute has 'private' definition
-	private AttributeDefinition.State definition = new AttrDefinitionMS(false);
+	private AttributeDefinition.Bean definition = new MAttrDef(false);
 	
-	public AttributeMS() {
+	public MAttribute() {
 	}
 	
-	public AttributeMS(String id,Status status) {
+	public MAttribute(String id,Status status) {
 		super(id,status);
 		type(null);
 	}
 	
 	
-	public AttributeMS(Attribute.Bean state) {
+	public MAttribute(Attribute.Bean state) {
 		this(state,new HashMap<String,Object>());
 	}
 
-	public AttributeMS(Attribute.Bean state, Map<String,Object> context) {
+	public MAttribute(Attribute.Bean state, Map<String,Object> context) {
 		
 		//attributes preserve identifiers
 		super(state.id());
@@ -50,12 +50,12 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.Bean {
 	
 	
 	@Override
-	public State definition() {
+	public Bean definition() {
 		return definition;
 	}
 	
 	@Override
-	public void definition(State definition) {
+	public void definition(Bean definition) {
 		
 		notNull("definition", definition);
 		
@@ -123,23 +123,23 @@ public final class AttributeMS extends IdentifiedMS implements Attribute.Bean {
 	
 	
 	//helper
-	private AttributeDefinition.State cloneDefinitionInContext(AttributeDefinition.State def, Map<String,Object> context) {
+	private AttributeDefinition.Bean cloneDefinitionInContext(AttributeDefinition.Bean def, Map<String,Object> context) {
 		
 		if (!def.isShared())
-			return new AttrDefinitionMS(def);
+			return new MAttrDef(def);
 		
 		if (context==null) {
 			
 			log.error("cannot share definition '{}' during copy, as there is no context",def.qname());
 			
-			return new AttrDefinitionMS(def);
+			return new MAttrDef(def);
 		}
 			
 
 		if (!context.containsKey(def.id()))
 			throw new AssertionError("application error: definition '"+def.qname()+"' cannot be shared during copy");
 		
-		return (AttributeDefinition.State) context.get(def.id());
+		return (AttributeDefinition.Bean) context.get(def.id());
 	}
 	
 	

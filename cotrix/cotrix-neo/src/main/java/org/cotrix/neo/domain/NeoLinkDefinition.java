@@ -21,17 +21,17 @@ import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State {
+public class NeoLinkDefinition extends NeoAttributed implements LinkDefinition.Bean {
 
-	public static final NeoStateFactory<LinkDefinition.State> factory = new NeoStateFactory<LinkDefinition.State>() {
+	public static final NeoStateFactory<LinkDefinition.Bean> factory = new NeoStateFactory<LinkDefinition.Bean>() {
 		
 		@Override
-		public LinkDefinition.State beanFrom(Node node) {
+		public LinkDefinition.Bean beanFrom(Node node) {
 			return new NeoLinkDefinition(node);
 		}
 		
 		@Override
-		public Node nodeFrom(LinkDefinition.State state) {
+		public Node nodeFrom(LinkDefinition.Bean state) {
 			return new NeoLinkDefinition(state).node();
 		}
 	};
@@ -40,7 +40,7 @@ public class NeoLinkDefinition extends NeoNamed implements LinkDefinition.State 
 		super(node);
 	}
 	
-	public NeoLinkDefinition(LinkDefinition.State state) {
+	public NeoLinkDefinition(LinkDefinition.Bean state) {
 
 		super(LINKDEF,state);	
 		

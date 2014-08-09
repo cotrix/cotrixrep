@@ -21,7 +21,7 @@ import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.MLinkDef;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.cotrix.domain.values.ValueFunction;
 
@@ -33,12 +33,12 @@ import org.cotrix.domain.values.ValueFunction;
  */
 public class LinkDefinitionBuilder  {
 
-	public LinkDefinitionBuilder(LinkDefinitionMS state) {
+	public LinkDefinitionBuilder(MLinkDef state) {
 		this.state = state;
 	}
 
 	//shared state
-	private final LinkDefinitionMS state;
+	private final MLinkDef state;
 	
 	//shared clauses
 	

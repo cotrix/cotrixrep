@@ -7,47 +7,47 @@ import java.util.Map;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Code.Private;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
 
-public final class CodeMS extends NamedMS implements Code.Bean, Attributed.Bean {
+public final class MCode extends MAttributed implements Code.Bean, Attributed.Bean {
 
-	private BeanContainer<Codelink.Bean> links = new BeanContainerMS<Codelink.Bean>();
+	private BeanContainer<Link.Bean> links = new MBeanContainer<Link.Bean>();
 
-	public CodeMS() {
+	public MCode() {
 	}
 	
-	public CodeMS(String id,Status status) {
+	public MCode(String id,Status status) {
 		super(id,status);
 	}
 
-	public CodeMS(Code.Bean state) {
+	public MCode(Code.Bean state) {
 		
 		this(state,null);
 	}
 	
-	public CodeMS(Code.Bean state,Map<String,Object> context) {
+	public MCode(Code.Bean state,Map<String,Object> context) {
 		
 		super(state,context);
 		
-		for (Codelink.Bean link : state.links())
-			links.add(new CodelinkMS(link,context));
+		for (Link.Bean link : state.links())
+			links.add(new MLink(link,context));
 	}
 	
-	public BeanContainer<Codelink.Bean> links() {
+	public BeanContainer<Link.Bean> links() {
 		return links;
 	}
 	
 	
 
-	public void links(Collection<Codelink.Bean> Codelink) {
+	public void links(Collection<Link.Bean> Codelink) {
 
 		notNull("links", links);
 		
-		for (Codelink.Bean link : Codelink)
+		for (Link.Bean link : Codelink)
 			this.links.add(link);
 	}
 	

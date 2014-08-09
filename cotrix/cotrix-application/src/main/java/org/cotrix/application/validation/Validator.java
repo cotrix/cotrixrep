@@ -14,7 +14,7 @@ import javax.inject.Singleton;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
@@ -87,7 +87,7 @@ public class Validator {
 			
 	}
 	
-	private void checkLinks(List<Violation> violations,Container<? extends LinkDefinition> defs, Container<? extends Codelink> links) {
+	private void checkLinks(List<Violation> violations,Container<? extends LinkDefinition> defs, Container<? extends Link> links) {
 	
 		//safer not to rely on definition equality 
 		Map<String,LinkDefinition> defmap = new HashMap<String,LinkDefinition>();
@@ -98,7 +98,7 @@ public class Validator {
 			cards.put(def.id(), 0);
 		}
 		
-		for (Codelink attr : links) {
+		for (Link attr : links) {
 			
 			LinkDefinition def = attr.definition();
 			

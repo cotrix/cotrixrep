@@ -9,7 +9,7 @@ import javax.inject.Inject;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
@@ -55,8 +55,8 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 		
 		LinkDefinition link = linkdef().name("name").target(target).build();
 		
-		Codelink l1 = link().instanceOf(link).target(targetcode1).build();
-		Codelink l2 = link().instanceOf(link).target(targetcode2).build();
+		Link l1 = link().instanceOf(link).target(targetcode1).build();
+		Link l2 = link().instanceOf(link).target(targetcode2).build();
 		
 		Code code1 = code().name("name").links(l1).build();
 		Code code2 = code().name("name").links(l2).build();

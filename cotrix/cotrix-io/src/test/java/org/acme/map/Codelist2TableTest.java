@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.io.MapService;
@@ -39,8 +39,8 @@ public class Codelist2TableTest {
 	LinkDefinition al = linkdef().name("al").target(tlist).anchorTo(ta).build();
 	
 	Attribute a = attribute().name("a").value("v").build();
-	Codelink l1 = link().instanceOf(nl).target(tc).build();
-	Codelink l2 = link().instanceOf(al).target(tc).build();
+	Link l1 = link().instanceOf(nl).target(tc).build();
+	Link l2 = link().instanceOf(al).target(tc).build();
 	
 	Code c = code().name("c").attributes(a).links(l1,l2).build();
 	

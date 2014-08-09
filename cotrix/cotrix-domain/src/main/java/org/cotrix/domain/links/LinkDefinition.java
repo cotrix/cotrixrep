@@ -24,7 +24,7 @@ public interface LinkDefinition extends Attributed, Definition {
 	
 	
 	
-	static interface State extends Identified.Bean, Attributed.Bean, Named.Bean, BeanOf<Private> {
+	static interface Bean extends Identified.Bean, Attributed.Bean, Named.Bean, BeanOf<Private> {
 
 		Codelist.Bean target();
 		
@@ -47,9 +47,9 @@ public interface LinkDefinition extends Attributed, Definition {
 	
 	
 	
-	public class Private extends Named.Abstract<Private,State> implements LinkDefinition {
+	public class Private extends Attributed.Private<Private,Bean> implements LinkDefinition {
 
-		public Private(LinkDefinition.State state) {
+		public Private(LinkDefinition.Bean state) {
 			super(state);
 		}
 

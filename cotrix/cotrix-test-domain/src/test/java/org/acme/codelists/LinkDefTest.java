@@ -16,11 +16,11 @@ import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.MLinkDef;
 import org.cotrix.domain.utils.AttributeTemplate;
 import org.junit.Test;
 
-public class LinkDefinitionTest extends DomainTest {
+public class LinkDefTest extends DomainTest {
 
 	@Test
 	public void linksCanBeFluentlyConstructed() {
@@ -118,9 +118,9 @@ public class LinkDefinitionTest extends DomainTest {
 							.occurs(once)
 							.attributes(someAttribute()).build());
 		
-		LinkDefinition.State state = reveal(fullLinkWithoutDefaults).bean();
+		LinkDefinition.Bean state = reveal(fullLinkWithoutDefaults).bean();
 		
-		LinkDefinitionMS clone = new LinkDefinitionMS(state);
+		MLinkDef clone = new MLinkDef(state);
 
 		assertEquals(state.qname(),clone.qname());
 		assertEquals(state.target().id(),clone.target().id());

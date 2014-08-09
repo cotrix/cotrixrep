@@ -8,7 +8,7 @@ import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
-import org.cotrix.domain.memory.AttrDefinitionMS;
+import org.cotrix.domain.memory.MAttrDef;
 import org.cotrix.domain.values.ValueType;
 
 /**
@@ -19,10 +19,10 @@ import org.cotrix.domain.values.ValueType;
  */
 public class DefinitionBuilder implements AttributeDefinitionNewClause, AttributeDefinitionChangeClause {
 
-	private final AttrDefinitionMS state;
+	private final MAttrDef state;
 
 	
-	public DefinitionBuilder(AttrDefinitionMS state) {
+	public DefinitionBuilder(MAttrDef state) {
 		this.state = state;
 	}
 	

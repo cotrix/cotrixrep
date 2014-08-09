@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
@@ -62,7 +62,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			
 			Map<QName,String> values = new HashMap<QName, String>();
 			Map<QName,Attribute> attributeMatches = new HashMap<QName,Attribute>();
-			Map<QName,Codelink> linkMatches = new HashMap<QName,Codelink>();
+			Map<QName,Link> linkMatches = new HashMap<QName,Link>();
 			
 			//map code
 			values.put(codeColumnName,code.qname().getLocalPart());
@@ -75,7 +75,7 @@ public class Codelist2Table implements MapTask<Codelist, Table, Codelist2TableDi
 			}
 			
 			
-			for (Codelink l : code.links()) {
+			for (Link l : code.links()) {
 				MemberDirective<?> d = directives.member(l);
 				if (matches(d,l))
 					linkMatches.put(d.column(),l);

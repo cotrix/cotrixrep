@@ -6,7 +6,7 @@ import static org.cotrix.application.shared.EditorialEvent.Type.*;
 import org.cotrix.application.shared.DefaultEditorialEvent;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 
 public class ChangelogEntry extends DefaultEditorialEvent {
 
@@ -19,12 +19,12 @@ public class ChangelogEntry extends DefaultEditorialEvent {
 		
 	}
 	
-	public static ChangelogEntry entry(Code c, Codelink l) {
+	public static ChangelogEntry entry(Code c, Link l) {
 		
 		return entry(CHANGE,c,l);
 	}
 	
-	public static ChangelogEntry entry(Type type,Code c, Codelink l) {
+	public static ChangelogEntry entry(Type type,Code c, Link l) {
 	
 		String id = format(compound,c.id(),l.definition().id());
 		String name = format(compound,c.qname(),l.qname());

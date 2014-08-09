@@ -4,7 +4,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.CodelistMS;
+import org.cotrix.domain.memory.MCodelist;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
@@ -29,13 +29,13 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	
 	//private state interface
 	
-	interface Bean extends Identified.Bean, Attributed.Bean, Named.Bean, Versioned.State, BeanOf<Private> {
+	interface Bean extends Versioned.Bean, BeanOf<Private> {
 	
 		BeanContainer<Code.Bean> codes();
 		
-		BeanContainer<LinkDefinition.State> links();
+		BeanContainer<LinkDefinition.Bean> links();
 		
-		BeanContainer<AttributeDefinition.State> definitions();
+		BeanContainer<AttributeDefinition.Bean> definitions();
 		
 	}
 	
@@ -44,7 +44,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	
 	//private logic
 	
-	final class Private extends Versioned.Abstract<Private,Bean> implements Codelist {
+	final class Private extends Versioned.Private<Private,Bean> implements Codelist {
 		
 		public Private( Codelist.Bean state) {
 			super(state);
@@ -57,12 +57,12 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 		
 		@Override
-		public Container.Private<LinkDefinition.Private,LinkDefinition.State> links() {
+		public Container.Private<LinkDefinition.Private,LinkDefinition.Bean> links() {
 			return new Container.Private<>(bean().links());
 		}
 		
 		@Override
-		public Container.Private<AttributeDefinition.Private,AttributeDefinition.State> definitions() {
+		public Container.Private<AttributeDefinition.Private,AttributeDefinition.Bean> definitions() {
 			return new Container.Private<>(bean().definitions());
 		}
 
@@ -70,7 +70,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		protected final Codelist.Private copyWith(Version version) {
 			
 			
-			Codelist.Bean state = new CodelistMS(bean());
+			Codelist.Bean state = new MCodelist(bean());
 			
 			state.version(version);
 

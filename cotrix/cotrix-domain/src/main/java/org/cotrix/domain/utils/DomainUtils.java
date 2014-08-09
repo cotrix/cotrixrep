@@ -49,24 +49,24 @@ public class DomainUtils {
 	
 	/////////////////////////////////////
 	
-	public static Attribute.Bean stateof(Attribute a) {
+	public static Attribute.Bean beanOf(Attribute a) {
 		return reveal(a).bean();
 	}
 	
-	public static AttributeDefinition.State stateof(AttributeDefinition def) {
+	public static AttributeDefinition.Bean beanOf(AttributeDefinition def) {
 		return reveal(def).bean();
 	}
 
-	public static LinkDefinition.State stateof(LinkDefinition def) {
+	public static LinkDefinition.Bean beanOf(LinkDefinition def) {
 		return reveal(def).bean();
 	}
 	
-	public static Code.Bean stateof(Code c) {
+	public static Code.Bean beanOf(Code c) {
 		return reveal(c).bean();
 	}
 	
-	public static Attribute.Bean stateof(AttributeGrammar.ValueClause clause) {
-		return stateof(clause.build());
+	public static Attribute.Bean beanOf(AttributeGrammar.ValueClause clause) {
+		return beanOf(clause.build());
 	}
 	
 	public static String signatureOf(Codelist list) {

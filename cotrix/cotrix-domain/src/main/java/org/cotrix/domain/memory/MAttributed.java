@@ -14,52 +14,56 @@ import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Status;
 
-public class AttributedMS extends IdentifiedMS implements Attributed.Bean {
+public class MAttributed extends MNamed implements Attributed.Bean {
 
-	private BeanContainer<Attribute.Bean> attributes = new BeanContainerMS<Attribute.Bean>();
+	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<Attribute.Bean>();
 
-	public AttributedMS() {
+	public MAttributed() {
 		
 		attributes.add(timestamp());
 	
 	}
 	
-	public AttributedMS(String id,Status status) {
+	public MAttributed(String id,Status status) {
 		super(id,status);
 	}
 
-	public AttributedMS(Attributed.Bean other,Map<String,Object> context) {
+	public MAttributed(Attributed.Bean other,Map<String,Object> context) {
 		
-		this();
+		super(other);
+		
+		attributes.add(timestamp());
 		
 		for (Attribute.Bean attribute : other.attributes())			
 			if (attribute.is(INHERITABLE))
-				attributes.add(new AttributeMS(attribute,context));				
+				attributes.add(new MAttribute(attribute,context));				
 	}
 	
-	public AttributedMS(Attributed.Bean other) {
+	public MAttributed(Attributed.Bean other) {
 		
 		this(other,null);			
 	}
 	
 	//create with id
-	public AttributedMS(String id,Attributed.Bean other,Map<String,Object> context) {
+	public MAttributed(String id,Attributed.Bean other,Map<String,Object> context) {
 		
-		super(id);
+		super(id,other);
 		
 		attributes.add(timestamp());
 		
 		for (Attribute.Bean attribute : other.attributes())			
 			if (attribute.is(INHERITABLE))
-				attributes.add(new AttributeMS(attribute,context));				
+				attributes.add(new MAttribute(attribute,context));				
 	}
 
 		
 		
-	public AttributedMS(String id,Attributed.Bean other) {
+	public MAttributed(String id,Attributed.Bean other) {
 		
 		this(id,other,null);			
 	}
+	
+	
 	
 	@Override
 	public BeanContainer<Attribute.Bean> attributes() {
@@ -99,6 +103,6 @@ public class AttributedMS extends IdentifiedMS implements Attributed.Bean {
 	
 	//helpers
 	private Attribute.Bean timestamp() {
-		return stateof(attribute().instanceOf(CREATION_TIME).value(time()));
+		return beanOf(attribute().instanceOf(CREATION_TIME).value(time()));
 	}
 }

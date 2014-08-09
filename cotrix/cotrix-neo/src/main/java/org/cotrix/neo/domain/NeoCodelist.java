@@ -51,14 +51,14 @@ public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
 		
 		int total = state.codes().size()+state.definitions().size()+state.links().size();
 		
-		for (AttributeDefinition.State def : state.definitions())
+		for (AttributeDefinition.Bean def : state.definitions())
 			node().createRelationshipTo(NeoAttributeDefinition.factory.nodeFrom(def),Relations.DEFINITION);
 		
 		progress = progress + state.definitions().size();
 		
 		context.save(update(progress/total, "added "+state.definitions().size()+" definitions"));
 		
-		for (LinkDefinition.State l : state.links())
+		for (LinkDefinition.Bean l : state.links())
 			node().createRelationshipTo(NeoLinkDefinition.factory.nodeFrom(l),Relations.LINK);
 		
 		progress = progress + state.links().size();
@@ -104,12 +104,12 @@ public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<LinkDefinition.State> links() {
+	public BeanContainer<LinkDefinition.Bean> links() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoLinkDefinition.factory);
 	}
 	
 	@Override
-	public BeanContainer<AttributeDefinition.State> definitions() {
+	public BeanContainer<AttributeDefinition.Bean> definitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoAttributeDefinition.factory);
 	}
 	

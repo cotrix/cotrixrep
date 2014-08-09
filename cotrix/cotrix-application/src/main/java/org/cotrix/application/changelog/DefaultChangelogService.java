@@ -140,7 +140,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 	private void aaddNewMarkerTo(BeanContainer<Attribute.Bean> attributes) {
 
-		attributes.add(stateof(attribute().instanceOf(NEW).value("TRUE")));
+		attributes.add(beanOf(attribute().instanceOf(NEW).value("TRUE")));
 	}
 
 	private void handleModifiedMarkerWith(Code.Private changed) {
@@ -189,7 +189,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		} else {
 
-			attributes.add(stateof(attribute().instanceOf(MODIFIED)));
+			attributes.add(beanOf(attribute().instanceOf(MODIFIED)));
 			modified = changed.attributes().getFirst(MODIFIED); // remember persistence
 
 		}
@@ -198,7 +198,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		sort(entries);
 
-		stateof(modified).value(jsonBinder().toJson(entries, logtype));
+		beanOf(modified).value(jsonBinder().toJson(entries, logtype));
 
 	}
 

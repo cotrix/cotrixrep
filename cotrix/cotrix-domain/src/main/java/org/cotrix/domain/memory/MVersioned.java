@@ -10,19 +10,19 @@ import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
 
-public abstract class VersionedMS extends NamedMS implements Versioned.State, Identified.Bean, Attributed.Bean, Named.Bean {
+public abstract class MVersioned extends MAttributed implements Versioned.Bean, Identified.Bean, Attributed.Bean, Named.Bean {
 
 	private Version version;
 
-	public VersionedMS() {
+	public MVersioned() {
 		version = new DefaultVersion();
 	}
 	
-	public VersionedMS(String id,Status status) {
+	public MVersioned(String id,Status status) {
 		super(id,status);
 	}
 	
-	public <T extends Attributed.Bean & Versioned.State & Named.Bean> VersionedMS(T state) {
+	public <T extends Attributed.Bean & Versioned.Bean & Named.Bean> MVersioned(T state) {
 		super(state);
 		version(state.version());
 	}
@@ -46,9 +46,9 @@ public abstract class VersionedMS extends NamedMS implements Versioned.State, Id
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Versioned.State))
+		if (!(obj instanceof Versioned.Bean))
 			return false;
-		Versioned.State other = (Versioned.State) obj;
+		Versioned.Bean other = (Versioned.Bean) obj;
 		if (version == null) {
 			if (other.version() != null)
 				return false;

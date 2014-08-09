@@ -12,7 +12,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
 
@@ -79,13 +79,13 @@ public class ChangelogProducer {
 	private void addLinkChanges(Code origin, Code current){
 		
 		
-		Container<? extends Codelink> linksBefore = origin.links();
+		Container<? extends Link> linksBefore = origin.links();
 
 		List<String> matched = new ArrayList<String>();
 
 		
 		
-		for (Codelink link :  current.links()) {
+		for (Link link :  current.links()) {
 			
 			String id = link.id();
 			
@@ -104,7 +104,7 @@ public class ChangelogProducer {
 			}
 		}
 
-		for (Codelink link :  origin.links())
+		for (Link link :  origin.links())
 			
 			if (!matched.contains(link.id())) {
 			 
@@ -123,7 +123,7 @@ public class ChangelogProducer {
 		
 	}
 	
-	private void addLinkChanges(Code code,Codelink origin, Codelink current){
+	private void addLinkChanges(Code code,Link origin, Link current){
 		
 		LinkDefinition origindef = origin.definition();
 		LinkDefinition currentdef = current.definition();

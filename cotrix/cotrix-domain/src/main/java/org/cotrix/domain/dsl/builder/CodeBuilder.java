@@ -10,12 +10,12 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
-import org.cotrix.domain.memory.CodeMS;
+import org.cotrix.domain.memory.MCode;
 
 /**
  * Builds {@link Code}s.
@@ -25,9 +25,9 @@ import org.cotrix.domain.memory.CodeMS;
  */
 public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 
-	private final CodeMS state;
+	private final MCode state;
 	
-	public CodeBuilder(CodeMS state) {
+	public CodeBuilder(MCode state) {
 		this.state = state;
 	}
 	
@@ -44,15 +44,15 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	}
 
 	@Override
-	public CodeBuilder links(Codelink... links) {
+	public CodeBuilder links(Link... links) {
 		
 		return links(asList(links));
 	}
 	
 	@Override
-	public CodeBuilder links(Collection<Codelink> links) {
+	public CodeBuilder links(Collection<Link> links) {
 		
-		state.links(reveal(links,Codelink.Private.class));
+		state.links(reveal(links,Link.Private.class));
 		
 		return this;
 	}

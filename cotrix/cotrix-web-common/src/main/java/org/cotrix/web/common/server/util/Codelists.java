@@ -13,7 +13,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
@@ -138,13 +138,13 @@ public class Codelists {
 		return uiattribute;
 	}
 	
-	public static List<UILink> toUiLinks(Iterable<? extends Codelink> codelinks) {
+	public static List<UILink> toUiLinks(Iterable<? extends Link> codelinks) {
 		List<UILink> links = new ArrayList<>();
-		for (Codelink codelink:codelinks) links.add(toUiLink(codelink));
+		for (Link codelink:codelinks) links.add(toUiLink(codelink));
 		return links;
 	}
 	
-	public static UILink toUiLink(Codelink codelink) {
+	public static UILink toUiLink(Link codelink) {
 		UILink link = new UILink();
 		link.setId(codelink.id());
 		

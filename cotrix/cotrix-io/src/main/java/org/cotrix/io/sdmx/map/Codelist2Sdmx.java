@@ -11,7 +11,7 @@ import java.util.Calendar;
 import org.cotrix.common.Report;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
@@ -201,7 +201,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 	
 	private void mapCodelinks(Code code, NameableMutableBean bean, GetClause directives) {
 		
-		for (Codelink link : code.links()) {
+		for (Link link : code.links()) {
 			
 			String val = link.valueAsString();
 			String lang = DomainUtils.languageOf(link.definition());

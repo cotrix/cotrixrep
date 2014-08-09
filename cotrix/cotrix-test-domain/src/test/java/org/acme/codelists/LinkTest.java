@@ -17,24 +17,24 @@ import javax.xml.namespace.QName;
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.CodelinkMS;
-import org.cotrix.domain.memory.LinkDefinitionMS;
+import org.cotrix.domain.memory.MLink;
+import org.cotrix.domain.memory.MLinkDef;
 import org.junit.Test;
 
-public class CodelinkTest extends DomainTest {
+public class LinkTest extends DomainTest {
 
 	@Test
 	public void linksCanBeFluentlyConstructed() {
 		
 		Code code = someTarget();
-		LinkDefinition listLink = someCodelistLink();
+		LinkDefinition listLink = someLinkDef();
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		Codelink link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
+		Link link  = like(link().instanceOf(listLink).target(code).attributes(a).build());
 		
 		assertEquals(listLink,link.definition());
 		assertEquals(link.definition().qname(),link.qname());
@@ -45,9 +45,9 @@ public class CodelinkTest extends DomainTest {
 	@Test
 	public void changesetCanBeFluentlyConstructed() {
 
-		Codelink link = modifyLink("1").target(someTarget()).build();
+		Link link = modifyLink("1").target(someTarget()).build();
 		
-		assertEquals(MODIFIED,((Codelink.Private) link).status());
+		assertEquals(MODIFIED,((Link.Private) link).status());
 
 	}
 
@@ -60,7 +60,7 @@ public class CodelinkTest extends DomainTest {
 		
 		LinkDefinition listLink = like(linkdef().name("link").target(list).transformWith(lowercase).anchorToName().build());
 		
-		Codelink link  = like(link().instanceOf(listLink).target(code).build());
+		Link link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(new QName(code.qname().getNamespaceURI(),lowercase.apply(code.qname().getLocalPart())),link.value().iterator().next());
 
@@ -77,7 +77,7 @@ public class CodelinkTest extends DomainTest {
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
 		LinkDefinition listLink = like(linkdef().name("link").target(list).anchorTo(template).transformWith(lowercase).build());
-		Codelink link  = like(link().instanceOf(listLink).target(code).build());
+		Link link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(lowercase.apply(a.value())),link.value());
 		
@@ -95,7 +95,7 @@ public class CodelinkTest extends DomainTest {
 		Attribute template = attribute().name(name).ofType(NULL_QNAME).build();
 		
 		LinkDefinition listLink = like(linkdef().name("link").target(list).anchorTo(template).build());
-		Codelink link  = like(link().instanceOf(listLink).target(code).build());
+		Link link  = like(link().instanceOf(listLink).target(code).build());
 		
 		assertEquals(Arrays.asList(a.value()),link.value());
 		
@@ -110,7 +110,7 @@ public class CodelinkTest extends DomainTest {
 		
 		LinkDefinition listlink = like(linkdef().name("link-to-c").target(list).build());
 		
-		Codelink link = like(link().instanceOf(listlink).target(code).build());
+		Link link = like(link().instanceOf(listlink).target(code).build());
 		code = like(code().name("b").links(link).build());
 		list = like(codelist().name("B").links(listlink).with(code).build());
 		
@@ -128,15 +128,15 @@ public class CodelinkTest extends DomainTest {
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
 		
-		Codelink link = link().instanceOf(someCodelistLink()).target(someTarget()).attributes(a).build();
+		Link link = link().instanceOf(someLinkDef()).target(someTarget()).attributes(a).build();
 		
-		Codelink.Bean state = reveal(link).bean();
+		Link.Bean state = reveal(link).bean();
 		
 		Map<String,Object> context = new HashMap<>();
 		
-		context.put(link.definition().id(), new LinkDefinitionMS(stateof(link.definition())));
+		context.put(link.definition().id(), new MLinkDef(beanOf(link.definition())));
 		
-		CodelinkMS clone = new CodelinkMS(state,context);
+		MLink clone = new MLink(state,context);
 
 		assertEquals(state.qname(),clone.qname());
 		
@@ -161,29 +161,29 @@ public class CodelinkTest extends DomainTest {
 		Code code4 = someTarget("t4");
 		Code code5 = someTarget("t5");
 		
-		LinkDefinition listLink = someCodelistLink();
+		LinkDefinition listLink = someLinkDef();
 		
-		Codelink link1  = link().instanceOf(listLink).target(code1).build();
-		Codelink link2  = link().instanceOf(listLink).target(code1).build();
-		Codelink link3  = link().instanceOf(listLink).target(code3).build();
-		Codelink link4  = link().instanceOf(listLink).target(code3).build();
-		Codelink link5  = link().instanceOf(listLink).target(code5).build();
+		Link link1  = link().instanceOf(listLink).target(code1).build();
+		Link link2  = link().instanceOf(listLink).target(code1).build();
+		Link link3  = link().instanceOf(listLink).target(code3).build();
+		Link link4  = link().instanceOf(listLink).target(code3).build();
+		Link link5  = link().instanceOf(listLink).target(code5).build();
 		
 		Code code = like(code().name("s").links(link1,link2,link3,link4,link5).build());
 		
 		//first group member changes target
-		Codelink delta1 = modifyLink(link1.id()).target(code2).build();
+		Link delta1 = modifyLink(link1.id()).target(code2).build();
 		//non-first group member changes target and other
-		Codelink delta4 = modifyLink(link4.id()).target(code4).attributes(a).build();
+		Link delta4 = modifyLink(link4.id()).target(code4).attributes(a).build();
 		//an isolated link changes an attribute
-		Codelink delta5 = modifyLink(link5.id()).attributes(a).build();
+		Link delta5 = modifyLink(link5.id()).attributes(a).build();
 		
 		Code delta = modifyCode(code.id()).links(delta1,delta4,delta5).build();
 				
 		reveal(code).update(reveal(delta));
 		
 		//verify expectations
-		for (Codelink link : code.links()) {
+		for (Link link : code.links()) {
 			
 			//normal update
 			if (link.id().equals(link1.id()))
@@ -221,16 +221,16 @@ public class CodelinkTest extends DomainTest {
 		Code code3 = someTarget("t3");
 		
 		
-		LinkDefinition listLink = someCodelistLink();
+		LinkDefinition listLink = someLinkDef();
 		
-		Codelink link1  = link().instanceOf(listLink).target(code1).build();
-		Codelink link2  = link().instanceOf(listLink).target(code1).build();
+		Link link1  = link().instanceOf(listLink).target(code1).build();
+		Link link2  = link().instanceOf(listLink).target(code1).build();
 		
 		Code code = like(code().name("s").links(link1,link2).build());
 		
 		//inconsistent changes
-		Codelink linkchange1 = modifyLink(link1.id()).target(code2).build();
-		Codelink linkchange3 = modifyLink(link2.id()).target(code3).build();
+		Link linkchange1 = modifyLink(link1.id()).target(code2).build();
+		Link linkchange3 = modifyLink(link2.id()).target(code3).build();
 		
 		Code codechange = modifyCode(code.id()).links(linkchange1,linkchange3).build();
 				
@@ -276,8 +276,8 @@ public class CodelinkTest extends DomainTest {
 		reveal(list1).update(reveal(changeset));
 		
 		//create cycle in instances
-		Codelink link1 = link().instanceOf(clLink1).target(code2).build();
-		Codelink link2 = link().instanceOf(clLink2).target(code1).build();
+		Link link1 = link().instanceOf(clLink1).target(code2).build();
+		Link link2 = link().instanceOf(clLink2).target(code1).build();
 		
 		changeset = modifyCodelist(list1.id()).with(
 					modifyCode(code1.id()).links(link1).build()
@@ -306,13 +306,13 @@ public class CodelinkTest extends DomainTest {
 		
 		Code code = someTarget();
 		
-		LinkDefinition listLink = someCodelistLink();
+		LinkDefinition listLink = someLinkDef();
 		
-		Codelink link  = link().instanceOf(listLink).target(code).build();
+		Link link  = link().instanceOf(listLink).target(code).build();
 		
 		code = someTarget("new");
 		
-		Codelink changeset = modifyLink(link.id()).target(code).build();
+		Link changeset = modifyLink(link.id()).target(code).build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -326,13 +326,13 @@ public class CodelinkTest extends DomainTest {
 		
 		Code code = someTarget();
 		
-		LinkDefinition listLink = someCodelistLink();
+		LinkDefinition linkdef = someLinkDef();
 		
-		Codelink link  = link().instanceOf(listLink).target(code).build();
+		Link link  = link().instanceOf(linkdef).target(code).build();
 		
 		Attribute a = attribute().name(name).value(value).ofType(type).in(language).build();
 		
-		Codelink changeset = modifyLink(link.id()).attributes(a).build();
+		Link changeset = modifyLink(link.id()).attributes(a).build();
 		
 		reveal(link).update(reveal(changeset));
 		
@@ -340,7 +340,7 @@ public class CodelinkTest extends DomainTest {
 		
 	}
 	
-	private LinkDefinition someCodelistLink() {
+	private LinkDefinition someLinkDef() {
 		
 		return like(linkdef().name("link").target(someCodelist()).build());
 	}

@@ -12,7 +12,7 @@ import org.cotrix.domain.trait.Status;
  * 
  * @author Fabio Simeoni
  */
-public class IdentifiedMS implements Identified.Bean {
+public class MIdentified implements Identified.Bean {
 
 	public static boolean testmode = false;
 	
@@ -31,11 +31,11 @@ public class IdentifiedMS implements Identified.Bean {
 	private Status status;
 
 	
-	public IdentifiedMS() {
+	public MIdentified() {
 		this(UUID.randomUUID().toString());
 	}
 	
-	public IdentifiedMS(String id) {
+	public MIdentified(String id) {
 		
 		valid("identifier",id);
 		
@@ -43,7 +43,7 @@ public class IdentifiedMS implements Identified.Bean {
 		this.status=null;
 	}
 
-	public IdentifiedMS(String id, Status status) {
+	public MIdentified(String id, Status status) {
 		
 		notNull("status",status);
 		valid("identifier",id);

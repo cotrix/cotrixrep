@@ -16,7 +16,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Range;
@@ -125,17 +125,17 @@ public class ChangesetUtil {
 		return modifyCodelist(id).name(convert(name)).build();
 	}
 	
-	public static Codelink addCodelink(UILink link, LinkDefinition linkType, Code code) {
+	public static Link addCodelink(UILink link, LinkDefinition linkType, Code code) {
 		List<Attribute> attributes = addAttributes(link.getAttributes());
 		return link().instanceOf(linkType).target(code).attributes(attributes).build();
 	}
 	
-	public static Codelink updateCodelink(UILink link, Codelink oldLink, LinkDefinition linkType, Code code) {
+	public static Link updateCodelink(UILink link, Link oldLink, LinkDefinition linkType, Code code) {
 		List<Attribute> attributes = buildChangeSet(link.getAttributes(), oldLink.attributes());
 		return modifyLink(link.getId()).target(code).attributes(attributes).build();
 	}
 	
-	public static Codelink removeCodelink(UILink link) {
+	public static Link removeCodelink(UILink link) {
 		return deleteLink(link.getId());
 	}
 	

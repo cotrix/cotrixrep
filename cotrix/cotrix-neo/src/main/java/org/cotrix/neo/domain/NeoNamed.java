@@ -9,17 +9,18 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
 
-public class NeoNamed extends NeoAttributed implements Named.Bean {
+public class NeoNamed extends NeoIdentified implements Named.Bean {
 
 
 	public NeoNamed(Node node) {
 		super(node);
 	}
 	
-	public <S extends Named.Bean & Attributed.Bean> NeoNamed(NodeType type, S state) {
-		super(type,state);
+	public <B extends Named.Bean & Attributed.Bean> NeoNamed(NodeType type, B bean) {
 		
-		qname(state.qname());
+		super(type,bean);
+		
+		qname(bean.qname());
 		
 	}
 	

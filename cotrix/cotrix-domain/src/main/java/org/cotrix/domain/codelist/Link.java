@@ -21,11 +21,9 @@ import org.cotrix.domain.values.ValueFunction;
  * @author Fabio Simeoni
  * 
  */
-public interface Codelink extends Identified, Attributed, Named, Defined<LinkDefinition> {
+public interface Link extends Identified, Named, Attributed, Defined<LinkDefinition> {
 
 	/**
-	 * Returns the value of this link.
-	 * 
 	 * @return the link value, or <code>null</code> if the link is orphaned.
 	 */
 	List<Object> value();
@@ -34,18 +32,17 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 	String valueAsString();
 	
 	/**
-	 * Returns the target of this link.
 	 * @return the target, or <code>null</code> if the link is orphaned.
 	 */
 	Code target();
 	
 	
 
-	static interface Bean extends Identified.Bean, Attributed.Bean, Named.Bean, BeanOf<Private> {
+	static interface Bean extends Attributed.Bean, BeanOf<Private> {
 
-		LinkDefinition.State definition();
+		LinkDefinition.Bean definition();
 
-		void definition(LinkDefinition.State state);
+		void definition(LinkDefinition.Bean bean);
 
 		Code.Bean target();
 
@@ -54,19 +51,21 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 	}
 
 	/**
-	 * An {@link Attributed.Abstract} implementation of {@link Codelink}.
+	 * An {@link Attributed.Private} implementation of {@link Link}.
 	 * 
 	 */
-	public class Private extends Attributed.Abstract<Private, Bean> implements Codelink {
+	public class Private extends Attributed.Private<Private, Bean> implements Link {
 
-		public Private(Codelink.Bean state) {
-			super(state);
+		public Private(Link.Bean bean) {
+			super(bean);
 		}
 		
 		@Override
 		public QName qname() {
-			//safe: type cannot be or become null
-			return bean().definition().qname();
+			//safe: def cannot be or become null
+			
+			LinkDefinition.Bean def = bean().definition();
+			return def==null? null : def.qname();
 		}
 		
 		@Override
@@ -107,7 +106,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		}
 
 		@Override
-		public void update(Codelink.Private changeset) throws IllegalArgumentException, IllegalStateException {
+		public void update(Link.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
 			
@@ -116,7 +115,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 			if (newtarget != null)
 				bean().target(newtarget);
 			
-			// wont'update type
+			// wont'update definition
 		}
 
 		
@@ -128,7 +127,7 @@ public interface Codelink extends Identified, Attributed, Named, Defined<LinkDef
 		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
-		public static List<Object> resolve(Codelink.Bean link, LinkDefinition.State type, List<String> ids) {
+		public static List<Object> resolve(Link.Bean link, LinkDefinition.Bean type, List<String> ids) {
 
 			if (ids.contains(link.id())) {
 				StringBuilder cycle = new StringBuilder();

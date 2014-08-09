@@ -10,7 +10,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.memory.BeanContainerMS;
+import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -55,18 +55,17 @@ public interface Container<T> extends Iterable<T> {
 		
 	//private logic
 	
-	final class Private<E extends Identified.Private<E,B>, B extends BeanOf<E> & Named.Bean> 
+	class Private<E extends Identified.Private<E,B>, B extends BeanOf<E> & Named.Bean> 
 								
 	 							  implements Container<E> {
 		
 		
 		private final BeanContainer<B> beans;
 
-
 		@SafeVarargs
 		public Private(E ... es) {
 
-			this (new BeanContainerMS<B>());
+			this (new MBeanContainer<B>());
 			
 			for (E e : es)
 				beans.add(e.bean());

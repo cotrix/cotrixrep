@@ -12,7 +12,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDefinition.State {
+public final class MAttrDef extends MIdentified implements AttributeDefinition.Bean {
 
 	private QName name;
 	private QName type;
@@ -21,23 +21,23 @@ public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDef
 	private Range range;
 	private boolean shared;
 	
-	public AttrDefinitionMS() {
+	public MAttrDef() {
 		this(true);
 	}
 	
-	public AttrDefinitionMS(boolean shared) {
+	public MAttrDef(boolean shared) {
 		type=DEFAULT_TYPE;
 		valueType(defaultValueType);
 		range(defaultRange);
 		shared(shared);
 	}
 	
-	public AttrDefinitionMS(String id,Status status) {
+	public MAttrDef(String id,Status status) {
 		super(id,status);
 	}
 	
 	
-	public AttrDefinitionMS(AttributeDefinition.State state) {
+	public MAttrDef(AttributeDefinition.Bean state) {
 		
 		qname(state.qname());
 		type(state.type());
@@ -126,7 +126,7 @@ public final class AttrDefinitionMS extends IdentifiedMS implements AttributeDef
 		if (!super.equals(obj))
 			return false;
 		
-		AttributeDefinition.State other = (AttributeDefinition.State) obj;
+		AttributeDefinition.Bean other = (AttributeDefinition.Bean) obj;
 		if (language == null) {
 			if (other.language() != null)
 				return false;

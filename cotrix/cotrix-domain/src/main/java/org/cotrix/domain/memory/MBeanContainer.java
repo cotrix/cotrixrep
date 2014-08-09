@@ -13,15 +13,15 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Named;
 
-public class BeanContainerMS<B extends Named.Bean> implements BeanContainer<B> {
+public class MBeanContainer<B extends Named.Bean> implements BeanContainer<B> {
 
 	private final Map<String,B> elements = new LinkedHashMap<String,B>();
 	
 
-	public BeanContainerMS() {
+	public MBeanContainer() {
 	}
 	
-	public BeanContainerMS(Collection<B> elements) {
+	public MBeanContainer(Collection<B> elements) {
 		
 		notNull("elements",elements);
 		
@@ -125,7 +125,7 @@ public class BeanContainerMS<B extends Named.Bean> implements BeanContainer<B> {
 		//wrapping in a collection (e.g. list) allows us to test with soft equality
 		//otherwise keys would still be taken into account
 		
-		if (IdentifiedMS.testmode) {
+		if (MIdentified.testmode) {
 		
 			if (!(collect(elements.values()).equals(collect(other))))
 				return false;

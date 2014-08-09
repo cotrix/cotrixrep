@@ -13,8 +13,8 @@ import java.util.Map;
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.memory.AttrDefinitionMS;
-import org.cotrix.domain.memory.AttributeMS;
+import org.cotrix.domain.memory.MAttrDef;
+import org.cotrix.domain.memory.MAttribute;
 import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -99,7 +99,7 @@ public class AttributeTest extends DomainTest {
 
 		Attribute.Bean state = reveal(untyped).bean();
 	
-		AttributeMS clone = new AttributeMS(state);
+		MAttribute clone = new MAttribute(state);
 		
 		assertEquals(clone, state);
 
@@ -117,10 +117,10 @@ public class AttributeTest extends DomainTest {
 		//context to preserve sharing
 		Map<String,Object> ctx = new HashMap<>();
 		
-		ctx.put(typed.definition().id(), new AttrDefinitionMS(stateof(typed.definition())));
+		ctx.put(typed.definition().id(), new MAttrDef(beanOf(typed.definition())));
 		
-		AttributeMS clone1 = new AttributeMS(stateof(typed),ctx);
-		AttributeMS clone2 = new AttributeMS(stateof(typed2),ctx);
+		MAttribute clone1 = new MAttribute(beanOf(typed),ctx);
+		MAttribute clone2 = new MAttribute(beanOf(typed2),ctx);
 		
 		assertSame(clone1.definition(),clone2.definition());
 		

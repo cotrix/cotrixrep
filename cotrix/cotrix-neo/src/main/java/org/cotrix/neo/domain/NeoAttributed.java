@@ -11,7 +11,7 @@ import org.cotrix.neo.domain.Constants.NodeType;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributed extends NeoIdentified implements Attributed.Bean {
+public class NeoAttributed extends NeoNamed implements Attributed.Bean {
 
 	public NeoAttributed(Node node) {
 		super(node);

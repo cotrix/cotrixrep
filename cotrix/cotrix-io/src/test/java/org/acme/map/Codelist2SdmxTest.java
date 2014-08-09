@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.io.MapService;
@@ -54,7 +54,7 @@ public class Codelist2SdmxTest {
 
 	LinkDefinition nnl = linkdef().name("nnl").target(ttlist).build();
 	
-	Codelink ll1 = link().instanceOf(nnl).target(ttc).build();
+	Link ll1 = link().instanceOf(nnl).target(ttc).build();
 	Attribute ta = attribute().name("ta").value("tv").build();
 	Code tc = code().name("tc").attributes(ta).links(ll1).build();
 	Codelist tlist = codelist().name("t").links(nnl).with(tc).build();
@@ -63,9 +63,9 @@ public class Codelist2SdmxTest {
 	LinkDefinition al = linkdef().name("al").target(tlist).anchorTo(ta).build();
 	LinkDefinition ll = linkdef().name("ll").target(tlist).anchorTo(nnl).build();
 
-	Codelink l1 = link().instanceOf(nl).target(tc).build();
-	Codelink l2 = link().instanceOf(al).target(tc).build();
-	Codelink l3 = link().instanceOf(ll).target(tc).build();
+	Link l1 = link().instanceOf(nl).target(tc).build();
+	Link l2 = link().instanceOf(al).target(tc).build();
+	Link l3 = link().instanceOf(ll).target(tc).build();
 	
 	Attribute a1 = attribute().name("a1").value("v1").build();
 	Attribute a2 = attribute().name("a2").value("v2").in("es").build();

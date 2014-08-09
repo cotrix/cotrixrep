@@ -8,7 +8,7 @@ import javax.inject.Inject;
 
 import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
@@ -39,7 +39,7 @@ public class StagersTest extends ApplicationTest {
 		
 		for (Codelist list : codelists.get(allLists())) {
 			for (Code code: list.codes())
-				for (Codelink link : code.links())
+				for (Link link : code.links())
 					System.out.println(link.qname()+":"+link.value());
 		}
 	}

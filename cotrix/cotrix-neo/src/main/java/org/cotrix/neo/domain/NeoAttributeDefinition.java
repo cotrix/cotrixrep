@@ -14,17 +14,17 @@ import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributeDefinition extends NeoIdentified implements AttributeDefinition.State {
+public class NeoAttributeDefinition extends NeoIdentified implements AttributeDefinition.Bean {
 
-	public static final NeoStateFactory<AttributeDefinition.State> factory = new NeoStateFactory<AttributeDefinition.State>() {
+	public static final NeoStateFactory<AttributeDefinition.Bean> factory = new NeoStateFactory<AttributeDefinition.Bean>() {
 		
 		@Override
-		public AttributeDefinition.State beanFrom(Node node) {
+		public AttributeDefinition.Bean beanFrom(Node node) {
 			return new NeoAttributeDefinition(node);
 		}
 		
 		@Override
-		public Node nodeFrom(AttributeDefinition.State state) {
+		public Node nodeFrom(AttributeDefinition.Bean state) {
 			return new NeoAttributeDefinition(state).node();
 		}
 	};
@@ -33,7 +33,7 @@ public class NeoAttributeDefinition extends NeoIdentified implements AttributeDe
 		super(node);
 	}
 
-	public NeoAttributeDefinition(AttributeDefinition.State state) {
+	public NeoAttributeDefinition(AttributeDefinition.Bean state) {
 		
 		super(ATTRDEF,state);
 		

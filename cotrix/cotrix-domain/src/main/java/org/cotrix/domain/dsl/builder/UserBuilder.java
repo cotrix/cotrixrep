@@ -10,7 +10,7 @@ import org.cotrix.action.ResourceType;
 import org.cotrix.domain.dsl.grammar.UserGrammar.ThirdClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
-import org.cotrix.domain.memory.UserMS;
+import org.cotrix.domain.memory.MUser;
 import org.cotrix.domain.user.DefaultRole;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
@@ -18,9 +18,9 @@ import org.cotrix.domain.utils.Constants;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 
-	private final UserMS state;
+	private final MUser state;
 	
-	public UserBuilder(UserMS state) {
+	public UserBuilder(MUser state) {
 		this.state = state;
 	}
 	

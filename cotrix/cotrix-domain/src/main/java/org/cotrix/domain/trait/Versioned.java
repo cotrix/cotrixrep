@@ -21,7 +21,7 @@ public interface Versioned {
 	
 	//private state interface
 	
-	interface State {
+	interface Bean extends Attributed.Bean {
 		
 		Version version();
 		
@@ -31,9 +31,11 @@ public interface Versioned {
 
 	//private logic
 	
-	abstract class Abstract<SELF extends Abstract<SELF,S>,S extends State & Identified.Bean & Attributed.Bean & Named.Bean> extends Named.Abstract<SELF,S> implements Versioned {
+	abstract class Private<SELF extends Private<SELF,S>,S extends Bean> 
+						 extends Attributed.Private<SELF,S> 
+						 implements Versioned {
 
-		public Abstract(S state) {
+		public Private(S state) {
 			super(state);
 		}
 		

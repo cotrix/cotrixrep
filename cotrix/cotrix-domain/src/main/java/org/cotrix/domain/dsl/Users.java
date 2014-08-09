@@ -8,7 +8,7 @@ import org.cotrix.action.GuestAction;
 import org.cotrix.domain.dsl.builder.UserBuilder;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserChangeClause;
 import org.cotrix.domain.dsl.grammar.UserGrammar.UserNewClause;
-import org.cotrix.domain.memory.UserMS;
+import org.cotrix.domain.memory.MUser;
 import org.cotrix.domain.user.User;
 
 /**
@@ -20,11 +20,11 @@ import org.cotrix.domain.user.User;
 public class Users {
 
 	public static UserNewClause user() {
-		return new UserBuilder(new UserMS());
+		return new UserBuilder(new MUser());
 	}
 
 	public static UserChangeClause modifyUser(User u) {
-		return new UserBuilder(new UserMS(u.id(),MODIFIED)).can(u.directPermissions()).is(u.directRoles());
+		return new UserBuilder(new MUser(u.id(),MODIFIED)).can(u.directPermissions()).is(u.directRoles());
 	}
 
 	// predefined users

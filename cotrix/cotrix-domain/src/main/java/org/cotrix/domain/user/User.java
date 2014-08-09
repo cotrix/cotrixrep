@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.cotrix.action.Action;
-import org.cotrix.domain.memory.UserMS;
+import org.cotrix.domain.memory.MUser;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 
@@ -150,7 +150,7 @@ public interface User extends Identified {
 
 		private static final long serialVersionUID = 1L;
 
-		public Private(UserMS state) {
+		public Private(MUser state) {
 			
 			super(state);
 			

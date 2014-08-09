@@ -13,7 +13,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Attribute.Bean;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.links.LinkDefinition;
@@ -25,7 +25,7 @@ import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoAttribute;
 import org.cotrix.neo.domain.NeoAttributeDefinition;
 import org.cotrix.neo.domain.NeoCode;
-import org.cotrix.neo.domain.NeoCodelink;
+import org.cotrix.neo.domain.NeoLink;
 import org.cotrix.neo.domain.NeoCodelist;
 import org.cotrix.neo.domain.NeoLinkDefinition;
 import org.cotrix.neo.domain.NeoUser;
@@ -70,18 +70,18 @@ public class NeoSubjectProvider implements SubjectProvider {
 		else if (object instanceof LinkDefinition)
 			provided = new LinkDefinition.Private(like(object,LinkDefinition.Private.class,NeoLinkDefinition.factory)); 
 
-		else if (object instanceof Codelink)
-			provided = new Codelink.Private(like(object, Codelink.Private.class,NeoCodelink.factory));
+		else if (object instanceof Link)
+			provided = new Link.Private(like(object, Link.Private.class,NeoLink.factory));
 
-		else if (object instanceof Named) {
-			Named.Bean s = (Named.Bean) reveal(object, Named.Abstract.class).bean();
-			provided = new Named.Abstract(s) {
+		else if (object instanceof Attributed) {
+			Attributed.Bean s = (Attributed.Bean) reveal(object, Attributed.Private.class).bean();
+			provided = new Attributed.Private(s) {
 			};
 		}
 		
-		else if (object instanceof Attributed) {
-			Attributed.Bean s = (Attributed.Bean) reveal(object, Attributed.Abstract.class).bean();
-			provided = new Attributed.Abstract(s) {
+		else if (object instanceof Named) {
+			Named.Bean s = (Named.Bean) reveal(object, Named.Private.class).bean();
+			provided = new Named.Private(s) {
 			};
 		}
 		

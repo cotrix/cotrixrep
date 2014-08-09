@@ -6,33 +6,33 @@ import static org.neo4j.graphdb.Direction.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoCodelink extends NeoAttributed implements Codelink.Bean {
+public class NeoLink extends NeoAttributed implements Link.Bean {
 
-	public static final NeoStateFactory<Codelink.Bean> factory = new NeoStateFactory<Codelink.Bean>() {
+	public static final NeoStateFactory<Link.Bean> factory = new NeoStateFactory<Link.Bean>() {
 		
 		@Override
-		public Codelink.Bean beanFrom(Node node) {
-			return new NeoCodelink(node);
+		public Link.Bean beanFrom(Node node) {
+			return new NeoLink(node);
 		}
 		
 		@Override
-		public Node nodeFrom(Codelink.Bean state) {
-			return new NeoCodelink(state).node();
+		public Node nodeFrom(Link.Bean state) {
+			return new NeoLink(state).node();
 		}
 	};
 	
-	public NeoCodelink(Node node) {
+	public NeoLink(Node node) {
 		super(node);
 	}
 	
-	public NeoCodelink(Codelink.Bean state) {
+	public NeoLink(Link.Bean state) {
 
 		super(CODELINK,state);	
 		
@@ -43,17 +43,17 @@ public class NeoCodelink extends NeoAttributed implements Codelink.Bean {
 	
 	@Override
 	public QName qname() {
-		LinkDefinition.State def = definition();
+		LinkDefinition.Bean def = definition();
 		return def==null?null:def.qname();
 	}
 	
 	@Override
 	public void qname(QName name) {
-		throw new UnsupportedOperationException("codelink names are read-only");
+		//overrides super to avoid adding a property that should remain virtual
 	}
 	
-	public Codelink.Private entity() {
-		return new Codelink.Private(this);
+	public Link.Private entity() {
+		return new Link.Private(this);
 	}
 	
 	@Override
@@ -78,7 +78,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.Bean {
 	}
 	
 	@Override
-	public LinkDefinition.State definition() {
+	public LinkDefinition.Bean definition() {
 	
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 		
@@ -90,7 +90,7 @@ public class NeoCodelink extends NeoAttributed implements Codelink.Bean {
 	}
 	
 	@Override
-	public void definition(LinkDefinition.State state) {
+	public void definition(LinkDefinition.Bean state) {
 		
 		node().createRelationshipTo(resolve(state,LINKDEF),Relations.INSTANCEOF);
 	}

@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.memory.IdentifiedMS;
+import org.cotrix.domain.memory.MIdentified;
 import org.cotrix.test.ApplicationTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -23,12 +23,12 @@ public abstract class DomainTest extends ApplicationTest {
 	
 	@BeforeClass
 	public static void start() {
-		IdentifiedMS.testmode=true;
+		MIdentified.testmode=true;
 	}
 	
 	@AfterClass
 	public static void stop() {
-		IdentifiedMS.testmode=false;
+		MIdentified.testmode=false;
 	}
 	
 	protected <T> T like(T object) {

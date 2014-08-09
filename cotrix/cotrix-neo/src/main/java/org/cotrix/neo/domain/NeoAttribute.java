@@ -45,7 +45,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	}
 	
 	@Override
-	public AttributeDefinition.State definition() {
+	public AttributeDefinition.Bean definition() {
 		
 		if (node().hasProperty(cdef_prop))
 			return commonDefinitionFor((String) node().getProperty(cdef_prop)).state();
@@ -61,7 +61,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	}
 
 	@Override
-	public void definition(AttributeDefinition.State state) {
+	public void definition(AttributeDefinition.Bean state) {
 		
 		//common definitions are named in a property and then reconsituted in memory
 		if (isCommon(state.qname().getLocalPart()))

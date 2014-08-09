@@ -8,7 +8,7 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.memory.NamedMS;
+import org.cotrix.domain.memory.MNamed;
 import org.cotrix.domain.trait.Named;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class NamedTest extends DomainTest {
 	@Test
 	public void namesMustBeValid() {
 		
-		Named.Bean state = new NamedMS();
+		Named.Bean state = new MNamed();
 		
 		try {
 			state.qname(null);
@@ -37,12 +37,12 @@ public class NamedTest extends DomainTest {
 	@Test
 	public void namesCannotBeErased() {
 		
-		Named.Abstract e = like(new MyEntity(new NamedMS()));
+		Named.Private e = like(new MyEntity(new MNamed()));
 		
-		NamedMS mychange = new NamedMS(e.id(),MODIFIED);
+		MNamed mychange = new MNamed(e.id(),MODIFIED);
 		mychange.qname(NULL_QNAME);
 		
-		Named.Abstract changeset = new MyEntity(mychange);
+		Named.Private changeset = new MyEntity(mychange);
 		
 		try {
 			e.update(changeset);
@@ -56,12 +56,12 @@ public class NamedTest extends DomainTest {
 	@Test
 	public void namesCanBeChanged() {
 		
-		Named.Abstract e = like(new MyEntity(new NamedMS()));
+		Named.Private e = like(new MyEntity(new MNamed()));
 		
-		NamedMS mychange = new NamedMS(e.id(),MODIFIED);
+		MNamed mychange = new MNamed(e.id(),MODIFIED);
 		mychange.qname(new QName("newname"));
 		
-		Named.Abstract changeset = new MyEntity(mychange);
+		Named.Private changeset = new MyEntity(mychange);
 		
 		e.update(changeset);
 		
@@ -69,9 +69,9 @@ public class NamedTest extends DomainTest {
 	}
 	
 	
-	static class MyEntity extends Named.Abstract<MyEntity,NamedMS> {
+	static class MyEntity extends Named.Private<MyEntity,MNamed> {
 		
-		public MyEntity(NamedMS state) {
+		public MyEntity(MNamed state) {
 			super(state);
 		}
 	};

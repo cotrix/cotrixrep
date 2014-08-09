@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
@@ -60,8 +60,8 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 	
 		linkdef = source.links().getFirst(linkdef);
 		
-		Codelink link1 = link().instanceOf(linkdef).target(t1).build();
-		Codelink link2 = link().instanceOf(linkdef).target(t2).build();
+		Link link1 = link().instanceOf(linkdef).target(t1).build();
+		Link link2 = link().instanceOf(linkdef).target(t2).build();
 				
 		
 		Code s1 = code().name("target1").links(link1).build();
@@ -72,7 +72,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		repository.update(changeset);
 		
 		for (Code code : repository.lookup(source.id()).codes())
-			for (Codelink link : code.links())
+			for (Link link : code.links())
 				System.out.println(link.definition().qname()+":"+link.value());
 		
 	}

@@ -25,12 +25,12 @@ import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelink;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.Bean;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.LinkDefinitionMS;
-import org.cotrix.domain.memory.AttrDefinitionMS;
+import org.cotrix.domain.memory.MAttrDef;
+import org.cotrix.domain.memory.MLinkDef;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -85,7 +85,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 		notNull("identifier", id);
 		
 		for (Codelist.Bean list : getAll())
-			for (LinkDefinition.State link : list.links())
+			for (LinkDefinition.Bean link : list.links())
 				if (link.target().id().equals(id))
 					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
 				
@@ -119,7 +119,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 					reveal(code).update(reveal(modify(code).attributes(changesets).build()));
 				}
 				
-				AttributeDefinition changeset = new AttrDefinitionMS(def.id(),DELETED).entity();
+				AttributeDefinition changeset = new MAttrDef(def.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).definitions(changeset).build()));
 				
@@ -146,15 +146,15 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 				LinkDefinition type= list.links().lookup(linkId);
 				
 				for (Code code : list.codes()) {
-					Collection<Codelink> changesets = new ArrayList<>(); 
-					for (Codelink l : code.links())
+					Collection<Link> changesets = new ArrayList<>(); 
+					for (Link l : code.links())
 						if(l.definition().id().equals(type.id()))
 							changesets.add(delete(l));
 					
 					reveal(code).update(reveal(modify(code).links(changesets).build()));
 				}
 				
-				LinkDefinition changeset = new LinkDefinitionMS(type.id(),DELETED).entity();
+				LinkDefinition changeset = new MLinkDef(type.id(),DELETED).entity();
 				
 				reveal(list).update(reveal(modify(list).links(changeset).build()));
 				
@@ -390,7 +390,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 
 		return new MCriterion<Code>() {
 
-			private boolean matches(Codelink link) {
+			private boolean matches(Link link) {
 
 				return link.qname().equals(template.qname())
 						&& link.definition().equals(template);
@@ -401,7 +401,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 
 				int pos = 1;
 				List<Object> c1Match = null;
-				for (Codelink link : c1.links())
+				for (Link link : c1.links())
 					if (matches(link))
 						if (pos == position) {
 							c1Match = link.value();
@@ -411,7 +411,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 
 				pos = 1;
 				List<Object> c2Match = null;
-				for (Codelink link : c2.links())
+				for (Link link : c2.links())
 					if (matches(link))
 						if (pos == position) {
 							c2Match = link.value();
