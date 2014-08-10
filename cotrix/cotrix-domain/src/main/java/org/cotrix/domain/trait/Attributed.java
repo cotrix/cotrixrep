@@ -39,6 +39,8 @@ public interface Attributed {
 	
 	String valueOf(Named named);
 	
+	//----------------------------------------
+	
 	
 	interface Bean extends Named.Bean {
 		
@@ -47,8 +49,8 @@ public interface Attributed {
 	}
 	
 
+	//----------------------------------------
 	
-	//private logic
 	
 	abstract class Private<SELF extends Private<SELF,B>,B extends Bean> 
 							

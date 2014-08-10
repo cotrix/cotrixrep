@@ -3,10 +3,8 @@ package org.cotrix.neo.domain;
 import static org.cotrix.neo.domain.Constants.Relations.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attribute.Bean;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.Identified;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.neo4j.graphdb.Node;
@@ -17,19 +15,18 @@ public class NeoAttributed extends NeoNamed implements Attributed.Bean {
 		super(node);
 	}
 	
-	public <S extends Identified.Bean & Attributed.Bean> 
-			NeoAttributed(NodeType type,S state) {
+	public <B extends Attributed.Bean> NeoAttributed(NodeType type,B bean) {
 		
-		super(type,state);
+		super(type,bean);
 		
-		for (Attribute.Bean a : state.attributes())
+		for (Attribute.Bean a : bean.attributes())
 			node().createRelationshipTo(NeoAttribute.factory.nodeFrom(a),ATTRIBUTE);
 		
 	}
 
 	@Override
-	public BeanContainer<Bean> attributes() {
-		return new NeoContainer<Bean>(node(),ATTRIBUTE,NeoAttribute.factory);
+	public BeanContainer<Attribute.Bean> attributes() {
+		return new NeoContainer<>(node(),ATTRIBUTE,NeoAttribute.factory);
 	}
 	
 

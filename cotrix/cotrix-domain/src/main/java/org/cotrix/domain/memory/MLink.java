@@ -8,7 +8,6 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Link;
-import org.cotrix.domain.codelist.Link.Private;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Status;
 
@@ -86,7 +85,7 @@ public final class MLink extends MAttributed implements Link.Bean {
 	}
 	
 	@Override
-	public Private entity() {
+	public Link.Private entity() {
 		return new Link.Private(this);
 	}
 

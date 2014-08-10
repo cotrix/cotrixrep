@@ -1,8 +1,6 @@
 package org.cotrix.application;
 
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Versioned;
+import org.cotrix.domain.codelist.Codelist;
 
 /**
  * Issues versions of domain objects
@@ -12,22 +10,17 @@ import org.cotrix.domain.trait.Versioned;
 public interface VersioningService {
 
 	
-	/**
-	 * Returns a versioned copy of a given domain object.
-	 * @param object the object to version
-	 * @return the clause to specify a new version
-	 */
-	<T extends Versioned & Identified & Named> VersionClause<T> bump(T object);
+	VersionClause bump(Codelist object);
 	
 	
-	static interface VersionClause<T> {
+	static interface VersionClause {
 		
 		/**
 		 * Sets the new version of the object.
 		 * @param version the new version
 		 * @return a versioned copy of the object.
 		 */
-		T to(String version);
+		Codelist to(String version);
 		
 	}
 }

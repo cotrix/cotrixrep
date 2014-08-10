@@ -9,7 +9,6 @@ import java.util.Collection;
 import org.cotrix.action.Action;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.user.User.Private;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
@@ -49,7 +48,7 @@ public class NeoUser extends NeoIdentified implements User.State {
 
 
 	@Override
-	public Private entity() {
+	public User.Private entity() {
 		return new User.Private(this);
 	}
 

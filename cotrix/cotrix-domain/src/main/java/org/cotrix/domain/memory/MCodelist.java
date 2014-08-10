@@ -9,9 +9,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.cotrix.common.CommonUtils;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.AttributeDefinition.Bean;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.BeanContainer;
@@ -19,10 +19,13 @@ import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
-import org.cotrix.domain.trait.Versioned;
+import org.cotrix.domain.version.DefaultVersion;
+import org.cotrix.domain.version.Version;
 
-public final class MCodelist extends MVersioned implements Codelist.Bean {
+public final class MCodelist extends MAttributed implements Codelist.Bean {
 
+	private Version version;
+	
 	private BeanContainer<Code.Bean> codes = new MBeanContainer<Code.Bean>();
 
 	private BeanContainer<LinkDefinition.Bean> links = new MBeanContainer<LinkDefinition.Bean>();
@@ -30,31 +33,34 @@ public final class MCodelist extends MVersioned implements Codelist.Bean {
 	private BeanContainer<AttributeDefinition.Bean> defs = new MBeanContainer<AttributeDefinition.Bean>();
 	
 	public MCodelist() {
+		version = new DefaultVersion();
 	}
 	
 	public MCodelist(String id,Status status) {
 		super(id,status);
 	}
 
-	public MCodelist(Codelist.Bean state) {
+	public MCodelist(Codelist.Bean other) {
 		
-		super(state);
+		super(other);
+		
+		version(other.version());
 		
 		Map<String,Object> context = new HashMap<>();
 		
-		for (AttributeDefinition.Bean def : state.definitions()) {
+		for (AttributeDefinition.Bean def : other.definitions()) {
 			AttributeDefinition.Bean clone = new MAttrDef(def);
 			defs.add(clone);
 			context.put(def.id(), clone);
 		}
 		
-		for (LinkDefinition.Bean def : state.links()) {
+		for (LinkDefinition.Bean def : other.links()) {
 			LinkDefinition.Bean clone = new MLinkDef(def);
 			links.add(clone);
 			context.put(def.id(), clone);
 		}
 		
-		for (Code.Bean code : state.codes()) {
+		for (Code.Bean code : other.codes()) {
 			Code.Bean copy = new MCode(code,context);
 			copy.attributes().add(nameof(code));
 			copy.attributes().add(idof(code));
@@ -62,14 +68,25 @@ public final class MCodelist extends MVersioned implements Codelist.Bean {
 		}
 		
 		
-		attributes().add(versionof(state));
-		attributes().add(nameof(state));
-		attributes().add(idof(state));
+		attributes().add(versionof(other));
+		attributes().add(nameof(other));
+		attributes().add(idof(other));
 	}
 	
+	public Version version() {
+		return version;
+	}
 	
 	@Override
-	public BeanContainer<Bean> definitions() {
+	public void version(Version version) {
+		
+		CommonUtils.notNull("version",version);
+		
+		this.version=version;
+	}
+	
+	@Override
+	public BeanContainer<AttributeDefinition.Bean> definitions() {
 		return defs;
 	}
 	
@@ -120,6 +137,11 @@ public final class MCodelist extends MVersioned implements Codelist.Bean {
 		if (!(obj instanceof Codelist.Bean))
 			return false;
 		Codelist.Bean other = (Codelist.Bean) obj;
+		if (version == null) {
+			if (other.version() != null)
+				return false;
+		} else if (!version.equals(other.version()))
+			return false;
 		if (codes == null) {
 			if (other.codes() != null)
 				return false;
@@ -129,6 +151,11 @@ public final class MCodelist extends MVersioned implements Codelist.Bean {
 			if (other.links() != null)
 				return false;
 		} else if (!links.equals(other.links()))
+			return false;
+		if (defs == null) {
+			if (other.links() != null)
+				return false;
+		} else if (!defs.equals(other.links()))
 			return false;
 		return true;
 	}
@@ -145,8 +172,10 @@ public final class MCodelist extends MVersioned implements Codelist.Bean {
 		return beanOf(attribute().instanceOf(PREVIOUS_VERSION_ID).value(identified.id()).build());
 	}
 	
-	private Attribute.Bean versionof(Versioned.Bean versioned) {
+	private Attribute.Bean versionof(Codelist.Bean versioned) {
 		
 		return beanOf(attribute().instanceOf(PREVIOUS_VERSION).value(versioned.version().value()).build());
 	}
+	
+	
 }

@@ -9,16 +9,14 @@ public interface Named {
 	
 	QName qname();
 	
+	//----------------------------------------
 	
-	
-	interface Bean extends Identified.Bean {
-		
-		QName qname();
+	interface Bean extends Identified.Bean, Named {
 		
 		void qname(QName name);
 	}
 
-	
+	//----------------------------------------
 	
 	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> 
 	

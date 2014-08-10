@@ -8,7 +8,6 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.neo4j.graphdb.Direction.*;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.codelist.Codelist.Bean;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.links.LinkDefinition;
@@ -69,9 +68,9 @@ public class NeoLinkDefinition extends NeoAttributed implements LinkDefinition.B
 	}
 	
 	@Override
-	public void target(Bean state) {
+	public void target(Codelist.Bean bean) {
 		
-		Node target = resolve(state, CODELIST);
+		Node target = resolve(bean, CODELIST);
 		
 		//allow orphan semantics
 		if (target!=null)

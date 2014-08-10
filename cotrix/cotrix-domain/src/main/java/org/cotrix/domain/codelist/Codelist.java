@@ -11,12 +11,11 @@ import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.Version;
 
 
 
-public interface Codelist extends Identified,Attributed,Named,Versioned {
+public interface Codelist extends Identified,Attributed,Named {
 
 	//public read-only interface
 	
@@ -28,18 +27,21 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	
 	String previousVersion();
 	
-	
-	
+	String version();
 	
 	//private state interface
 	
-	interface Bean extends Versioned.Bean, BeanOf<Private> {
+	interface Bean extends Attributed.Bean, BeanOf<Private> {
 	
 		BeanContainer<Code.Bean> codes();
 		
 		BeanContainer<LinkDefinition.Bean> links();
 		
 		BeanContainer<AttributeDefinition.Bean> definitions();
+		
+		Version version();
+		
+		void version(Version version);
 		
 	}
 	
@@ -48,7 +50,7 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 	
 	//private logic
 	
-	final class Private extends Versioned.Private<Private,Bean> implements Codelist {
+	final class Private extends Attributed.Private<Private,Bean> implements Codelist {
 		
 		public Private( Codelist.Bean state) {
 			super(state);
@@ -71,22 +73,17 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 		}
 		
 		@Override
+		public String version() {
+			return bean().version() == null ? null : bean().version().value();
+		}
+		
+		@Override
 		public String previousVersion() {
 			
 			return valueOf(PREVIOUS_VERSION);
 			
 		}
 
-		@Override
-		protected final Codelist.Private copyWith(Version version) {
-			
-			
-			Codelist.Bean state = new MCodelist(bean());
-			
-			state.version(version);
-
-			return state.entity();
-		}
 
 		@Override
 		public String toString() {
@@ -94,10 +91,27 @@ public interface Codelist extends Identified,Attributed,Named,Versioned {
 					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 
+		public Codelist bump(String version) {
+
+			Version newVersion = bean().version().bumpTo(version);
+
+			Codelist.Bean bean = new MCodelist(bean());
+			
+			bean.version(newVersion);
+
+			return bean.entity();
+
+		}
+		
 		@Override
 		public void update(Codelist.Private changeset) throws IllegalArgumentException, IllegalStateException {
 			
 			super.update(changeset);
+			
+			//detect illegal version changes
+			if (changeset.version() != null && !changeset.version().equals(this.version()))
+				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
+						+ ". Versioning is performed by copy");
 			
 			definitions().update(changeset.definitions());
 			

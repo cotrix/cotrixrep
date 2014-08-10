@@ -9,7 +9,6 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.AttributeDefinition.Bean;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.trait.Status;
 import org.slf4j.Logger;
@@ -50,12 +49,12 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 	
 	
 	@Override
-	public Bean definition() {
+	public AttributeDefinition.Bean definition() {
 		return definition;
 	}
 	
 	@Override
-	public void definition(Bean definition) {
+	public void definition(AttributeDefinition.Bean definition) {
 		
 		notNull("definition", definition);
 		

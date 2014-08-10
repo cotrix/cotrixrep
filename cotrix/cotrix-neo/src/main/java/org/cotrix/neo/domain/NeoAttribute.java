@@ -8,8 +8,6 @@ import static org.neo4j.graphdb.Direction.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attribute.Private;
-import org.cotrix.domain.attributes.Attribute.Bean;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -22,12 +20,12 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	public static final NeoStateFactory<Attribute.Bean> factory = new NeoStateFactory<Attribute.Bean>() {
 		
 		@Override
-		public Bean beanFrom(Node node) {
+		public Attribute.Bean beanFrom(Node node) {
 			return new NeoAttribute(node);
 		}
 		
 		@Override
-		public Node nodeFrom(Bean state) {
+		public Node nodeFrom(Attribute.Bean state) {
 			return new NeoAttribute(state).node();
 		}
 	};
@@ -160,7 +158,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	}
 
 	@Override
-	public Private entity() {
+	public Attribute.Private entity() {
 		return new Attribute.Private(this);
 	}
 }

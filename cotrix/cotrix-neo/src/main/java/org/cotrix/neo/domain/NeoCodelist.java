@@ -2,6 +2,7 @@ package org.cotrix.neo.domain;
 
 import static java.lang.Math.*;
 import static org.cotrix.common.async.TaskUpdate.*;
+import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import org.cotrix.common.async.CancelledTaskException;
@@ -11,6 +12,8 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.links.LinkDefinition;
+import org.cotrix.domain.version.DefaultVersion;
+import org.cotrix.domain.version.Version;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -18,7 +21,7 @@ import org.neo4j.graphdb.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
+public class NeoCodelist extends NeoAttributed implements Codelist.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(NeoCodelist.class);
 
@@ -41,38 +44,40 @@ public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
 	}
 	
 	
-	public NeoCodelist(Codelist.Bean state) {
+	public NeoCodelist(Codelist.Bean other) {
 		
-		super(CODELIST,state);	
+		super(CODELIST,other);	
+		
+		version(other.version());
 	
 		TaskContext context = new TaskContext();
 		
 		float progress=0f;
 		
-		int total = state.codes().size()+state.definitions().size()+state.links().size();
+		int total = other.codes().size()+other.definitions().size()+other.links().size();
 		
-		for (AttributeDefinition.Bean def : state.definitions())
+		for (AttributeDefinition.Bean def : other.definitions())
 			node().createRelationshipTo(NeoAttributeDefinition.factory.nodeFrom(def),Relations.DEFINITION);
 		
-		progress = progress + state.definitions().size();
+		progress = progress + other.definitions().size();
 		
-		context.save(update(progress/total, "added "+state.definitions().size()+" definitions"));
+		context.save(update(progress/total, "added "+other.definitions().size()+" definitions"));
 		
-		for (LinkDefinition.Bean l : state.links())
+		for (LinkDefinition.Bean l : other.links())
 			node().createRelationshipTo(NeoLinkDefinition.factory.nodeFrom(l),Relations.LINK);
 		
-		progress = progress + state.links().size();
+		progress = progress + other.links().size();
 		
-		context.save(update(progress/total, "added "+state.links().size()+" links"));
+		context.save(update(progress/total, "added "+other.links().size()+" links"));
 		
 		int i = 0;
 	
-		int codes = state.codes().size();
+		int codes = other.codes().size();
 		
 		//arbitrary
 		long step = round(max(10,floor(codes/10)));
 		
-		for (Code.Bean c : state.codes()) {
+		for (Code.Bean c : other.codes()) {
 			
 			if (i%step==0)
 			
@@ -96,6 +101,16 @@ public class NeoCodelist extends NeoVersioned implements Codelist.Bean {
 	
 	public Codelist.Private entity() {
 		return new Codelist.Private(this);
+	}
+	
+	@Override
+	public Version version() {
+		return new DefaultVersion((String) node().getProperty(version_prop));
+	}
+
+	@Override
+	public void version(Version version) {
+		node().setProperty(version_prop, version.value());
 	}
 	
 	@Override

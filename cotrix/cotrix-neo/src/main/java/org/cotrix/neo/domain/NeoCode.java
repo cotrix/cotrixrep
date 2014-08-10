@@ -3,7 +3,6 @@ package org.cotrix.neo.domain;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -39,7 +38,7 @@ public class NeoCode extends NeoAttributed implements Code.Bean {
 	}
 	
 	@Override
-	public Private entity() {
+	public Code.Private entity() {
 		return new Code.Private(this);
 	}
 

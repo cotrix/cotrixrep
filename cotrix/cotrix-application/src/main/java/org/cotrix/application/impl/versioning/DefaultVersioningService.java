@@ -1,6 +1,7 @@
 package org.cotrix.application.impl.versioning;
 
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.dsl.Codes.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -10,10 +11,8 @@ import org.cotrix.action.events.CodelistActionEvents;
 import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.spi.IdGenerator;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Versioned;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
@@ -35,24 +34,23 @@ public class DefaultVersioningService implements VersioningService {
 	@Inject @Current
 	private BeanSession session;
 	
-	public <T extends Versioned & Identified & Named> VersioningService.VersionClause<T> bump(T object) {
+	public VersioningService.VersionClause bump(Codelist list) {
 		
-		notNull("object", object);
+		notNull("object", list);
 		
-		final Versioned.Private<?,?> versionable = reveal(object,Versioned.Private.class);
+		final Codelist.Private plist = reveal(list);
 		
-		return new VersionClause<T>() {
+		return new VersionClause() {
 			
 			@Override
-			public T to(String version) {
+			public Codelist to(String version) {
 				
 				//delegates validation according to default version scheme
 				Version v = new DefaultVersion(version);
 				
-				@SuppressWarnings("unchecked")
-				T versioned = (T) versionable.bump(v.toString());
+				Codelist versioned = plist.bump(v.toString());
 				
-				events.fire(new CodelistActionEvents.Version(versionable.id(),versioned.id(),versioned.qname(),versioned.version(), session));
+				events.fire(new CodelistActionEvents.Version(plist.id(),versioned.id(),versioned.qname(),versioned.version(), session));
 				
 				return versioned;
 			}

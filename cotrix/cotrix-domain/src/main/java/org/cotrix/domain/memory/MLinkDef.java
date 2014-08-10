@@ -7,7 +7,6 @@ import static org.cotrix.domain.values.ValueFunctions.*;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.links.LinkDefinition.Private;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.trait.Status;
@@ -82,7 +81,7 @@ public class MLinkDef extends MAttributed implements LinkDefinition.Bean {
 	}
 	
 	@Override
-	public Private entity() {
+	public LinkDefinition.Private entity() {
 		return new LinkDefinition.Private(this);
 	}
 

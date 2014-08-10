@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Code.Private;
 import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.trait.Attributed;
@@ -52,7 +51,7 @@ public final class MCode extends MAttributed implements Code.Bean, Attributed.Be
 	}
 	
 	@Override
-	public Private entity() {
+	public Code.Private entity() {
 		
 		return new Code.Private(this);
 	}

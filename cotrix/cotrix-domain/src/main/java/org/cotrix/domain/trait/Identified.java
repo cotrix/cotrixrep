@@ -7,20 +7,20 @@ public interface Identified {
 	
 	String id();
 
-
-	interface Bean {
+	//----------------------------------------
 	
-		String id();
-		
+	interface Bean extends Identified {
+	
 		Status status();
 
 	}
 	
+	//----------------------------------------
 	
 	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> implements Identified {
 
 		//we need (to emulate) SELF because we have a covariant method #update(SELF)
-		//we need B to give bean back to subclasses
+		//we need B to give beans back to subclasses
 		
 		private B bean;
 		
