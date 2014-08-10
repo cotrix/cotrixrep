@@ -2,7 +2,6 @@ package org.cotrix.application.logbook;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.application.logbook.LogbookEvent.*;
-import static org.cotrix.domain.managed.ManagedCodelist.*;
 
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -35,7 +34,7 @@ public class CodelistObserver {
 			
 			book.add(CREATED.entry());
 			
-			String previousVersion = manage(list).previousVersion();
+			String previousVersion = list.previousVersion();
 			
 			if (previousVersion!=null)
 				book.add(VERSIONED.entryWith("versioned from:"+previousVersion));

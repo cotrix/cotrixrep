@@ -9,6 +9,8 @@ import static org.cotrix.domain.utils.DomainUtils.*;
 import java.text.ParseException;
 import java.util.Date;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
@@ -32,6 +34,10 @@ public interface Attributed {
 	String lastUpdatedBy();
 	
 	String originId();
+	
+	QName originName();
+	
+	String valueOf(Named named);
 	
 	
 	interface Bean extends Named.Bean {
@@ -105,7 +111,17 @@ public interface Attributed {
 			
 		}
 		
+		@Override
+		public QName originName() {
+			
+			String val = valueOf(PREVIOUS_VERSION_NAME);
+			
+			return val == null ? null: QName.valueOf(val);
+			
+		}
 		
+		
+		@Override
 		public String valueOf(Named def) {
 			
 			Attribute a  = attributes().getFirst(def);

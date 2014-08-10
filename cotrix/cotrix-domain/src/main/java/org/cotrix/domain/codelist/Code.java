@@ -1,8 +1,12 @@
 package org.cotrix.domain.codelist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.memory.MBeanContainer;
@@ -13,24 +17,13 @@ import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.trait.Status;
 
-/**
- * An {@link Identified}, {@link Attributed}, and {@link Named} symbol.
- * 
- * @author Fabio Simeoni
- *
- */
-public interface Code extends Identified,Attributed,Named {
+
+public interface Code extends Identified,Named,Attributed {
 	
-	//public, read-only interface
-	/**
-	 * Returns the {@link Link}s of this code.
-	 * @return the links
-	 */
 	Container<? extends Link> links();
 	
+	List<Attribute> markers();
 	
-	
-	//private state interface
 	
 	interface Bean extends Attributed.Bean, BeanOf<Private> {
 		
@@ -53,6 +46,24 @@ public interface Code extends Identified,Attributed,Named {
 			
 			return new Container.Private<>(bean().links());
 			
+		}
+		
+		@Override
+		public List<Attribute> markers() {
+			
+			List<Attribute> mks = new ArrayList<>();
+			
+			for (CommonDefinition def : CommonDefinition.markers()) {
+				
+				Attribute mk = attributes().getFirst(def);
+				
+				if (mk!=null)
+					mks.add(mk);
+			}
+			
+			return mks;
+				
+		
 		}
 		
 		@Override

@@ -3,7 +3,6 @@ package org.acme;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
@@ -14,7 +13,6 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.values.ValueType;
 import org.cotrix.repository.CodelistActions;
 import org.cotrix.repository.CodelistRepository;
@@ -54,17 +52,13 @@ public class ValidationTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		ManagedCode managed = manage(list.codes().lookup(modified.id()));
-		
-		//System.out.println(managed.attribute(INVALID).value());
-		
-		assertNotNull(managed.attribute(INVALID));
+		assertNotNull(code.valueOf(INVALID));
 		
 		modified = modify(code).attributes(delete(onetoomany),modify(a).value("ss").build()).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		assertNull(managed.attribute(INVALID));
+		assertNull(code.valueOf(INVALID));
 	}
 	
 	@Test
@@ -74,11 +68,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		ManagedCode managed = manage(list.codes().lookup(modified.id()));
-		
-		assertNotNull(managed.attribute(INVALID));
-		
-		//System.out.println(managed.attribute(INVALID).value());
+		System.out.println(code.valueOf(INVALID));
 		
 	}
 	
@@ -91,11 +81,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		ManagedCode managed = manage(list.codes().getFirst(code));
-		
-		assertNotNull(managed.attribute(INVALID));
-		
-		//System.out.println(managed.attribute(INVALID).value());
+		System.out.println(code.valueOf(INVALID));
 	}
 	
 	@Test
@@ -113,9 +99,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		ManagedCode managed = manage(list.codes().getFirst(code));
-		
-		assertNotNull(managed.attribute(INVALID));
+		assertNotNull(code.valueOf(INVALID));
 
 		//delete def and remove issue
 
@@ -123,7 +107,7 @@ public class ValidationTest extends ApplicationTest {
 			
 		validator.validate(list);
 		
-		assertNull(managed.attribute(INVALID));
+		assertNull(code.valueOf(INVALID));
 
 	}
 	

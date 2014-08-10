@@ -2,7 +2,6 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.managed.ManagedCodelist.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
 
@@ -10,11 +9,9 @@ import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.managed.ManagedCode;
-import org.cotrix.domain.managed.ManagedCodelist;
 import org.cotrix.domain.memory.MCodelist;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,18 +114,16 @@ public class CodelistTest extends DomainTest {
 
 		assertEquals("2",versioned.version());
 		
-		ManagedCodelist managed = manage(versioned);
-		
 		//lineage is preserved:
 		
-		assertEquals(list.qname(),managed.originName());
-		assertEquals(list.id(),managed.originId());
-		assertEquals(list.version(),managed.previousVersion());
+		assertEquals(list.qname(),versioned.originName());
+		assertEquals(list.id(),versioned.originId());
+		assertEquals(list.version(),versioned.previousVersion());
 		
-		ManagedCode managedCode = ManagedCode.manage(versioned.codes().getFirst(code));
+		Code vcode = versioned.codes().getFirst(code);
 				
-		assertEquals(code.id(), managedCode.originId());
-		assertEquals(code.qname(),managedCode.originName());
+		assertEquals(code.id(), vcode.originId());
+		assertEquals(code.qname(),vcode.originName());
 		
 	}
 	

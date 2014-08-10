@@ -3,7 +3,6 @@ package org.acme;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.domain.managed.ManagedCode.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistActions.*;
 import static org.junit.Assert.*;
@@ -16,7 +15,6 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.managed.ManagedCode;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
@@ -70,9 +68,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(code).build());
 
-		ManagedCode managedCode = manage(list.codes().getFirst(code));
-		
-		assertNotNull(managedCode.attribute(NEW));
+		assertNotNull(list.codes().getFirst(code).attributes().getFirst(NEW));
 		
 	}
 	
@@ -81,17 +77,15 @@ public class ChangelogTest extends ApplicationTest {
 		
 		Code versionedCode = list.codes().getFirst(origin);
 		
-		Code modified = modify(versionedCode).name("modified").build();
+		Code change = modify(versionedCode).name("modified").build();
 		
-		codelists.update(modify(list).with(modified).build());
+		codelists.update(modify(list).with(change).build());
 
-		ManagedCode managed = manage(list.codes().getFirst(modified));
+		Code changed = list.codes().getFirst(change);
 		
-		assertNull(managed.attribute(NEW));
+		assertFalse(changed.attributes().contains(NEW));
 		
-		assertNotNull(managed.attribute(MODIFIED));
-		
-		assertNotNull(managed.attribute(MODIFIED).value());
+		assertNotNull(changed.valueOf(MODIFIED));
 		
 	}
 	
@@ -104,7 +98,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		String val = manage(versionedCode).attribute(MODIFIED).value();
+		String val = versionedCode.valueOf(MODIFIED);
 		
 		System.out.println(val);
 		
@@ -124,7 +118,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		System.out.println(manage(code).attribute(MODIFIED).value());
+		System.out.println(code.valueOf(MODIFIED));
 	
 		Thread.sleep(1000);
 		
@@ -138,7 +132,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 
-		System.out.println(manage(code).attribute(MODIFIED).value());
+		System.out.println(code.valueOf(MODIFIED));
 
 	}
 
@@ -155,11 +149,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		changelog.track(list,false);
 
-		ManagedCode managed = manage(code);
-		
-		assertNotNull(managed.attribute(MODIFIED));
-
-		System.out.println(manage(code).attribute(MODIFIED).value());
+		System.out.println(code.valueOf(MODIFIED));
 	
 		
 
@@ -178,11 +168,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		changelog.track(list,false);
 
-		ManagedCode managed = manage(code);
-		
-		assertNotNull(managed.attribute(MODIFIED));
-
-		System.out.println(manage(code).attribute(MODIFIED).value());
+		System.out.println(code.valueOf(MODIFIED));
 	
 		
 
