@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.user.User;
@@ -43,33 +44,36 @@ public class CodeManagedTest extends ApplicationTest {
 	@Test
 	public void accessCreationDate() {
 		
-		assertNotNull(code.created());
+		assertNotNull(code.attributes().dateOf(CREATED));
 	}
 	
 	@Test
 	public void accessLastUpdateDate() throws Exception {
 		
+		Attributes attributes = code.attributes();
 		
 		//default value is creation date
-		assertEquals(code.created(),code.lastUpdated());
+		assertFalse(attributes.contains(LAST_UPDATED));
 		
 		//let date change
 		SECONDS.sleep(1);
 		
 		reveal(code).update(reveal(modify(code).name("newname").build()));
 		
-		assertNotEquals(code.created(),code.lastUpdated());
+		assertNotNull(attributes.dateOf(LAST_UPDATED));
 	}
 	
 	@Test
 	public void accessLastUpdateDateBy() throws Exception {
 		
-		assertNull(code.lastUpdatedBy());
+		Attributes attributes = code.attributes();
+		
+		assertNull(attributes.dateOf(LAST_UPDATED));
 		
 		reveal(code).update(reveal(modify(code).name("newname").build()));
 		
 		//default current user
-		assertEquals(current.name(),code.lastUpdatedBy());
+		assertEquals(current.name(),attributes.valueOf(UPDATED_BY));
 		
 		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();
 		users.add(fifi);
@@ -77,19 +81,21 @@ public class CodeManagedTest extends ApplicationTest {
 		
 		reveal(code).update(reveal(modify(code).name("oncemore").build()));
 		
-		assertEquals(fifi.name(),code.lastUpdatedBy());		
+		assertEquals(fifi.name(),attributes.valueOf(UPDATED_BY));		
 	}
 	
 	@Test
 	public void accessOrigin() throws Exception {
+		
+		Attributes attributes = code.attributes();
 		
 		User fifi = user().name("fifi").fullName("fifi").email("fifi@invente.com").build();
 		users.add(fifi);
 		current.set(fifi);
 		
 		//default value is creation date
-		assertNull(code.originId());
-		assertNull(code.originName());
+		assertNull(attributes.valueOf(PREVIOUS_VERSION_ID));
+		assertNull(attributes.nameOf(PREVIOUS_VERSION_NAME));
 		
 		Codelist list  = codelist().name("newname").with(code).build();
 		
@@ -99,8 +105,10 @@ public class CodeManagedTest extends ApplicationTest {
 		
 		Code vcode = versioned.codes().getFirst(code);
 		
-		assertEquals(code.id(), vcode.originId());
-		assertEquals(code.qname(), vcode.originName());
+		attributes = vcode.attributes();
+		
+		assertEquals(code.id(), attributes.valueOf(PREVIOUS_VERSION_ID));
+		assertEquals(code.qname(), attributes.nameOf(PREVIOUS_VERSION_NAME));
 
 	}
 	

@@ -46,7 +46,7 @@ public class MappingTest extends ApplicationTest {
 	@Test
 	public void commonAttributesRoundTrip() {
 		
-		Attribute a = attribute().instanceOf(CREATION_TIME.get()).value("v").build();
+		Attribute a = attribute().instanceOf(CREATED.get()).value("v").build();
 		
 		Attribute.Bean created = reveal(a).bean();
 		

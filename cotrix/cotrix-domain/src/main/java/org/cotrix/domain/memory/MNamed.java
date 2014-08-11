@@ -4,8 +4,8 @@ import static org.cotrix.common.CommonUtils.*;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Status;
 
 
 public class MNamed extends MIdentified implements Named.Bean {

@@ -18,15 +18,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.application.ValidationService;
-import org.cotrix.common.CommonUtils;
 import org.cotrix.common.async.CancelledTaskException;
 import org.cotrix.common.async.TaskContext;
-import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.common.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +37,9 @@ public class DefaultValidationService implements ValidationService {
 
 	private static Logger log = LoggerFactory.getLogger(DefaultValidationService.class);
 	
+	private static 	Type type = new TypeToken<List<Violation>>(){}.getType();
+	
+
 	@Inject
 	private CodelistRepository codelists;
 	
@@ -108,29 +109,19 @@ public class DefaultValidationService implements ValidationService {
 		
 		List<Violation> violations = validator.check(list, code);
 		
-		Attribute invalid = code.attributes().getFirst(INVALID);
-		
-		BeanContainer<Attribute.Bean> attributes = code.bean().attributes();
-		
-		
 		if (violations.isEmpty()) {
 			
-			if (has(invalid))
-				attributes.remove(invalid.id());
+			INVALID.removeFrom(code);
 			
 			return;
 		}
 		
-		Type type = new TypeToken<List<Violation>>(){}.getType();
 		
-		if (hasno(invalid)) {
-			
-			attributes.add(beanOf(attribute().instanceOf(INVALID)));
-			invalid = code.attributes().getFirst(INVALID);
-		}
-		else {
-			
-			List<Violation> existingViolations = jsonBinder().fromJson(invalid.value(),type) ;
+		Attributes attributes = code.attributes();
+		
+		if (INVALID.isIn(attributes)) {
+					
+			List<Violation> existingViolations = jsonBinder().fromJson(INVALID.in(attributes),type) ;
 			
 			//preserve user and timestamp of already-known errors
 			for (Violation violation : existingViolations)
@@ -138,21 +129,9 @@ public class DefaultValidationService implements ValidationService {
 					violations.add(violation);
 			
 			Collections.sort(violations);
-			
+				
 		}
 		
-		beanOf(invalid).value(CommonUtils.jsonBinder().toJson(violations,type));
-	}
-	
-	
-	
-	// helpers
-	
-	private boolean has(Object o) {
-		return o!=null;
-	}
-	
-	private boolean hasno(Object o) {
-		return o==null;
+		INVALID.set(jsonBinder().toJson(violations,type)).in(attributes);
 	}
 }

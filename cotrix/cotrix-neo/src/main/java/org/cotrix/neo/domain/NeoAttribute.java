@@ -46,7 +46,7 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	public AttributeDefinition.Bean definition() {
 		
 		if (node().hasProperty(cdef_prop))
-			return commonDefinitionFor((String) node().getProperty(cdef_prop)).state();
+			return commonDefinitionFor((String) node().getProperty(cdef_prop)).bean();
 		
 		Relationship rel = node().getSingleRelationship(Relations.INSTANCEOF,OUTGOING);
 				

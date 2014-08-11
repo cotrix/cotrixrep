@@ -13,6 +13,7 @@ import org.cotrix.action.events.CodelistActionEvents.Publish;
 import org.cotrix.action.events.CodelistActionEvents.Version;
 import org.cotrix.common.events.New;
 import org.cotrix.common.events.Removed;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.lifecycle.LifecycleEvent;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class CodelistObserver {
 			
 			book.add(CREATED.entry());
 			
-			String previousVersion = list.previousVersion();
+			String previousVersion = CommonDefinition.PREVIOUS_VERSION_ID.of(list);
 			
 			if (previousVersion!=null)
 				book.add(VERSIONED.entryWith("versioned from:"+previousVersion));

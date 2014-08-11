@@ -9,12 +9,16 @@ public interface Named {
 	
 	QName qname();
 	
+	
+	
 	//----------------------------------------
 	
 	interface Bean extends Identified.Bean, Named {
 		
 		void qname(QName name);
 	}
+	
+	
 
 	//----------------------------------------
 	
@@ -23,18 +27,14 @@ public interface Named {
 						 extends Identified.Private<SELF,B> implements Named {
 		
 		
-		public Private(B bean) {
-		
+		public Private(B bean) {		
 			super(bean);
-		
 		}
 		
 		
 		@Override
 		public QName qname() {
-		
 			return bean().qname();
-		
 		}
 
 		

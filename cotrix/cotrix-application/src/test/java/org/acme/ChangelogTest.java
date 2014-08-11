@@ -83,9 +83,9 @@ public class ChangelogTest extends ApplicationTest {
 
 		Code changed = list.codes().getFirst(change);
 		
-		assertFalse(changed.attributes().contains(NEW));
+		assertNull(NEW.of(changed));
 		
-		assertNotNull(changed.valueOf(MODIFIED));
+		assertNotNull(MODIFIED.of(changed));
 		
 	}
 	
@@ -98,7 +98,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		String val = versionedCode.valueOf(MODIFIED);
+		String val = MODIFIED.of(versionedCode);
 		
 		System.out.println(val);
 		
@@ -118,7 +118,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		System.out.println(code.valueOf(MODIFIED));
+		System.out.println(MODIFIED.of(code));
 	
 		Thread.sleep(1000);
 		
@@ -132,7 +132,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 
-		System.out.println(code.valueOf(MODIFIED));
+		System.out.println(MODIFIED.of(code));
 
 	}
 
@@ -149,7 +149,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		changelog.track(list,false);
 
-		System.out.println(code.valueOf(MODIFIED));
+		System.out.println(MODIFIED.of(code));
 	
 		
 
@@ -168,7 +168,7 @@ public class ChangelogTest extends ApplicationTest {
 		
 		changelog.track(list,false);
 
-		System.out.println(code.valueOf(MODIFIED));
+		System.out.println(MODIFIED.of(code));
 	
 		
 

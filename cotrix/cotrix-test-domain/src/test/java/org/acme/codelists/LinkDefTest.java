@@ -2,8 +2,8 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.common.Ranges.*;
+import static org.cotrix.domain.common.Status.*;
 import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.trait.Status.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.junit.Assert.*;
 

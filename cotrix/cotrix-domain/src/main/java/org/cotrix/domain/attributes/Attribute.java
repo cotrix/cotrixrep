@@ -4,8 +4,8 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.BeanOf;
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
@@ -14,7 +14,6 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 
 
 	QName type();
-
 	
 	boolean is(QName type);
 	
@@ -27,7 +26,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	String description();
 	
 
-	//private state interface
+	//----------------------------------------
 	
 	interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
 
@@ -38,18 +37,15 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		
 		
 		QName type();
+		void type(QName type);
 
 		String value();
+		void value(String value);
 
 		String language();
+		void language(String language);
 		
 		String description();
-
-
-		
-		void type(QName type);
-		void value(String value);
-		void language(String language);
 		void description(String description);
 		
 		boolean is(QName type);
@@ -58,7 +54,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	}
 
 	
-	//private implementation: delegates to state bean
+	//----------------------------------------
 	
 	final class Private extends Identified.Private<Private,Bean> implements Attribute {
 

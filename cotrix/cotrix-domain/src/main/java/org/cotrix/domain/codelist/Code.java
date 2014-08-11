@@ -9,13 +9,13 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.memory.MLink;
 import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Status;
 
 
 public interface Code extends Identified,Named,Attributed {

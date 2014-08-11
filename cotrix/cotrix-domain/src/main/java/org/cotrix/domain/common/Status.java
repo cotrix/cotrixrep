@@ -1,4 +1,4 @@
-package org.cotrix.domain.trait;
+package org.cotrix.domain.common;
 
 
 /**

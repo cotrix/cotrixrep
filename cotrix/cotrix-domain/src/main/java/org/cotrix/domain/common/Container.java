@@ -78,6 +78,10 @@ public interface Container<T> extends Iterable<T> {
 			this.beans = beans;
 
 		}
+		
+		public BeanContainer<B> beans() {
+			return beans;
+		}
 
 		@Override
 		public Iterator<E> iterator() {

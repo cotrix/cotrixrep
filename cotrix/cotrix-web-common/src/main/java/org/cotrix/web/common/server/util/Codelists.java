@@ -12,10 +12,10 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.lifecycle.State;
 import org.cotrix.lifecycle.impl.DefaultLifecycleStates;
@@ -107,7 +107,7 @@ public class Codelists {
 		return toUIAttributes(attributes, attributes.size());
 	}
 
-	public static List<UIAttribute> toUIAttributes(Container<? extends Attribute> attributesContainer)
+	public static List<UIAttribute> toUIAttributes(Attributes attributesContainer)
 	{
 		return toUIAttributes(attributesContainer, attributesContainer.size());
 	}

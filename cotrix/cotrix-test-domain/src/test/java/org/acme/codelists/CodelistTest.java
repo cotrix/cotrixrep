@@ -1,6 +1,7 @@
 package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
@@ -116,14 +117,14 @@ public class CodelistTest extends DomainTest {
 		
 		//lineage is preserved:
 		
-		assertEquals(list.qname(),versioned.originName());
-		assertEquals(list.id(),versioned.originId());
-		assertEquals(list.version(),versioned.previousVersion());
+		assertEquals(list.qname(),PREVIOUS_VERSION_NAME.nameOf(versioned));
+		assertEquals(list.id(),PREVIOUS_VERSION_ID.of(versioned));
+		assertEquals(list.version(),PREVIOUS_VERSION.of(versioned));
 		
 		Code vcode = versioned.codes().getFirst(code);
 				
-		assertEquals(code.id(), vcode.originId());
-		assertEquals(code.qname(),vcode.originName());
+		assertEquals(code.id(), PREVIOUS_VERSION_ID.of(vcode));
+		assertEquals(code.qname(),PREVIOUS_VERSION_NAME.nameOf(vcode));
 		
 	}
 	

@@ -20,12 +20,11 @@ import org.cotrix.application.ChangelogService;
 import org.cotrix.common.async.CancelledTaskException;
 import org.cotrix.common.async.TaskContext;
 import org.cotrix.common.async.TaskUpdate;
-import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.common.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +66,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		float progress=0f;
 		
-		Container<? extends Code.Private> codes =  reveal(list).codes();
+		Container<? extends Code> codes =  list.codes();
 		
 		int total = list.codes().size();
 		
@@ -78,14 +77,14 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		long time = currentTimeMillis();
 		
-		Date listCreated = list.created();
+		Date listCreated = list.attributes().dateOf(CREATED);
 		
-		for (Code.Private code : codes) {
+		for (Code code : codes) {
 		
 			i++;
 			progress++;
 			
-			Date codeUpdated = code.lastUpdated();
+			Date codeUpdated = code.attributes().dateOf(LAST_UPDATED);
 			
 			//process only if it has changed since this list's version was created
 			
@@ -111,26 +110,26 @@ public class DefaultChangelogService implements ChangelogService {
 		log.trace("tracked changelog for {} in {} msec.",signatureOf(list),currentTimeMillis()-time);
 	}
 
-	private void trackPunctual(Codelist.Private list, Codelist.Private changeset) {
+	private void trackPunctual(Codelist list, Codelist.Private changeset) {
 
 		for (Code.Private change : changeset.codes()) {
 
 			// changelog is pointless if the code is to be removed anyway
 			if (change.status() == Status.DELETED)
 				continue;
-
-			Code.Private code = list.codes().lookup(change.id());
+			
+			Code code = list.codes().lookup(change.id());
 
 			trackCode(code,change);
 		}
 		
 	}
 
-	private void trackCode(Code.Private changed, Code.Private change) {
+	private void trackCode(Code changed, Code.Private change) {
 
 		if (change.status() == null)
 
-			aaddNewMarkerTo(changed.bean().attributes());
+			NEW.set("TRUE").on(changed);
 
 		else
 
@@ -138,29 +137,22 @@ public class DefaultChangelogService implements ChangelogService {
 
 	}
 
-	private void aaddNewMarkerTo(BeanContainer<Attribute.Bean> attributes) {
+	private void handleModifiedMarkerWith(Code changed) {
+		
+		Attributes attributes = changed.attributes();
 
-		attributes.add(beanOf(attribute().instanceOf(NEW).value("TRUE")));
-	}
-
-	private void handleModifiedMarkerWith(Code.Private changed) {
-
-		BeanContainer<Attribute.Bean> attributes = changed.bean().attributes();
-
-		String originId = changed.originId();
+		String originId = PREVIOUS_VERSION_ID.in(attributes);
 
 		// by now we know codelist has lineage, but this update may be for a new
 		// code
-		if (notmarked(originId))
+		if (originId==null)
 			return;
 		
 		
-		Attribute modified = changed.attributes().getFirst(MODIFIED);
-
 		// fetch the past
 		Code origin = codelists.get(code(originId));
 
-		if (notmarked(origin)) {
+		if (origin==null) {
 			log.error("cannot compute changelog for code {} as its lineage {} can't be retrieved.", changed.id(), originId);
 			return;
 		}
@@ -171,42 +163,25 @@ public class DefaultChangelogService implements ChangelogService {
 
 		if (log.isEmpty()) {
 
-			if (marked(modified))
-
-				attributes.remove(modified.id());
+			MODIFIED.removeFrom(attributes);
 
 			return;
 
 		}
+		
+		if (MODIFIED.isIn(attributes)) {
 
-		if (marked(modified)) {
-
-			String oldlog = modified.value();
-
-			List<ChangelogEntry> oldentries = jsonBinder().fromJson(oldlog, logtype);
+			List<ChangelogEntry> oldentries = jsonBinder().fromJson(MODIFIED.in(attributes), logtype);
 
 			log.addAll(oldentries);
 
-		} else {
-
-			attributes.add(beanOf(attribute().instanceOf(MODIFIED)));
-			modified = changed.attributes().getFirst(MODIFIED); // remember persistence
-
-		}
-
+		} 
+		
 		List<ChangelogEntry> entries = log.entries();
 
 		sort(entries);
 
-		beanOf(modified).value(jsonBinder().toJson(entries, logtype));
+		MODIFIED.set(jsonBinder().toJson(entries, logtype)).on(changed);
 
-	}
-
-	private boolean marked(Object o) {
-		return o != null;
-	}
-
-	private boolean notmarked(Object o) {
-		return o == null;
 	}
 }

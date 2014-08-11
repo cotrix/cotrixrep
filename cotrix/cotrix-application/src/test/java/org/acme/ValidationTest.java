@@ -52,13 +52,13 @@ public class ValidationTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		assertNotNull(code.valueOf(INVALID));
+		assertNotNull(INVALID.of(code));
 		
 		modified = modify(code).attributes(delete(onetoomany),modify(a).value("ss").build()).build();
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		assertNull(code.valueOf(INVALID));
+		assertNull(INVALID.of(code));
 	}
 	
 	@Test
@@ -68,7 +68,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		codelists.update(modify(list).with(modified).build());
 		
-		System.out.println(code.valueOf(INVALID));
+		System.out.println(INVALID.of(code));
 		
 	}
 	
@@ -81,7 +81,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		System.out.println(code.valueOf(INVALID));
+		System.out.println(INVALID.of(code));
 	}
 	
 	@Test
@@ -99,7 +99,7 @@ public class ValidationTest extends ApplicationTest {
 		
 		validator.validate(list);
 		
-		assertNotNull(code.valueOf(INVALID));
+		assertNotNull(INVALID.of(code));
 
 		//delete def and remove issue
 
@@ -107,7 +107,7 @@ public class ValidationTest extends ApplicationTest {
 			
 		validator.validate(list);
 		
-		assertNull(code.valueOf(INVALID));
+		assertNull(INVALID.of(code));
 
 	}
 	

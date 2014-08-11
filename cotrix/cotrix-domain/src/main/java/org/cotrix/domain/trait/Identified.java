@@ -1,11 +1,15 @@
 package org.cotrix.domain.trait;
 
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.common.Status.*;
+
+import org.cotrix.domain.common.Status;
 
 public interface Identified {
 
 	
 	String id();
+	
 
 	//----------------------------------------
 	
@@ -19,8 +23,8 @@ public interface Identified {
 	
 	abstract class Private<SELF extends Private<SELF,B>, B extends Bean> implements Identified {
 
-		//we need (to emulate) SELF because we have a covariant method #update(SELF)
-		//we need B to give beans back to subclasses
+		//we need (to emulate) SELF because we have a covariant method: #update(SELF)
+		//we need B to give beans back to subclasses: #bean()
 		
 		private B bean;
 		
@@ -47,9 +51,10 @@ public interface Identified {
 
 		public boolean isChangeset() {
 			
-			return status() == Status.MODIFIED || status() == Status.DELETED;
+			return status() == MODIFIED || status() == DELETED;
 		}
 
+		
 		public Status status() {
 			return bean.status();
 		}
@@ -72,7 +77,7 @@ public interface Identified {
 
 		}
 		
-		//delegates to bean
+		//delegate to bean
 		
 		@Override
 		public int hashCode() {

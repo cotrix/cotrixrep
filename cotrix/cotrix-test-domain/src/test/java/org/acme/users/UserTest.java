@@ -3,9 +3,9 @@ package org.acme.users;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.action.ResourceType.*;
+import static org.cotrix.domain.common.Status.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.domain.trait.Status.*;
 import static org.junit.Assert.*;
 
 import org.cotrix.action.Action;

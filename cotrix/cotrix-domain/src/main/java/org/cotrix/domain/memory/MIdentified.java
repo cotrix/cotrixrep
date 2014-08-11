@@ -4,8 +4,8 @@ import static org.cotrix.common.CommonUtils.*;
 
 import java.util.UUID;
 
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Status;
 
 /**
  * Partial implementation of in-memory state beans.

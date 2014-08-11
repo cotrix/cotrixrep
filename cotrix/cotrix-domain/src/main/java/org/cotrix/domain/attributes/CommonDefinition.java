@@ -4,9 +4,11 @@ import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Codes.*;
 import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,49 +16,46 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 
 /**
- * Recurring, cross-codelist attribute definitions, typically system-managed.
+ * Wrappers over recurring, cross-codelist attribute definitions.
  *
  */
 public enum CommonDefinition implements Named {
 	
-	//for now, we can make all from a local name (ns=cotrix's, type=system)
-	//can overload make() later if we need different type of definitions.
+	//overload make() further if we need different forms of definitions.
 	
-	CREATION_TIME 		(make("created",once),VISIBLE,PUSBLISHEABLE),
-	
-	UPDATE_TIME 		(make("updated"),VISIBLE,PUSBLISHEABLE),
+	CREATED 			(make("created",once),VISIBLE,PUSBLISHEABLE),
+	LAST_UPDATED 		(make("updated"),VISIBLE,PUSBLISHEABLE),
 	UPDATED_BY 			(make("updatedBy"),VISIBLE),
-	
-	//markers 
 	
 	DELETED				(make("deleted"),true),
 	NEW					(make("new"),true),
 	MODIFIED			(make("modified"),true),
-	
 	INVALID				(make("invalid"),true),
-	
-	//-----------------------------------------
-	
 	
 	
 	PREVIOUS_VERSION 		(make("previous_version"),VISIBLE),
 	PREVIOUS_VERSION_ID 	(make("previous_version_id")),
 	PREVIOUS_VERSION_NAME 	(make("previous_version_name"),VISIBLE),
 	
-	SUPERSIDES          (make("supersides"),VISIBLE);
+	SUPERSIDES         		(make("supersides"),VISIBLE);
 
+	
+	//---------------------------------- statics
+	
 	
 	//lookup table to re-constitute enums from persisted local names.
 	private static Map<String,CommonDefinition> defs = new HashMap<>();
 
 	private static List<CommonDefinition> markers;
 	
-	//cannot build table with constructor. this is the next best thing and is as generic.
 	static {  
-		
+
+		//cannot build this in constructor., but this does not need maintenance either.
+
 		List<CommonDefinition> mks = new ArrayList<>();
 		
 		for (CommonDefinition def : values()) {
@@ -70,7 +69,33 @@ public enum CommonDefinition implements Named {
 		
 	}
 	
+	//enables behavioural forks (e.g. store full def or just name...) 
+	public static boolean isCommon(String name) {
+		return commonDefinitionFor(name)!=null;
+	}
 	
+	public static boolean isCommon(String name, Facet facet) {
+		return commonDefinitionFor(name)!=null && commonDefinitionFor(name).is(facet);
+	}
+	
+	public static boolean isCommon(QName name) {
+		return isCommon(name.getLocalPart());
+	}
+	
+	public static boolean isCommon(QName name,Facet facet) {
+		return isCommon(name.getLocalPart(),facet);
+	}
+	
+	public static CommonDefinition commonDefinitionFor(String name) { 
+		return defs.get(name);
+	}
+	
+	public static List<CommonDefinition> markers() {
+		return markers;  ///it's immutable
+	}
+	
+	
+	//-----------------------------------------
 	
 	private final AttributeDefinition def;
 	private final boolean marker;
@@ -89,11 +114,9 @@ public enum CommonDefinition implements Named {
 		for (Facet f : facets)
 			this.facets.add(f);
 	}
-	
-	
-	//name is taken to return a plain string...
+
 	public QName qname() {
-		return def.qname();
+		return def.qname(); //can use this wrapper in container' API.
 	}
 	
 	public boolean is(Facet facet) {
@@ -110,41 +133,72 @@ public enum CommonDefinition implements Named {
 	}
 	
 	//just handy, cleans client code
-	public AttributeDefinition.Bean state() {
+	public AttributeDefinition.Bean bean() {
 		return reveal(def).bean();
 	}
 	
-	//enables behavioural forks (e.g. store full def or just name...) 
-	public static boolean isCommon(String name) {
-		return commonDefinitionFor(name)!=null;
+	// conveniences
+	
+	public Attribute instance() {
+		return attribute().instanceOf(this).build();
 	}
 	
-		public static boolean isCommon(String name, Facet facet) {
-			return commonDefinitionFor(name)!=null && commonDefinitionFor(name).is(facet);
-		}
-	
-	public static boolean isCommon(QName name) {
-		return isCommon(name.getLocalPart());
+	public SetTargetClause set(String value) {
+		
+		return new SetTargetClause(value);
 	}
 	
-	public static boolean isCommon(QName name,Facet facet) {
-		return isCommon(name.getLocalPart(),facet);
+	public CommonDefinition removeFrom(Attributed entity) {
+		
+		return removeFrom(entity.attributes());
+	}
+
+	public CommonDefinition removeFrom(Attributes as) {
+		
+		Attribute a = as.getFirst(this);
+		
+		if (a!=null)
+			as.beans().remove(a.id());
+		
+		return this;
+	}
+
+	public boolean isIn(Attributed entity) {
+		return isIn(entity.attributes());
 	}
 	
-	//reconstitution from local names
-	public static CommonDefinition commonDefinitionFor(String name) {
-		return defs.get(name);
+	public boolean isIn(Attributes as) {
+		return as.contains(this);
 	}
 	
-	
-	public static List<CommonDefinition> markers() {
-		return markers;  ///it's immutable
+	public String of(Attributed entity) {
+		return in (entity.attributes());
 	}
 	
+	public String in(Attributes as) {
+		return as.valueOf(this);
+	}
+	
+	public Date dateOf(Attributed entity) {
+		return dateIn(entity.attributes());
+	}
+	
+	public Date dateIn(Attributes as) {
+		return as.dateOf(this);
+	}
+	
+	public QName nameOf(Attributed entity) {
+		return nameIn(entity.attributes());
+	}
+	
+	public QName nameIn(Attributes as) {
+		return as.nameOf(this);
+	}
 	
 	
 	
 	//helpers
+	
 	private static AttributeDefinition make(String name) {
 		return make(name,atmostonce);
 	}
@@ -154,6 +208,35 @@ public enum CommonDefinition implements Named {
 	}
 	
 	
+	public class SetTargetClause {
+		
+		private String value;
+		
+		SetTargetClause(String value) {
+			this.value=value; 
+		}
+		
+		public CommonDefinition on(Attributed entity) {
+			return in(entity.attributes());
+		}
+		
+		public CommonDefinition in(Attributes as) {
+			
+			Attribute a = as.getFirst(CommonDefinition.this);
+			
+			if (a==null) {
+				
+				a = instance();
+				
+				as.beans().add(beanOf(a));
+
+			}
+			
+			beanOf(a).value(value);
+			
+			return CommonDefinition.this;
+		}
+	}
 	
 	
 }

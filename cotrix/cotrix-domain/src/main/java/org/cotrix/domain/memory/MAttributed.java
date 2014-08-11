@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.Status;
 
 public class MAttributed extends MNamed implements Attributed.Bean {
 
@@ -103,6 +103,6 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	
 	//helpers
 	private Attribute.Bean timestamp() {
-		return beanOf(attribute().instanceOf(CREATION_TIME).value(time()));
+		return beanOf(attribute().instanceOf(CREATED).value(time()));
 	}
 }

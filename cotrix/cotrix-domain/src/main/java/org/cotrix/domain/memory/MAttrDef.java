@@ -9,7 +9,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.values.ValueType;
 
 public final class MAttrDef extends MIdentified implements AttributeDefinition.Bean {

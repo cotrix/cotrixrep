@@ -6,10 +6,10 @@ import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.NameLink;
-import org.cotrix.domain.trait.Status;
 import org.cotrix.domain.values.ValueFunction;
 
 public class MLinkDef extends MAttributed implements LinkDefinition.Bean {

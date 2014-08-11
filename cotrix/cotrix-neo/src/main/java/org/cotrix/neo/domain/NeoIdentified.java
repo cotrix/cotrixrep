@@ -4,9 +4,9 @@ import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.NeoUtils.*;
 import static org.cotrix.neo.domain.Constants.*;
 
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.trait.Status;
 import org.cotrix.neo.NeoNodeFactory;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;

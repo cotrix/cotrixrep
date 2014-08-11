@@ -1,7 +1,7 @@
 package org.acme.codelists;
 
 import static org.junit.Assert.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.common.Status.*;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.memory.MIdentified;

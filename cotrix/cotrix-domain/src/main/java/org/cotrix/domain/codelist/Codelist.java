@@ -1,7 +1,5 @@
 package org.cotrix.domain.codelist;
 
-import static org.cotrix.domain.attributes.CommonDefinition.*;
-
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
@@ -24,8 +22,6 @@ public interface Codelist extends Identified,Attributed,Named {
 	Container<? extends LinkDefinition> links();
 
 	Container<? extends AttributeDefinition> definitions();
-	
-	String previousVersion();
 	
 	String version();
 	
@@ -75,13 +71,6 @@ public interface Codelist extends Identified,Attributed,Named {
 		@Override
 		public String version() {
 			return bean().version() == null ? null : bean().version().value();
-		}
-		
-		@Override
-		public String previousVersion() {
-			
-			return valueOf(PREVIOUS_VERSION);
-			
 		}
 
 

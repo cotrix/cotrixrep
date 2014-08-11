@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Facet;
-import org.cotrix.domain.trait.Status;
+import org.cotrix.domain.common.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

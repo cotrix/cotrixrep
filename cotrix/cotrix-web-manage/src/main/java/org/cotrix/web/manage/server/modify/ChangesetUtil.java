@@ -15,9 +15,10 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
@@ -42,8 +43,8 @@ import org.cotrix.web.common.shared.codelist.linkdefinition.AttributeValue;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linkdefinition.LinkValue;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
-import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition.UIValueType;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -225,7 +226,7 @@ public class ChangesetUtil {
 		return clause.build();
 	}
 	
-	private static List<Attribute> buildChangeSet(List<UIAttribute> uiAttributes, Container<? extends Attribute> oldAttributes) {
+	private static List<Attribute> buildChangeSet(List<UIAttribute> uiAttributes, Attributes oldAttributes) {
 		
 		List<Attribute> changeSet = new ArrayList<>();
 		

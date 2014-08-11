@@ -1,8 +1,8 @@
 package org.cotrix.domain.dsl;
 
 import static org.cotrix.action.CodelistAction.*;
+import static org.cotrix.domain.common.Status.*;
 import static org.cotrix.domain.dsl.Roles.*;
-import static org.cotrix.domain.trait.Status.*;
 
 import org.cotrix.action.GuestAction;
 import org.cotrix.domain.dsl.builder.UserBuilder;

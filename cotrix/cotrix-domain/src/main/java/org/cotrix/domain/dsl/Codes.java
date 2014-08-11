@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.trait.Status.*;
+import static org.cotrix.domain.common.Status.*;
 
 import javax.xml.namespace.QName;
 

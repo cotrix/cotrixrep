@@ -4,9 +4,9 @@ import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
+import org.cotrix.domain.common.Status;
 import org.cotrix.domain.memory.MAttributed;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.Status;
 import org.junit.Test;
 
 @SuppressWarnings({"rawtypes","unchecked"})
@@ -30,9 +30,9 @@ public class AttributedTest extends DomainTest {
 		
 		Attributed e = like(new MyEntity(new MAttributed()));
 		
-		assertTrue(e.attributes().contains(CREATION_TIME));
+		assertTrue(e.attributes().contains(CREATED));
 		
-		assertEquals(1,e.attributes().get(CREATION_TIME).size());
+		assertEquals(1,e.attributes().get(CREATED).size());
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class AttributedTest extends DomainTest {
 		
 		Attributed e = like(new MyEntity(new MAttributed("someid",Status.MODIFIED)));
 		
-		assertFalse(e.attributes().contains(CREATION_TIME));
+		assertFalse(e.attributes().contains(CREATED));
 		
 	}
 	
@@ -53,13 +53,13 @@ public class AttributedTest extends DomainTest {
 		
 		e.update(changeset);
 		
-		assertTrue(e.attributes().contains(UPDATE_TIME));
+		assertTrue(e.attributes().contains(LAST_UPDATED));
 		
-		assertEquals(1,e.attributes().get(UPDATE_TIME).size());
+		assertEquals(1,e.attributes().get(LAST_UPDATED).size());
 		
 		e.update(changeset);
 		
-		assertEquals(1,e.attributes().get(UPDATE_TIME).size());
+		assertEquals(1,e.attributes().get(LAST_UPDATED).size());
 	}
 	
 	
