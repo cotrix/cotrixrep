@@ -42,22 +42,11 @@
 				</tr>
 				<tr>
 					<td class="{resources.detailsPanelStyle.headerCell}">
-						<div>Type</div>
+						<div>Value</div>
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
-						<g:FlowPanel>
-							<c:UIQNameBox ui:field="typeBox"
-								styleName="{resources.detailsPanelStyle.textbox}" placeholder="type" />
-						</g:FlowPanel>
-					</td>
-				</tr>
-				<tr>
-					<td class="{resources.detailsPanelStyle.headerCell}">
-						<div>Description</div>
-					</td>
-					<td class="{resources.detailsPanelStyle.valueCell}">
-						<c:AdvancedTextBox ui:field="descriptionBox"
-							styleName="{resources.detailsPanelStyle.textbox}" placeholder="description" />
+						<c:AdvancedTextBox ui:field="valueBox"
+							styleName="{resources.detailsPanelStyle.textbox}" placeholder="value" />
 					</td>
 				</tr>
 				<tr>
@@ -71,11 +60,22 @@
 				</tr>
 				<tr>
 					<td class="{resources.detailsPanelStyle.headerCell}">
-						<div>Value</div>
+						<div>Type</div>
 					</td>
 					<td class="{resources.detailsPanelStyle.valueCell}">
-						<c:AdvancedTextBox ui:field="valueBox"
-							styleName="{resources.detailsPanelStyle.textbox}" placeholder="value" />
+						<g:FlowPanel>
+							<c:UIQNameBox ui:field="typeBox"
+								styleName="{resources.detailsPanelStyle.textbox}" placeholder="type" />
+						</g:FlowPanel>
+					</td>
+				</tr>
+				<tr>
+					<td class="{resources.detailsPanelStyle.headerCell}">
+						<div>Note</div>
+					</td>
+					<td class="{resources.detailsPanelStyle.valueCell}">
+						<c:AdvancedTextBox ui:field="noteBox"
+							styleName="{resources.detailsPanelStyle.textbox}" placeholder="note" />
 					</td>
 				</tr>
 			</table>

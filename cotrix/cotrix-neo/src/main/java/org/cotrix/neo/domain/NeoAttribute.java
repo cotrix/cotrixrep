@@ -131,17 +131,17 @@ public class NeoAttribute extends NeoIdentified implements Attribute.Bean {
 	
 	
 	@Override
-	public String description() {
-		return (String) node().getProperty(description_prop,null);
+	public String note() {
+		return (String) node().getProperty(note_prop,null);
 	}
 
 	@Override
-	public void description(String value) {
+	public void note(String value) {
 		
 		if (value==null)
-			node().removeProperty(description_prop);
+			node().removeProperty(note_prop);
 		else
-			node().setProperty(description_prop,value);
+			node().setProperty(note_prop,value);
 		
 	}
 

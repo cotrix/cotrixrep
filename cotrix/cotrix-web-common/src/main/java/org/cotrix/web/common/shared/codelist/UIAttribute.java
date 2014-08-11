@@ -13,7 +13,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 	private String id;
 	private UIQName name;
 	private UIQName type;
-	private String description;
+	private String note;
 	private String value;
 	private Language language;
 	private String definitionId;
@@ -66,12 +66,12 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		this.definitionId = definitionId;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getNote() {
+		return note;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	/** 
@@ -115,7 +115,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		builder.append(", type=");
 		builder.append(type);
 		builder.append(", description=");
-		builder.append(description);
+		builder.append(note);
 		builder.append(", value=");
 		builder.append(value);
 		builder.append(", language=");

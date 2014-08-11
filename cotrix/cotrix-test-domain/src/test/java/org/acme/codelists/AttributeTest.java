@@ -47,7 +47,7 @@ public class AttributeTest extends DomainTest {
 		// defaults, untyped
 		assertNotNull(minimalUntyped.definition()); // private def
 		assertNull(minimalUntyped.value());
-		assertNull(minimalUntyped.description());
+		assertNull(minimalUntyped.note());
 
 		// full untyped: delegates
 		assertEquals(untyped.definition().qname(), untyped.qname());
@@ -140,7 +140,7 @@ public class AttributeTest extends DomainTest {
 		assertEquals(changesetUntyped.value(), untyped.value());
 		assertEquals(changesetUntyped.type(), untyped.type());
 		assertEquals(changesetUntyped.language(), untyped.language());
-		assertEquals(changesetUntyped.description(), untyped.description());
+		assertEquals(changesetUntyped.note(), untyped.note());
 		
 		//typed
 		
@@ -180,7 +180,7 @@ public class AttributeTest extends DomainTest {
 
 		reveal(typed).update(reveal(changeset));
 
-		assertNull(typed.description());
+		assertNull(typed.note());
 	}
 
 	@Test(expected=IllegalArgumentException.class)

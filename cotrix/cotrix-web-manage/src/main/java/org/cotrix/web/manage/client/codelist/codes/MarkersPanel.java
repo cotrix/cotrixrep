@@ -214,7 +214,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	private void markerDescriptionUpdated(MarkerType type, String description) {
 		UIAttribute attribute = markerTypeResolver.findAttribute(visualizedCode.getAttributes(), type);
-		attribute.setDescription(description);
+		attribute.setNote(description);
 		attributeEditor.updated(new CodeAttribute(visualizedCode, attribute));
 	}
 

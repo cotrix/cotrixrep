@@ -59,7 +59,7 @@ public class ChangesetUtil {
 					.instanceOf(definition)
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
-					.description(uiAttribute.getDescription())
+					.description(uiAttribute.getNote())
 					.build();
 		} else {
 			return attribute()
@@ -67,7 +67,7 @@ public class ChangesetUtil {
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
 					.in(convert(uiAttribute.getLanguage()))
-					.description(uiAttribute.getDescription())
+					.description(uiAttribute.getNote())
 					.build();		
 		}
 	}
@@ -79,7 +79,7 @@ public class ChangesetUtil {
 					.instanceOf(definition)
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
-					.description(uiAttribute.getDescription())
+					.description(uiAttribute.getNote())
 					.build();
 		}
 		else {
@@ -88,7 +88,7 @@ public class ChangesetUtil {
 					.value(convert(uiAttribute.getValue()))
 					.ofType(convert(uiAttribute.getType()))
 					.in(convert(uiAttribute.getLanguage()))
-					.description(uiAttribute.getDescription())
+					.description(uiAttribute.getNote())
 					.build();
 		}
 	}

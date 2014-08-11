@@ -80,7 +80,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	
 	@Override
 	public OptionalClause description(String description) {
-		state.description(description);
+		state.note(description);
 		return this;
 	}
 

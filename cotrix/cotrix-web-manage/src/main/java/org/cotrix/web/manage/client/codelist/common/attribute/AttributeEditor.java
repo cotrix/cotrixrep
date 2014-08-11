@@ -61,8 +61,8 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 		if (oldType!=null && oldType.getLocalPart().equals(type)) typeNamespace = oldType.getNamespace();
 		attribute.setType(new UIQName(typeNamespace, type));
 		
-		String description = detailsPanel.getDescription();
-		attribute.setDescription(description);
+		String note = detailsPanel.getNote();
+		attribute.setNote(note);
 		
 		Language language = detailsPanel.getLanguage();
 		attribute.setLanguage(language);
@@ -76,7 +76,7 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 		detailsPanel.setDefinitionId(attribute.getDefinitionId());
 		detailsPanel.setName(attribute.getName());
 		detailsPanel.setType(ValueUtils.getLocalPart(attribute.getType()));
-		detailsPanel.setDescription(attribute.getDescription());
+		detailsPanel.setNote(attribute.getNote());
 		detailsPanel.setLanguage(attribute.getLanguage());
 		detailsPanel.setValue(attribute.getValue());
 		

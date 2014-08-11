@@ -133,7 +133,7 @@ public class Codelists {
 		uiattribute.setValue(ValueUtils.safeValue(attribute.value()));
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
 		uiattribute.setDefinitionId(attribute.definition().id());
-		uiattribute.setDescription(attribute.description());
+		uiattribute.setNote(attribute.note());
 		
 		return uiattribute;
 	}

@@ -19,7 +19,7 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 	private static final Logger log = LoggerFactory.getLogger(Attribute.class);
 	
 	private String value;
-	private String description;
+	private String note;
 	
 	//by default, attribute has 'private' definition
 	private AttributeDefinition.Bean definition = new MAttrDef(false);
@@ -37,14 +37,14 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 		this(state,new HashMap<String,Object>());
 	}
 
-	public MAttribute(Attribute.Bean state, Map<String,Object> context) {
+	public MAttribute(Attribute.Bean bean, Map<String,Object> context) {
 		
 		//attributes preserve identifiers
-		super(state.id());
+		super(bean.id());
 		
-		definition(cloneDefinitionInContext(state.definition(),context));
-		value(state.value());
-		description(state.description());
+		definition(cloneDefinitionInContext(bean.definition(),context));
+		value(bean.value());
+		note(bean.note());
 	}
 	
 	
@@ -106,12 +106,12 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 		definition.language(language);
 	}
 	
-	public String description() {
-		return description;
+	public String note() {
+		return note;
 	}
 
-	public void description(String description) {
-		this.description=description;
+	public void note(String note) {
+		this.note=note;
 	}
 	
 	@Override

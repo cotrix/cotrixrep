@@ -62,7 +62,7 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 	@UiField(provided=true) SuggestListBox typeBox;
 	private boolean typeBoxReadOnly;
 	
-	@UiField AdvancedTextBox descriptionBox;
+	@UiField AdvancedTextBox noteBox;
 	
 	@UiField LanguageListBox languageBox;
 	private boolean languageBoxReadOnly;
@@ -227,7 +227,7 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 	
 	private void setupDescriptionField() {
 
-		descriptionBox.addValueChangeHandler(new ValueChangeHandler<String>() {
+		noteBox.addValueChangeHandler(new ValueChangeHandler<String>() {
 
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
@@ -235,7 +235,7 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 			}
 		});
 		
-		descriptionBox.addKeyUpHandler(new KeyUpHandler() {
+		noteBox.addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
@@ -323,16 +323,16 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 		if (readOnly) typeBox.setStyleName(style.textboxError(), false);
 	}
 	
-	public String getDescription() {
-		return descriptionBox.getValue();
+	public String getNote() {
+		return noteBox.getValue();
 	}
 	
-	public void setDescription(String description) {
-		descriptionBox.setValue(description, false);
+	public void setNote(String note) {
+		noteBox.setValue(note, false);
 	}
 	
-	public void setDescriptionFieldValid(boolean valid) {
-		descriptionBox.setStyleName(style.textboxError(), !valid);
+	public void setNodeFieldValid(boolean valid) {
+		noteBox.setStyleName(style.textboxError(), !valid);
 	}
 	
 	public Language getLanguage() {
@@ -376,8 +376,8 @@ public class AttributeDetailsPanel extends Composite implements ItemView {
 		
 		setTypeReadOnly(readOnly);
 		
-		descriptionBox.setEnabled(!readOnly);
-		if (readOnly) descriptionBox.setStyleName(style.textboxError(), false);
+		noteBox.setEnabled(!readOnly);
+		if (readOnly) noteBox.setStyleName(style.textboxError(), false);
 		
 		setLanguageReadOnly(readOnly);
 

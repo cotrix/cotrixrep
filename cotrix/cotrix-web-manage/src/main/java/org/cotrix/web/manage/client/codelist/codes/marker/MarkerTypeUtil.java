@@ -103,7 +103,7 @@ public class MarkerTypeUtil {
 		attribute.setName(new UIQName(defaults.defaultNameSpace(), type.getDefinitionName()));
 		attribute.setDefinitionId(markerToDefinition.get(type).getId());
 		attribute.setType(defaults.systemType());
-		attribute.setDescription(description==null?"":description);
+		attribute.setNote(description==null?"":description);
 		attribute.setValue(ACTIVE_MARKER_VALUE);
 		
 		return attribute;

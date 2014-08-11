@@ -36,22 +36,12 @@
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="valueRow">
 				<t:cell>
-					<g:Label>Type</g:Label>
+					<g:Label>Value</g:Label>
 				</t:cell>
 				<t:cell>
-					<cc:SuggestListBox ui:field="typeBox" />
-				</t:cell>
-			</t:CellContainer>
-		</t:row>
-		<t:row>
-			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
-				<t:cell>
-					<g:Label title="The description of this attribute.">Description</g:Label>
-				</t:cell>
-				<t:cell>
-					<c:AdvancedTextBox ui:field="descriptionBox" styleName="{resources.detailsPanelStyle.textbox}"/>
+					<c:AdvancedTextBox ui:field="valueBox" styleName="{resources.detailsPanelStyle.textbox}" />
 				</t:cell>
 			</t:CellContainer>
 		</t:row>
@@ -66,12 +56,22 @@
 			</t:CellContainer>
 		</t:row>
 		<t:row>
-			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="valueRow">
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
-					<g:Label>Value</g:Label>
+					<g:Label>Type</g:Label>
 				</t:cell>
 				<t:cell>
-					<c:AdvancedTextBox ui:field="valueBox" styleName="{resources.detailsPanelStyle.textbox}" />
+					<cc:SuggestListBox ui:field="typeBox" />
+				</t:cell>
+			</t:CellContainer>
+		</t:row>		
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
+					<g:Label title="A free-form note for this attribute.">Note</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedTextBox ui:field="noteBox" styleName="{resources.detailsPanelStyle.textbox}"/>
 				</t:cell>
 			</t:CellContainer>
 		</t:row>

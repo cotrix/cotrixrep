@@ -12,7 +12,7 @@ public class Constants {
 	public static final String shared_prop="shared";
 	public static final String vtype_prop="vtype";
 	public static final String value_prop="val";
-	public static final String description_prop="desc";
+	public static final String note_prop="note";
 	public static final String lang_prop="lang";
 	public static final String email_prop="email";
 	public static final String permissions_prop="permissions";

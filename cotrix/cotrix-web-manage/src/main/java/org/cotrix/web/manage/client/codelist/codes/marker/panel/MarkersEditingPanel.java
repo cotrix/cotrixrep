@@ -100,7 +100,7 @@ public class MarkersEditingPanel extends Composite implements HasEditing {
 	}
 
 	public void setMarkerActive(MarkerType markerType, UIAttribute attribute) {
-		panels.get(markerType).setActive(attribute.getDescription(), attribute.getValue());
+		panels.get(markerType).setActive(attribute.getNote(), attribute.getValue());
 		bind(markerType, attribute);
 	}
 	

@@ -36,7 +36,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	
 	@UiField UIQNameBox nameBox;
 	@UiField UIQNameBox typeBox;
-	@UiField AdvancedTextBox descriptionBox;
+	@UiField AdvancedTextBox noteBox;
 	@UiField LanguageListBox languageBox;
 	@UiField AdvancedTextBox valueBox;
 	
@@ -56,7 +56,7 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 		this.listener = listener;
 	}
 
-	@UiHandler({"nameBox","typeBox","descriptionBox","valueBox"})
+	@UiHandler({"nameBox","typeBox","noteBox","valueBox"})
 	protected void onKeyDown(KeyDownEvent event)
 	{
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -81,13 +81,13 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 	}
 	
 	protected void doEdit() {
-		if (listener!=null) listener.onEdit(nameBox.getValue(), typeBox.getValue(), descriptionBox.getText(), languageBox.getValue(), valueBox.getText());
+		if (listener!=null) listener.onEdit(nameBox.getValue(), typeBox.getValue(), noteBox.getText(), languageBox.getValue(), valueBox.getText());
 	}
 
 	protected void cleanValidation() {
 		nameBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		typeBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
-		descriptionBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		noteBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		languageBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 		valueBox.setStyleName(resources.css().dialogTextboxInvalid(), false);
 	}
@@ -116,14 +116,15 @@ public class AttributeEditDialogImpl extends PopupPanel implements AttributeEdit
 		typeBox.setValue(new UIQName("", ""));
 		languageBox.setValue(Language.NONE);
 		valueBox.setText("");
+		noteBox.setText("");
 		cleanValidation();
 	}
 
 	@Override
-	public void set(UIQName name, UIQName type, String description, Language language, String value) {
+	public void set(UIQName name, UIQName type, String note, Language language, String value) {
 		nameBox.setValue(name);
 		typeBox.setValue(type);
-		descriptionBox.setText(description);
+		noteBox.setText(note);
 		languageBox.setValue(language);
 		valueBox.setText(value);
 		cleanValidation();

@@ -104,7 +104,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 			public void onEdit(UIQName name, UIQName type, String description, Language language, String value) {
 				currentEditedAttribute.setName(name);
 				currentEditedAttribute.setType(type);
-				currentEditedAttribute.setDescription(description);
+				currentEditedAttribute.setNote(description);
 				currentEditedAttribute.setLanguage(language);
 				currentEditedAttribute.setValue(value);
 				
@@ -158,7 +158,7 @@ public class AttributesPanel implements HasValueChangeHandlers<Void> {
 		UIQName name = currentEditedAttribute.getName();
 		Log.trace("name: "+name);
 		UIQName type = currentEditedAttribute.getType();
-		String description = currentEditedAttribute.getDescription();
+		String description = currentEditedAttribute.getNote();
 		Language language = currentEditedAttribute.getLanguage();
 		String value = currentEditedAttribute.getValue();
 		

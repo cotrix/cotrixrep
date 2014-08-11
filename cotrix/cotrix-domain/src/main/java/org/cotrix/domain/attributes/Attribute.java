@@ -23,7 +23,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 
 	String language();
 	
-	String description();
+	String note();
 	
 
 	//----------------------------------------
@@ -45,8 +45,8 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		String language();
 		void language(String language);
 		
-		String description();
-		void description(String description);
+		String note();
+		void note(String note);
 		
 		boolean is(QName type);
 		
@@ -98,8 +98,8 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		}
 		
 		@Override
-		public String description() {
-			return bean().description();
+		public String note() {
+			return bean().note();
 		}
 
 		@Override
@@ -127,8 +127,8 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 			if (changeset.language() != null)
 				bean().language(changeset.language() == NULL_STRING ? null : changeset.language());
 			
-			if (changeset.description() != null)
-				bean().description(changeset.description() == NULL_STRING ? null : changeset.description());
+			if (changeset.note() != null)
+				bean().note(changeset.note() == NULL_STRING ? null : changeset.note());
 
 		}
 		
