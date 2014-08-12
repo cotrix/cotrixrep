@@ -21,7 +21,7 @@ import org.neo4j.graphdb.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NeoCodelist extends NeoAttributed implements Codelist.Bean {
+public class NeoCodelist extends NeoDescribed implements Codelist.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(NeoCodelist.class);
 

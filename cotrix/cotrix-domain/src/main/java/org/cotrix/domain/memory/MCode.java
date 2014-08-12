@@ -9,10 +9,10 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 
 
-public final class MCode extends MAttributed implements Code.Bean, Attributed.Bean {
+public final class MCode extends MDescribed implements Code.Bean, Described.Bean {
 
 	private BeanContainer<Link.Bean> links = new MBeanContainer<Link.Bean>();
 

@@ -13,20 +13,20 @@ import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.memory.MLink;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
-public interface Code extends Identified,Named,Attributed {
+public interface Code extends Identified,Named,Described {
 	
 	Container<? extends Link> links();
 	
 	List<Attribute> markers();
 	
 	
-	interface Bean extends Attributed.Bean, BeanOf<Private> {
+	interface Bean extends Described.Bean, BeanOf<Private> {
 		
 		BeanContainer<Link.Bean> links();
 		
@@ -35,7 +35,7 @@ public interface Code extends Identified,Named,Attributed {
 	
 	//private logic
 	
-	final class Private extends Attributed.Private<Private,Bean> implements Code {
+	final class Private extends Described.Private<Private,Bean> implements Code {
 
 		public Private(Code.Bean state) {
 			super(state);

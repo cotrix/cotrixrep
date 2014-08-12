@@ -28,13 +28,8 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 
 	//----------------------------------------
 	
-	interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
+	interface Bean extends Named.Bean, Defined.Bean<AttributeDefinition.Bean>, BeanOf<Private> {
 
-		
-		AttributeDefinition.Bean definition();
-		
-		void definition(AttributeDefinition.Bean definition);
-		
 		
 		QName type();
 		void type(QName type);
@@ -56,7 +51,7 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 	
 	//----------------------------------------
 	
-	final class Private extends Identified.Private<Private,Bean> implements Attribute {
+	final class Private extends Named.Private<Private,Bean> implements Attribute {
 
 		public Private(Attribute.Bean state) {
 			super(state);
@@ -65,11 +60,6 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 		@Override
 		public AttributeDefinition definition() {
 			return bean().definition().entity();
-		}
-
-		@Override
-		public QName qname() {
-			return bean().qname();
 		}
 
 		@Override
@@ -137,22 +127,6 @@ public interface Attribute extends Identified, Named, Defined<AttributeDefinitio
 			return "attr [id=" + id() + ", value=" + value() + ", def=" + definition() + (status() == null ? "" : " (" + status() + ") ")
 					+ "]";
 		}
-
-		
-		//helper
-		
-//		private static final String validationErrorMsg = "%s cannot be assigned to attribute %s, as violates  constraint %s";
-		
-		
-//		private String validateAndUpdateValue(String value) {
-//			
-//			ValueType type = definition().valueType();
-//			
-//			if (!type.isValid(value))
-//				throw new IllegalArgumentException(format(validationErrorMsg, value, qname(),type.constraints().asSingleConstraint()));
-//		
-//			return value;
-//		}
 
 
 	}

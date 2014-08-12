@@ -17,7 +17,7 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.user.User;
@@ -73,9 +73,9 @@ public class NeoSubjectProvider implements SubjectProvider {
 		else if (object instanceof Link)
 			provided = new Link.Private(like(object, Link.Private.class,NeoLink.factory));
 
-		else if (object instanceof Attributed) {
-			Attributed.Bean s = (Attributed.Bean) reveal(object, Attributed.Private.class).bean();
-			provided = new Attributed.Private(s) {
+		else if (object instanceof Described) {
+			Described.Bean s = (Described.Bean) reveal(object, Described.Private.class).bean();
+			provided = new Described.Private(s) {
 			};
 		}
 		

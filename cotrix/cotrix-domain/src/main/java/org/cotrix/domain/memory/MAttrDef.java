@@ -12,7 +12,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class MAttrDef extends MAttributed implements AttributeDefinition.Bean {
+public final class MAttrDef extends MDescribed implements AttributeDefinition.Bean {
 
 	private QName type;
 	private String language;

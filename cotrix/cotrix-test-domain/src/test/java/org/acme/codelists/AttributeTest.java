@@ -97,17 +97,17 @@ public class AttributeTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 
-		Attribute.Bean state = reveal(untyped).bean();
+		Attribute.Bean bean = reveal(untyped).bean();
 	
-		MAttribute clone = new MAttribute(state);
+		MAttribute clone = new MAttribute(bean);
 		
-		assertEquals(clone, state);
+		assertEquals(clone, bean);
 
 		//clones preserve identifiers
-		assertEquals(state.id(),clone.id());
+		assertEquals(bean.id(),clone.id());
 		
 		//but not definitions
-		assertNotEquals(state.definition().id(),clone.definition().id());
+		assertNotEquals(bean.definition().id(),clone.definition().id());
 	}
 
 	

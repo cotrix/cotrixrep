@@ -13,7 +13,7 @@ import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-public class NeoLink extends NeoAttributed implements Link.Bean {
+public class NeoLink extends NeoDescribed implements Link.Bean {
 
 	public static final NeoStateFactory<Link.Bean> factory = new NeoStateFactory<Link.Bean>() {
 		

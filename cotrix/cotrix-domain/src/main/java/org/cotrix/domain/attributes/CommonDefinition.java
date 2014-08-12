@@ -16,7 +16,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Named;
 
 /**
@@ -153,7 +153,7 @@ public enum CommonDefinition implements Named {
 		return new SetTargetClause(value);
 	}
 	
-	public CommonDefinition removeFrom(Attributed entity) {
+	public CommonDefinition removeFrom(Described entity) {
 		
 		return removeFrom(entity.attributes());
 	}
@@ -168,7 +168,7 @@ public enum CommonDefinition implements Named {
 		return this;
 	}
 
-	public boolean isIn(Attributed entity) {
+	public boolean isIn(Described entity) {
 		return isIn(entity.attributes());
 	}
 	
@@ -176,7 +176,7 @@ public enum CommonDefinition implements Named {
 		return as.contains(this);
 	}
 	
-	public String of(Attributed entity) {
+	public String of(Described entity) {
 		return in (entity.attributes());
 	}
 	
@@ -184,7 +184,7 @@ public enum CommonDefinition implements Named {
 		return as.valueOf(this);
 	}
 	
-	public Date dateOf(Attributed entity) {
+	public Date dateOf(Described entity) {
 		return dateIn(entity.attributes());
 	}
 	
@@ -192,7 +192,7 @@ public enum CommonDefinition implements Named {
 		return as.dateOf(this);
 	}
 	
-	public QName nameOf(Attributed entity) {
+	public QName nameOf(Described entity) {
 		return nameIn(entity.attributes());
 	}
 	
@@ -221,7 +221,7 @@ public enum CommonDefinition implements Named {
 			this.value=value; 
 		}
 		
-		public CommonDefinition on(Attributed entity) {
+		public CommonDefinition on(Described entity) {
 			return in(entity.attributes());
 		}
 		

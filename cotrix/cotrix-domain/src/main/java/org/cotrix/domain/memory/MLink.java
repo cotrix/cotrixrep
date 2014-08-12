@@ -11,7 +11,7 @@ import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 
-public final class MLink extends MAttributed implements Link.Bean {
+public final class MLink extends MDescribed implements Link.Bean {
 
 	private Code.Bean target;
 	private LinkDefinition.Bean definition;

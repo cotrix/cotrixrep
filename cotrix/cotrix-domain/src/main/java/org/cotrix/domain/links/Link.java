@@ -7,7 +7,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
@@ -15,13 +15,13 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
 
 /**
- * An {@link Identified} and {@link Attributed} instance of a
+ * An {@link Identified} and {@link Described} instance of a
  * {@link LinkDefinition}.
  * 
  * @author Fabio Simeoni
  * 
  */
-public interface Link extends Identified, Named, Attributed, Defined<LinkDefinition> {
+public interface Link extends Identified, Named, Described, Defined<LinkDefinition> {
 
 	/**
 	 * @return the link value, or <code>null</code> if the link is orphaned.
@@ -38,11 +38,7 @@ public interface Link extends Identified, Named, Attributed, Defined<LinkDefinit
 	
 	
 
-	static interface Bean extends Attributed.Bean, BeanOf<Private> {
-
-		LinkDefinition.Bean definition();
-
-		void definition(LinkDefinition.Bean bean);
+	static interface Bean extends Described.Bean, Defined.Bean<LinkDefinition.Bean>, BeanOf<Private> {
 
 		Code.Bean target();
 
@@ -51,10 +47,10 @@ public interface Link extends Identified, Named, Attributed, Defined<LinkDefinit
 	}
 
 	/**
-	 * An {@link Attributed.Private} implementation of {@link Link}.
+	 * An {@link Described.Private} implementation of {@link Link}.
 	 * 
 	 */
-	public class Private extends Attributed.Private<Private, Bean> implements Link {
+	public class Private extends Described.Private<Private, Bean> implements Link {
 
 		public Private(Link.Bean bean) {
 			super(bean);

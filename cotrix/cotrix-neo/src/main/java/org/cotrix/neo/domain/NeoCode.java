@@ -10,7 +10,7 @@ import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoCode extends NeoAttributed implements Code.Bean {
+public class NeoCode extends NeoDescribed implements Code.Bean {
 
 	public static final NeoStateFactory<Code.Bean> factory = new NeoStateFactory<Code.Bean>() {
 		

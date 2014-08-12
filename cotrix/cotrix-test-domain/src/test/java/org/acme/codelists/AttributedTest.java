@@ -3,8 +3,8 @@ package org.acme.codelists;
 import static org.junit.Assert.*;
 
 import org.acme.DomainTest;
-import org.cotrix.domain.memory.MAttributed;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.memory.MDescribed;
+import org.cotrix.domain.trait.Described;
 import org.junit.Test;
 
 public class AttributedTest extends DomainTest {
@@ -13,7 +13,7 @@ public class AttributedTest extends DomainTest {
 	@Test
 	public void attributesMustBeValid() {
 		
-		MAttributed state = new MAttributed();
+		MDescribed state = new MDescribed();
 		
 		try {
 			state.attributes(null);
@@ -22,9 +22,9 @@ public class AttributedTest extends DomainTest {
 		catch(IllegalArgumentException e) {}
 	}
 	
-	static class MyEntity extends Attributed.Private<MyEntity,MAttributed> {
+	static class MyEntity extends Described.Private<MyEntity,MDescribed> {
 		
-		public MyEntity(MAttributed state) {
+		public MyEntity(MDescribed state) {
 			super(state);
 		}
 	};

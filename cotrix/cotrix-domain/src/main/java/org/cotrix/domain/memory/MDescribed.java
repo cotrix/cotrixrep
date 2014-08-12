@@ -9,22 +9,22 @@ import java.util.Map;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Status;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 
-public class MAttributed extends MNamed implements Attributed.Bean {
+public class MDescribed extends MNamed implements Described.Bean {
 
 	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<Attribute.Bean>();
 
-	public MAttributed() {	
+	public MDescribed() {	
 	}
 	
 	
-	public MAttributed(String id,Status status) {
+	public MDescribed(String id,Status status) {
 		super(id,status);
 	}
 
 	//copy constructs with shared defs (e.g. codes)
-	public MAttributed(Attributed.Bean other,Map<String,Object> definitions) {
+	public MDescribed(Described.Bean other,Map<String,Object> definitions) {
 		
 		super(other);
 		
@@ -34,7 +34,7 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	}
 	
 	//copy constructs (codelists, linkdefs)
-	public MAttributed(Attributed.Bean other) {
+	public MDescribed(Described.Bean other) {
 		
 		super(other);
 		
@@ -42,7 +42,7 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	}
 		
 	//copy constructs preserving id (links)
-	public MAttributed(String id,Attributed.Bean other) {
+	public MDescribed(String id,Described.Bean other) {
 		
 		super(id,other);	
 		
@@ -51,13 +51,13 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	
 	
 	//copy constructor logic
-	private void copy(Attributed.Bean other) {
+	private void copy(Described.Bean other) {
 		
 		copy(other,null);	
 	}
 
 	//copy constructor logic with shared attributes
-	private void copy(Attributed.Bean other,Map<String,Object> defs) {
+	private void copy(Described.Bean other,Map<String,Object> defs) {
 		
 		for (Attribute.Bean otherattr : other.attributes())			
 			if (otherattr.is(INHERITABLE))
@@ -92,9 +92,9 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 			return true;
 		if (!super.equals(obj))
 			return false;
-		if (!(obj instanceof Attributed.Bean))
+		if (!(obj instanceof Described.Bean))
 			return false;
-		Attributed.Bean other = (Attributed.Bean) obj;
+		Described.Bean other = (Described.Bean) obj;
 		if (attributes == null) {
 			if (other.attributes() != null)
 				return false;

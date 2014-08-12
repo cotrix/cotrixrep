@@ -1,9 +1,19 @@
 package org.cotrix.domain.trait;
 
-/**
- * A named entity that serves as a definition for other entities.
- * 
- */
+import org.cotrix.domain.common.Range;
+
 public interface Definition extends Identified, Named {
 
+	
+	Range range();
+	
+	//----------------------------------------
+	
+	static interface Bean extends Described.Bean, Definition {
+		
+		void range(Range type);
+	}
+	
+	//----------------------------------------
+	
 }

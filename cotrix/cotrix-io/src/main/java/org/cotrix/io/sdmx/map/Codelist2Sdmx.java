@@ -13,7 +13,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.Link;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.utils.DomainUtils;
 import org.cotrix.io.impl.MapTask;
@@ -164,7 +164,7 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 		
 	}
 	
-	private <T extends Attributed & Named> void mapAttributes(T attributed, NameableMutableBean bean, GetClause directives) {
+	private <T extends Described & Named> void mapAttributes(T attributed, NameableMutableBean bean, GetClause directives) {
 		
 		for (Attribute a : attributed.attributes()) {
 			

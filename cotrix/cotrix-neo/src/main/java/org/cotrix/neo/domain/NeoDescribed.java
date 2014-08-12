@@ -4,18 +4,18 @@ import static org.cotrix.neo.domain.Constants.Relations.*;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributed extends NeoNamed implements Attributed.Bean {
+public class NeoDescribed extends NeoNamed implements Described.Bean {
 
-	public NeoAttributed(Node node) {
+	public NeoDescribed(Node node) {
 		super(node);
 	}
 	
-	public NeoAttributed(NodeType type,Attributed.Bean bean) {
+	public NeoDescribed(NodeType type,Described.Bean bean) {
 		
 		super(type,bean);
 		

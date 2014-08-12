@@ -1,18 +1,24 @@
 package org.cotrix.domain.trait;
 
 
-/**
- * A domain object that has a definition.
- * 
- * @author Fabio Simeoni
- */
+
+
+
 public interface Defined<T extends Definition> {
 
-	/**
-	 * Returns the definition of this object.
-	 * 
-	 * @return the definition
-	 */
 	T definition();
+	
+	//----------------------------------------
+	
+	interface Bean<D extends BeanOf<? extends Definition>> {
+		
+		D definition();
+		
+		void definition(D def);
+
+	}
+	
+	//----------------------------------------
+	
 	
 }

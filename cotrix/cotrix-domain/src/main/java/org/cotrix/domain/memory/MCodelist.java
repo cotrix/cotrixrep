@@ -22,7 +22,7 @@ import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.version.DefaultVersion;
 import org.cotrix.domain.version.Version;
 
-public final class MCodelist extends MAttributed implements Codelist.Bean {
+public final class MCodelist extends MDescribed implements Codelist.Bean {
 
 	private Version version;
 	

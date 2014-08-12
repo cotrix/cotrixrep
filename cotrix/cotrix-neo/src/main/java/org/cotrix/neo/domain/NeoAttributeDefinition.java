@@ -14,7 +14,7 @@ import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributeDefinition extends NeoAttributed implements AttributeDefinition.Bean {
+public class NeoAttributeDefinition extends NeoDescribed implements AttributeDefinition.Bean {
 
 	public static final NeoStateFactory<AttributeDefinition.Bean> factory = new NeoStateFactory<AttributeDefinition.Bean>() {
 		

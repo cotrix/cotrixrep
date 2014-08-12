@@ -4,7 +4,6 @@ import static org.cotrix.neo.domain.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.neo4j.graphdb.Node;
@@ -16,7 +15,7 @@ public class NeoNamed extends NeoIdentified implements Named.Bean {
 		super(node);
 	}
 	
-	public NeoNamed(NodeType type, Attributed.Bean bean) {
+	public NeoNamed(NodeType type, Named.Bean bean) {
 		
 		super(type,bean);
 		

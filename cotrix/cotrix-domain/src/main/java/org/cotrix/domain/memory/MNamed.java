@@ -22,6 +22,11 @@ public class MNamed extends MIdentified implements Named.Bean {
 		super(id,status);
 	}
 	
+
+	public MNamed(String id) {
+		super(id);
+	}
+	
 	//copy
 	public MNamed(Named.Bean other) {	
 		
@@ -65,10 +70,10 @@ public class MNamed extends MIdentified implements Named.Bean {
 		if (!(obj instanceof Named.Bean))
 			return false;
 		Named.Bean other = (Named.Bean) obj;
-		if (name == null) {
+		if (qname() == null) {
 			if (other.qname() != null)
 				return false;
-		} else if (!name.equals(other.qname()))
+		} else if (!qname().equals(other.qname()))
 			return false;
 		return true;
 	}	

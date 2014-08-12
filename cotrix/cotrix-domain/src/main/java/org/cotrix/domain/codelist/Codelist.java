@@ -5,7 +5,7 @@ import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MCodelist;
-import org.cotrix.domain.trait.Attributed;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
@@ -13,7 +13,7 @@ import org.cotrix.domain.version.Version;
 
 
 
-public interface Codelist extends Identified,Attributed,Named {
+public interface Codelist extends Identified,Described,Named {
 
 	//public read-only interface
 	
@@ -27,7 +27,7 @@ public interface Codelist extends Identified,Attributed,Named {
 	
 	//private state interface
 	
-	interface Bean extends Attributed.Bean, BeanOf<Private> {
+	interface Bean extends Described.Bean, BeanOf<Private> {
 	
 		BeanContainer<Code.Bean> codes();
 		
@@ -46,7 +46,7 @@ public interface Codelist extends Identified,Attributed,Named {
 	
 	//private logic
 	
-	final class Private extends Attributed.Private<Private,Bean> implements Codelist {
+	final class Private extends Described.Private<Private,Bean> implements Codelist {
 		
 		public Private( Codelist.Bean state) {
 			super(state);

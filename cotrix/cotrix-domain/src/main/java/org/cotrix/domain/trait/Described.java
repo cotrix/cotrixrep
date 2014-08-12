@@ -5,7 +5,7 @@ import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.common.BeanContainer;
 
 
-public interface Attributed {
+public interface Described {
 
 	
 	Attributes attributes();
@@ -27,7 +27,7 @@ public interface Attributed {
 							
 							extends Named.Private<SELF,B> 
 							
-							implements Attributed {
+							implements Described {
 
 		
 		public Private(B bean) {

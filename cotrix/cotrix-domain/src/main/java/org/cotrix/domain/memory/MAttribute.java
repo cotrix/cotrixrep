@@ -14,6 +14,8 @@ import org.cotrix.domain.common.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//we would not reuse anything here extending MNamed since attributes are virtually named.
+//we would in fact complicate matters greatly.
 public final class MAttribute extends MIdentified implements Attribute.Bean {
 	
 	private static final Logger log = LoggerFactory.getLogger(Attribute.class);
@@ -37,14 +39,14 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 		this(state,new HashMap<String,Object>());
 	}
 
-	public MAttribute(Attribute.Bean bean, Map<String,Object> context) {
+	public MAttribute(Attribute.Bean other, Map<String,Object> context) {
 		
 		//attributes preserve identifiers (enables comparisons across versions in changelogs)
-		super(bean.id());
+		super(other.id());
 		
-		definition(cloneDefinitionInContext(bean.definition(),context));
-		value(bean.value());
-		note(bean.note());
+		definition(cloneDefinitionInContext(other.definition(),context));
+		value(other.value());
+		note(other.note());
 	}
 	
 	
@@ -149,6 +151,7 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 			return true;
 		if (!super.equals(obj))
 			return false;
+		
 		Attribute.Bean other = (Attribute.Bean) obj;
 		if (definition == null) {
 			if (other.definition() != null)

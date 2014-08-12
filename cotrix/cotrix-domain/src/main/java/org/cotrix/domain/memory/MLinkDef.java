@@ -12,7 +12,7 @@ import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.NameLink;
 import org.cotrix.domain.values.ValueFunction;
 
-public class MLinkDef extends MAttributed implements LinkDefinition.Bean {
+public class MLinkDef extends MDescribed implements LinkDefinition.Bean {
 
 	private Codelist.Bean target;
 	private LinkValueType type;
