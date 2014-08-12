@@ -39,7 +39,7 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 
 	public MAttribute(Attribute.Bean bean, Map<String,Object> context) {
 		
-		//attributes preserve identifiers
+		//attributes preserve identifiers (enables comparisons across versions in changelogs)
 		super(bean.id());
 		
 		definition(cloneDefinitionInContext(bean.definition(),context));

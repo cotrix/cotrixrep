@@ -15,7 +15,7 @@ public class NeoAttributed extends NeoNamed implements Attributed.Bean {
 		super(node);
 	}
 	
-	public <B extends Attributed.Bean> NeoAttributed(NodeType type,B bean) {
+	public NeoAttributed(NodeType type,Attributed.Bean bean) {
 		
 		super(type,bean);
 		

@@ -18,51 +18,59 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 
 	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<Attribute.Bean>();
 
-	public MAttributed() {
-		
+	public MAttributed() {	
 		attributes.add(timestamp());
-	
 	}
+	
 	
 	public MAttributed(String id,Status status) {
 		super(id,status);
 	}
 
-	public MAttributed(Attributed.Bean other,Map<String,Object> context) {
+	//copy constructs with shared defs (e.g. codes)
+	public MAttributed(Attributed.Bean other,Map<String,Object> definitions) {
 		
 		super(other);
 		
-		attributes.add(timestamp());
+		notNull("shared definitions", definitions);
 		
-		for (Attribute.Bean attribute : other.attributes())			
-			if (attribute.is(INHERITABLE))
-				attributes.add(new MAttribute(attribute,context));				
+		copy(other,definitions);			
 	}
 	
+	//copy constructs (codelists, linkdefs)
 	public MAttributed(Attributed.Bean other) {
 		
-		this(other,null);			
+		super(other);
+		
+		copy(other);
+	}
+		
+	//copy constructs preserving id (links)
+	public MAttributed(String id,Attributed.Bean other) {
+		
+		super(id,other);	
+		
+		copy(other);	
 	}
 	
-	//create with id
-	public MAttributed(String id,Attributed.Bean other,Map<String,Object> context) {
+	
+	//copy constructor logic
+	private void copy(Attributed.Bean other) {
 		
-		super(id,other);
+		copy(other,null);	
+	}
+
+	//copy constructor logic with shared attributes
+	private void copy(Attributed.Bean other,Map<String,Object> defs) {
 		
 		attributes.add(timestamp());
 		
-		for (Attribute.Bean attribute : other.attributes())			
-			if (attribute.is(INHERITABLE))
-				attributes.add(new MAttribute(attribute,context));				
+		for (Attribute.Bean otherattr : other.attributes())			
+			if (otherattr.is(INHERITABLE))
+				attributes.add(defs==null?
+						new MAttribute(otherattr):
+						new MAttribute(otherattr,defs));	
 	}
-
-		
-		
-	public MAttributed(String id,Attributed.Bean other) {
-		
-		this(id,other,null);			
-	}
-	
 	
 	
 	@Override

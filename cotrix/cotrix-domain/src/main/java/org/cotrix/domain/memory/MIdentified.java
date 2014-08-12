@@ -1,40 +1,30 @@
 package org.cotrix.domain.memory;
 
+import static java.util.UUID.*;
 import static org.cotrix.common.CommonUtils.*;
-
-import java.util.UUID;
 
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Identified;
 
-/**
- * Partial implementation of in-memory state beans.
- * 
- * @author Fabio Simeoni
- */
+//m-beans are used to create new entities, including new versions, and changesets.
+//identifiers are generated right here, and most validation occurs in this hierarchy.
+	  		
+
 public class MIdentified implements Identified.Bean {
 
 	public static boolean testmode = false;
 	
-	/*
-	  State beans can change across persistence bindings, but in-memory implementations are always used to:
-	  	- create entities, including new versions;
-	  	- create changesets;
-	  	
-	  Thus we use them for:
-	  	 - id generation
-	     - client input validation
-						
-	 */
-	
 	private final String id;
-	private Status status;
+	private final Status status;
 
 	
+	
+	//fresh id
 	public MIdentified() {
-		this(UUID.randomUUID().toString());
+		this(randomUUID().toString());
 	}
 	
+	//given id (typically because preserved under versioning)
 	public MIdentified(String id) {
 		
 		valid("identifier",id);
@@ -43,6 +33,7 @@ public class MIdentified implements Identified.Bean {
 		this.status=null;
 	}
 
+	//all changesets
 	public MIdentified(String id, Status status) {
 		
 		notNull("status",status);
@@ -52,6 +43,10 @@ public class MIdentified implements Identified.Bean {
 		this.status=status;
 	}
 
+	
+	
+	
+	
 	public String id() {
 		return id;
 	}
@@ -83,7 +78,7 @@ public class MIdentified implements Identified.Bean {
 		if (id == null) {
 			if (other.id() != null)
 				return false;
-		} else if (!id.equals(other.id()) && !testmode)
+		} else if (!id.equals(other.id()) && !testmode) //check
 			return false;
 		return true;
 	}

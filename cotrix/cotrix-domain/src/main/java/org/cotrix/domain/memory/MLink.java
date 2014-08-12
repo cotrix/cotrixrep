@@ -25,7 +25,7 @@ public final class MLink extends MAttributed implements Link.Bean {
 	
 	public MLink(Link.Bean other, Map<String,Object> context) {
 		
-		//links preserve identifiers
+		//links preserve identifiers (enables comparisons across versions in changelogs)
 		super(other.id(),other);
 		
 		notNull("sharing context",context);

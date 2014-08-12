@@ -16,7 +16,7 @@ public class NeoNamed extends NeoIdentified implements Named.Bean {
 		super(node);
 	}
 	
-	public <B extends Named.Bean & Attributed.Bean> NeoNamed(NodeType type, B bean) {
+	public NeoNamed(NodeType type, Attributed.Bean bean) {
 		
 		super(type,bean);
 		

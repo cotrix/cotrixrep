@@ -15,17 +15,17 @@ public abstract class NeoIdentified implements Identified.Bean {
 	
 	private final Node node;
 	
-	//read/update scenario: node is fetched from store
+	//wraps existing node (read/update)
 	public NeoIdentified(Node node) {
 		this.node=node;
 	}
 	
-	//add scenario: node is created
-	public NeoIdentified(NodeType type,Identified.Bean state) {
+	//creates and wraps (add)
+	public NeoIdentified(NodeType type,Identified.Bean bean) {
 		
 		this(newnode(type));
 		
-		this.id(state.id());
+		this.id(bean.id());
 	}
 	
 	public Node node() {
@@ -47,35 +47,35 @@ public abstract class NeoIdentified implements Identified.Bean {
 		return null;
 	}
 	
-	public Node resolve(Named.Bean state, NodeType type) {
+	public Node resolve(Named.Bean bean, NodeType type) {
 		
 		//persisted already?
-		if (state instanceof NeoIdentified)
-			return NeoIdentified.class.cast(state).node();
+		if (bean instanceof NeoIdentified)
+			return NeoIdentified.class.cast(bean).node();
 		
 		//is there an equivalent in cache?
-		Node node = threadCache().get(state.id());
+		Node node = threadCache().get(bean.id());
 		
 		//is there an equivalent in store?
 		if (node==null) {
 			
-			node = NeoNodeFactory.node(type,state.id());
+			node = NeoNodeFactory.node(type,bean.id());
 		
 			if (node==null)
-				throw new IllegalStateException("cannot form link: no node '"+state.qname()+"' (id="+state.id()+") of type "+type+" in this repository");
+				throw new IllegalStateException("cannot form link: no node '"+bean.qname()+"' (id="+bean.id()+") of type "+type+" in this repository");
 			
-			else threadCache().put(state.id(),node);
+			else threadCache().put(bean.id(),node);
 		}
 		
 		return node;
 	}
 
 	
-	public Node softResolve(Named.Bean state, NodeType type) {
+	public Node softResolve(Named.Bean bean, NodeType type) {
 		
 		try{
 			
-			return resolve(state,type);
+			return resolve(bean,type);
 			
 		}
 		catch(IllegalStateException e) {
