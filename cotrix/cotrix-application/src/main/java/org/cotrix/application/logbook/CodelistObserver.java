@@ -11,6 +11,7 @@ import org.cotrix.action.events.CodelistActionEvents.CodelistEvent;
 import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.action.events.CodelistActionEvents.Publish;
 import org.cotrix.action.events.CodelistActionEvents.Version;
+import org.cotrix.common.events.After;
 import org.cotrix.common.events.New;
 import org.cotrix.common.events.Removed;
 import org.cotrix.domain.attributes.CommonDefinition;
@@ -27,7 +28,7 @@ public class CodelistObserver {
 	private LogbookService.Private service;
 
 	//create
-	public void onCodelistCreated(@Observes @New Codelist list) {
+	public void onCodelistCreated(@Observes @After @New Codelist list) {
 		
 		try {
 			
@@ -54,7 +55,7 @@ public class CodelistObserver {
 	}
 	
 	//remove
-	public void onCodelistRemoved(@Observes @Removed Codelist list) {
+	public void onCodelistRemoved(@Observes @After @Removed Codelist list) {
 		
 		try {
 			
@@ -67,7 +68,7 @@ public class CodelistObserver {
 			
 				service.removeLogbookOf(list.id());
 				
-				log.trace("removed logbook for codelist",signatureOf(list));
+				log.trace("removed logbook for codelist {}",signatureOf(list));
 			
 			}
 		}

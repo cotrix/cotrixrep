@@ -3,8 +3,8 @@ package org.cotrix.domain.dsl.builder;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -13,6 +13,9 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
@@ -48,14 +51,36 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder with(List<Code> codes) {
+	public CodelistBuilder with(Iterable<Code> codes) {
 		state.codes(reveal(codes,Code.Private.class));
 		return this;
 	}
 	
 	@Override
-	public CodelistBuilder definitions(AttributeDefinition ... types) {
-		return definitions(asList(types));
+	public SecondClause with(CodeGrammar.OptionalClause ... clauses) {
+		
+		Collection<Code> codes = new ArrayList<Code>();
+		
+		for (CodeGrammar.OptionalClause clause : clauses)
+			codes.add(clause.build());
+				
+		return with(codes);
+	}
+	
+	@Override
+	public CodelistBuilder definitions(AttributeDefinition ... defs) {
+		return definitions(asList(defs));
+	}
+	
+	@Override
+	public SecondClause definitions(OptionalClause... clauses) {
+		
+		Collection<AttributeDefinition> defs = new ArrayList<AttributeDefinition>();
+		
+		for (AttributeDefinitionGrammar.OptionalClause clause : clauses)
+			defs.add(clause.build());
+				
+		return definitions(defs);
 	}
 	
 	@Override

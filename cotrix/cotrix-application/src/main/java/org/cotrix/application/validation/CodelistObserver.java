@@ -4,7 +4,8 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import org.cotrix.common.events.Modified;
+import org.cotrix.common.events.After;
+import org.cotrix.common.events.Updated;
 import org.cotrix.domain.codelist.Codelist;
 
 @Singleton
@@ -14,7 +15,7 @@ public class CodelistObserver {
 	DefaultValidationService validator;
 
 
-	public void onCodelistUpdate(@Observes @Modified Codelist changeset){
+	public void afterUpdate(@Observes @After @Updated Codelist.Private changeset){
 		
 		validator.checkPunctual(changeset);
 		

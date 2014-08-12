@@ -29,8 +29,11 @@ public class ChangelogTest extends ApplicationTest {
 	Attribute a = attribute().instanceOf(def).build();
 	Attribute same = attribute().name("same").build();
 	
-	Code origin = code().name("c").attributes(a,same).build();
-	Codelist list = codelist().name("l").definitions(def).with(origin).build();
+	Code code = code().name("c").attributes(a,same).build();
+	Codelist list= codelist().name("l").definitions(def).with(code).build();
+	
+	Codelist vlist;
+	Code vcode;
 	
 	@Inject
 	VersioningService service;
@@ -49,107 +52,136 @@ public class ChangelogTest extends ApplicationTest {
 
 	
 	@Before
-	public void versionList() {
+	public void prepareVersion() {
 		
 		users.add(user.get());
 		
 		codelists.add(list);
 		
-		list = service.bump(list).to("2");
+		vlist = service.bump(list).to("2");
 		
-		codelists.add(list);
+		codelists.add(vlist);
+		
+		vcode = vlist.codes().getFirst(code);
 		
 	}
 	
 	@Test
-	public void newCodesAreMarked() {
+	public void codelistsOnlyAreMarkedOnStorage() {
 		
-		Code code = code().name("newcode").build();
+		//list is timestamped
+		assertTrue(CREATED.isIn(list));
 		
-		codelists.update(modify(list).with(code).build());
+		//not so codes
+		assertFalse(CREATED.isIn(code));
+		
+		//same true after versioning
+		
+		assertTrue(CREATED.isIn(vlist));
+		assertFalse(CREATED.isIn(vcode));
+		
+	}
+	
+	@Test
+	public void newCodesAreTimeStampedOnUpdate() {
+		
+		Code newcode = code().name("newcode").build();
+		
+		codelists.update(modify(list).with(newcode));
+		
+		//timestamped, not marked
+		assertTrue(CREATED.isIn(newcode));
+		assertTrue(UPDATED_BY.isIn(newcode));
+		
+		assertFalse(NEW.isIn(newcode));
+		
+		assertFalse(MODIFIED.isIn(newcode));
+		assertFalse(LAST_UPDATED.isIn(newcode));
+	}
+	
+	@Test
+	public void newCodesAreTimeStampedAndMarkedOnAllUpdatesToVersions() {
+		
+		//added to version get both timestamped and marked.		
+		Code newcode = code().name("newcode").build();
+		
+		codelists.update(modify(vlist).with(newcode));
 
-		assertNotNull(list.codes().getFirst(code).attributes().getFirst(NEW));
+		assertTrue(CREATED.isIn(newcode));
+		assertTrue(UPDATED_BY.isIn(newcode));
+		assertTrue(NEW.isIn(newcode));
 		
+		assertFalse(MODIFIED.isIn(newcode));
+		assertFalse(LAST_UPDATED.isIn(newcode));
 	}
 	
 	@Test
-	public void modifiedCodesAreMarked() {
+	public void changesAreTimestampedOnUpdate() {
 		
-		Code versionedCode = list.codes().getFirst(origin);
-		
-		Code change = modify(versionedCode).name("modified").build();
-		
-		codelists.update(modify(list).with(change).build());
+		codelists.update(modify(list).with(modify(code).name("modified")));
 
-		Code changed = list.codes().getFirst(change);
+		assertTrue(LAST_UPDATED.isIn(code));
+		assertTrue(UPDATED_BY.isIn(code));
 		
-		assertNull(NEW.of(changed));
+		//they are not marked
+		assertFalse(CREATED.isIn(code));
+		assertFalse(NEW.isIn(code));
+		assertFalse(MODIFIED.isIn(code));
+	}
+	
+	@Test
+	public void changesAreTimestampedAndMarkedOnUpdateToVersions() {
 		
-		assertNotNull(MODIFIED.of(changed));
+		codelists.update(modify(vlist).with(modify(vcode).name("modified")));
+
+		assertTrue(LAST_UPDATED.isIn(vcode));
+		assertTrue(UPDATED_BY.isIn(vcode));
+		assertTrue(MODIFIED.isIn(vcode));
+		
+		assertFalse(CREATED.isIn(vcode));
+		assertFalse(NEW.isIn(vcode));
 		
 	}
 	
 	@Test
-	public void codenameChangesAreDetected() {
+	public void attrChangesAreMarkedOnUpdateToVersions() throws Exception {
 		
-		Code versionedCode = list.codes().getFirst(origin);
+		Attribute vattr = vcode.attributes().getFirst(a);
 		
-		Code modified = modify(versionedCode).name("modified").build();
+		Attribute modattr = modify(vattr).name("aa").in("en").ofType(NAME_TYPE).value("someval").build();
+		Attribute newattr = attribute().name("b").value("val").build();	
 		
-		codelists.update(modify(list).with(modified).build());
+		codelists.update(modify(vlist).with(modify(vcode).name("cc").attributes(modattr,newattr)));
 		
-		String val = MODIFIED.of(versionedCode);
+		//coarse grained but convenient
+		assertNotNull(MODIFIED.of(vcode));
 		
-		System.out.println(val);
-		
-	}
-	
-	@Test
-	public void attrChangesAreDetected() throws Exception {
-		
-		Code code = list.codes().getFirst(origin);
-		
-		Attribute attribute = code.attributes().getFirst(a);
-		
-		Attribute mattr = modify(attribute).name("aa").in("en").ofType(NAME_TYPE).value("someval").build();
-		Attribute nattr = attribute().name("b").value("val").build();	
-		
-		Code modified = modify(code).name("cc").attributes(mattr,nattr).build();
-		
-		codelists.update(modify(list).with(modified).build());
-		
-		System.out.println(MODIFIED.of(code));
-	
 		Thread.sleep(1000);
 		
 		User fifi = user().name("fifi").fullName("fifi").noMail().build();
 	
 		user.set(fifi);
 		
-		Attribute nattr2 = attribute().name("c").value("val").build();
+		Attribute newattr2 = attribute().name("c").value("val").build();
 		
-		modified = modify(code).attributes(nattr2).build();
-		
-		codelists.update(modify(list).with(modified).build());
+		codelists.update(modify(vlist).with(modify(vcode).attributes(newattr2)));
 
-		System.out.println(MODIFIED.of(code));
+		System.out.println(MODIFIED.of(vcode));
 
 	}
 
 	@Test
 	public void definitionChangesAreDetected() throws Exception {
 		
-		Code code = list.codes().getFirst(origin);
-		
-		AttributeDefinition vdef = list.definitions().getFirst(def);
+		AttributeDefinition vdef = vlist.definitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		
-		codelists.update(modify(list).definitions(modify(vdef).name("new").build()).build());
+		codelists.update(modify(vlist).definitions(modify(vdef).name("new")));
 		
-		changelog.track(list,false);
+		changelog.track(vlist,false);
 
-		System.out.println(MODIFIED.of(code));
+		System.out.println(MODIFIED.of(vcode));
 	
 		
 
@@ -158,20 +190,19 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void definitionRemovalsAreDetected() throws Exception {
 		
-		Code code = list.codes().getFirst(origin);
-		
-		AttributeDefinition vdef = list.definitions().getFirst(def);
+		AttributeDefinition vdef = vlist.definitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		
-		codelists.update(list.id(),deleteAttrdef(vdef.id()));
+		codelists.update(vlist.id(),deleteAttrdef(vdef.id()));
 		
-		changelog.track(list,false);
+		changelog.track(vlist,false);
 
-		System.out.println(MODIFIED.of(code));
+		System.out.println(MODIFIED.of(vcode));
 	
 		
 
 	}
+	
 	
 }

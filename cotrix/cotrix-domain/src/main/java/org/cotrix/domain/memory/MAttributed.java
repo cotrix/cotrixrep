@@ -1,10 +1,7 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.attributes.Facet.*;
-import static org.cotrix.domain.dsl.Codes.*;
-import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -19,7 +16,6 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<Attribute.Bean>();
 
 	public MAttributed() {	
-		attributes.add(timestamp());
 	}
 	
 	
@@ -63,8 +59,6 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	//copy constructor logic with shared attributes
 	private void copy(Attributed.Bean other,Map<String,Object> defs) {
 		
-		attributes.add(timestamp());
-		
 		for (Attribute.Bean otherattr : other.attributes())			
 			if (otherattr.is(INHERITABLE))
 				attributes.add(defs==null?
@@ -106,11 +100,5 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 		
 		
 		return true;
-	}
-		
-	
-	//helpers
-	private Attribute.Bean timestamp() {
-		return beanOf(attribute().instanceOf(CREATED).value(time()));
 	}
 }

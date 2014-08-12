@@ -43,22 +43,6 @@ public class DefaultChangelogService implements ChangelogService {
 	private CodelistRepository codelists;
 
 	
-	public void trackAfter(Codelist changeset) {
-	
-		//we know this will succeed, an update has already taken place 
-		Codelist list = codelists.lookup(changeset.id());
-		
-		//changelog requires lineage
-		if (!list.attributes().contains(PREVIOUS_VERSION)) 		
-			return;
-		
-		Codelist.Private plist = reveal(list);
-		Codelist.Private pchangeset = reveal(changeset);
-		
-		trackPunctual(plist, pchangeset);
-	}
-	
-	
 	@Override
 	public void track(Codelist list, boolean optimised) {
 		
@@ -77,14 +61,14 @@ public class DefaultChangelogService implements ChangelogService {
 		
 		long time = currentTimeMillis();
 		
-		Date listCreated = list.attributes().dateOf(CREATED);
+		Date listCreated = CREATED.dateOf(list);
 		
 		for (Code code : codes) {
 		
 			i++;
 			progress++;
 			
-			Date codeUpdated = code.attributes().dateOf(LAST_UPDATED);
+			Date codeUpdated = LAST_UPDATED.dateOf(code);
 			
 			//process only if it has changed since this list's version was created
 			
@@ -109,9 +93,21 @@ public class DefaultChangelogService implements ChangelogService {
 
 		log.trace("tracked changelog for {} in {} msec.",signatureOf(list),currentTimeMillis()-time);
 	}
+	
 
+	public void trackAfter(Codelist.Private changeset) {
+		
+		//we know this will succeed, an update has already taken place 
+		Codelist list = codelists.lookup(changeset.id());
+		
+		trackPunctual(reveal(list), changeset);
+				
+	}
+	
 	private void trackPunctual(Codelist list, Codelist.Private changeset) {
 
+		boolean isVersion =  PREVIOUS_VERSION.isIn(list);
+		
 		for (Code.Private change : changeset.codes()) {
 
 			// changelog is pointless if the code is to be removed anyway
@@ -119,24 +115,34 @@ public class DefaultChangelogService implements ChangelogService {
 				continue;
 			
 			Code code = list.codes().lookup(change.id());
-
-			trackCode(code,change);
+			
+			trackCode(code,change,isVersion);
 		}
 		
 	}
 
-	private void trackCode(Code changed, Code.Private change) {
+	private void trackCode(Code changed, Code.Private change, boolean isVersion) {
 
-		if (change.status() == null)
+		if (change.isChangeset()) {
 
-			NEW.set("TRUE").on(changed);
+			LAST_UPDATED.set(time()).on(changed);
+		
+			if (isVersion)
+				handleModifiedMarkerWith(changed);
 
-		else
+		}
+		else {
 
-			handleModifiedMarkerWith(changed);
+			CREATED.set(time()).on(changed);
 
+			if (isVersion)
+				NEW.set().on(changed);
+	    }
+			
+		UPDATED_BY.set(currentUser().name()).on(changed);
+		
 	}
-
+	
 	private void handleModifiedMarkerWith(Code changed) {
 		
 		Attributes attributes = changed.attributes();

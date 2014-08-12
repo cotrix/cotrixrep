@@ -6,6 +6,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.utils.DomainUtils;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.spi.StateRepository;
@@ -34,7 +35,14 @@ public class BaseCodelistRepository extends AbstractRepository<Codelist,Codelist
 		
 		log.trace("added codelist {} in {} msecs, roughly {} codes/sec",DomainUtils.signatureOf(list),time,((float) list.codes().size()/time*1000));
 		
-		
-		
+	}
+	
+	@Override
+	public void add(SecondClause list) {
+		add(list.build());
+	}
+	@Override
+	public void update(SecondClause changeset) {
+		update(changeset.build());
 	}
 }

@@ -1,7 +1,6 @@
 package org.cotrix.domain.dsl.grammar;
 
 import java.util.Collection;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -67,27 +66,6 @@ public class CommonClauses {
 		C target(T target);
 	}
 
-	
-	public static interface WithManyClause<T,C> {
-
-		/**
-		 * Adds one or more parameters to the object.
-		 * 
-		 * @param parameters the parameters
-		 * @return the next clause in the sentence
-		 */
-		@SuppressWarnings("unchecked")
-		C with(T ... parameters);
-		
-		
-		/**
-		 * Adds one or more parameters to the object.
-		 * 
-		 * @param parameters the parameters
-		 * @return the next clause in the sentence
-		 */
-		C with(List<T> parameters);
-	}
 	
 	public static interface NameClause<C> {
 		

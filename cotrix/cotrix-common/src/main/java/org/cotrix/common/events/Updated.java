@@ -13,4 +13,4 @@ import javax.inject.Qualifier;
 @Retention(RUNTIME)
 @Documented
 @Qualifier
-public @interface Modified {}
+public @interface Updated {}

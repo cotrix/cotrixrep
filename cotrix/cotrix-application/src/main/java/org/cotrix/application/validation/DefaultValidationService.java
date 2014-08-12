@@ -46,14 +46,14 @@ public class DefaultValidationService implements ValidationService {
 	@Inject
 	private Validator validator;
 	
-	public void checkPunctual(Codelist changeset) {
+	public void checkPunctual(Codelist.Private changeset) {
 		
 		//we know this will succeed, an update has already taken place 
 		Codelist list = codelists.lookup(changeset.id());
 
 		List<String> ids = new ArrayList<String>();
 		
-		for (Code.Private change : reveal(changeset).codes())
+		for (Code.Private change : changeset.codes())
 			if (change.status()!=Status.DELETED)
 				ids.add(change.id());
 

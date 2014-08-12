@@ -52,7 +52,7 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		notNull("entity",entity);
 
-		P implementation = retype(entity);
+		P implementation = reveal(entity);
 		
 		if (implementation.isChangeset())
 			throw new IllegalArgumentException("entity "+log(entity)+"is a changeset and cannot be added");
@@ -60,9 +60,11 @@ public abstract class AbstractRepository<T extends Identified,
 		if (delegate.contains(implementation.id()))
 			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
 		
+		producer.additions.select(before).fire(entity);
+		
 		delegate.add(implementation.bean());
 		
-		producer.additions.fire(entity);
+		producer.additions.select(after).fire(entity);
 		
 	};
 	
@@ -77,7 +79,7 @@ public abstract class AbstractRepository<T extends Identified,
 		if (state==null)
 			return null ;
 		else 
-			return retype(state.entity());
+			return reveal(state.entity());
 	}
 
 	
@@ -99,7 +101,7 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		notNull("changeset",changeset);
 		
-		Identified.Private implementation = retype(changeset);
+		Identified.Private implementation = reveal(changeset);
 
 		if (!implementation.isChangeset())
 			throw new IllegalArgumentException(log(changeset)+"is not a changeset");
@@ -111,9 +113,11 @@ public abstract class AbstractRepository<T extends Identified,
 			
 		Identified.Private entity = state.entity();
 		
+		producer.updates.select(before).fire(changeset);
+		
 		entity.update(implementation);
 		
-		producer.updates.fire(changeset);
+		producer.updates.select(after).fire(changeset);
 	};
 	
 	
@@ -128,6 +132,8 @@ public abstract class AbstractRepository<T extends Identified,
 		if (entity==null)
 			throw new IllegalStateException("entity "+id+" is not in this repository, hence cannot be updated.");
 		
+		producer.updates.select(before).fire(event(id, action));
+		
 		long time = currentTimeMillis();
 		
 		try {
@@ -139,7 +145,7 @@ public abstract class AbstractRepository<T extends Identified,
 		
 		log.trace("performed {} over {} in {} ms.",action,log(entity),currentTimeMillis()-time);
 		
-		producer.updates.fire(event(id, action));
+		producer.updates.select(after).fire(event(id, action));
 	}
 	
 	
@@ -154,12 +160,13 @@ public abstract class AbstractRepository<T extends Identified,
 				
 		T entity = lookup(id);
 
-		producer.removals.fire(entity);
+		producer.removals.select(before).fire(entity);
 		
 		delegate.remove(id);	
 		
 		log.info("removed entity "+id);
 		
+		producer.removals.select(after).fire(entity);
 
 	}
 	
@@ -177,7 +184,7 @@ public abstract class AbstractRepository<T extends Identified,
 	   it's pragmatically safe because P the sole implementation of T;*/
 
 	@SuppressWarnings("all")
-	public <A,B> A retype(B entity) {
+	public <A,B> A reveal(B entity) {
 		return (A) entity;
 	}
 	

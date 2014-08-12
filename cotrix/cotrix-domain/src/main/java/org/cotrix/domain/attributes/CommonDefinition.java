@@ -143,6 +143,11 @@ public enum CommonDefinition implements Named {
 		return attribute().instanceOf(this).build();
 	}
 	
+	public SetTargetClause set() {
+		
+		return new SetTargetClause(defaultValue);
+	}
+
 	public SetTargetClause set(String value) {
 		
 		return new SetTargetClause(value);
