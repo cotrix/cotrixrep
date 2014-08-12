@@ -2,7 +2,7 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;
@@ -14,23 +14,26 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.DefaultVersion;
+import org.cotrix.domain.codelist.Version;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.version.DefaultVersion;
-import org.cotrix.domain.version.Version;
 
 public final class MCodelist extends MDescribed implements Codelist.Bean {
 
 	private Version version;
 	
-	private BeanContainer<Code.Bean> codes = new MBeanContainer<Code.Bean>();
+	private BeanContainer<Code.Bean> codes = new MBeanContainer<>();
+	
+	private BeanContainer<LinkDefinition.Bean> linkDefs = new MBeanContainer<>();
+	
+	private BeanContainer<AttributeDefinition.Bean> attrDefs = new MBeanContainer<>();
+	
 
-	private BeanContainer<LinkDefinition.Bean> links = new MBeanContainer<LinkDefinition.Bean>();
-
-	private BeanContainer<AttributeDefinition.Bean> defs = new MBeanContainer<AttributeDefinition.Bean>();
+	//----------------------------------------------------
 	
 	public MCodelist() {
 		version = new DefaultVersion();
@@ -46,22 +49,22 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 		
 		version(other.version());
 		
-		Map<String,Object> context = new HashMap<>();
+		Map<String,Object> defs = new HashMap<>();
 		
-		for (AttributeDefinition.Bean def : other.definitions()) {
+		for (AttributeDefinition.Bean def : other.attributeDefinitions()) {
 			AttributeDefinition.Bean clone = new MAttrDef(def);
-			defs.add(clone);
-			context.put(def.id(), clone);
+			attrDefs.add(clone);
+			defs.put(def.id(), clone);
 		}
 		
-		for (LinkDefinition.Bean def : other.links()) {
+		for (LinkDefinition.Bean def : other.linkDefinitions()) {
 			LinkDefinition.Bean clone = new MLinkDef(def);
-			links.add(clone);
-			context.put(def.id(), clone);
+			linkDefs.add(clone);
+			defs.put(def.id(), clone);
 		}
 		
 		for (Code.Bean code : other.codes()) {
-			Code.Bean copy = new MCode(code,context);
+			Code.Bean copy = new MCode(code,defs);
 			copy.attributes().add(nameof(code));
 			copy.attributes().add(idof(code));
 			codes.add(copy);
@@ -72,6 +75,9 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 		attributes().add(nameof(other));
 		attributes().add(idof(other));
 	}
+	
+	
+	//----------------------------------------------------
 	
 	public Version version() {
 		return version;
@@ -86,28 +92,28 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<AttributeDefinition.Bean> definitions() {
-		return defs;
+	public BeanContainer<AttributeDefinition.Bean> attributeDefinitions() {
+		return attrDefs;
 	}
 	
-	public BeanContainer<LinkDefinition.Bean> links() {
-		return links;
+	public BeanContainer<LinkDefinition.Bean> linkDefinitions() {
+		return linkDefs;
 	}
 
-	public void definitions(Collection<AttributeDefinition.Bean> types) {
+	public void attributeDefinitions(Collection<AttributeDefinition.Bean> defs) {
 
-		notNull("attribute types", types);
+		notNull("attribute definitons", defs);
 		
-		for(AttributeDefinition.Bean type : types)
-			this.defs.add(type);
+		for(AttributeDefinition.Bean type : defs)
+			this.attrDefs.add(type);
 	}
 	
-	public void links(Collection<LinkDefinition.Bean> links) {
+	public void linkDefinitions(Collection<LinkDefinition.Bean> defs) {
 
-		notNull("links", links);
+		notNull("link definitions", defs);
 		
-		for(LinkDefinition.Bean link : links)
-			this.links.add(link);
+		for(LinkDefinition.Bean link : defs)
+			this.linkDefs.add(link);
 	}
 
 	public void codes(Collection<Code.Bean> codes) {
@@ -147,15 +153,15 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 				return false;
 		} else if (!codes.equals(other.codes()))
 			return false;
-		if (links == null) {
-			if (other.links() != null)
+		if (linkDefs == null) {
+			if (other.linkDefinitions() != null)
 				return false;
-		} else if (!links.equals(other.links()))
+		} else if (!linkDefs.equals(other.linkDefinitions()))
 			return false;
-		if (defs == null) {
-			if (other.links() != null)
+		if (attrDefs == null) {
+			if (other.linkDefinitions() != null)
 				return false;
-		} else if (!defs.equals(other.links()))
+		} else if (!attrDefs.equals(other.linkDefinitions()))
 			return false;
 		return true;
 	}

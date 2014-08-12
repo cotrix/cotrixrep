@@ -30,8 +30,7 @@ public interface Code extends Identified,Named,Described {
 		
 	}
 	
-	
-	
+
 	//----------------------------------------
 	
 	final class Private extends Described.Private<Private,Bean> implements Code {

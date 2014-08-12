@@ -44,7 +44,7 @@ import org.cotrix.domain.values.DefaultType;
  * @author Fabio Simeoni
  *
  */
-public class Entities {
+public class Data {
 	
 	public static QName q(String local) {
 		return new QName(local);

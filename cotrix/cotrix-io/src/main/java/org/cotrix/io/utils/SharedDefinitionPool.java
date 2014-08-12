@@ -1,6 +1,6 @@
 package org.cotrix.io.utils;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import java.util.HashMap;
 import java.util.Iterator;

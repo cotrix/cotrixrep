@@ -2,7 +2,7 @@ package org.cotrix.io.tabular.map;
 
 import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;

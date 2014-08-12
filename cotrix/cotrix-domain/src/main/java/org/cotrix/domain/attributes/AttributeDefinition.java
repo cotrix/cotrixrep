@@ -16,7 +16,6 @@ public interface AttributeDefinition extends Definition {
 
 	QName type();
 	
-	
 	boolean is(QName type);
 	
 	boolean is(Facet facet);
@@ -28,7 +27,8 @@ public interface AttributeDefinition extends Definition {
 	boolean isShared();
 	
 	
-		
+	//----------------------------------------
+	
 	static interface Bean extends Definition.Bean, BeanOf<Private> {
 
 		QName type();
@@ -51,11 +51,13 @@ public interface AttributeDefinition extends Definition {
 		
 	}
 
-	//private implementation: delegates to state bean
+	
+	//----------------------------------------
+	
 	public class Private extends Described.Private<Private,Bean> implements AttributeDefinition {
 
-		public Private(AttributeDefinition.Bean state) {
-			super(state);
+		public Private(AttributeDefinition.Bean bean) {
+			super(bean);
 		}
 		
 		@Override

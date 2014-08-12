@@ -5,7 +5,7 @@ import static java.lang.System.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.common.async.TaskUpdate.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 

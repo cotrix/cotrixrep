@@ -1,6 +1,6 @@
 package org.cotrix.stage;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.stage.data.SomeCodelists.*;
 import static org.cotrix.stage.data.SomeUsers.*;
@@ -151,7 +151,7 @@ public class CodelistsStager {
 
 		QName nameLinkname = nameLink.qname();
 		
-		for (LinkDefinition link : source.links())
+		for (LinkDefinition link : source.linkDefinitions())
 			if (link.qname().equals(nameLinkname))
 				nameLink = link;
 			else

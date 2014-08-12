@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;
@@ -10,8 +10,8 @@ import javax.inject.Inject;
 
 import org.cotrix.application.VersioningService;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.Version;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.version.Version;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;
 import org.cotrix.test.ApplicationTest;

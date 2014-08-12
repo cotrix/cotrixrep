@@ -2,7 +2,7 @@ package org.acme;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.common.Ranges.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 

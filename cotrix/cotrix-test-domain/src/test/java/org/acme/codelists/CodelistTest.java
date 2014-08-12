@@ -2,7 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
 
@@ -62,17 +62,17 @@ public class CodelistTest extends DomainTest {
 		Codelist minimal  = codelist().name(name).build();
 		
 		assertNotNull(minimal.version());
-		assertNotNull(minimal.definitions());
+		assertNotNull(minimal.attributeDefinitions());
 		assertNotNull(minimal.attributes());
-		assertNotNull(minimal.links());
+		assertNotNull(minimal.linkDefinitions());
 		assertNotNull(minimal.codes());
 		
 		//full-fledged
 		
 		assertTrue(list.attributes().contains(attr));
 		assertTrue(list.codes().contains(code));
-		assertTrue(list.links().contains(link));
-		assertTrue(list.definitions().contains(def));
+		assertTrue(list.linkDefinitions().contains(link));
+		assertTrue(list.attributeDefinitions().contains(def));
 		
 		assertEquals(version,list.version());
 		
@@ -209,9 +209,9 @@ public class CodelistTest extends DomainTest {
 		
 		assertEquals(changeset.qname(),list.qname());
 		
-		assertTrue(list.definitions().contains(newdef));
+		assertTrue(list.attributeDefinitions().contains(newdef));
 		assertFalse(list.attributes().contains(attr));
-		assertTrue(list.links().contains(newlink));
+		assertTrue(list.linkDefinitions().contains(newlink));
 		assertFalse(list.codes().contains(code));
 		
 	}

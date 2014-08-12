@@ -1,7 +1,7 @@
 package org.acme.map;
 
 import static org.acme.TestUtils.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.io.tabular.map.ColumnDirectives.*;
 import static org.cotrix.io.tabular.map.MappingMode.*;
 import static org.junit.Assert.*;
@@ -150,9 +150,9 @@ public class Table2CodelistTest extends DomainTest {
 
 		Codelist list = outcome.result();
 
-		assertEquals(1,list.definitions().size());
+		assertEquals(1,list.attributeDefinitions().size());
 		
-		AttributeDefinition def = list.definitions().iterator().next();
+		AttributeDefinition def = list.attributeDefinitions().iterator().next();
 		
 		Code code1 = list.codes().getFirst(q("1"));
 		Code code2 = list.codes().getFirst(q("3"));

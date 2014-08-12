@@ -17,7 +17,7 @@ public class MIdentified implements Identified.Bean {
 	private final String id;
 	private final Status status;
 
-	
+	//----------------------------------------------------
 	
 	//fresh id
 	public MIdentified() {
@@ -44,7 +44,7 @@ public class MIdentified implements Identified.Bean {
 	}
 
 	
-	
+	//----------------------------------------------------
 	
 	
 	public String id() {

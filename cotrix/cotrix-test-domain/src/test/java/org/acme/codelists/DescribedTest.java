@@ -7,7 +7,7 @@ import org.cotrix.domain.memory.MDescribed;
 import org.cotrix.domain.trait.Described;
 import org.junit.Test;
 
-public class AttributedTest extends DomainTest {
+public class DescribedTest extends DomainTest {
 
 
 	@Test

@@ -12,6 +12,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MBeanContainer;
@@ -264,8 +265,8 @@ public interface Container<T> extends Iterable<T> {
 	
 	public static class Codes extends Container.Private<Code.Private,Code.Bean> {
 		
-		public Codes(BeanContainer<Code.Bean> beans) {
-			super(beans);
+		public Codes(Codelist.Bean list) {
+			super(list.codes());
 		}
 	}
 	
@@ -278,15 +279,15 @@ public interface Container<T> extends Iterable<T> {
 	
 	public class AttributeDefinitions extends Container.Private<AttributeDefinition.Private,AttributeDefinition.Bean> {
 		
-		public AttributeDefinitions(BeanContainer<AttributeDefinition.Bean> beans) {
-			super(beans);
+		public AttributeDefinitions(Codelist.Bean list) {
+			super(list.attributeDefinitions());
 		}
 	}
 	
 	public class LinkDefinitions extends Container.Private<LinkDefinition.Private,LinkDefinition.Bean> {
 		
-		public LinkDefinitions(BeanContainer<LinkDefinition.Bean> beans) {
-			super(beans);
+		public LinkDefinitions(Codelist.Bean list) {
+			super(list.linkDefinitions());
 		}
 	}
 

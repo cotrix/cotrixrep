@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -158,7 +158,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
-			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
+			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.linkDefinitions());
 			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
 		}
 		
@@ -210,7 +210,7 @@ public class ChangesetUtil {
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
-			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.links());
+			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.linkDefinitions());
 			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
 		}
 		

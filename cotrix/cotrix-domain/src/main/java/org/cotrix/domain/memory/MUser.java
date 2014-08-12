@@ -14,14 +14,19 @@ import org.cotrix.domain.user.User;
 public class MUser extends MIdentified implements User.State {
 
 	private String userName;
+	
 	private String fullName;
+	
 	private String email;
 	
 	private Set<Action> permissions = new HashSet<Action>();
+	
 	private Set<Role> roles = new HashSet<Role>();
 	
-	public MUser() {
-	}
+	
+	//----------------------------------------------------
+	
+	public MUser() {}
 	
 	public MUser(String id) {
 		super(id);
@@ -30,6 +35,8 @@ public class MUser extends MIdentified implements User.State {
 	public MUser(String id, Status status) {
 		super(id,status);
 	}
+	
+	//----------------------------------------------------
 	
 	public void name(String name) {
 		valid("full name",name);

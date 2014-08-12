@@ -10,19 +10,16 @@ import org.cotrix.domain.trait.Named;
 
 public class MNamed extends MIdentified implements Named.Bean {
 
-	//not needed for virtually named beans, but hey we do not have real traits here.
 	private QName name;
 	
+	//----------------------------------------------------
 	
-	
-	public MNamed() {		
-	}
+	public MNamed() {}
 
 	public MNamed(String id,Status status) {
 		super(id,status);
 	}
 	
-
 	public MNamed(String id) {
 		super(id);
 	}
@@ -47,6 +44,9 @@ public class MNamed extends MIdentified implements Named.Bean {
 	private void copy(Named.Bean other) {
 		qname(other.qname());
 	}
+	
+	
+	//----------------------------------------------------
 	
 	
 	public QName qname() {

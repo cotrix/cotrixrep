@@ -72,7 +72,7 @@ public final class MAttrDef extends MDescribed implements AttributeDefinition.Be
 	
 	@Override
 	public boolean is(Facet facet) {
-		//temporarily only on common defs, supported by default on domain defs
+		//currently only on common defs, they are supported by default on domain defs
 		return !isCommon(qname()) || isCommon(qname(),facet);
 	}
 

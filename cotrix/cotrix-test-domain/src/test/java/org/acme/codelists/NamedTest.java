@@ -2,7 +2,7 @@ package org.acme.codelists;
 
 import static org.junit.Assert.*;
 import static org.cotrix.domain.common.Status.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;

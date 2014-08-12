@@ -5,7 +5,7 @@ import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.domain.common.Status.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 	public void add(Bean list) {
 		
 		//simulate progress
-		int total = list.codes().size()+list.definitions().size()+list.links().size()+list.attributes().size();
+		int total = list.codes().size()+list.attributeDefinitions().size()+list.linkDefinitions().size()+list.attributes().size();
 		int progressInterval = min(100,total);
 		try {
 			
@@ -85,7 +85,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 		notNull("identifier", id);
 		
 		for (Codelist.Bean list : getAll())
-			for (LinkDefinition.Bean link : list.links())
+			for (LinkDefinition.Bean link : list.linkDefinitions())
 				if (link.target().id().equals(id))
 					throw new CodelistRepository.UnremovableCodelistException("cannot remove codelist "+list.id()+": others depend on it");
 				
@@ -104,11 +104,11 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 			@Override
 			public void performOver(Codelist list) {
 				
-				if (!list.definitions().contains(definitionId))
+				if (!list.attributeDefinitions().contains(definitionId))
 					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				AttributeDefinition def = list.definitions().lookup(definitionId);
+				AttributeDefinition def = list.attributeDefinitions().lookup(definitionId);
 				
 				for (Code code : list.codes()) {
 					Collection<Attribute> changesets = new ArrayList<>(); 
@@ -139,11 +139,11 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 			@Override
 			public void performOver(Codelist list) {
 				
-				if (!list.links().contains(linkId))
+				if (!list.linkDefinitions().contains(linkId))
 					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
-				LinkDefinition type= list.links().lookup(linkId);
+				LinkDefinition type= list.linkDefinitions().lookup(linkId);
 				
 				for (Code code : list.codes()) {
 					Collection<Link> changesets = new ArrayList<>(); 

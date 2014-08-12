@@ -1,7 +1,7 @@
 package org.cotrix.domain.dsl.builder;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.dsl.Entities;
+import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
@@ -48,7 +48,7 @@ public class LinkDefinitionBuilder  {
 	}
 	
 	public void name(String name) {
-		name(Entities.q(name));
+		name(Data.q(name));
 	}
 	
 	

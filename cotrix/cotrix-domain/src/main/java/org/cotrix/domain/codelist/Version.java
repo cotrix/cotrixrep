@@ -1,4 +1,4 @@
-package org.cotrix.domain.version;
+package org.cotrix.domain.codelist;
 
 /**
  * An object version in an underlying versioning scheme.

@@ -14,8 +14,12 @@ import org.cotrix.domain.trait.Described;
 
 public final class MCode extends MDescribed implements Code.Bean, Described.Bean {
 
-	private BeanContainer<Link.Bean> links = new MBeanContainer<Link.Bean>();
+	private BeanContainer<Link.Bean> links = new MBeanContainer<>();
 
+	
+	//----------------------------------------------------
+	
+	
 	public MCode() {
 	}
 	
@@ -23,25 +27,27 @@ public final class MCode extends MDescribed implements Code.Bean, Described.Bean
 		super(id,status);
 	}
 
-	public MCode(Code.Bean state) {
+	public MCode(Code.Bean other) {
 		
-		this(state,null);
+		this(other,null);
 	}
 	
-	public MCode(Code.Bean state,Map<String,Object> context) {
+	public MCode(Code.Bean state,Map<String,Object> defs) {
 		
-		super(state,context);
+		super(state,defs);
 		
 		for (Link.Bean link : state.links())
-			links.add(new MLink(link,context));
+			links.add(new MLink(link,defs));
 	}
+	
+	
+	//----------------------------------------------------
 	
 	public BeanContainer<Link.Bean> links() {
 		return links;
 	}
 	
 	
-
 	public void links(Collection<Link.Bean> Codelink) {
 
 		notNull("links", links);

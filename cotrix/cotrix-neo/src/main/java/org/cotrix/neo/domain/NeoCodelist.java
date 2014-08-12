@@ -10,10 +10,10 @@ import org.cotrix.common.async.TaskContext;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.codelist.DefaultVersion;
+import org.cotrix.domain.codelist.Version;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.version.DefaultVersion;
-import org.cotrix.domain.version.Version;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
@@ -54,21 +54,21 @@ public class NeoCodelist extends NeoDescribed implements Codelist.Bean {
 		
 		float progress=0f;
 		
-		int total = other.codes().size()+other.definitions().size()+other.links().size();
+		int total = other.codes().size()+other.attributeDefinitions().size()+other.linkDefinitions().size();
 		
-		for (AttributeDefinition.Bean def : other.definitions())
+		for (AttributeDefinition.Bean def : other.attributeDefinitions())
 			node().createRelationshipTo(NeoAttributeDefinition.factory.nodeFrom(def),Relations.DEFINITION);
 		
-		progress = progress + other.definitions().size();
+		progress = progress + other.attributeDefinitions().size();
 		
-		context.save(update(progress/total, "added "+other.definitions().size()+" definitions"));
+		context.save(update(progress/total, "added "+other.attributeDefinitions().size()+" definitions"));
 		
-		for (LinkDefinition.Bean l : other.links())
+		for (LinkDefinition.Bean l : other.linkDefinitions())
 			node().createRelationshipTo(NeoLinkDefinition.factory.nodeFrom(l),Relations.LINK);
 		
-		progress = progress + other.links().size();
+		progress = progress + other.linkDefinitions().size();
 		
-		context.save(update(progress/total, "added "+other.links().size()+" links"));
+		context.save(update(progress/total, "added "+other.linkDefinitions().size()+" links"));
 		
 		int i = 0;
 	
@@ -119,12 +119,12 @@ public class NeoCodelist extends NeoDescribed implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<LinkDefinition.Bean> links() {
+	public BeanContainer<LinkDefinition.Bean> linkDefinitions() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoLinkDefinition.factory);
 	}
 	
 	@Override
-	public BeanContainer<AttributeDefinition.Bean> definitions() {
+	public BeanContainer<AttributeDefinition.Bean> attributeDefinitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoAttributeDefinition.factory);
 	}
 	

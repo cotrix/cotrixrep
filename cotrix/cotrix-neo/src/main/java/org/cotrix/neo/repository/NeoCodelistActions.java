@@ -32,7 +32,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 			@Override
 			public void performOver(Codelist list) {
 				
-				if (!list.links().contains(linkId))
+				if (!list.linkDefinitions().contains(linkId))
 					throw new IllegalArgumentException("no link definition "+linkId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					
@@ -70,7 +70,7 @@ public class NeoCodelistActions extends NeoQueries implements CodelistActionFact
 			@Override
 			public void performOver(Codelist list) {
 				
-				if (!list.definitions().contains(definitionId))
+				if (!list.attributeDefinitions().contains(definitionId))
 					throw new IllegalArgumentException("no attribute definition "+definitionId+" in list "+list.id()+" ("+list.qname()+")");
 				
 					

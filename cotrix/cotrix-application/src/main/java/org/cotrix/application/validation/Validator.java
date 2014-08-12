@@ -39,8 +39,8 @@ public class Validator {
 		if (code.qname().getLocalPart().isEmpty())
 			violations.add(new Violation(nameViolation));
 		
-		checkAttributes(violations,list.definitions(), code.attributes());
-		checkLinks(violations,list.links(),code.links());
+		checkAttributes(violations,list.attributeDefinitions(), code.attributes());
+		checkLinks(violations,list.linkDefinitions(),code.links());
 		
 		return violations;
 	}

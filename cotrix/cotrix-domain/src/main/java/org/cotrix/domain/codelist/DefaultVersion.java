@@ -1,4 +1,4 @@
-package org.cotrix.domain.version;
+package org.cotrix.domain.codelist;
 
 import org.cotrix.common.CommonUtils;
 

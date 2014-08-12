@@ -35,16 +35,16 @@ public final class MAttribute extends MIdentified implements Attribute.Bean {
 	}
 	
 	
-	public MAttribute(Attribute.Bean state) {
-		this(state,new HashMap<String,Object>());
+	public MAttribute(Attribute.Bean other) {
+		this(other,new HashMap<String,Object>());
 	}
 
-	public MAttribute(Attribute.Bean other, Map<String,Object> context) {
+	public MAttribute(Attribute.Bean other, Map<String,Object> defs) {
 		
 		//attributes preserve identifiers (enables comparisons across versions in changelogs)
 		super(other.id());
 		
-		definition(cloneDefinitionInContext(other.definition(),context));
+		definition(cloneDefinitionInContext(other.definition(),defs));
 		value(other.value());
 		note(other.note());
 	}

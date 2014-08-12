@@ -2,7 +2,7 @@ package org.acme.codelists;
 
 import static java.util.Arrays.*;
 import static org.acme.codelists.Fixture.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.junit.Assert.*;
 
 import java.util.Iterator;

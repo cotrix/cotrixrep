@@ -108,11 +108,11 @@ public class Mappings {
 
 	private static List<DefinitionMapping> getCodesMappings(Codelist codelist, MappingProvider<?> provider) {
 		List<DefinitionMapping> mappings = new ArrayList<DefinitionMapping>();
-		for (AttributeDefinition definition:codelist.definitions()) {
+		for (AttributeDefinition definition:codelist.attributeDefinitions()) {
 			mappings.add(getDefinitionMapping(definition, provider));
 		}
 
-		for (LinkDefinition definition:codelist.links()) {
+		for (LinkDefinition definition:codelist.linkDefinitions()) {
 			mappings.add(getLinkMapping(definition, provider));
 		}
 		return mappings;

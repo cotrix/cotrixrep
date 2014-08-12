@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.repository.CodelistActions.*;
 import static org.junit.Assert.*;
 
@@ -41,7 +41,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 		
 		assertFalse(code.attributes().contains(attr1.id()));
 		assertFalse(code.attributes().contains(attr2.id()));
-		assertFalse(list.definitions().contains(def.id()));
+		assertFalse(list.attributeDefinitions().contains(def.id()));
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class CodelistRepositoryUpdateTest extends ApplicationTest {
 		assertFalse(code1.links().contains(l1.id()));
 		assertFalse(code2.links().contains(l2.id()));
 
-		assertFalse(list.links().contains(link.id()));
+		assertFalse(list.linkDefinitions().contains(link.id()));
 	}
 	
 	

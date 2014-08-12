@@ -2,7 +2,7 @@ package org.cotrix.domain.attributes;
 
 import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.common.Ranges.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
@@ -19,10 +19,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Named;
 
-/**
- * Wrappers over recurring, cross-codelist attribute definitions.
- *
- */
+// wrappers over recurring, cross-codelist attribute definitions.
 public enum CommonDefinition implements Named {
 	
 	//overload make() further if we need different forms of definitions.

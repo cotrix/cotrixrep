@@ -1,6 +1,6 @@
 package org.acme.integration;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import javax.inject.Inject;
 import javax.xml.namespace.QName;

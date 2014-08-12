@@ -14,10 +14,12 @@ import org.cotrix.domain.links.LinkDefinition;
 public final class MLink extends MDescribed implements Link.Bean {
 
 	private Code.Bean target;
+	
 	private LinkDefinition.Bean definition;
 
-	public MLink() {
-	}
+	//----------------------------------------------------
+	
+	public MLink() {}
 	
 	public MLink(String id,Status status) {
 		super(id,status);
@@ -36,16 +38,8 @@ public final class MLink extends MDescribed implements Link.Bean {
 	}
 	
 	
-	//helper
-	private LinkDefinition.Bean cloneDefinitionInContext(LinkDefinition.Bean def, Map<String,Object> context) {
-		
-		if (context==null || !context.containsKey(def.id()))
-			throw new AssertionError("application error: definition cannot be shared during copy");
-		
-		return (LinkDefinition.Bean) context.get(def.id());
-			
-	}
-
+	//----------------------------------------------------
+	
 	@Override
 	public QName qname() {
 		return definition==null?null:definition.qname();
@@ -88,6 +82,21 @@ public final class MLink extends MDescribed implements Link.Bean {
 	public Link.Private entity() {
 		return new Link.Private(this);
 	}
+	
+	
+	//helper
+	private LinkDefinition.Bean cloneDefinitionInContext(LinkDefinition.Bean def, Map<String,Object> context) {
+		
+		if (context==null || !context.containsKey(def.id()))
+			throw new AssertionError("application error: definition cannot be shared during copy");
+		
+		return (LinkDefinition.Bean) context.get(def.id());
+			
+	}
+
+		
+		
+		
 
 	@Override
 	public boolean equals(Object obj) {

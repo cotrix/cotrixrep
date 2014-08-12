@@ -14,30 +14,17 @@ import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;
 
-/**
- * An {@link Identified} and {@link Described} instance of a
- * {@link LinkDefinition}.
- * 
- * @author Fabio Simeoni
- * 
- */
 public interface Link extends Identified, Named, Described, Defined<LinkDefinition> {
 
-	/**
-	 * @return the link value, or <code>null</code> if the link is orphaned.
-	 */
-	List<Object> value();
+	Code target(); //null if orphaned
 	
+	List<Object> value();
 	
 	String valueAsString();
 	
-	/**
-	 * @return the target, or <code>null</code> if the link is orphaned.
-	 */
-	Code target();
 	
+	//----------------------------------------
 	
-
 	static interface Bean extends Described.Bean, Defined.Bean<LinkDefinition.Bean>, BeanOf<Private> {
 
 		Code.Bean target();
@@ -46,10 +33,9 @@ public interface Link extends Identified, Named, Described, Defined<LinkDefiniti
 
 	}
 
-	/**
-	 * An {@link Described.Private} implementation of {@link Link}.
-	 * 
-	 */
+	
+	//----------------------------------------
+	
 	public class Private extends Described.Private<Private, Bean> implements Link {
 
 		public Private(Link.Bean bean) {
@@ -61,6 +47,7 @@ public interface Link extends Identified, Named, Described, Defined<LinkDefiniti
 			//safe: def cannot be or become null
 			
 			LinkDefinition.Bean def = bean().definition();
+	
 			return def==null? null : def.qname();
 		}
 		
@@ -114,13 +101,6 @@ public interface Link extends Identified, Named, Described, Defined<LinkDefiniti
 			// wont'update definition
 		}
 
-		
-		@Override
-		public String toString() {
-			return "Codelink [id="+id()+", definition=" + bean().definition() + " :--> " + bean().target().id()+"]" ;
-		}
-		
-		
 		// extracted to reuse below this layer (for link-of-links) without
 		// object instantiation costs
 		public static List<Object> resolve(Link.Bean link, LinkDefinition.Bean type, List<String> ids) {
@@ -168,6 +148,12 @@ public interface Link extends Identified, Named, Described, Defined<LinkDefiniti
 				
 				
 			
+		}
+		
+		
+		@Override
+		public String toString() {
+			return "Codelink [id="+id()+", definition=" + bean().definition() + " :--> " + bean().target().id()+"]" ;
 		}
 
 	}

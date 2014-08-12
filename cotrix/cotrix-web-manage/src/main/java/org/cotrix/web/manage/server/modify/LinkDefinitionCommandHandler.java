@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.repository.CodelistActions.*;
 import static org.cotrix.web.common.server.util.LinkDefinitions.*;
 
@@ -69,6 +69,6 @@ public class LinkDefinitionCommandHandler {
 	}
 	
 	private LinkDefinition lookupLinkDefinition(String codelistId, String definitionId) {
-		return repository.lookup(codelistId).links().lookup(definitionId);
+		return repository.lookup(codelistId).linkDefinitions().lookup(definitionId);
 	}
 }

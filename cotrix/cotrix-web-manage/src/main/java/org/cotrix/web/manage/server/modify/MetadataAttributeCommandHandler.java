@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -49,7 +49,7 @@ public class MetadataAttributeCommandHandler {
 	
 	private AttributeDefinition getDefinition(Codelist codelist, UIAttribute attribute) {
 		if (attribute.getDefinitionId() == null) return null;
-		if (codelist.definitions().contains(attribute.getDefinitionId())) return codelist.definitions().lookup(attribute.getDefinitionId());
+		if (codelist.attributeDefinitions().contains(attribute.getDefinitionId())) return codelist.attributeDefinitions().lookup(attribute.getDefinitionId());
 		return null;
 	}
 }

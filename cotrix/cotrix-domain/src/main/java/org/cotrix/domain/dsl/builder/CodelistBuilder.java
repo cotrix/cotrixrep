@@ -12,7 +12,9 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.dsl.Entities;
+import org.cotrix.domain.codelist.DefaultVersion;
+import org.cotrix.domain.codelist.Version;
+import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar;
@@ -21,8 +23,6 @@ import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MCodelist;
-import org.cotrix.domain.version.DefaultVersion;
-import org.cotrix.domain.version.Version;
 
 /**
  * Builds {@link Codelist}s.
@@ -47,7 +47,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public SecondClause name(String name) {
-		return name(Entities.q(name));
+		return name(Data.q(name));
 	}
 	
 	@Override
@@ -85,7 +85,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public CodelistBuilder definitions(Iterable<AttributeDefinition> types) {
-		state.definitions(reveal(types,AttributeDefinition.Private.class));
+		state.attributeDefinitions(reveal(types,AttributeDefinition.Private.class));
 		return this;
 	}
 	
@@ -101,7 +101,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public CodelistBuilder links(Collection<LinkDefinition> links) {
-		state.links(reveal(links,LinkDefinition.Private.class));
+		state.linkDefinitions(reveal(links,LinkDefinition.Private.class));
 		return this;
 	}
 	

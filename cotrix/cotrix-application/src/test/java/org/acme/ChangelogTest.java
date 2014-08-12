@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistActions.*;
@@ -173,7 +173,7 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void definitionChangesAreDetected() throws Exception {
 		
-		AttributeDefinition vdef = vlist.definitions().getFirst(def);
+		AttributeDefinition vdef = vlist.attributeDefinitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		
@@ -190,7 +190,7 @@ public class ChangelogTest extends ApplicationTest {
 	@Test
 	public void definitionRemovalsAreDetected() throws Exception {
 		
-		AttributeDefinition vdef = vlist.definitions().getFirst(def);
+		AttributeDefinition vdef = vlist.attributeDefinitions().getFirst(def);
 		
 		Thread.sleep(1000);
 		

@@ -13,10 +13,14 @@ import org.cotrix.domain.trait.Described;
 
 public class MDescribed extends MNamed implements Described.Bean {
 
-	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<Attribute.Bean>();
+	
+	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<>();
 
-	public MDescribed() {	
-	}
+	
+	//----------------------------------------------------
+	
+	
+	public MDescribed() {}
 	
 	
 	public MDescribed(String id,Status status) {
@@ -24,13 +28,13 @@ public class MDescribed extends MNamed implements Described.Bean {
 	}
 
 	//copy constructs with shared defs (e.g. codes)
-	public MDescribed(Described.Bean other,Map<String,Object> definitions) {
+	public MDescribed(Described.Bean other,Map<String,Object> defs) {
 		
 		super(other);
 		
-		notNull("shared definitions", definitions);
+		notNull("shared definitions", defs);
 		
-		copy(other,definitions);			
+		copy(other,defs);			
 	}
 	
 	//copy constructs (codelists, linkdefs)
@@ -68,7 +72,7 @@ public class MDescribed extends MNamed implements Described.Bean {
 	}
 
 	
-	
+	//----------------------------------------------------
 	
 	@Override
 	public BeanContainer<Attribute.Bean> attributes() {

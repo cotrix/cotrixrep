@@ -83,8 +83,8 @@ public interface PublishMapper<T> {
 		
 		private Definition getDefinition(Codelist codelist, UIDefinition definition) {
 			switch (definition.getDefinitionType()) {
-				case ATTRIBUTE_DEFINITION: return codelist.definitions().lookup(definition.getId());
-				case LINK_DEFINITION: return codelist.links().lookup(definition.getId());
+				case ATTRIBUTE_DEFINITION: return codelist.attributeDefinitions().lookup(definition.getId());
+				case LINK_DEFINITION: return codelist.linkDefinitions().lookup(definition.getId());
 			}
 			return null;
 		}
@@ -141,8 +141,8 @@ public interface PublishMapper<T> {
 		
 		private Definition getCodeDefinition(Codelist codelist, UIDefinition definition) {
 			switch (definition.getDefinitionType()) {
-				case ATTRIBUTE_DEFINITION: return codelist.definitions().lookup(definition.getId());
-				case LINK_DEFINITION: return codelist.links().lookup(definition.getId());
+				case ATTRIBUTE_DEFINITION: return codelist.attributeDefinitions().lookup(definition.getId());
+				case LINK_DEFINITION: return codelist.linkDefinitions().lookup(definition.getId());
 			}
 			return null;
 		}
@@ -169,7 +169,7 @@ public interface PublishMapper<T> {
 			List<QName> targets = new ArrayList<>(); 
 			
 			for (DefinitionMapping mapping:publishDirectives.getMappings().getCodesAttributesMapping()) {
-				if (mapping.isMapped()) targets.add(codelist.definitions().lookup(mapping.getDefinition().getId()).qname());
+				if (mapping.isMapped()) targets.add(codelist.attributeDefinitions().lookup(mapping.getDefinition().getId()).qname());
 			}
 			
 			Codelist2CometDirectives cometDirectives = new Codelist2CometDirectives();

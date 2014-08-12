@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -58,7 +58,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		t1 = target.codes().getFirst(t1);
 		t2 = target.codes().getFirst(t2);
 	
-		linkdef = source.links().getFirst(linkdef);
+		linkdef = source.linkDefinitions().getFirst(linkdef);
 		
 		Link link1 = link().instanceOf(linkdef).target(t1).build();
 		Link link2 = link().instanceOf(linkdef).target(t2).build();
@@ -150,7 +150,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertEquals(NameLink.INSTANCE,retrieved.links().getFirst(linkdef).valueType());
+		assertEquals(NameLink.INSTANCE,retrieved.linkDefinitions().getFirst(linkdef).valueType());
 		
 	}
 	
@@ -190,7 +190,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().contains(targetChangeset));
+		assertTrue(retrieved.linkDefinitions().contains(targetChangeset));
 		
 	}
 	
@@ -213,7 +213,7 @@ public class CodelistRepositoryCrudTest extends ApplicationTest {
 		
 		Codelist retrieved = repository.lookup(list.id());
 		
-		assertTrue(retrieved.links().getFirst(linkdef).valueType() instanceof AttributeLink);
+		assertTrue(retrieved.linkDefinitions().getFirst(linkdef).valueType() instanceof AttributeLink);
 		
 	}
 	

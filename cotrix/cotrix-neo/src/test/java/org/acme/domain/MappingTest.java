@@ -2,7 +2,7 @@ package org.acme.domain;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;
@@ -115,7 +115,7 @@ public class MappingTest extends ApplicationTest {
 			
 			assertEquals(created.qname(),retrieved.qname());
 			assertEquals(collect(created.attributes()),collect(retrieved.attributes()));
-			assertEquals(collect(created.links()),collect(retrieved.links()));
+			assertEquals(collect(created.linkDefinitions()),collect(retrieved.linkDefinitions()));
 			assertEquals(created.version(),retrieved.version());
 			
 			tx.success();

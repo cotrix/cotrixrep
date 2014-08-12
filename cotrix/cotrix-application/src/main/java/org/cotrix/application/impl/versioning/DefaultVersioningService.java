@@ -1,7 +1,7 @@
 package org.cotrix.application.impl.versioning;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -12,9 +12,8 @@ import org.cotrix.application.VersioningService;
 import org.cotrix.common.BeanSession;
 import org.cotrix.common.events.Current;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.spi.IdGenerator;
-import org.cotrix.domain.version.DefaultVersion;
-import org.cotrix.domain.version.Version;
+import org.cotrix.domain.codelist.DefaultVersion;
+import org.cotrix.domain.codelist.Version;
 
 /**
  * Default {@link VersioningService} implementation.
@@ -25,9 +24,7 @@ import org.cotrix.domain.version.Version;
 @ApplicationScoped
 public class DefaultVersioningService implements VersioningService {
 	
-	@Inject
-	IdGenerator generator;
-	
+
 	@Inject
 	Event< CodelistActionEvents.Version> events;
 	

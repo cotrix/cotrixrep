@@ -11,7 +11,6 @@ import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
-import org.cotrix.domain.version.Version;
 
 
 
@@ -19,9 +18,9 @@ public interface Codelist extends Identified,Described,Named {
 
 	Codes codes();
 	
-	LinkDefinitions links();
+	LinkDefinitions linkDefinitions();
 
-	AttributeDefinitions definitions();
+	AttributeDefinitions attributeDefinitions();
 	
 	String version();
 	
@@ -32,9 +31,9 @@ public interface Codelist extends Identified,Described,Named {
 	
 		BeanContainer<Code.Bean> codes();
 		
-		BeanContainer<LinkDefinition.Bean> links();
+		BeanContainer<LinkDefinition.Bean> linkDefinitions();
 		
-		BeanContainer<AttributeDefinition.Bean> definitions();
+		BeanContainer<AttributeDefinition.Bean> attributeDefinitions();
 		
 		Version version();
 		
@@ -56,17 +55,17 @@ public interface Codelist extends Identified,Described,Named {
 		
 		@Override
 		public Codes codes() {
-			return new Codes(bean().codes());
+			return new Codes(bean());
 		}
 		
 		@Override
-		public LinkDefinitions links() {
-			return new LinkDefinitions(bean().links());
+		public LinkDefinitions linkDefinitions() {
+			return new LinkDefinitions(bean());
 		}
 		
 		@Override
-		public AttributeDefinitions definitions() {
-			return new AttributeDefinitions(bean().definitions());
+		public AttributeDefinitions attributeDefinitions() {
+			return new AttributeDefinitions(bean());
 		}
 		
 		@Override
@@ -97,9 +96,9 @@ public interface Codelist extends Identified,Described,Named {
 				throw new IllegalArgumentException("cannot change the version (" + version() + ") of entity " + id()
 						+ ". Versioning is performed by copy");
 			
-			definitions().update(changeset.definitions());
+			attributeDefinitions().update(changeset.attributeDefinitions());
 			
-			links().update(changeset.links());
+			linkDefinitions().update(changeset.linkDefinitions());
 			
 			codes().update(changeset.codes());
 			
@@ -110,7 +109,7 @@ public interface Codelist extends Identified,Described,Named {
 
 		@Override
 		public String toString() {
-			return "Codelist [id="+id()+", name=" + qname() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
+			return "Codelist [id="+id()+", name=" + qname() + ", codes=" + codes() + ", attributes=" + attributes() + ", attrdefs=" + attributeDefinitions() + ", linkdefs=" + linkDefinitions() + ", version="
 					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 		

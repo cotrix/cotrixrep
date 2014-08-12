@@ -3,7 +3,7 @@ package org.acme.codelists;
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.common.Status.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
@@ -15,7 +15,7 @@ import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AttributeDefinitionTest extends DomainTest {
+public class AttrDefTest extends DomainTest {
 	
 	ValueType vtype = valueType().with(max_length.instance("20"));
 	AttributeDefinition def = attrdef().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();

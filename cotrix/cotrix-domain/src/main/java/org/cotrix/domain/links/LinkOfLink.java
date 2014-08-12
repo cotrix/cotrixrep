@@ -1,7 +1,7 @@
 package org.cotrix.domain.links;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.utils.Constants.*;
 
 import java.util.ArrayList;

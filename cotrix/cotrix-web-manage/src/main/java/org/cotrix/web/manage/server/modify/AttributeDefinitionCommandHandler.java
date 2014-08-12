@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.web.manage.shared.modify.GenericCommand.Action.*;
 
 import javax.enterprise.inject.Default;
@@ -62,7 +62,7 @@ public class AttributeDefinitionCommandHandler {
 		switch (command.getAction()) {
 			case REMOVE: return new UpdatedAttributeDefinition();
 			default: {
-				AttributeDefinition updatedDefinition = codelist.definitions().lookup(definitionId);
+				AttributeDefinition updatedDefinition = codelist.attributeDefinitions().lookup(definitionId);
 				return new UpdatedAttributeDefinition(AttributeDefinitions.toUIAttributeDefinition(updatedDefinition));
 			}
 			

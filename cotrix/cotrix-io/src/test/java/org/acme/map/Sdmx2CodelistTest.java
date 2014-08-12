@@ -1,6 +1,6 @@
 package org.acme.map;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.io.sdmx.SdmxElement.*;
 import static org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives.*;
 import static org.junit.Assert.*;
@@ -41,7 +41,7 @@ public class Sdmx2CodelistTest extends DomainTest {
 		
 		Codelist codelist = outcome.result();
 		
-		assertEquals(2,codelist.definitions().size());
+		assertEquals(2,codelist.attributeDefinitions().size());
 		
 		Code c1 = codelist.codes().getFirst(q("c1"));
 		Code c2 = codelist.codes().getFirst(q("c2"));

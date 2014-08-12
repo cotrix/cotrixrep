@@ -15,9 +15,14 @@ import org.cotrix.domain.values.ValueFunction;
 public class MLinkDef extends MDescribed implements LinkDefinition.Bean {
 
 	private Codelist.Bean target;
+	
 	private LinkValueType type;
+	
 	private ValueFunction function;
+	
 	private Range range;
+	
+	//----------------------------------------------------
 	
 	public MLinkDef() {
 		
@@ -41,6 +46,10 @@ public class MLinkDef extends MDescribed implements LinkDefinition.Bean {
 		range(other.range());
 		function(other.function());
 	}
+	
+	
+	//----------------------------------------------------
+	
 
 	public LinkValueType valueType() {
 		return type;

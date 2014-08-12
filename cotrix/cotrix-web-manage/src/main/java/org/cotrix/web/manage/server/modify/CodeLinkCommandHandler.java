@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Entities.*;
+import static org.cotrix.domain.dsl.Data.*;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -46,13 +46,13 @@ public class CodeLinkCommandHandler {
 		
 		switch (command.getAction()) {
 			case ADD: {
-				LinkDefinition linkType = repository.lookup(codelistId).links().lookup(link.getDefinitionId());
+				LinkDefinition linkType = repository.lookup(codelistId).linkDefinitions().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				changeset = ChangesetUtil.addCodelink(link, linkType, code);
 			} break;
 			case UPDATE: {
 				Codelist codelist = repository.lookup(codelistId);
-				LinkDefinition linkType = codelist.links().lookup(link.getDefinitionId());
+				LinkDefinition linkType = codelist.linkDefinitions().lookup(link.getDefinitionId());
 				Code code = linkType.target().codes().lookup(link.getTargetId());
 				Link oldLink = codelist.codes().lookup(codeId).links().lookup(link.getId());
 				changeset = ChangesetUtil.updateCodelink(link, oldLink, linkType, code);
