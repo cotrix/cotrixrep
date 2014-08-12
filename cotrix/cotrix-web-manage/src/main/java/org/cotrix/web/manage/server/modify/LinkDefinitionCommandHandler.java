@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.repository.CodelistActions.*;
 import static org.cotrix.web.common.server.util.LinkDefinitions.*;
 

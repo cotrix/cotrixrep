@@ -10,9 +10,10 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.Links;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 
@@ -37,7 +38,7 @@ public class ChangelogProducer {
 	
 	private void addAttributesChanges(Code origin, Code current){
 		
-		Container<? extends Attribute> attributesBefore = origin.attributes();
+		Attributes attributesBefore = origin.attributes();
 
 		List<String> matched = new ArrayList<String>();
 		
@@ -79,7 +80,7 @@ public class ChangelogProducer {
 	private void addLinkChanges(Code origin, Code current){
 		
 		
-		Container<? extends Link> linksBefore = origin.links();
+		Links linksBefore = origin.links();
 
 		List<String> matched = new ArrayList<String>();
 

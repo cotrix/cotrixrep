@@ -12,7 +12,7 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Entities;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar;
@@ -47,7 +47,7 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	
 	@Override
 	public SecondClause name(String name) {
-		return name(Codes.q(name));
+		return name(Entities.q(name));
 	}
 	
 	@Override

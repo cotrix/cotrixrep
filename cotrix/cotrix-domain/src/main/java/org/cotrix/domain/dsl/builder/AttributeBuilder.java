@@ -1,13 +1,13 @@
 package org.cotrix.domain.dsl.builder;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Entities;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.OptionalClause;
@@ -51,7 +51,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	
 	@Override
 	public AttributeBuilder name(String name) {
-		return name(Codes.q(name));
+		return name(Entities.q(name));
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class AttributeBuilder implements AttributeNewClause, AttributeChangeClau
 	
 	@Override
 	public AttributeBuilder ofType(String type) {
-		return ofType(Codes.q(type));
+		return ofType(Entities.q(type));
 	}
 	
 	@Override

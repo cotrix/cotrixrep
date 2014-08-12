@@ -2,7 +2,7 @@ package org.cotrix.domain.attributes;
 
 import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.common.Ranges.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 

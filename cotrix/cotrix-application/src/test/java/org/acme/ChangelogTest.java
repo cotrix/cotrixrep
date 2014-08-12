@@ -1,7 +1,7 @@
 package org.acme;
 
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistActions.*;

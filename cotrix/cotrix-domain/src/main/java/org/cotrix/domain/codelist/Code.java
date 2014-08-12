@@ -1,30 +1,28 @@
 package org.cotrix.domain.codelist;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.Links;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.memory.MLink;
-import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
 public interface Code extends Identified,Named,Described {
 	
-	Container<? extends Link> links();
 	
-	List<Attribute> markers();
+	 Links links();
 	
+	
+	
+	//----------------------------------------
 	
 	interface Bean extends Described.Bean, BeanOf<Private> {
 		
@@ -33,38 +31,21 @@ public interface Code extends Identified,Named,Described {
 	}
 	
 	
-	//private logic
+	
+	//----------------------------------------
 	
 	final class Private extends Described.Private<Private,Bean> implements Code {
 
-		public Private(Code.Bean state) {
-			super(state);
+		public Private(Code.Bean bean) {
+			super(bean);
 		}
 		
 		
 		@Override
-		public Container.Private<Link.Private,Link.Bean> links() {
+		public Links links() {
 			
-			return new Container.Private<>(bean().links());
+			return new Links(bean().links());
 			
-		}
-		
-		@Override
-		public List<Attribute> markers() {
-			
-			List<Attribute> mks = new ArrayList<>();
-			
-			for (CommonDefinition def : CommonDefinition.markers()) {
-				
-				Attribute mk = attributes().getFirst(def);
-				
-				if (mk!=null)
-					mks.add(mk);
-			}
-			
-			return mks;
-				
-		
 		}
 		
 		@Override
@@ -72,8 +53,7 @@ public interface Code extends Identified,Named,Described {
 			
 			super.update(changeset);
 			
-			//update links under "group semantics"
-			updateLinks(changeset);
+			updateLinksWithGroupSemantics(changeset);
 			
 		}
 
@@ -84,7 +64,7 @@ public interface Code extends Identified,Named,Described {
 		//simplest approach is two-phase: 
 		//1) perform normal update (verifying a))
 		//2) perform second update to align other group members 
-		private void updateLinks(Code.Private changeset) {
+		private void updateLinksWithGroupSemantics(Code.Private changeset) {
 			
 			//redirected: links that change targets
 			Map<String,Code.Bean> redirected = new HashMap<>();
@@ -139,7 +119,7 @@ public interface Code extends Identified,Named,Described {
 			}
 			
 			//compensation update
-			links().update(new Container.Private<>(changes));
+			links().update(new Links(changes));
 		}
 				
 		

@@ -4,12 +4,10 @@ import static org.cotrix.common.CommonUtils.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.memory.MIdentified;
 import org.cotrix.test.ApplicationTest;
@@ -47,12 +45,4 @@ public abstract class DomainTest extends ApplicationTest {
 	}
 	
 	
-	protected <S,T extends Container<S>> List<S> list(T container) {
-		
-		List<S> list = new ArrayList<>();
-		for (S s : container)
-			list.add(s);
-		return list;
-			
-	}
 }

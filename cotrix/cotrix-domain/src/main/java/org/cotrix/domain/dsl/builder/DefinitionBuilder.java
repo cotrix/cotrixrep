@@ -4,7 +4,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Entities;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
@@ -34,7 +34,7 @@ public class DefinitionBuilder implements AttributeDefinitionNewClause, Attribut
 	
 	@Override
 	public DefinitionBuilder name(String name) {
-		return name(Codes.q(name));
+		return name(Entities.q(name));
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class DefinitionBuilder implements AttributeDefinitionNewClause, Attribut
 	
 	@Override
 	public DefinitionBuilder is(String type) {
-		return is(Codes.q(type));
+		return is(Entities.q(type));
 	}
 
 	@Override

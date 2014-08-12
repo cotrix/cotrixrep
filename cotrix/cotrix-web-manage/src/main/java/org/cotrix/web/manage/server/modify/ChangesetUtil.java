@@ -3,7 +3,7 @@
  */
 package org.cotrix.web.manage.server.modify;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +19,7 @@ import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.LinkDefinitions;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
@@ -271,7 +272,7 @@ public class ChangesetUtil {
 				.ofType(convert(attributeType.getType())).in(convert(attributeType.getLanguage())).build();
 	}
 	
-	private static LinkDefinition findCodelistLink(String id, Container<? extends LinkDefinition> namedContainer) {
+	private static LinkDefinition findCodelistLink(String id, LinkDefinitions namedContainer) {
 		for (LinkDefinition codelistLink:namedContainer) if (codelistLink.id().equals(id)) return codelistLink;
 		throw new IllegalArgumentException("Unknown codelist type with id: "+id);
 	}

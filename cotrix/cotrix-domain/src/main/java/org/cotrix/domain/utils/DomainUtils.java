@@ -1,6 +1,6 @@
 package org.cotrix.domain.utils;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.dsl.Users.*;
 
 import javax.enterprise.event.Observes;

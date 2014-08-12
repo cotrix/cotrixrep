@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Entities;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
@@ -40,7 +40,7 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	
 	@Override
 	public OptionalClause name(String name) {
-		return name(Codes.q(name));
+		return name(Entities.q(name));
 	}
 
 	@Override

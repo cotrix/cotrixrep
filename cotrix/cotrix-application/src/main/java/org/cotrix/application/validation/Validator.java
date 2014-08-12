@@ -13,9 +13,12 @@ import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.AttributeDefinitions;
+import org.cotrix.domain.common.Container.LinkDefinitions;
+import org.cotrix.domain.common.Container.Links;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.validation.Constraint;
@@ -42,7 +45,7 @@ public class Validator {
 		return violations;
 	}
 	
-	private void checkAttributes(List<Violation> violations,Container<? extends AttributeDefinition> defs, Container<? extends Attribute> attributes) {
+	private void checkAttributes(List<Violation> violations,AttributeDefinitions defs, Attributes attributes) {
 		
 		
 		//safer not to rely on definition equality 
@@ -87,7 +90,7 @@ public class Validator {
 			
 	}
 	
-	private void checkLinks(List<Violation> violations,Container<? extends LinkDefinition> defs, Container<? extends Link> links) {
+	private void checkLinks(List<Violation> violations,LinkDefinitions defs, Links links) {
 	
 		//safer not to rely on definition equality 
 		Map<String,LinkDefinition> defmap = new HashMap<String,LinkDefinition>();

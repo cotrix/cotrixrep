@@ -5,7 +5,7 @@ import static java.lang.System.*;
 import static java.util.Collections.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.cotrix.repository.CodelistQueries.*;
 
@@ -23,7 +23,7 @@ import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.Codes;
 import org.cotrix.domain.common.Status;
 import org.cotrix.repository.CodelistRepository;
 import org.slf4j.Logger;
@@ -50,7 +50,7 @@ public class DefaultChangelogService implements ChangelogService {
 
 		float progress=0f;
 		
-		Container<? extends Code> codes =  list.codes();
+		Codes codes =  list.codes();
 		
 		int total = list.codes().size();
 		

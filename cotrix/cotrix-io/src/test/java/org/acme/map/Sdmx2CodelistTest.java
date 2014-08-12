@@ -1,6 +1,6 @@
 package org.acme.map;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.io.sdmx.SdmxElement.*;
 import static org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives.*;
 import static org.junit.Assert.*;

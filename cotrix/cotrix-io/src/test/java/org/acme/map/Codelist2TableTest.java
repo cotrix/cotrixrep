@@ -1,7 +1,7 @@
 package org.acme.map;
 
 import static org.acme.TestUtils.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.io.tabular.map.Codelist2Table.*;
 import static org.cotrix.io.tabular.map.MemberDirective.*;
 import static org.junit.Assert.*;

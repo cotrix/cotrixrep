@@ -5,7 +5,7 @@ import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.common.Constants.*;
 import static org.cotrix.domain.common.Status.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 
 import java.util.ArrayList;

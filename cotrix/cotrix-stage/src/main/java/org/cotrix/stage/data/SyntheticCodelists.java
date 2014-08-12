@@ -1,6 +1,6 @@
 package org.cotrix.stage.data;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.domain.validation.Validators.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.dsl.Codes;
+import org.cotrix.domain.dsl.Entities;
 
 public class SyntheticCodelists {
 	
@@ -30,7 +30,7 @@ public class SyntheticCodelists {
 			codes[i-1] = code().name("code "+i).attributes(attributes).build();
 		}
 
-		return Codes.codelist().name("Numbered").with(codes).build();
+		return Entities.codelist().name("Numbered").with(codes).build();
 	}
 
 	private static Codelist sparse(int ncodes) {
@@ -46,7 +46,7 @@ public class SyntheticCodelists {
 			codes[i] = code().name("code"+i).attributes(attributes).build();
 		}
 
-		return Codes.codelist().name("Sparse").with(codes).attributes(att).build();
+		return Entities.codelist().name("Sparse").with(codes).attributes(att).build();
 	}
 
 	private static Codelist complex(int ncodes) {
@@ -78,12 +78,12 @@ public class SyntheticCodelists {
 			codes[i] = code().name("code"+i).attributes(attributes).build();
 		}
 
-		return Codes.codelist().name("Complex").with(codes).attributes(codelistAttributes).version("2.1").build();
+		return Entities.codelist().name("Complex").with(codes).attributes(codelistAttributes).version("2.1").build();
 	}
 	
 	public static Codelist demo() {
 		
-		return Codes.codelist().name("SAMPLE CODELIST")
+		return Entities.codelist().name("SAMPLE CODELIST")
 				.definitions(
 						attrdef().name("demo one").is(DESCRIPTION_TYPE).valueIs(
 							valueType().with(max_length.instance(5)).defaultsTo("someval")

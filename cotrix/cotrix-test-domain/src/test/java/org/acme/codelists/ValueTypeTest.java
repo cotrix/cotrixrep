@@ -1,6 +1,6 @@
 package org.acme.codelists;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 

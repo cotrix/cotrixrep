@@ -1,7 +1,7 @@
 package org.cotrix.application.impl.versioning;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;

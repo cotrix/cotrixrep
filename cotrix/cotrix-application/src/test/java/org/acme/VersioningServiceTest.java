@@ -1,6 +1,6 @@
 package org.acme;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.junit.Assert.*;

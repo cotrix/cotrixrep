@@ -2,7 +2,7 @@ package org.acme.codelists;
 
 import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 import static org.junit.Assert.*;
 

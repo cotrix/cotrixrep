@@ -1,7 +1,7 @@
 package org.cotrix.web.manage.server;
 
 import static org.cotrix.action.CodelistAction.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.cotrix.web.manage.shared.ManagerUIFeature.*;

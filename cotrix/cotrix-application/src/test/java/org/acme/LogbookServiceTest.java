@@ -2,7 +2,7 @@ package org.acme;
 
 import static org.cotrix.action.CodelistAction.*;
 import static org.cotrix.application.logbook.LogbookEvent.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.lifecycle.impl.DefaultLifecycleStates.*;
 import static org.junit.Assert.*;

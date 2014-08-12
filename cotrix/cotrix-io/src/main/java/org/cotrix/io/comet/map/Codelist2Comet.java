@@ -25,9 +25,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container;
 import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;
 import org.fao.fi.comet.mapping.model.DataProvider;
@@ -67,11 +67,11 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 		report().log(item("mapping codelist "+codelist.qname()+"("+codelist.id()+") to Comet")).as(INFO)
 				.log(item(Calendar.getInstance().getTime().toString())).as(INFO);
 		
-		Container<? extends Attribute> attributes = codelist.attributes();
+		Attributes attributes = codelist.attributes();
 		
 		DataProvider source = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), codelist.version());
 		
-		String previous = attributes.contains(PREVIOUS_VERSION) ? attributes.getFirst(PREVIOUS_VERSION).value():null;
+		String previous = PREVIOUS_VERSION.in(attributes);
 		
 		DataProvider target = provider(NS, NS+"/codelist", NS+"/codelist/"+encode(codelist.qname().toString()), previous);
 		
@@ -120,7 +120,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 	}
 	
 	
-	private List<MappingDetail> targets(Container<? extends Attribute> attrs, Codelist2CometDirectives directives) {
+	private List<MappingDetail> targets(Attributes attrs, Codelist2CometDirectives directives) {
 		
 		List<MappingDetail> targets = new ArrayList<>();
 		
@@ -162,7 +162,7 @@ public class Codelist2Comet implements MapTask<Codelist,MappingData,Codelist2Com
 	}
 	
 	
-	private PropertyList properties(Container<? extends Attribute> attributes) {
+	private PropertyList properties(Attributes attributes) {
 		
 		List<Property> properties = new ArrayList<>();
 		

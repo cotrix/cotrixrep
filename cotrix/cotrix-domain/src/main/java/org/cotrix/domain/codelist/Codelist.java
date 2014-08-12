@@ -2,11 +2,13 @@ package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Container.AttributeDefinitions;
+import org.cotrix.domain.common.Container.Codes;
+import org.cotrix.domain.common.Container.LinkDefinitions;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MCodelist;
-import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
+import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.version.Version;
@@ -15,17 +17,16 @@ import org.cotrix.domain.version.Version;
 
 public interface Codelist extends Identified,Described,Named {
 
-	//public read-only interface
+	Codes codes();
 	
-	Container<? extends Code> codes();
-	
-	Container<? extends LinkDefinition> links();
+	LinkDefinitions links();
 
-	Container<? extends AttributeDefinition> definitions();
+	AttributeDefinitions definitions();
 	
 	String version();
 	
-	//private state interface
+	
+	//----------------------------------------
 	
 	interface Bean extends Described.Bean, BeanOf<Private> {
 	
@@ -48,24 +49,24 @@ public interface Codelist extends Identified,Described,Named {
 	
 	final class Private extends Described.Private<Private,Bean> implements Codelist {
 		
-		public Private( Codelist.Bean state) {
-			super(state);
+		public Private( Codelist.Bean bean) {
+			super(bean);
 		}
 
 		
 		@Override
-		public Container.Private<Code.Private,Code.Bean> codes() {
-			return new Container.Private<>(bean().codes());
+		public Codes codes() {
+			return new Codes(bean().codes());
 		}
 		
 		@Override
-		public Container.Private<LinkDefinition.Private,LinkDefinition.Bean> links() {
-			return new Container.Private<>(bean().links());
+		public LinkDefinitions links() {
+			return new LinkDefinitions(bean().links());
 		}
 		
 		@Override
-		public Container.Private<AttributeDefinition.Private,AttributeDefinition.Bean> definitions() {
-			return new Container.Private<>(bean().definitions());
+		public AttributeDefinitions definitions() {
+			return new AttributeDefinitions(bean().definitions());
 		}
 		
 		@Override
@@ -73,13 +74,7 @@ public interface Codelist extends Identified,Described,Named {
 			return bean().version() == null ? null : bean().version().value();
 		}
 
-
-		@Override
-		public String toString() {
-			return "Codelist [id="+id()+", name=" + qname() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
-					+ version() + (status()==null?"":" ("+status()+") ")+"]";
-		}
-
+		
 		public Codelist bump(String version) {
 
 			Version newVersion = bean().version().bumpTo(version);
@@ -109,6 +104,14 @@ public interface Codelist extends Identified,Described,Named {
 			codes().update(changeset.codes());
 			
 		
+		}
+		
+
+
+		@Override
+		public String toString() {
+			return "Codelist [id="+id()+", name=" + qname() + ", codes=" + codes() + ", attributes=" + attributes() + ", links=" + links() + ", version="
+					+ version() + (status()==null?"":" ("+status()+") ")+"]";
 		}
 		
 	}

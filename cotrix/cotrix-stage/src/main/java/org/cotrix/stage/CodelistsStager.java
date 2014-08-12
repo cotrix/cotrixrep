@@ -1,6 +1,6 @@
 package org.cotrix.stage;
 
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.stage.data.SomeCodelists.*;
 import static org.cotrix.stage.data.SomeUsers.*;

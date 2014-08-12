@@ -15,8 +15,16 @@ import org.cotrix.domain.trait.Named;
 
 public class Attributes extends Container.Private<Attribute.Private,Attribute.Bean> {
 
+	public Attributes() {
+		super();
+	}
+	
 	public Attributes(BeanContainer<Attribute.Bean> beans) {
 		super(beans);
+	}
+	
+	public Attributes(Attribute.Private ... attrs) {
+		super(attrs);
 	}
 	
 	public Date dateOf(Named named) {

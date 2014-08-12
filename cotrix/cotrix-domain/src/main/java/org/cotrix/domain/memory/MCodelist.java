@@ -2,7 +2,7 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.dsl.Codes.*;
+import static org.cotrix.domain.dsl.Entities.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.Collection;

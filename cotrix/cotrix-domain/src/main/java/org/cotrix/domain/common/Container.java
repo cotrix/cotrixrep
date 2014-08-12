@@ -10,17 +10,16 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.links.Link;
+import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
-/**
- * An immutable collection of entities.
- * 
- * @author Fabio Simeoni
- */
 public interface Container<T> extends Iterable<T> {
 		
 	
@@ -260,6 +259,35 @@ public interface Container<T> extends Iterable<T> {
 			return b == null? null : b.entity();
 		}
 	
+	}
+	
+	
+	public static class Codes extends Container.Private<Code.Private,Code.Bean> {
+		
+		public Codes(BeanContainer<Code.Bean> beans) {
+			super(beans);
+		}
+	}
+	
+	public class Links extends Container.Private<Link.Private,Link.Bean> {
+		
+		public Links(BeanContainer<Link.Bean> beans) {
+			super(beans);
+		}
+	}
+	
+	public class AttributeDefinitions extends Container.Private<AttributeDefinition.Private,AttributeDefinition.Bean> {
+		
+		public AttributeDefinitions(BeanContainer<AttributeDefinition.Bean> beans) {
+			super(beans);
+		}
+	}
+	
+	public class LinkDefinitions extends Container.Private<LinkDefinition.Private,LinkDefinition.Bean> {
+		
+		public LinkDefinitions(BeanContainer<LinkDefinition.Bean> beans) {
+			super(beans);
+		}
 	}
 
 }
