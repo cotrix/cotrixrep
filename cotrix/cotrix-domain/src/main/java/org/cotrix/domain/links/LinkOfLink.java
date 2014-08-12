@@ -10,7 +10,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 
 public class LinkOfLink implements LinkValueType {

@@ -7,8 +7,8 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.Status;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 
 public final class MLink extends MAttributed implements Link.Bean {

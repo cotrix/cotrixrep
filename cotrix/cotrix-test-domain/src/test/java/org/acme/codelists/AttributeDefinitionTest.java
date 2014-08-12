@@ -15,7 +15,7 @@ import org.cotrix.domain.values.ValueType;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DefinitionTest extends DomainTest {
+public class AttributeDefinitionTest extends DomainTest {
 	
 	ValueType vtype = valueType().with(max_length.instance("20"));
 	AttributeDefinition def = attrdef().name(name).is(type).valueIs(vtype).in(language).occurs(once).build();
@@ -33,7 +33,7 @@ public class DefinitionTest extends DomainTest {
 		
 		//defaults
 		
-		assertEquals(DEFAULT_TYPE,minimal.type());
+		assertEquals(defaultType,minimal.type());
 		assertEquals(defaultValueType,minimal.valueType());
 		assertEquals(arbitrarily,minimal.range());
 		assertNull(minimal.language());
@@ -79,10 +79,10 @@ public class DefinitionTest extends DomainTest {
 	@Test
 	public void canBeCloned() {
 		
-		AttributeDefinition.Bean state = reveal(def).bean();
-		MAttrDef clone = new MAttrDef(state);
+		AttributeDefinition.Bean bean = reveal(def).bean();
+		MAttrDef clone = new MAttrDef(bean);
 		
-		assertEquals(clone,state);
+		assertEquals(clone,bean);
 		
 	}
 	

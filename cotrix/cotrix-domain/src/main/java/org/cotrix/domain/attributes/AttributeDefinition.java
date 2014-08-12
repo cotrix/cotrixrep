@@ -5,10 +5,9 @@ import static org.cotrix.domain.utils.Constants.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.trait.Definition;
+import org.cotrix.domain.trait.Attributed;
 import org.cotrix.domain.trait.BeanOf;
-import org.cotrix.domain.trait.Identified;
-import org.cotrix.domain.trait.Named;
+import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.values.ValueType;
 
 
@@ -16,7 +15,7 @@ import org.cotrix.domain.values.ValueType;
  * The definition of an attribute.
  * 
  */
-public interface AttributeDefinition extends Definition {
+public interface AttributeDefinition extends Attributed, Definition {
 
 	QName type();
 	
@@ -35,7 +34,7 @@ public interface AttributeDefinition extends Definition {
 	
 	
 		
-	static interface Bean extends Identified.Bean, Named.Bean, BeanOf<Private> {
+	static interface Bean extends Attributed.Bean, BeanOf<Private> {
 
 		QName type();
 
@@ -62,7 +61,7 @@ public interface AttributeDefinition extends Definition {
 	}
 
 	//private implementation: delegates to state bean
-	public class Private extends Identified.Private<Private,Bean> implements AttributeDefinition {
+	public class Private extends Attributed.Private<Private,Bean> implements AttributeDefinition {
 
 		public Private(AttributeDefinition.Bean state) {
 			super(state);
@@ -71,11 +70,6 @@ public interface AttributeDefinition extends Definition {
 		@Override
 		public boolean isShared() {
 			return bean().isShared();
-		}
-		
-		@Override
-		public QName qname() {
-			return bean().qname();
 		}
 		
 		@Override

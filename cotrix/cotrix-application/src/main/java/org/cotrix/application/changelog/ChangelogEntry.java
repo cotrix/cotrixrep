@@ -6,7 +6,7 @@ import static org.cotrix.application.shared.EditorialEvent.Type.*;
 import org.cotrix.application.shared.DefaultEditorialEvent;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
+import org.cotrix.domain.links.Link;
 
 public class ChangelogEntry extends DefaultEditorialEvent {
 

@@ -1,9 +1,9 @@
 package org.cotrix.domain.dsl.grammar;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.grammar.CommonClauses.AttributeClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 
 public class CodelinkGrammar {

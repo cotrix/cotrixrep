@@ -103,7 +103,6 @@ public class MBeanContainer<B extends Named.Bean> implements BeanContainer<B> {
 		
 	}
 	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

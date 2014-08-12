@@ -1,4 +1,4 @@
-package org.cotrix.domain.codelist;
+package org.cotrix.domain.links;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,10 +6,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.links.LinkDefinition;
+import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.trait.Attributed;
-import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.BeanOf;
+import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.domain.values.ValueFunction;

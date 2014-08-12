@@ -8,8 +8,8 @@ import javax.inject.Inject;
 
 import org.cotrix.common.events.ApplicationLifecycleEvents.Startup;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.user.User;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.repository.UserRepository;

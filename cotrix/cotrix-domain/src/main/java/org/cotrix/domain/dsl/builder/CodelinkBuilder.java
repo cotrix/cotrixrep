@@ -9,11 +9,11 @@ import java.util.Collection;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MLink;
 

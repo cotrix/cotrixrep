@@ -14,9 +14,9 @@ import javax.inject.Singleton;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.validation.Constraint;
 

@@ -3,8 +3,8 @@ package org.cotrix.neo.domain;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.links.Link;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
 import org.cotrix.neo.domain.utils.NeoStateFactory;

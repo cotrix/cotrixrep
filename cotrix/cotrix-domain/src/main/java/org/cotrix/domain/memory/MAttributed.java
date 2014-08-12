@@ -64,7 +64,10 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 				attributes.add(defs==null?
 						new MAttribute(otherattr):
 						new MAttribute(otherattr,defs));	
+	
 	}
+
+	
 	
 	
 	@Override
@@ -84,6 +87,7 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 	@Override
 	@SuppressWarnings("all")
 	public boolean equals(Object obj) {
+		
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
@@ -97,7 +101,6 @@ public class MAttributed extends MNamed implements Attributed.Bean {
 		} else
 			if (!attributes.equals(other.attributes()))
 				return false;
-		
 		
 		return true;
 	}

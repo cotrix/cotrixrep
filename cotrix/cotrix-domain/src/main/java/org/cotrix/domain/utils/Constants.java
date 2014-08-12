@@ -23,7 +23,7 @@ public class Constants {
 
 	public static final QName SYSTEM_TYPE = q(NS,"system");
 
-	public static final QName DEFAULT_TYPE = DESCRIPTION_TYPE;
+	public static final QName defaultType = DESCRIPTION_TYPE;
 	public static final QName[] DEFAULT_TYPES = new QName[]{DESCRIPTION_TYPE, ANNOTATION_TYPE, NAME_TYPE, OTHER_CODE_TYPE, OTHER_TYPE};
 	
 	public static final String defaultValue = "TRUE";

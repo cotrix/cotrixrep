@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Status;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.trait.Attributed;
 
 

@@ -56,7 +56,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT TYPE
 			src.println("public UIQName defaultType() {");
-			QName defaultType = Constants.DEFAULT_TYPE;
+			QName defaultType = Constants.defaultType;
 			src.indent();
 			src.println("return new UIQName(\""+defaultType.getNamespaceURI()+"\",\""+defaultType.getLocalPart()+"\");");
 			src.outdent();

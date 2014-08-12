@@ -10,11 +10,11 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.dsl.Codes;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MCode;
 
 /**

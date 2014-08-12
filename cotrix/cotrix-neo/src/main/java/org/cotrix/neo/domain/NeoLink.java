@@ -6,7 +6,7 @@ import static org.neo4j.graphdb.Direction.*;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoStateFactory;

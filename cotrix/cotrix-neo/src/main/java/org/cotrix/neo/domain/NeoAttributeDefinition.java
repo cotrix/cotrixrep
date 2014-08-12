@@ -14,7 +14,7 @@ import org.cotrix.domain.values.ValueType;
 import org.cotrix.neo.domain.utils.NeoStateFactory;
 import org.neo4j.graphdb.Node;
 
-public class NeoAttributeDefinition extends NeoIdentified implements AttributeDefinition.Bean {
+public class NeoAttributeDefinition extends NeoAttributed implements AttributeDefinition.Bean {
 
 	public static final NeoStateFactory<AttributeDefinition.Bean> factory = new NeoStateFactory<AttributeDefinition.Bean>() {
 		
@@ -37,7 +37,6 @@ public class NeoAttributeDefinition extends NeoIdentified implements AttributeDe
 		
 		super(ATTRDEF,state);
 		
-		qname(state.qname());
 		type(state.type());
 		language(state.language());
 		valueType(state.valueType());
@@ -62,16 +61,6 @@ public class NeoAttributeDefinition extends NeoIdentified implements AttributeDe
 	}
 	
 	
-	@Override
-	public QName qname() {
-		return QName.valueOf((String) node().getProperty(name_prop));
-	}
-
-	@Override
-	public void qname(QName name) {
-		node().setProperty(name_prop,name.toString());
-	}
-
 	@Override
 	public QName type() {
 		

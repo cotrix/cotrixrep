@@ -12,8 +12,8 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 
 public class ChangelogProducer {

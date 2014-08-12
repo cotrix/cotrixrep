@@ -10,9 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.repository.CodelistRepository;
 import org.cotrix.web.common.server.util.Codelists;

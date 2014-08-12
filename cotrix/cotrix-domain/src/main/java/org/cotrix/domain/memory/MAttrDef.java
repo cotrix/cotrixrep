@@ -12,9 +12,8 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.values.ValueType;
 
-public final class MAttrDef extends MIdentified implements AttributeDefinition.Bean {
+public final class MAttrDef extends MAttributed implements AttributeDefinition.Bean {
 
-	private QName name;
 	private QName type;
 	private String language;
 	private ValueType valueType;
@@ -26,7 +25,8 @@ public final class MAttrDef extends MIdentified implements AttributeDefinition.B
 	}
 	
 	public MAttrDef(boolean shared) {
-		type=DEFAULT_TYPE;
+		
+		type(defaultType);
 		valueType(defaultValueType);
 		range(defaultRange);
 		shared(shared);
@@ -37,14 +37,15 @@ public final class MAttrDef extends MIdentified implements AttributeDefinition.B
 	}
 	
 	
-	public MAttrDef(AttributeDefinition.Bean state) {
+	public MAttrDef(AttributeDefinition.Bean other) {
 		
-		qname(state.qname());
-		type(state.type());
-		language(state.language());
-		valueType(state.valueType()); //no need to clone: once created, it's immutable.
-		range(state.range());
-		shared(state.isShared());
+		super(other);
+		
+		type(other.type());
+		language(other.language());
+		valueType(other.valueType()); //no need to clone: once created, it's immutable.
+		range(other.range());
+		shared(other.isShared());
 	}
 	
 	void shared(boolean flag) {
@@ -55,17 +56,6 @@ public final class MAttrDef extends MIdentified implements AttributeDefinition.B
 	public boolean isShared() {
 		return shared;
 	}
-	
-	public QName qname() {
-		return name;
-	}
-	
-	public void qname(QName name) {
-		
-		valid("name",name);
-		
-		this.name = name;
-	}	
 	
 	public QName type() {
 		return type;
@@ -83,7 +73,7 @@ public final class MAttrDef extends MIdentified implements AttributeDefinition.B
 	@Override
 	public boolean is(Facet facet) {
 		//temporarily only on common defs, supported by default on domain defs
-		return !isCommon(name) || isCommon(name,facet);
+		return !isCommon(qname()) || isCommon(qname(),facet);
 	}
 
 	public String language() {
@@ -131,12 +121,6 @@ public final class MAttrDef extends MIdentified implements AttributeDefinition.B
 			if (other.language() != null)
 				return false;
 		} else if (!language.equals(other.language()))
-			return false;
-		
-		if (name == null) {
-			if (other.qname() != null)
-				return false;
-		} else if (!name.equals(other.qname()))
 			return false;
 		if (range == null) {
 			if (other.range() != null)

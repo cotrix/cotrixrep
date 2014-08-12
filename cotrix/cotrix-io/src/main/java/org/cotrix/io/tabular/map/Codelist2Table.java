@@ -13,8 +13,8 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Link;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.trait.Defined;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.io.impl.MapTask;

@@ -10,6 +10,7 @@ import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Status;
+import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MBeanContainer;
 import org.cotrix.domain.memory.MLink;
 import org.cotrix.domain.trait.Attributed;
