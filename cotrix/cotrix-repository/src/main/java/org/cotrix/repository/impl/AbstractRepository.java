@@ -58,7 +58,7 @@ public abstract class AbstractRepository<T extends Identified,
 			throw new IllegalArgumentException("entity "+log(entity)+"is a changeset and cannot be added");
 		
 		if (delegate.contains(implementation.id()))
-			throw new IllegalArgumentException("entity "+log(entity)+"is already in this repository");
+			throw new IllegalStateException("entity "+log(entity)+"is already in this repository");
 		
 		producer.additions.select(before).fire(entity);
 		

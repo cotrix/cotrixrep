@@ -18,6 +18,7 @@ import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Inject;
+import javax.xml.namespace.QName;
 
 import org.cotrix.common.CommonUtils;
 import org.cotrix.common.async.TaskContext;
@@ -27,6 +28,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.Bean;
+import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MAttrDef;
@@ -203,7 +205,35 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 			}
 		};
 	}
-
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesWithAttributes(final String codelistId, final Iterable<QName> names) {
+		
+		return new MMultiQuery<Codelist, Code>() {
+			
+			public Collection<Code> executeInMemory() {
+				
+				Collection<Code.Bean> codes = new ArrayList<Code.Bean>();
+				
+				tonextcode: for (Code.Bean c : lookup(codelistId).codes()) {
+					
+					BeanContainer<Attribute.Bean> as = c.attributes();
+					for (QName name : names)
+						if (!as.contains(name))
+						 	continue tonextcode;
+					
+					codes.add(c);
+				}
+				return adapt(codes);
+			}
+		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesWithCommonAttributes(String id, Iterable<QName> names) {
+		return codesWithAttributes(id, names);
+	}
+	
 	@Override
 	public MultiQuery<Codelist, CodelistCoordinates> allListCoordinates() {
 		

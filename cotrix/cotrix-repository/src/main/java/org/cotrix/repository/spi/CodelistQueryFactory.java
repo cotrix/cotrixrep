@@ -2,6 +2,8 @@ package org.cotrix.repository.spi;
 
 import java.util.Collection;
 
+import javax.xml.namespace.QName;
+
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
@@ -13,12 +15,6 @@ import org.cotrix.repository.Criterion;
 import org.cotrix.repository.MultiQuery;
 import org.cotrix.repository.Query;
 
-/**
- * Factory of queries over codelists.
- * 
- * @author Fabio Simeoni
- * 
- */
 public interface CodelistQueryFactory {
 
 	MultiQuery<Codelist,Codelist> allLists();
@@ -30,7 +26,13 @@ public interface CodelistQueryFactory {
 	MultiQuery<Codelist, CodelistCoordinates> codelistsFor(User u);
 	
 	MultiQuery<Codelist, Code> codes(Collection<String> ids);
-
+	
+	
+	MultiQuery<Codelist, Code> codesWithAttributes(String id, Iterable<QName> names);
+	
+	MultiQuery<Codelist, Code> codesWithCommonAttributes(String id, Iterable<QName> names);
+	
+	
 	Query<Codelist, Code> code(String id);
 	
 	Query<Codelist, CodelistSummary> summary(String codelistId);
@@ -50,5 +52,6 @@ public interface CodelistQueryFactory {
 	Criterion<Code> byAttribute(final Attribute template,int position);
 		
 	Criterion<Code> byLink(final LinkDefinition template,int position);
+
 
 }

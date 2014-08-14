@@ -3,6 +3,7 @@ package org.cotrix.domain.dsl.builder;
 import static java.util.Arrays.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -11,6 +12,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.dsl.Data;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
@@ -68,6 +70,17 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		
 		return this;
+	}
+	
+	@Override
+	public CodeBuilder attributes(AttributeGrammar.OptionalClause... clauses) {
+		
+		Collection<Attribute> as = new ArrayList<Attribute>();
+		
+		for (AttributeGrammar.OptionalClause clause : clauses)
+			as.add(clause.build());
+		
+		return attributes(as);
 	}
 
 	

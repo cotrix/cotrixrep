@@ -14,6 +14,7 @@ import java.util.Iterator;
 import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Singleton;
+import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
@@ -115,6 +116,70 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 
 				//System.out.println(result.dumpToString());
 				
+				ResourceIterator<Node> it = result.columnAs($result);
+
+				return codes(it);
+			}
+
+		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesWithAttributes(final String codelistId, final Iterable<QName> names) {
+		
+		
+		return new NeoMultiQuery<Codelist, Code>(engine) {
+
+			{
+				
+				match(format("(L:CODELIST {id:'%1$s'})-[:CODE]->(C)",codelistId));
+				
+				for (QName name : names)					
+					match(format("(C)-[:%s]->()-[:%s]->({%s:'%s'})",
+									Relations.ATTRIBUTE.name(),
+									Relations.INSTANCEOF.name(),
+									name_prop,
+									name.toString()));
+					
+				rtrn(format("DISTINCT C as %s",$result));
+			}
+			
+			@Override
+			public Iterator<Code> iterator() {
+
+				ExecutionResult result = executeNeo();
+
+				ResourceIterator<Node> it = result.columnAs($result);
+
+				return codes(it);
+			}
+
+		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesWithCommonAttributes(final String codelistId, final Iterable<QName> names) {
+		
+		return new NeoMultiQuery<Codelist, Code>(engine) {
+
+			{
+				
+				match(format("(L:CODELIST {id:'%1$s'})-[:CODE]->(C)",codelistId));
+				
+				for (QName name : names)
+					match(format("(C)-[:%s]->({%s:'%s'})",
+							Relations.ATTRIBUTE.name(),
+							cdef_prop,
+							name.getLocalPart().toString()));
+				
+				rtrn(format("DISTINCT C as %s",$result));
+			}
+			
+			@Override
+			public Iterator<Code> iterator() {
+
+				ExecutionResult result = executeNeo();
+
 				ResourceIterator<Node> it = result.columnAs($result);
 
 				return codes(it);

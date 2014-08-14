@@ -4,17 +4,10 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar;
 
 
-/**
- * 
- * A {@link Repository} of {@link Codelist}s
- * 
- * @author Fabio Simeoni
- *
- */
 public interface CodelistRepository extends Repository<Codelist> {
 	
 	@Override
-	public void remove(String id) throws UnremovableCodelistException;
+	public void remove(String id) throws UnremovableCodelistException; //is linked
 	
 
 	@SuppressWarnings("serial")

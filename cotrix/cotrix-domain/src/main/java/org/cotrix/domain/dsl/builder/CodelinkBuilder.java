@@ -5,10 +5,12 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
@@ -60,6 +62,16 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 		return this;
 	}
 	
+	@Override
+	public OptionalClause attributes(AttributeGrammar.OptionalClause... clauses) {
+		
+		Collection<Attribute> as = new ArrayList<Attribute>();
+		
+		for (AttributeGrammar.OptionalClause clause : clauses)
+			as.add(clause.build());
+		
+		return attributes(as);
+	}
 	
 	@Override
 	public Link build() {

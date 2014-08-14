@@ -4,6 +4,7 @@ import static java.util.Arrays.*;
 import static org.cotrix.action.Actions.*;
 import static org.cotrix.action.ResourceType.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.Roles.*;
 import static org.cotrix.domain.dsl.Users.*;
@@ -74,6 +75,40 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		Iterable<Code> codes  = repository.get(codes(asList(c1.id(),c3.id())));
 		
 		assertEquals(collect(codes),asList(c1,c3));
+	}
+	
+	@Test
+	public void codesWithCustomAttributes() {
+		
+		
+		Code c1 = code().name("c1").attributes(attribute().name("a")).build();
+		Code c2 = code().name("c2").attributes(attribute().name("a"),attribute().name("b")).build();
+		Code c3 = code().name("c3").attributes(attribute().name("c")).build();
+		
+		Codelist list = codelist().name("name").with(c1,c2,c3).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> codes  = repository.get(codesWith(attribute().name("a").build(),attribute().name("b").build()).in(list.id()));
+		
+		assertEquals(asList(c2),collect(codes));
+	}
+	
+	@Test
+	public void codesWithCommonAttrs() {
+		
+		
+		Code c1 = code().name("c1").attributes(INVALID.instance()).build();
+		Code c2 = code().name("c2").attributes(INVALID.instance(),NEW.instance()).build();
+		Code c3 = code().name("c3").attributes(NEW.instance()).build();
+		
+		Codelist list = codelist().name("name").with(c1,c2,c3).build();
+		
+		repository.add(list);
+		
+		Iterable<Code> codes  = repository.get(codesWith(INVALID,NEW).in(list.id()));
+		
+		assertEquals(asList(c2),collect(codes));
 	}
 	
 	@Test

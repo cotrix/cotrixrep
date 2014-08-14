@@ -38,8 +38,6 @@ public class TestNeoEngine implements NeoQueryEngine {
 	@Override
 	public ExecutionResult execute(String query, Map<String, Object> params) {
 		
-		//query = "MATCH (L:CODELIST)-[:CODE]->(N), N-[:ATTRIBUTE]->(A), A-[:INSTANCEOF]->(T {name:'a'})  WITH N, {val:A.val,lang:T.lang} as VAL RETURN VAL as RESULT";
-		
 		log.info("executing Neo query {}",query);
 		
 		ExecutionEngine engine = new ExecutionEngine(store);

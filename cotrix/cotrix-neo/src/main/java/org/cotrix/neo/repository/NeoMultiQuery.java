@@ -71,8 +71,12 @@ public abstract class NeoMultiQuery<D,R> extends AbstractMultiQuery<D, R> {
 		return engine.execute(query,params);
 	}
 	
+	protected void query(String query) {
 	
-	private String query() {
+		this.query=query;
+	}
+	
+	protected String query() {
 		
 		//  match where? with? return order-by? range?
 		String template = "MATCH %1$s %2$s %3$s RETURN %4$s %5$s %6$s";

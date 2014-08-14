@@ -16,6 +16,7 @@ import org.cotrix.domain.codelist.DefaultVersion;
 import org.cotrix.domain.codelist.Version;
 import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
@@ -114,6 +115,17 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	public CodelistBuilder attributes(Collection<Attribute> attributes) {	
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
+	}
+	
+	@Override
+	public CodelistBuilder attributes(AttributeGrammar.OptionalClause... clauses) {
+		
+		Collection<Attribute> as = new ArrayList<Attribute>();
+		
+		for (AttributeGrammar.OptionalClause clause : clauses)
+			as.add(clause.build());
+		
+		return attributes(as);
 	}
 	
 	public CodelistBuilder version(Version version) {

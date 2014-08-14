@@ -4,6 +4,7 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.builder.BuilderUtils.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -13,10 +14,11 @@ import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Data;
+import org.cotrix.domain.dsl.grammar.AttributeGrammar;
+import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
@@ -127,6 +129,19 @@ public class LinkDefinitionBuilder  {
 			state.attributes(reveal(attributes,Attribute.Private.class));
 			return this;
 		}
+		
+		@Override
+		public OptionalClause attributes(AttributeGrammar.OptionalClause... clauses) {
+			
+			Collection<Attribute> as = new ArrayList<Attribute>();
+			
+			for (AttributeGrammar.OptionalClause clause : clauses)
+				as.add(clause.build());
+			
+			return attributes(as);
+		}
+		
+		
 		
 		@Override
 		public OptionalClause transformWith(ValueFunction function) {
