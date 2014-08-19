@@ -15,33 +15,14 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.memory.MBeanContainer;
+import org.cotrix.domain.memory.MContainer;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
-public interface Container<T> extends Iterable<T> {
+public interface Container<T> extends BaseContainer<T> {
 		
-	
-	int size();
-
-	
-	//id-based access 
-	
-	boolean contains(String id);
-
-	T lookup(String id);	
-
-	
-	//name-based access (less memory-efficient, mostly used at test time)
-	
-	boolean contains(QName name);
-	
-	T getFirst(QName name);
-	
-	Collection<T> get(QName name);
-	
 	
 	//linguistic conveniences
 
@@ -51,6 +32,21 @@ public interface Container<T> extends Iterable<T> {
 
 	Collection<T> get(Named name);
 	
+	//----------------------------------------
+	
+	interface Bean<B extends Named.Bean> extends BaseContainer<B>  {
+		
+		
+		void add(B element);
+		
+		void remove(String id);
+		
+		
+		//id-based access
+		
+		Collection<B> get(Collection<String> ids); 
+				
+	}
 	
 		
 	//private logic
@@ -60,18 +56,18 @@ public interface Container<T> extends Iterable<T> {
 	 							  implements Container<E> {
 		
 		
-		private final BeanContainer<B> beans;
+		private final Bean<B> beans;
 
 		@SafeVarargs
 		public Private(E ... es) {
 
-			this (new MBeanContainer<B>());
+			this (new MContainer<B>());
 			
 			for (E e : es)
 				beans.add(e.bean());
 		}
 		
-		public Private(BeanContainer<B> beans) {
+		public Private(Bean<B> beans) {
 
 			notNull("beans", beans);
 
@@ -79,7 +75,7 @@ public interface Container<T> extends Iterable<T> {
 
 		}
 		
-		public BeanContainer<B> beans() {
+		public Bean<B> beans() {
 			return beans;
 		}
 
@@ -272,7 +268,7 @@ public interface Container<T> extends Iterable<T> {
 	
 	public class Links extends Container.Private<Link.Private,Link.Bean> {
 		
-		public Links(BeanContainer<Link.Bean> beans) {
+		public Links(Container.Bean<Link.Bean> beans) {
 			super(beans);
 		}
 	}

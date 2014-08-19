@@ -7,8 +7,8 @@ import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.BeanContainer;
-import org.cotrix.domain.memory.MBeanContainer;
+import org.cotrix.domain.common.Container;
+import org.cotrix.domain.memory.MContainer;
 
 //allows persistence bindings to provide equivalent of in-memory objects 
 //as subjects to domain tests
@@ -16,7 +16,7 @@ public interface SubjectProvider {
 
 	<T> T like(T object);
 	
-	BeanContainer<Attribute.Bean> like(Attribute.Bean ...attributes);
+	Container.Bean<Attribute.Bean> like(Attribute.Bean ...attributes);
 	
 	@Alternative @Priority(DEFAULT)
 	static class Default implements SubjectProvider {
@@ -27,8 +27,8 @@ public interface SubjectProvider {
 		}
 		
 		@Override
-		public BeanContainer<Attribute.Bean> like(Attribute.Bean ... attributes) {
-			return new MBeanContainer<>(asList(attributes));
+		public Container.Bean<Attribute.Bean> like(Attribute.Bean ... attributes) {
+			return new MContainer<>(asList(attributes));
 		}
 	}
 }

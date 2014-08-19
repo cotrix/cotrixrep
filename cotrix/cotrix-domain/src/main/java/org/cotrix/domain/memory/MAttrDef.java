@@ -6,8 +6,8 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.Facet;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.values.ValueType;

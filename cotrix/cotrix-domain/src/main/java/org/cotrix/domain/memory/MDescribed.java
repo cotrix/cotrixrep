@@ -7,14 +7,14 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.trait.Described;
 
 public class MDescribed extends MNamed implements Described.Bean {
 
 	
-	private BeanContainer<Attribute.Bean> attributes = new MBeanContainer<>();
+	private Container.Bean<Attribute.Bean> attributes = new MContainer<>();
 
 	
 	//----------------------------------------------------
@@ -75,7 +75,7 @@ public class MDescribed extends MNamed implements Described.Bean {
 	//----------------------------------------------------
 	
 	@Override
-	public BeanContainer<Attribute.Bean> attributes() {
+	public Container.Bean<Attribute.Bean> attributes() {
 		return attributes;
 	}
 	

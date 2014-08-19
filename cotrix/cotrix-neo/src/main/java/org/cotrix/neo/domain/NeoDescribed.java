@@ -3,7 +3,7 @@ package org.cotrix.neo.domain;
 import static org.cotrix.neo.domain.Constants.Relations.*;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Described;
 import org.cotrix.neo.domain.Constants.NodeType;
 import org.cotrix.neo.domain.utils.NeoContainer;
@@ -25,7 +25,7 @@ public class NeoDescribed extends NeoNamed implements Described.Bean {
 	}
 
 	@Override
-	public BeanContainer<Attribute.Bean> attributes() {
+	public Container.Bean<Attribute.Bean> attributes() {
 		return new NeoContainer<>(node(),ATTRIBUTE,NeoAttribute.factory);
 	}
 	

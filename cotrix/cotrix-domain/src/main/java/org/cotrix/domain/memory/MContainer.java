@@ -10,18 +10,18 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Named;
 
-public class MBeanContainer<B extends Named.Bean> implements BeanContainer<B> {
+public class MContainer<B extends Named.Bean> implements Container.Bean<B> {
 
 	private final Map<String,B> elements = new LinkedHashMap<String,B>();
 	
 
-	public MBeanContainer() {
+	public MContainer() {
 	}
 	
-	public MBeanContainer(Collection<B> elements) {
+	public MContainer(Collection<B> elements) {
 		
 		notNull("elements",elements);
 		
@@ -118,9 +118,9 @@ public class MBeanContainer<B extends Named.Bean> implements BeanContainer<B> {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof BeanContainer))
+		if (!(obj instanceof Container.Bean))
 			return false;
-		BeanContainer other = (BeanContainer) obj;
+		Container.Bean other = (Container.Bean) obj;
 		//wrapping in a collection (e.g. list) allows us to test with soft equality
 		//otherwise keys would still be taken into account
 		

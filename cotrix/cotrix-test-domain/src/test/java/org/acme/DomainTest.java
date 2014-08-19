@@ -8,7 +8,7 @@ import java.util.Collection;
 import javax.inject.Inject;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.memory.MIdentified;
 import org.cotrix.test.ApplicationTest;
 import org.junit.AfterClass;
@@ -34,7 +34,7 @@ public abstract class DomainTest extends ApplicationTest {
 	}
 	
 	
-	protected BeanContainer<Attribute.Bean> likes(Attribute ... attributes) {
+	protected Container.Bean<Attribute.Bean> likes(Attribute ... attributes) {
 		
 		Collection<Attribute.Bean> states = new ArrayList<>();
 		

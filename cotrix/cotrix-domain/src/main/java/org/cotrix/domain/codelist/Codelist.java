@@ -1,7 +1,7 @@
 package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Container.AttributeDefinitions;
 import org.cotrix.domain.common.Container.Codes;
 import org.cotrix.domain.common.Container.LinkDefinitions;
@@ -29,11 +29,11 @@ public interface Codelist extends Identified,Described,Named {
 	
 	interface Bean extends Described.Bean, BeanOf<Private> {
 	
-		BeanContainer<Code.Bean> codes();
+		Container.Bean<Code.Bean> codes();
 		
-		BeanContainer<LinkDefinition.Bean> linkDefinitions();
+		Container.Bean<LinkDefinition.Bean> linkDefinitions();
 		
-		BeanContainer<AttributeDefinition.Bean> attributeDefinitions();
+		Container.Bean<AttributeDefinition.Bean> attributeDefinitions();
 		
 		Version version();
 		

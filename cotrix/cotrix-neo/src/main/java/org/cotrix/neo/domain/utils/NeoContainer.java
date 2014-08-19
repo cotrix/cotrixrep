@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Named;
 import org.cotrix.neo.NeoUtils;
 import org.cotrix.neo.domain.Constants.Relations;
@@ -27,7 +27,7 @@ import org.neo4j.graphdb.Relationship;
 //                                          some beans don't have names, derive them)
 
 
-public class NeoContainer<S extends Named.Bean> implements BeanContainer<S>  {
+public class NeoContainer<S extends Named.Bean> implements Container.Bean<S>  {
  
 	private final Node owner;
 	private final Relations relation;

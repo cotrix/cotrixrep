@@ -1,7 +1,7 @@
 package org.acme.domain;
 
-import static org.cotrix.common.Constants.*;
 import static org.cotrix.common.CommonUtils.*;
+import static org.cotrix.common.Constants.*;
 import static org.cotrix.neo.NeoNodeFactory.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
 
@@ -10,11 +10,11 @@ import javax.enterprise.inject.Alternative;
 
 import org.acme.SubjectProvider;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.attributes.Attribute.Bean;
+import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Described;
@@ -25,8 +25,8 @@ import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoAttribute;
 import org.cotrix.neo.domain.NeoAttributeDefinition;
 import org.cotrix.neo.domain.NeoCode;
-import org.cotrix.neo.domain.NeoLink;
 import org.cotrix.neo.domain.NeoCodelist;
+import org.cotrix.neo.domain.NeoLink;
 import org.cotrix.neo.domain.NeoLinkDefinition;
 import org.cotrix.neo.domain.NeoUser;
 import org.cotrix.neo.domain.utils.NeoContainer;
@@ -38,7 +38,7 @@ import org.neo4j.graphdb.Node;
 public class NeoSubjectProvider implements SubjectProvider {
 
 	@Override
-	public BeanContainer<Attribute.Bean> like(Attribute.Bean... states) {
+	public Container.Bean<Attribute.Bean> like(Attribute.Bean... states) {
 		NeoContainer<Bean> container = new NeoContainer<>(newnode(CODE), Relations.ATTRIBUTE, NeoAttribute.factory);
 		for (Attribute.Bean state : states)
 			container.add(state);

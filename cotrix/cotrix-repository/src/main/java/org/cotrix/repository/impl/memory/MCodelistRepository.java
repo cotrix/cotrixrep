@@ -28,7 +28,7 @@ import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.Bean;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MAttrDef;
@@ -217,7 +217,7 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 				
 				tonextcode: for (Code.Bean c : lookup(codelistId).codes()) {
 					
-					BeanContainer<Attribute.Bean> as = c.attributes();
+					Container.Bean<Attribute.Bean> as = c.attributes();
 					for (QName name : names)
 						if (!as.contains(name))
 						 	continue tonextcode;

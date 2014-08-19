@@ -8,7 +8,6 @@ import java.util.Date;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.cotrix.domain.trait.Named;
 
@@ -19,7 +18,7 @@ public class Attributes extends Container.Private<Attribute.Private,Attribute.Be
 		super();
 	}
 	
-	public Attributes(BeanContainer<Attribute.Bean> beans) {
+	public Attributes(Container.Bean<Attribute.Bean> beans) {
 		super(beans);
 	}
 	

@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.trait.Described;
@@ -14,7 +14,7 @@ import org.cotrix.domain.trait.Described;
 
 public final class MCode extends MDescribed implements Code.Bean, Described.Bean {
 
-	private BeanContainer<Link.Bean> links = new MBeanContainer<>();
+	private Container.Bean<Link.Bean> links = new MContainer<>();
 
 	
 	//----------------------------------------------------
@@ -43,7 +43,7 @@ public final class MCode extends MDescribed implements Code.Bean, Described.Bean
 	
 	//----------------------------------------------------
 	
-	public BeanContainer<Link.Bean> links() {
+	public Container.Bean<Link.Bean> links() {
 		return links;
 	}
 	

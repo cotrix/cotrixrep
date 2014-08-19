@@ -16,7 +16,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.DefaultVersion;
 import org.cotrix.domain.codelist.Version;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.trait.Identified;
@@ -26,11 +26,11 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 
 	private Version version;
 	
-	private BeanContainer<Code.Bean> codes = new MBeanContainer<>();
+	private Container.Bean<Code.Bean> codes = new MContainer<>();
 	
-	private BeanContainer<LinkDefinition.Bean> linkDefs = new MBeanContainer<>();
+	private Container.Bean<LinkDefinition.Bean> linkDefs = new MContainer<>();
 	
-	private BeanContainer<AttributeDefinition.Bean> attrDefs = new MBeanContainer<>();
+	private Container.Bean<AttributeDefinition.Bean> attrDefs = new MContainer<>();
 	
 
 	//----------------------------------------------------
@@ -92,11 +92,11 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<AttributeDefinition.Bean> attributeDefinitions() {
+	public Container.Bean<AttributeDefinition.Bean> attributeDefinitions() {
 		return attrDefs;
 	}
 	
-	public BeanContainer<LinkDefinition.Bean> linkDefinitions() {
+	public Container.Bean<LinkDefinition.Bean> linkDefinitions() {
 		return linkDefs;
 	}
 
@@ -125,7 +125,7 @@ public final class MCodelist extends MDescribed implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<Code.Bean> codes() {
+	public Container.Bean<Code.Bean> codes() {
 		return codes;
 	}
 	

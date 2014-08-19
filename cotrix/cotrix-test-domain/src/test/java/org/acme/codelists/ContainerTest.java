@@ -10,7 +10,6 @@ import java.util.Iterator;
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributes;
-import org.cotrix.domain.common.BeanContainer;
 import org.cotrix.domain.common.Container;
 import org.junit.Test;
 
@@ -21,7 +20,7 @@ public class ContainerTest extends DomainTest {
 	public void beansMustBeValid() {
 		
 		try {
-			new Container.Private<>((BeanContainer)null);
+			new Container.Private<>((Container.Bean)null);
 		}
 		catch(IllegalArgumentException e){}
 	}
@@ -32,7 +31,7 @@ public class ContainerTest extends DomainTest {
 		Attribute a1 = attribute().name(name).build();
 		Attribute a2 = attribute().name(name2).build();
 		
-		BeanContainer<Attribute.Bean> beans = likes(a1,a2);
+		Container.Bean<Attribute.Bean> beans = likes(a1,a2);
 		
 		Attributes c = new Attributes(beans);
 		
@@ -138,7 +137,7 @@ public class ContainerTest extends DomainTest {
 		
 		Attribute a = attribute().name(name).build();
 		
-		BeanContainer sc = likes(a);
+		Container.Bean sc = likes(a);
 		
 		Attributes c = new Attributes(sc);
 		

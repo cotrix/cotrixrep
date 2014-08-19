@@ -3,11 +3,11 @@ package org.cotrix.domain.codelist;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.common.Container.Links;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
-import org.cotrix.domain.memory.MBeanContainer;
+import org.cotrix.domain.memory.MContainer;
 import org.cotrix.domain.memory.MLink;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Described;
@@ -26,7 +26,7 @@ public interface Code extends Identified,Named,Described {
 	
 	interface Bean extends Described.Bean, BeanOf<Private> {
 		
-		BeanContainer<Link.Bean> links();
+		Container.Bean<Link.Bean> links();
 		
 	}
 	
@@ -105,7 +105,7 @@ public interface Code extends Identified,Named,Described {
 			
 			
 			//post-process to align remaining group member
-			MBeanContainer<Link.Bean>  changes = new MBeanContainer<>();
+			MContainer<Link.Bean>  changes = new MContainer<>();
 			
 			//redirect those that still need to
 			for (Link.Bean link : bean().links()) {

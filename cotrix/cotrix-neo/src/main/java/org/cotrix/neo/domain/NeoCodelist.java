@@ -12,7 +12,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.DefaultVersion;
 import org.cotrix.domain.codelist.Version;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.utils.NeoContainer;
@@ -114,17 +114,17 @@ public class NeoCodelist extends NeoDescribed implements Codelist.Bean {
 	}
 	
 	@Override
-	public BeanContainer<Code.Bean> codes() {
+	public Container.Bean<Code.Bean> codes() {
 		return new NeoContainer<>(node(),Relations.CODE,NeoCode.factory);
 	}
 	
 	@Override
-	public BeanContainer<LinkDefinition.Bean> linkDefinitions() {
+	public Container.Bean<LinkDefinition.Bean> linkDefinitions() {
 		return new NeoContainer<>(node(), Relations.LINK, NeoLinkDefinition.factory);
 	}
 	
 	@Override
-	public BeanContainer<AttributeDefinition.Bean> attributeDefinitions() {
+	public Container.Bean<AttributeDefinition.Bean> attributeDefinitions() {
 		return new NeoContainer<>(node(), Relations.DEFINITION, NeoAttributeDefinition.factory);
 	}
 	

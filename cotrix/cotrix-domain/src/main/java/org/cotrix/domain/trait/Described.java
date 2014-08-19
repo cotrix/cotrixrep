@@ -2,7 +2,7 @@ package org.cotrix.domain.trait;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.Attributes;
-import org.cotrix.domain.common.BeanContainer;
+import org.cotrix.domain.common.Container;
 
 
 public interface Described {
@@ -15,7 +15,7 @@ public interface Described {
 	
 	interface Bean extends Named.Bean {
 		
-		BeanContainer<Attribute.Bean> attributes();
+		Container.Bean<Attribute.Bean> attributes();
 		
 	}
 	
