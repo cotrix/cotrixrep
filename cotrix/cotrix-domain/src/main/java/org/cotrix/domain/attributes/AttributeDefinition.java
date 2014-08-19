@@ -4,8 +4,6 @@ import static org.cotrix.domain.utils.Constants.*;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.common.Range;
-import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.values.ValueType;
@@ -54,7 +52,7 @@ public interface AttributeDefinition extends Definition {
 	
 	//----------------------------------------
 	
-	public class Private extends Described.Private<Private,Bean> implements AttributeDefinition {
+	public class Private extends Definition.Private<Private,Bean> implements AttributeDefinition {
 
 		public Private(AttributeDefinition.Bean bean) {
 			super(bean);
@@ -93,11 +91,6 @@ public interface AttributeDefinition extends Definition {
 		
 		
 		@Override
-		public Range range() {
-			return bean().range();
-		}
-
-		@Override
 		public void update(AttributeDefinition.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
@@ -127,12 +120,6 @@ public interface AttributeDefinition extends Definition {
 			
 			if (newtype!=null)
 				bean().valueType(newtype);
-			
-			//range
-			Range newrange = changeset.range();
-			
-			if (newrange!=null)
-				bean().range(newrange);
 		}
 
 		@Override

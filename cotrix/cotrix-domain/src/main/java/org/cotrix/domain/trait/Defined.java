@@ -2,8 +2,6 @@ package org.cotrix.domain.trait;
 
 
 
-
-
 public interface Defined<T extends Definition> {
 
 	T definition();
@@ -17,8 +15,6 @@ public interface Defined<T extends Definition> {
 		void definition(D def);
 
 	}
-	
-	//----------------------------------------
 	
 	
 }

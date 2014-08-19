@@ -1,7 +1,6 @@
 package org.cotrix.domain.links;
 
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.BeanOf;
 import org.cotrix.domain.trait.Definition;
 import org.cotrix.domain.trait.Described;
@@ -33,7 +32,7 @@ public interface LinkDefinition extends Described,Definition {
 	}
 
 	
-	public class Private extends Described.Private<Private,Bean> implements LinkDefinition {
+	public class Private extends Definition.Private<Private,Bean> implements LinkDefinition {
 
 		public Private(LinkDefinition.Bean state) {
 			super(state);
@@ -56,11 +55,6 @@ public interface LinkDefinition extends Described,Definition {
 		}
 		
 		@Override
-		public Range range() {
-			return bean().range();
-		}
-
-		@Override
 		public void update(LinkDefinition.Private changeset) throws IllegalArgumentException, IllegalStateException {
 
 			super.update(changeset);
@@ -75,11 +69,6 @@ public interface LinkDefinition extends Described,Definition {
 			
 			if (newfunction!=null)
 				bean().function(newfunction);
-			
-			Range newrange = changeset.bean().range();
-			
-			if (newrange!=null)
-				bean().range(newrange);
 			
 			//ignore target, DSL should have prevented this statically anyway
 		}
