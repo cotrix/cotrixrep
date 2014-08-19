@@ -10,27 +10,22 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.codelist.Code;
-import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.links.Link;
-import org.cotrix.domain.links.LinkDefinition;
+import org.cotrix.domain.common.Containers.BaseContainer;
 import org.cotrix.domain.memory.MContainer;
 import org.cotrix.domain.trait.BeanOf;
-import org.cotrix.domain.trait.Identified;
 import org.cotrix.domain.trait.Named;
 
 
-public interface Container<T> extends BaseContainer<T> {
+public interface Container<E> extends BaseContainer<E> {
 		
 	
 	//linguistic conveniences
 
 	boolean contains(Named name);
 
-	T getFirst(Named name);
+	E getFirst(Named name);
 
-	Collection<T> get(Named name);
+	Collection<E> get(Named name);
 	
 	//----------------------------------------
 	
@@ -51,7 +46,7 @@ public interface Container<T> extends BaseContainer<T> {
 		
 	//private logic
 	
-	class Private<E extends Identified.Private<E,B>, B extends BeanOf<E> & Named.Bean> 
+	class Private<E extends Named.Private<E,B>, B extends BeanOf<E> & Named.Bean> 
 								
 	 							  implements Container<E> {
 		
@@ -81,7 +76,7 @@ public interface Container<T> extends BaseContainer<T> {
 
 		@Override
 		public Iterator<E> iterator() {
-			return new IteratorAdapter<E,B>(beans.iterator());
+			return new BeanIteratorAdapter<E,B>(beans.iterator());
 		}
 
 		
@@ -257,34 +252,6 @@ public interface Container<T> extends BaseContainer<T> {
 		}
 	
 	}
-	
-	
-	public static class Codes extends Container.Private<Code.Private,Code.Bean> {
-		
-		public Codes(Codelist.Bean list) {
-			super(list.codes());
-		}
-	}
-	
-	public class Links extends Container.Private<Link.Private,Link.Bean> {
-		
-		public Links(Container.Bean<Link.Bean> beans) {
-			super(beans);
-		}
-	}
-	
-	public class AttributeDefinitions extends Container.Private<AttributeDefinition.Private,AttributeDefinition.Bean> {
-		
-		public AttributeDefinitions(Codelist.Bean list) {
-			super(list.attributeDefinitions());
-		}
-	}
-	
-	public class LinkDefinitions extends Container.Private<LinkDefinition.Private,LinkDefinition.Bean> {
-		
-		public LinkDefinitions(Codelist.Bean list) {
-			super(list.linkDefinitions());
-		}
-	}
+
 
 }

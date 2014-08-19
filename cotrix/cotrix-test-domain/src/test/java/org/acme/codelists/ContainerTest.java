@@ -9,8 +9,8 @@ import java.util.Iterator;
 
 import org.acme.DomainTest;
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Containers.Attributes;
 import org.junit.Test;
 
 @SuppressWarnings({"rawtypes","unchecked"})

@@ -14,7 +14,7 @@ import javax.annotation.Priority;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Singleton;
 
-import org.cotrix.domain.common.IteratorAdapter;
+import org.cotrix.domain.common.BeanIteratorAdapter;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
 import org.cotrix.neo.domain.NeoUser;
@@ -37,7 +37,7 @@ public class NeoUserQueries extends NeoQueries implements UserQueryFactory {
 	
 
 	Iterator<User> users(ResourceIterator<Node> it) {
-		return new IteratorAdapter<>(new NeoNodeIterator<>(it, NeoUser.factory));
+		return new BeanIteratorAdapter<>(new NeoNodeIterator<>(it, NeoUser.factory));
 	}
 
 	@Override

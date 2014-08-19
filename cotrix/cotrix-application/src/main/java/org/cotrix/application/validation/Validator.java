@@ -13,12 +13,12 @@ import javax.inject.Singleton;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container.AttributeDefinitions;
-import org.cotrix.domain.common.Container.LinkDefinitions;
-import org.cotrix.domain.common.Container.Links;
+import org.cotrix.domain.common.Containers.AttributeDefinitions;
+import org.cotrix.domain.common.Containers.Attributes;
+import org.cotrix.domain.common.Containers.LinkDefinitions;
+import org.cotrix.domain.common.Containers.Links;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.validation.Constraint;

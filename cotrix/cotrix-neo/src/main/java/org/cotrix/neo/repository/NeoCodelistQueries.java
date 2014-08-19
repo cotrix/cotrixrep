@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.IteratorAdapter;
+import org.cotrix.domain.common.BeanIteratorAdapter;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.user.FingerPrint;
 import org.cotrix.domain.user.User;
@@ -440,12 +440,12 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	// helpers
 	
 	Iterator<Codelist> codelists(ResourceIterator<Node> it) {
-		return new IteratorAdapter<>(new NeoNodeIterator<>(it, NeoCodelist.factory));
+		return new BeanIteratorAdapter<>(new NeoNodeIterator<>(it, NeoCodelist.factory));
 	}
 
 	
 	Iterator<Code> codes(ResourceIterator<Node> it) {
-		return new IteratorAdapter<>(new NeoNodeIterator<>(it, NeoCode.factory));
+		return new BeanIteratorAdapter<>(new NeoNodeIterator<>(it, NeoCode.factory));
 	}
 
 	

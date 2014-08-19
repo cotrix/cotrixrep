@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.cotrix.domain.common.Containers.Attributes;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.trait.Described;
 import org.cotrix.domain.trait.Named;

@@ -25,9 +25,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Containers.Attributes;
 import org.cotrix.io.impl.MapTask;
 import org.fao.fi.comet.mapping.dsl.MappingDSL;
 import org.fao.fi.comet.mapping.model.DataProvider;

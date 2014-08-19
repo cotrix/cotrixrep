@@ -1,8 +1,8 @@
 package org.cotrix.domain.trait;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.common.Container;
+import org.cotrix.domain.common.Containers.Attributes;
 
 
 public interface Described {

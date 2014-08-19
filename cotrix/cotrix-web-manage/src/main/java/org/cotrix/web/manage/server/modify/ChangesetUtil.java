@@ -15,11 +15,10 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.Container.LinkDefinitions;
+import org.cotrix.domain.common.Containers.Attributes;
+import org.cotrix.domain.common.Containers.LinkDefinitions;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;

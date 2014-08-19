@@ -12,9 +12,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
-import org.cotrix.domain.attributes.Attributes;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
+import org.cotrix.domain.common.Containers.Attributes;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.lifecycle.State;

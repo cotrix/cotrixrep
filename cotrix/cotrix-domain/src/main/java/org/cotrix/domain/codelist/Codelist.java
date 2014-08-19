@@ -2,9 +2,9 @@ package org.cotrix.domain.codelist;
 
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.Container.AttributeDefinitions;
-import org.cotrix.domain.common.Container.Codes;
-import org.cotrix.domain.common.Container.LinkDefinitions;
+import org.cotrix.domain.common.Containers.AttributeDefinitions;
+import org.cotrix.domain.common.Containers.Codes;
+import org.cotrix.domain.common.Containers.LinkDefinitions;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MCodelist;
 import org.cotrix.domain.trait.BeanOf;

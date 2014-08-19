@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cotrix.domain.common.Container;
-import org.cotrix.domain.common.Container.Links;
+import org.cotrix.domain.common.Containers;
+import org.cotrix.domain.common.Containers.Links;
 import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MContainer;
@@ -18,7 +19,7 @@ import org.cotrix.domain.trait.Named;
 public interface Code extends Identified,Named,Described {
 	
 	
-	 Links links();
+	 Containers.Links links();
 	
 	
 	

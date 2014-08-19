@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 import org.cotrix.domain.trait.BeanOf;
 
-public class IteratorAdapter<T,B extends BeanOf<? extends T>> implements Iterator<T> {
+public class BeanIteratorAdapter<T,B extends BeanOf<? extends T>> implements Iterator<T> {
 	
 	Iterator<B> inner;
 	
-	public IteratorAdapter(Iterator<B> iterator) {
+	public BeanIteratorAdapter(Iterator<B> iterator) {
 		this.inner=iterator;
 	}
 	
