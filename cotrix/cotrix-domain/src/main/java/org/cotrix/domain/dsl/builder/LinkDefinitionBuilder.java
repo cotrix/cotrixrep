@@ -15,10 +15,10 @@ import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
-import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionNewClause;
-import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.ThirdClause;
 import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
@@ -56,7 +56,7 @@ public class LinkDefinitionBuilder  {
 	
 	//new sentence
 	
-	public class NewClause implements LinkDefinitionNewClause, LinkTargetClause<Codelist,OptionalClause> {
+	public class NewClause implements LinkDefinitionNewClause, SecondClause {
 		
 		
 		public NewClause name(QName name) {
@@ -69,7 +69,7 @@ public class LinkDefinitionBuilder  {
 			return this;
 		}
 		
-		public OptionalClause target(Codelist target) {
+		public ThirdClause target(Codelist target) {
 			
 			notNull("codelist",target);
 			
@@ -89,12 +89,12 @@ public class LinkDefinitionBuilder  {
 	
 	public class ChangeClause extends OptClause implements LinkDefinitionChangeClause {
 		
-		public OptionalClause name(QName name) {
+		public ThirdClause name(QName name) {
 			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
 		
-		public OptionalClause name(String name) {
+		public ThirdClause name(String name) {
 			LinkDefinitionBuilder.this.name(name);
 			return this;
 		}
@@ -102,40 +102,40 @@ public class LinkDefinitionBuilder  {
 	}
 	
 	
-	public class OptClause implements OptionalClause {
+	public class OptClause implements ThirdClause {
 
-		public OptionalClause anchorTo(Attribute template) {
+		public ThirdClause anchorTo(Attribute template) {
 			state.valueType(new AttributeLink(new AttributeTemplate(template))); 
 			return this;
 		}
 		
-		public OptionalClause anchorTo(LinkDefinition template) {
+		public ThirdClause anchorTo(LinkDefinition template) {
 			state.valueType(new LinkOfLink(template));
 			return this;
 		}
 		
-		public OptionalClause anchorToName() {
+		public ThirdClause anchorToName() {
 			state.valueType(NameLink.INSTANCE);
 			return this;
 		}
 
 
-		public OptionalClause attributes(Attribute ... attributes) {
+		public ThirdClause attributes(Attribute ... attributes) {
 			attributes(Arrays.asList(attributes));
 			return this;
 		}
 		
-		public OptionalClause attributes(Collection<Attribute> attributes) {
+		public ThirdClause attributes(Collection<Attribute> attributes) {
 			state.attributes(reveal(attributes,Attribute.Private.class));
 			return this;
 		}
 		
 		@Override
-		public OptionalClause attributes(AttributeGrammar.OptionalClause... clauses) {
+		public ThirdClause attributes(AttributeGrammar.FourthClause... clauses) {
 			
 			Collection<Attribute> as = new ArrayList<Attribute>();
 			
-			for (AttributeGrammar.OptionalClause clause : clauses)
+			for (AttributeGrammar.FourthClause clause : clauses)
 				as.add(clause.build());
 			
 			return attributes(as);
@@ -144,13 +144,13 @@ public class LinkDefinitionBuilder  {
 		
 		
 		@Override
-		public OptionalClause transformWith(ValueFunction function) {
+		public ThirdClause transformWith(ValueFunction function) {
 			state.function(function);
 			return this;
 		}
 		
 		@Override
-		public OptionalClause occurs(Range range) {
+		public ThirdClause occurs(Range range) {
 			state.range(range);
 			return this;
 		}

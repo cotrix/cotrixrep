@@ -11,31 +11,26 @@ import java.util.Collection;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.OptionalClause;
-import org.cotrix.domain.dsl.grammar.CommonClauses.LinkTargetClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.CodelinkChangeClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.CodelinkNewClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.ThirdClause;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MLink;
 
-/**
- * Builds {@link Attribute}s.
- * 
- * @author Fabio Simeoni
- *
- */
-public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,OptionalClause>, CodelinkChangeClause {
+
+public class LinkBuilder implements ThirdClause, SecondClause, CodelinkChangeClause {
 
 	
 	private final MLink state;
 	
-	public CodelinkBuilder(MLink state) {
+	public LinkBuilder(MLink state) {
 		this.state = state;
 	}
 	
 	@Override
-	public OptionalClause target(Code code) {
+	public ThirdClause target(Code code) {
 		
 		notNull("code",code);
 		
@@ -48,26 +43,26 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 		
 		state.target(target);
 		
-		return CodelinkBuilder.this;
+		return LinkBuilder.this;
 	}
 	
 	@Override
-	public OptionalClause attributes(Attribute ... attributes) {
+	public ThirdClause attributes(Attribute ... attributes) {
 		return attributes(asList(attributes));
 	}
 	
 	@Override
-	public OptionalClause attributes(Collection<Attribute> attributes) {
+	public ThirdClause attributes(Collection<Attribute> attributes) {
 		state.attributes(reveal(attributes,Attribute.Private.class));
 		return this;
 	}
 	
 	@Override
-	public OptionalClause attributes(AttributeGrammar.OptionalClause... clauses) {
+	public ThirdClause attributes(AttributeGrammar.FourthClause... clauses) {
 		
 		Collection<Attribute> as = new ArrayList<Attribute>();
 		
-		for (AttributeGrammar.OptionalClause clause : clauses)
+		for (AttributeGrammar.FourthClause clause : clauses)
 			as.add(clause.build());
 		
 		return attributes(as);
@@ -84,7 +79,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 	public class NewClause implements CodelinkNewClause {
 		
 		@Override
-		public LinkTargetClause<Code,OptionalClause> instanceOf(LinkDefinition linktype) {
+		public SecondClause instanceOf(LinkDefinition linktype) {
 			
 			LinkDefinition.Private type = reveal(linktype);
 			
@@ -93,7 +88,7 @@ public class CodelinkBuilder implements OptionalClause, LinkTargetClause<Code,Op
 			
 			state.definition(type.bean());
 			
-			return CodelinkBuilder.this;
+			return LinkBuilder.this;
 		}
 	}
 	

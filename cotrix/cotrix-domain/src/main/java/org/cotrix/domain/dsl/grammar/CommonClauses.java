@@ -6,35 +6,17 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
 
-/**
- * Sentence clauses shared across grammars.
- * 
- * @author Fabio Simeoni
- *
- */
+
 public class CommonClauses {
 
 	
-	public static interface AttributeClause<T,C> extends BuildClause<T> {
+	public static interface AttributeClause<T,C> {
 
 		C attributes(Attribute... attributes);
 		
 		C attributes(Collection<Attribute> attributes);
 		
-		C attributes(AttributeGrammar.OptionalClause ... attributes);
-	}
-	
-	public static interface LinksClause<T,C> {
-
-		@SuppressWarnings("unchecked")
-		C links(T ... links);
-		
-		C links(Collection<T> links);
-	}
-	
-	public static interface LinkTargetClause<T,C> {
-
-		C target(T target);
+		C attributes(AttributeGrammar.FourthClause ... attributes);
 	}
 
 	
@@ -49,11 +31,6 @@ public class CommonClauses {
 	public static interface DeleteClause<DELETE> {
 		
 		DELETE delete();
-	}
-	
-	public static interface VersionClause<T> {
-
-		BuildClause<T> version(String version);
 	}
 	
 	public static interface BuildClause<T> {

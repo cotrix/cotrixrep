@@ -17,20 +17,15 @@ import org.cotrix.domain.codelist.Version;
 import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
-import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.SecondClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.memory.MCodelist;
 
-/**
- * Builds {@link Codelist}s.
- * 
- * @author Fabio Simeoni
- *
- */
+
 public final class CodelistBuilder implements CodelistNewClause, CodelistChangeClause {
 
 	private final MCodelist state;
@@ -58,11 +53,11 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public SecondClause with(CodeGrammar.OptionalClause ... clauses) {
+	public SecondClause with(CodeGrammar.SecondClause ... clauses) {
 		
 		Collection<Code> codes = new ArrayList<Code>();
 		
-		for (CodeGrammar.OptionalClause clause : clauses)
+		for (CodeGrammar.SecondClause clause : clauses)
 			codes.add(clause.build());
 				
 		return with(codes);
@@ -74,11 +69,11 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public SecondClause definitions(OptionalClause... clauses) {
+	public SecondClause definitions(AttributeDefinitionGrammar.SecondClause... clauses) {
 		
 		Collection<AttributeDefinition> defs = new ArrayList<AttributeDefinition>();
 		
-		for (AttributeDefinitionGrammar.OptionalClause clause : clauses)
+		for (AttributeDefinitionGrammar.SecondClause clause : clauses)
 			defs.add(clause.build());
 				
 		return definitions(defs);
@@ -96,14 +91,25 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder links(LinkDefinition... links) {
-		return links(asList(links));
+	public CodelistBuilder links(LinkDefinition... defs) {
+		return links(asList(defs));
 	}
 	
 	@Override
-	public CodelistBuilder links(Collection<LinkDefinition> links) {
-		state.linkDefinitions(reveal(links,LinkDefinition.Private.class));
+	public CodelistBuilder links(Iterable<LinkDefinition> defs) {
+		state.linkDefinitions(reveal(defs,LinkDefinition.Private.class));
 		return this;
+	}
+	
+	@Override
+	public SecondClause links(LinkDefinitionGrammar.ThirdClause... clauses) {
+
+		Collection<LinkDefinition> defs = new ArrayList<LinkDefinition>();
+		
+		for (LinkDefinitionGrammar.ThirdClause clause : clauses)
+			defs.add(clause.build());
+				
+		return links(defs);
 	}
 	
 	@Override
@@ -118,11 +124,11 @@ public final class CodelistBuilder implements CodelistNewClause, CodelistChangeC
 	}
 	
 	@Override
-	public CodelistBuilder attributes(AttributeGrammar.OptionalClause... clauses) {
+	public CodelistBuilder attributes(AttributeGrammar.FourthClause... clauses) {
 		
 		Collection<Attribute> as = new ArrayList<Attribute>();
 		
-		for (AttributeGrammar.OptionalClause clause : clauses)
+		for (AttributeGrammar.FourthClause clause : clauses)
 			as.add(clause.build());
 		
 		return attributes(as);

@@ -65,7 +65,7 @@ public class DomainUtils {
 		return reveal(c).bean();
 	}
 	
-	public static Attribute.Bean beanOf(AttributeGrammar.ValueClause clause) {
+	public static Attribute.Bean beanOf(AttributeGrammar.ThirdClause clause) {
 		return beanOf(clause.build());
 	}
 	

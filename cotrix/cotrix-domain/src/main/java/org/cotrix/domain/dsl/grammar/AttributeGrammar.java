@@ -17,42 +17,42 @@ import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 public class AttributeGrammar {
 
 	
-	public static interface AttributeNewClause extends NameClause<OptionalClause>, DefinitionClause {	
+	public static interface AttributeNewClause extends NameClause<FourthClause>, SecondClause {	
 		
-		ValueClause instanceOf(AttributeDefinition definition);
+		ThirdClause instanceOf(AttributeDefinition definition);
 	}
 		
 	
 	
-	public static interface AttributeChangeClause extends NameClause<OptionalClause>, OptionalClause, DefinitionClause {
+	public static interface AttributeChangeClause extends NameClause<FourthClause>, SecondClause, ThirdClause, FourthClause {
 		
 		
 	}
 	
-	public static interface DefinitionClause {
+	public static interface SecondClause {
 		
-		ValueClause instanceOf(AttributeDefinition definition);
+		ThirdClause instanceOf(AttributeDefinition definition);
 		
-		ValueClause instanceOf(CommonDefinition definition);
+		ThirdClause instanceOf(CommonDefinition definition);
 	}
 	
 	
-	public static interface ValueClause extends BuildClause<Attribute> {
+	public static interface ThirdClause extends BuildClause<Attribute> {
 
-		OptionalClause value(String value);
+		FourthClause value(String value);
 	}
 	
 	
-	public static interface OptionalClause extends ValueClause {
+	public static interface FourthClause extends ThirdClause {
 		
 		
-		OptionalClause ofType(QName type);
+		FourthClause ofType(QName type);
 		
-		OptionalClause ofType(String type);
+		FourthClause ofType(String type);
 	
-		OptionalClause in(String language);
+		FourthClause in(String language);
 		
-		OptionalClause description(String description);
+		FourthClause description(String description);
 	}
 
 }

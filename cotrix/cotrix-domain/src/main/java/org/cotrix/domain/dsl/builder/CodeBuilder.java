@@ -15,7 +15,7 @@ import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
-import org.cotrix.domain.dsl.grammar.CodeGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.CodeGrammar.SecondClause;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.memory.MCode;
 
@@ -34,14 +34,14 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	}
 	
 	@Override
-	public OptionalClause name(QName name) {
+	public SecondClause name(QName name) {
 		state.qname(name);
 		return this;
 	}
 
 	
 	@Override
-	public OptionalClause name(String name) {
+	public SecondClause name(String name) {
 		return name(Data.q(name));
 	}
 
@@ -73,11 +73,11 @@ public final class CodeBuilder implements CodeNewClause, CodeChangeClause {
 	}
 	
 	@Override
-	public CodeBuilder attributes(AttributeGrammar.OptionalClause... clauses) {
+	public CodeBuilder attributes(AttributeGrammar.FourthClause... clauses) {
 		
 		Collection<Attribute> as = new ArrayList<Attribute>();
 		
-		for (AttributeGrammar.OptionalClause clause : clauses)
+		for (AttributeGrammar.FourthClause clause : clauses)
 			as.add(clause.build());
 		
 		return attributes(as);

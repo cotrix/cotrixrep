@@ -12,7 +12,7 @@ import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.dsl.builder.AttributeBuilder;
 import org.cotrix.domain.dsl.builder.CodeBuilder;
-import org.cotrix.domain.dsl.builder.CodelinkBuilder;
+import org.cotrix.domain.dsl.builder.LinkBuilder;
 import org.cotrix.domain.dsl.builder.CodelistBuilder;
 import org.cotrix.domain.dsl.builder.DefinitionBuilder;
 import org.cotrix.domain.dsl.builder.LinkDefinitionBuilder;
@@ -22,8 +22,8 @@ import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeGrammar.AttributeNewClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeChangeClause;
 import org.cotrix.domain.dsl.grammar.CodeGrammar.CodeNewClause;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkChangeClause;
-import org.cotrix.domain.dsl.grammar.CodelinkGrammar.CodelinkNewClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.CodelinkChangeClause;
+import org.cotrix.domain.dsl.grammar.LinkGrammar.CodelinkNewClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistChangeClause;
 import org.cotrix.domain.dsl.grammar.CodelistGrammar.CodelistNewClause;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.LinkDefinitionChangeClause;
@@ -38,12 +38,7 @@ import org.cotrix.domain.memory.MLink;
 import org.cotrix.domain.memory.MLinkDef;
 import org.cotrix.domain.values.DefaultType;
 
-/**
- * Model factory.
- * 
- * @author Fabio Simeoni
- *
- */
+
 public class Data {
 	
 	public static QName q(String local) {
@@ -139,11 +134,11 @@ public class Data {
 	}
 		
 	public static CodelinkNewClause link() {
-		return new CodelinkBuilder(new MLink()).new NewClause();
+		return new LinkBuilder(new MLink()).new NewClause();
 	}
 	
 	public static CodelinkChangeClause modifyLink(String id) {
-		return new CodelinkBuilder(new MLink(id,MODIFIED));
+		return new LinkBuilder(new MLink(id,MODIFIED));
 	}
 	
 	public static CodelinkChangeClause modify(Link link) {

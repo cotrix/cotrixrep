@@ -7,7 +7,7 @@ import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.Data;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionChangeClause;
 import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.AttributeDefinitionNewClause;
-import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.AttributeDefinitionGrammar.SecondClause;
 import org.cotrix.domain.memory.MAttrDef;
 import org.cotrix.domain.values.ValueType;
 
@@ -55,7 +55,7 @@ public class DefinitionBuilder implements AttributeDefinitionNewClause, Attribut
 	}
 	
 	@Override
-	public OptionalClause occurs(Range range) {
+	public SecondClause occurs(Range range) {
 		state.range(range);
 		return this;
 	}

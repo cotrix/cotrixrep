@@ -21,7 +21,7 @@ import org.cotrix.domain.common.Containers.Attributes;
 import org.cotrix.domain.common.Containers.LinkDefinitions;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.common.Ranges;
-import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.OptionalClause;
+import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.ThirdClause;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.utils.Constants;
@@ -143,7 +143,7 @@ public class ChangesetUtil {
 	public static LinkDefinition addCodelistLink(UILinkDefinition linkType, Codelist target) {
 		UIValueType valueType = linkType.getValueType();
 		
-		OptionalClause clause = null;
+		ThirdClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
 			clause = linkdef().name(convert(linkType.getName())).target(target).anchorToName();
@@ -195,7 +195,7 @@ public class ChangesetUtil {
 		
 		UIValueType valueType = linkType.getValueType();
 		
-		OptionalClause clause = null;
+		ThirdClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
 			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorToName();

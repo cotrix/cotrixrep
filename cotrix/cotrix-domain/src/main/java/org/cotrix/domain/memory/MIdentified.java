@@ -27,9 +27,7 @@ public class MIdentified implements Identified.Bean {
 	//given id (typically because preserved under versioning)
 	public MIdentified(String id) {
 		
-		valid("identifier",id);
-		
-		this.id = id;
+		this.id=id;
 		this.status=null;
 	}
 

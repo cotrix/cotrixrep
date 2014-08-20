@@ -2,37 +2,31 @@ package org.cotrix.domain.dsl.grammar;
 
 import javax.xml.namespace.QName;
 
-import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
 import org.cotrix.domain.common.Range;
 import org.cotrix.domain.dsl.grammar.CommonClauses.BuildClause;
 import org.cotrix.domain.dsl.grammar.CommonClauses.NameClause;
 import org.cotrix.domain.values.ValueType;
 
-/**
- * The grammar of DSL sentences that create {@link Attribute}s.
- * 
- * @author Fabio Simeoni
- * 
- */
+
 public class AttributeDefinitionGrammar {
 
 	
-	public static interface AttributeDefinitionNewClause extends NameClause<OptionalClause> {	}
+	public static interface AttributeDefinitionNewClause extends NameClause<SecondClause> {	}
 		
-	public static interface AttributeDefinitionChangeClause extends NameClause<OptionalClause>, OptionalClause {}
+	public static interface AttributeDefinitionChangeClause extends NameClause<SecondClause>, SecondClause {}
 	
-	public static interface OptionalClause extends BuildClause<AttributeDefinition> {
+	public static interface SecondClause extends BuildClause<AttributeDefinition> {
 		
-		OptionalClause is(QName type);
+		SecondClause is(QName type);
 		
-		OptionalClause is(String type);
+		SecondClause is(String type);
 		
-		OptionalClause valueIs(ValueType type);
+		SecondClause valueIs(ValueType type);
 	
-		OptionalClause in(String language);
+		SecondClause in(String language);
 		
-		OptionalClause occurs(Range range);
+		SecondClause occurs(Range range);
 	}
 
 }
