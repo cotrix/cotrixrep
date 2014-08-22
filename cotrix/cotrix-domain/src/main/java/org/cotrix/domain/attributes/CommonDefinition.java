@@ -225,15 +225,10 @@ public enum CommonDefinition implements Named {
 		
 		public CommonDefinition in(Attributes as) {
 			
-			Attribute a = as.getFirst(CommonDefinition.this);
-			
-			if (a==null) {
-				
-				a = instance();
-				
-				as.beans().add(beanOf(a));
+			if (!as.contains(CommonDefinition.this))
+				as.beans().add(beanOf(instance()));
 
-			}
+			Attribute a = as.getFirst(CommonDefinition.this);
 			
 			beanOf(a).value(value);
 			
