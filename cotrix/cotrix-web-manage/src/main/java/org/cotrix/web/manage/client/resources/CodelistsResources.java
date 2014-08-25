@@ -32,6 +32,7 @@ public interface CodelistsResources extends CellTree.Resources {
 	public interface CodelistsStyle extends CellTree.Style {
 		
 		String versionItem();
+		String versionBadge();
 		
 	}
 }

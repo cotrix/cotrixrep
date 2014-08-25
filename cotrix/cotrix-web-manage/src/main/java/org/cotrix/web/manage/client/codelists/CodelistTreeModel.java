@@ -63,6 +63,9 @@ public class CodelistTreeModel implements TreeViewModel {
 
 		@Template("<span title=\"{0}\">{0}</span>")
 		SafeHtml groupName(String name);
+		
+/*		@Template("<table width=\"100%\"><tr><td><span title=\"{0}\">{0}</span></td><td width=\"16px\"><span class=\"{1}\">{2}</span></td></tr></table>")
+		SafeHtml groupName(String name, String badgeStyle, String count);*/
 	
 		@Template("<div><span title=\"{0}\" style=\"color: #5674b9\">{0}</span><span class=\"{1}\">{2}</span></div>")
 		SafeHtml codelist(String name, String versionStyle, String version);
@@ -110,6 +113,10 @@ public class CodelistTreeModel implements TreeViewModel {
 
 		@Override
 		public void render(Context context,	Group<UICodelistInfo> value, SafeHtmlBuilder sb) {
+			/*if (value.getItems().getList().size()>1) {
+				String count = String.valueOf(value.getItems().getList().size());
+				sb.append(CELL_TEMPLATES.groupName(value.getName(), CodelistsResources.INSTANCE.cellTreeStyle().versionBadge(), count));
+			} else */
 			sb.append(CELL_TEMPLATES.groupName(value.getName()));
 		}
 	};

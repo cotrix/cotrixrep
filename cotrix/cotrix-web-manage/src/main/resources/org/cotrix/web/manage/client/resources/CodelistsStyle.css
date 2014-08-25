@@ -4,6 +4,20 @@
 	font-size: SMALL;
 }
 
+.versionBadge {
+	background-color: FRAME_GREY;
+	color: DECORATOR_ORANGE;
+	border-radius: 100px;
+	width: 13px;
+	height: 13px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 13px;
+	padding: 1px;
+	display: inline-block;
+	margin-bottom: 2px;
+}
+
 .cellTreeWidget {
 }
 
