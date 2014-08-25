@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.marker;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class MarkerRenderer implements SafeHtmlRenderer<UICode> {
 		
 		SafeHtmlBuilder rowsBuilder = new SafeHtmlBuilder();
 		StringBuilder tooltipBuilder = new StringBuilder();
+		Collections.sort(markers);
 		Iterator<MarkerType> markerIterator = markers.iterator();
 		while(markerIterator.hasNext()) {
 			MarkerType marker = markerIterator.next();

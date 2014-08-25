@@ -3,8 +3,9 @@
  */
 package org.cotrix.web.manage.client.codelist.codes;
 
+import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -72,7 +73,8 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 	}
 	
 	private String generateGradient(List<MarkerType> markers) {
-		Set<String> colors = new HashSet<String>();
+		Set<String> colors = new LinkedHashSet<String>();
+		Collections.sort(markers);
 		for (MarkerType marker:markers) colors.add(styleProvider.getStyle(marker).getBackgroundColor());
 		return gradientClassGenerator.getClassName(colors);
 	}
