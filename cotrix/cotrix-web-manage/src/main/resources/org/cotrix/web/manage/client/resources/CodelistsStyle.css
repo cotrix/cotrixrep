@@ -1,6 +1,7 @@
 .versionItem {
 	padding-left: 5px;
 	vertical-align: middle;
+	font-size: SMALL;
 }
 
 .cellTreeWidget {
@@ -19,7 +20,7 @@
 }
 
 .cellTreeItem:hover {
-  background-color: #f5f5f5;
+  background-color: HOVER_GREY;
 }
 
 .cellTreeItemImage {
@@ -33,7 +34,6 @@
 .cellTreeItemValue {
   padding-left: 3px;
   padding-right: 3px;
-  font-size: 15px;
   height: 18px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -45,9 +45,8 @@
 }
 
 .cellTreeTopItem {
-  font-weight: normal;
-  font-size: 15px;
-  color: #282828 !important;
+  font-size: MEDIUM;
+  color: SUBTITLE_GREY;
   padding: 2px 13px 2px 10px !important;
 }
 
@@ -60,12 +59,12 @@
 }
 
 .cellTreeKeyboardSelectedItem {
-  background-color: #e6f0f1;
+  background-color: SELECTION_GREY;
   outline: none;
 }
 
 .cellTreeSelectedItem {
-  background-color: #e6f0f1;
+  background-color: SELECTION_GREY;
   height: auto;
   overflow: visible;
   outline: none;

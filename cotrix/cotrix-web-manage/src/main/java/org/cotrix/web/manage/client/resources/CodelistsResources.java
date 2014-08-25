@@ -26,7 +26,7 @@ public interface CodelistsResources extends CellTree.Resources {
     /**
      * The styles used in this widget.
      */
-    @Source("CodelistsStyle.css")
+    @Source({"CodelistsStyle.css", "definitions.css"})
     CodelistsStyle cellTreeStyle();
 
 	public interface CodelistsStyle extends CellTree.Style {
