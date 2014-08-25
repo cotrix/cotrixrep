@@ -1,7 +1,5 @@
 package org.cotrix.web.manage.client.manager;
 
-
-import org.cotrix.web.common.client.resources.CommonResources;
 import org.cotrix.web.common.client.widgets.HasMinHeight;
 
 import com.google.gwt.core.client.GWT;
@@ -38,7 +36,6 @@ public class CodelistManagerViewImpl extends ResizeComposite implements Codelist
 		this.contentPanel = contentPanel;
 		mainPanel = new SplitLayoutPanel(3);
 		initWidget(uiBinder.createAndBindUi(this));
-		CommonResources.INSTANCE.css().ensureInjected();
 		mainPanel.setWidgetToggleDisplayAllowed(westPanel, true);
 	}
 
