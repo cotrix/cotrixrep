@@ -342,8 +342,10 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			@Override
 			public void update(int index, UICode row, String value) {
 				if (value != null && !value.isEmpty()) {
-					row.getName().setLocalPart(value);
-					codeEditor.updated(row);
+					if (!value.equals(row.getName().getLocalPart())) {
+						row.getName().setLocalPart(value);
+						codeEditor.updated(row);
+					}
 				} else {
 					codeCell.clearViewData(CodeKeyProvider.INSTANCE.getKey(row));
 					dataGrid.redrawRow(index);
@@ -542,8 +544,10 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 			UIAttribute attribute = attributeGroup.match(code.getAttributes());
 			if (attribute!=null) {
-				attribute.setValue(value);
-				attributeEditor.updated(new CodeAttribute(code, attribute));
+				if (!value.equals(attribute.getValue())) {
+					attribute.setValue(value);
+					attributeEditor.updated(new CodeAttribute(code, attribute));
+				}
 			} else {
 				attribute = factories.createAttribute();
 				attribute.setName(attributeGroup.getName());
