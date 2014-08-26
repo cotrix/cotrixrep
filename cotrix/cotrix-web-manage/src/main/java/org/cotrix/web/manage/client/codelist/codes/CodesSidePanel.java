@@ -47,7 +47,7 @@ public class CodesSidePanel extends ResizeComposite {
 		
 		panel.showPanel(attributesPanel);
 		
-		panel.setEmptyPanelMessage("No code selected");
+		panel.setEmptyPanelMessage("no code selected.");
 		panel.showEmptyPanel(true);
 	}
 	

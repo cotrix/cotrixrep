@@ -16,7 +16,7 @@
 		.text {
 			vertical-align: middle;
 			text-align: center;
-			
+			color: DISABLED_GREY;
 		}
 				
 		.toolbar {
