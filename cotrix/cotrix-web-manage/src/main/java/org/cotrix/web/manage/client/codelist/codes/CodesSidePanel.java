@@ -1,8 +1,11 @@
 package org.cotrix.web.manage.client.codelist.codes;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.common.side.SidePanelContainer;
+import org.cotrix.web.manage.client.data.event.DataEditEvent;
+import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
@@ -36,6 +39,8 @@ public class CodesSidePanel extends ResizeComposite {
 	
 	@Inject
 	private CotrixManagerResources resources;
+	
+	private UICode visualizedCode;
 
 	@Inject
 	private void init() {
@@ -54,11 +59,29 @@ public class CodesSidePanel extends ResizeComposite {
 	@Inject
 	protected void bind(CodesSidePanelEventBinder binder, @CodelistBus EventBus codelistBus) {
 		binder.bindEventHandlers(this, codelistBus);
+		
+		codelistBus.addHandler(DataEditEvent.getType(UICode.class), new DataEditHandler<UICode>() {
+
+			@Override
+			public void onDataEdit(DataEditEvent<UICode> event) {
+				if (visualizedCode!=null && visualizedCode.equals(event.getData())) {
+					switch (event.getEditType()) {
+						case REMOVE: setVisualizedCode(null); break;
+						default:
+					}
+				}
+			}
+		});
 	}
 	
 	@EventHandler
 	void onCodeSelected(CodeSelectedEvent event) {
-		panel.showEmptyPanel(event.getCode() == null);
+		setVisualizedCode(event.getCode());
+	}
+	
+	private void setVisualizedCode(UICode code) {
+		visualizedCode = code;
+		panel.showEmptyPanel(visualizedCode == null);
 	}
 
 	public AttributesPanel getAttributesPanel() {
