@@ -61,6 +61,7 @@ public class SidePanelContainer extends ResizeComposite {
 			@Override
 			public void onClick(ClickEvent event) {
 				panels.showWidget(panel);
+				lastVisualized = panel;
 			}
 		});
 		
