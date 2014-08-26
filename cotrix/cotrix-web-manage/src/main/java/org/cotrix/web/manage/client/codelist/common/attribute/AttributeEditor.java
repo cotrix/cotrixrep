@@ -84,15 +84,13 @@ public class AttributeEditor implements ItemEditor<UIAttribute> {
 
 	@Override
 	public String getHeaderTitle() {
-		return  attribute.getValue()!=null?attribute.getValue():"n/a";
+		String value = attribute.getValue();
+		return value == null || value.isEmpty()?"(no value)":value;
 	}
 
 	@Override
 	public String getHeaderSubtitle() {
 		return ValueUtils.getLocalPart(attribute.getName());
-		//FIXME
-//		header.setHeaderValueVisible(!disclosurePanel.isOpen() && attribute.getValue()!=null);
-
 	}
 
 	@Override
