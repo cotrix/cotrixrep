@@ -50,7 +50,6 @@
 }
 
 .dataGridFirstColumn {
-	/*border-left: 1px solid #c6c6c6;*/
 }
 
 .dataGridLastColumn {
@@ -71,8 +70,6 @@
 	
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
-	/*border-bottom: 1px solid #a8a7a7;
-	border-top: 1px solid #a8a7a7;*/
 }
 
 .dataGridCell {
@@ -92,7 +89,6 @@
 }
 
 .dataGridFirstColumnHeader {
-/*	border-left: 1px solid #a8a7a7;*/
 }
 
 .dataGridLastColumnFooter {
@@ -100,7 +96,6 @@
 }
 
 .dataGridLastColumnHeader {
-/*	border-right: 1px solid #a8a7a7;*/
 }
 
 .dataGridSortableHeader {
@@ -109,7 +104,6 @@
 }
 
 .dataGridSortableHeader:hover {
-	/*color: TRANSPARENT_GREY;*/
 }
 
 .dataGridSortedHeaderAscending {
