@@ -39,14 +39,14 @@
 		.button {
 			cursor: pointer;
 		}
-		
-		.markersToolbar {
-			margin-left: 10px;
-		}
 	
 		.leftButton {
 			padding-left: 5px;
 			float: left;
+		}
+				
+		.markersButton {
+			margin-left: 10px;
 		}
 		
 		.rightButton {
@@ -69,7 +69,7 @@
 					<g:PushButton ui:field="allNormals" styleName="{style.button} {style.leftButton}" title="Hide All">
 						<g:upFace image="{resources.allNormals}" />
 					</g:PushButton>
-					<g:ToggleButton ui:field="markersMenuButton" styleName="{style.leftButton} {style.button}" title="Markers">
+					<g:ToggleButton ui:field="markersMenuButton" styleName="{style.leftButton} {style.button} {style.markersButton}" title="Markers">
 						<g:upFace image="{resources.marker}" />
 						<g:downFace image="{resources.markerDown}" />
 					</g:ToggleButton>
