@@ -1,6 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:s="urn:import:org.cotrix.web.manage.client.codelist.common.side">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:u="urn:import:org.cotrix.web.manage.client.util"
+	>
 	<ui:style src="definitions.css"
 	type="org.cotrix.web.manage.client.codelist.common.side.SidePanelContainer.Style">
 		.mainPanel {
@@ -38,7 +40,7 @@
 		</g:north>
 		<g:center>
 			<g:DeckLayoutPanel ui:field="panels">
-				<s:EmptyPanel ui:field="emptyPanel" />
+				<u:EmptyPanel ui:field="emptyPanel" />
 			</g:DeckLayoutPanel>
 		</g:center>
 	</g:DockLayoutPanel>

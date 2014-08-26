@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.cotrix.web.common.client.widgets.ToggleButtonGroup;
+import org.cotrix.web.manage.client.util.EmptyPanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

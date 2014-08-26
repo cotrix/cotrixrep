@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.manager;
 
+import org.cotrix.web.manage.client.util.EmptyPanel;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.HasCloseHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -11,7 +13,6 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.DeckLayoutPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,11 +37,12 @@ public class ContentPanel extends ResizeComposite {
 	
 	@UiField DeckLayoutPanel contenPanel;
 	@UiField TabLayoutPanel codelistsPanel;
-	@UiField HTMLPanel blankPanel;
+	@UiField EmptyPanel emptyPanel;
 	
 	public ContentPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		codelistsPanel.setAnimationDuration(0);
+		emptyPanel.setMessage("no codelist selected.");
 	}
 	
 	public void addListener(final ContentPanelListener listener) {
@@ -60,9 +62,9 @@ public class ContentPanel extends ResizeComposite {
 	/** 
 	 * {@inheritDoc}
 	 */
-	public void showBlank()
+	public void showEmpty()
 	{
-		contenPanel.showWidget(blankPanel);
+		contenPanel.showWidget(emptyPanel);
 	}
 	
 	/** 

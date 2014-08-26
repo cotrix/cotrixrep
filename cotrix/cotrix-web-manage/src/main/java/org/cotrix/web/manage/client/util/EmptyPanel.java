@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelist.common.side;
+package org.cotrix.web.manage.client.util;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.TableCellElement;

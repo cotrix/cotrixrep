@@ -132,6 +132,6 @@ public class ContentPanelController {
 	protected void checkTabVisibility()
 	{
 		if (presenters.size()>0) view.showCodelists();
-		else view.showBlank();
+		else view.showEmpty();
 	}
 }
