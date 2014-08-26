@@ -13,6 +13,7 @@ import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UICodelistMetadata;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemsEditingListener;
 import org.cotrix.web.manage.client.codelist.common.side.SidePanel;
@@ -28,6 +29,7 @@ import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -55,6 +57,9 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 	@Inject
 	protected CotrixManagerResources resources;
+
+	@Inject
+	private RemoveItemController attributeRemotionController;
 
 	@Inject
 	protected CodelistAttributeEditingPanelFactory editingPanelFactory;
@@ -104,6 +109,15 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 		
+
+		attributesGrid.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				selectedAttributeChanged();
+			}
+		});
+		
 		panel.setHeader("Attributes", codelist.getName().getLocalPart(), resources.definitions().ICON_BLUE());
 	}
 
@@ -123,7 +137,9 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				panel.getToolBar().setEnabled(ItemButton.MINUS, active);
+				attributeRemotionController.setUserCanEdit(active);
+				//we animate only if the user obtain the edit permission
+				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
@@ -131,6 +147,10 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	protected void bind(@CodelistBus EventBus codelistBus, AttributesPanelEventBinder eventBinder) {
 		eventBinder.bindEventHandlers(this, codelistBus);
+	}
+	
+	private void updateRemoveButtonVisibility(boolean animate) {
+		panel.getToolBar().setEnabled(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
 	}
 
 	protected void addNewAttribute()
@@ -149,6 +169,15 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 			if (Attributes.isSystemAttribute(selectedAttribute)) return; 
 			attributesGrid.removeItem(selectedAttribute);
 			attributeEditor.removed(selectedAttribute);
+		}
+	}
+	
+	private void selectedAttributeChanged()
+	{
+		if (attributesGrid.getSelectedItem()!=null) {
+			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
+			attributeRemotionController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
+			updateRemoveButtonVisibility(false);
 		}
 	}
 

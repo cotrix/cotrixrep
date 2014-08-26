@@ -86,7 +86,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 		this.attributeEditor = DataEditor.build(this);
 
-		attributesGrid = new ItemsEditingPanel<UIAttribute>("No attributes", editingPanelFactory);
+		attributesGrid = new ItemsEditingPanel<UIAttribute>("no attributes.", editingPanelFactory);
 		panel.setContent(attributesGrid);
 		
 		panel.getToolBar().setButtonResource(ItemButton.MINUS, BLUE_MINUS);
@@ -226,7 +226,6 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 	private void updateRemoveButtonVisibility(boolean animate) {
 		panel.getToolBar().setEnabled(ItemButton.MINUS, attributeRemotionController.canRemove(), animate);
 	}
-
 
 	/** 
 	 * {@inheritDoc}

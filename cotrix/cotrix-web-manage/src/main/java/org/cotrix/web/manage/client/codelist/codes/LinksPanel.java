@@ -25,6 +25,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.link.LinkEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.codes.link.ValueUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributesUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemsEditingPanel.ItemsEditingListener;
@@ -40,6 +41,7 @@ import org.cotrix.web.manage.shared.LinkGroup;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.binder.EventBinder;
@@ -59,24 +61,27 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	private ItemsEditingPanel<UILink> linksPanel;
 
 	@Inject
-	protected ManageServiceAsync service;
+	private ManageServiceAsync service;
 
 	@Inject @CurrentCodelist
-	protected String codelistId;
+	private String codelistId;
 
-	protected DataEditor<CodeLink> linkEditor;
-	protected UICode visualizedCode;
+	private DataEditor<CodeLink> linkEditor;
+	private UICode visualizedCode;
 
 	@Inject
-	protected CotrixManagerResources resources;
+	private CotrixManagerResources resources;
 	
 	@Inject @CodelistBus
-	protected EventBus codelistBus;
+	private EventBus codelistBus;
 	
-	protected Set<LinkGroup> groupsAsColumn;
+	private Set<LinkGroup> groupsAsColumn;
 	
 	@Inject
 	private LinkEditingPanelFactory editingPanelFactory;
+	
+	@Inject
+	private RemoveItemController linkRemotionController;
 	
 	@Inject
 	private UIFactories factories;
@@ -84,7 +89,7 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 	@Inject
 	public void init() {
 		linkEditor = DataEditor.build(this);
-		linksPanel = new ItemsEditingPanel<UILink>("no links", editingPanelFactory);
+		linksPanel = new ItemsEditingPanel<UILink>("no links.", editingPanelFactory);
 		panel.setContent(linksPanel);
 		
 		panel.getToolBar().setButtonResource(ItemButton.MINUS, RED_MINUS);
@@ -117,6 +122,17 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 		
 		});
 		
+		linksPanel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				if (visualizedCode!=null) {
+					linkRemotionController.setItemCanBeRemoved(linksPanel.getSelectedItem()!=null);
+					updateRemoveButtonVisibility(false);
+				}
+			}
+		});
+		
 		panel.getToolBar().addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
@@ -128,7 +144,6 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			}
 		});
 	}
-	
 	
 	@Inject
 	protected void bind(LinksPanelEventBinder binder, @CodelistBus EventBus codelistBus) {
@@ -151,7 +166,9 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				panel.getToolBar().setEnabled(ItemButton.MINUS, active);
+				linkRemotionController.setUserCanEdit(active);
+				//we animate only if the user obtain the edit permission
+				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.EDIT_METADATA);
 	}
@@ -176,6 +193,10 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			linksPanel.synchWithModel(link);
 			//model already updated on save manager
 		}
+	}
+	
+	private void updateRemoveButtonVisibility(boolean animate) {
+		panel.getToolBar().setEnabled(ItemButton.MINUS, linkRemotionController.canRemove(), animate);
 	}
 	
 	private void addNewLink()
