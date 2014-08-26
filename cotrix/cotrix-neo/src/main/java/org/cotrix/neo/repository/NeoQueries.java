@@ -1,6 +1,7 @@
 package org.cotrix.neo.repository;
 
 import static java.lang.String.*;
+import static org.cotrix.repository.CodelistCoordinates.*;
 
 import java.util.Iterator;
 
@@ -86,7 +87,7 @@ public abstract class NeoQueries {
 
 				NeoCodelist list = new NeoCodelist(node);
 
-				return new CodelistCoordinates(list.id(), list.qname(), list.version().value());
+				return coordsOf(list);
 
 			};
 		};

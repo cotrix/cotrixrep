@@ -199,12 +199,15 @@ public class CodelistRepositoryQueryTest extends ApplicationTest {
 		Codelist list1 = codelist().name("l1").version("1").build();
 		Codelist list2 = codelist().name("l2").version("2").build();
 		
+
 		repository.add(list2);
 		repository.add(list1);
 		
+		list2 = repository.lookup(list2.id());
+		
 		Iterable<CodelistCoordinates> results  = repository.get(allListCoordinates().sort(byCoordinateName()));
 		
-		assertEqualUnordered(collect(results),coords(list1.id(),q("l1"),"1"),coords(list2.id(),q("l2"),"2"));
+		assertEqualUnordered(collect(results),coordsOf(list1),coordsOf(list2));
 	}
 	
 	@Test
