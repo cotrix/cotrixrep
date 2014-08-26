@@ -115,7 +115,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	interface DataGridResources extends PatchedDataGrid.Resources {
 
-		@Source("CodelistEditor.css")
+		@Source({"CodelistEditor.css","definitions.css"})
 		DataGridStyle dataGridStyle();
 	}
 
@@ -742,7 +742,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		@Override
 		public SafeHtml render(Group value) {
 			SafeHtml label = value.getLabel();
-			SafeUri img = CotrixManagerResources.INSTANCE.closeSmall().getSafeUri();
+			SafeUri img = CotrixManagerResources.INSTANCE.closeSmallHover().getSafeUri();
 			String imgStyle = resource.dataGridStyle().closeGroup();
 			return HEADER_TEMPLATE.header(label, img, imgStyle, CLOSE_IMG_ID);
 		}
