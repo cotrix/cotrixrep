@@ -1,0 +1,14 @@
+.button {
+	padding-right: 1px;
+	cursor: pointer;
+	font-size: SMALL;
+	color: SUBTITLE_GREY;
+}
+
+.button:hover {
+	color: LOGO_ORANGE;
+}
+
+.selectedButton {
+	color: LOGO_ORANGE;
+}

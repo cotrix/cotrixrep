@@ -21,8 +21,10 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
+import org.cotrix.web.common.client.widgets.PageSizer.PageSizerStyle;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.PageSizer;
+import org.cotrix.web.common.client.widgets.PageSizer.PagerSizerResource;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.cell.SafeHtmlRendererCell;
 import org.cotrix.web.common.client.widgets.cell.StyledSafeHtmlRenderer;
@@ -81,6 +83,7 @@ import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSe
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
+import com.google.gwt.user.cellview.client.SimplePager.Style;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
 import com.google.gwt.user.cellview.client.TextHeader;
 import com.google.gwt.user.client.ui.Label;
@@ -132,6 +135,19 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		String emptyTableWidget();
 	}
+	
+	interface GridPageSizerResource extends PagerSizerResource {
+		@Source({"PageSizer.css","definitions.css"})
+		GridPagerSizerStyle style();
+	}
+	
+	interface GridPagerSizerStyle extends PageSizerStyle {
+	}
+	
+	interface GridPagerResource extends CotrixSimplePager {
+	    @Source({"SimplePager.css","definitions.css"})
+	    Style simplePagerStyle();
+	}
 
 	@UiField(provided = true)
 	PatchedDataGrid<UICode> dataGrid;
@@ -139,7 +155,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	@UiField(provided = true)
 	SimplePager pager;
 	
-	@UiField
+	@UiField(provided = true)
 	PageSizer pageSizer;
 
 	@UiField ItemToolbar toolBar;
@@ -147,6 +163,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	@UiField EditorStyle style;
 
 	private static DataGridResources resource = GWT.create(DataGridResources.class);
+	private static GridPageSizerResource gridPageSizerResource = GWT.create(GridPageSizerResource.class);
+	private static GridPagerResource gridPagerResource = GWT.create(GridPagerResource.class);
 
 	private List<Group> groupsAsColumn = new ArrayList<Group>();
 	private Map<Group, Column<UICode, String>> groupsColumns = new HashMap<Group, Column<UICode,String>>(); 
@@ -232,7 +250,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		dataGrid.addColumnSortHandler(asyncHandler);
 
 		// Create a Pager to control the table.
-		pager = new SimplePager(TextLocation.CENTER, CotrixSimplePager.INSTANCE, false, 0, true);
+		pager = new SimplePager(TextLocation.CENTER, gridPagerResource, false, 0, true);
 		pager.setDisplay(dataGrid);
 
 		setupColumns();
@@ -257,12 +275,12 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		dataProvider.addDataDisplay(dataGrid);
 		
-
+		pageSizer = new PageSizer(new int[]{25,50,100}, 25, gridPageSizerResource);
+		pageSizer.setDisplay(dataGrid);
+		
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
 		
-		pageSizer.setDisplay(dataGrid);
-
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
