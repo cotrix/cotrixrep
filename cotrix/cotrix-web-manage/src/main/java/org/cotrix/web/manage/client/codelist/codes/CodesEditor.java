@@ -42,6 +42,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
+import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
@@ -76,6 +77,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -178,6 +180,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	
 	@Inject
 	private UIFactories factories;
+
+	@Inject
+	private RemoveItemController codeRemotionController;
 	
 	@Inject
 	private MarkerRenderer markerRenderer;
@@ -238,12 +243,17 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
 				UICode code = selectionModel.getSelectedObject();
+
+				codeRemotionController.setItemCanBeRemoved(code!=null);
+				updateRemoveButtonVisibility(false);
+					
 				Log.trace("onSelectionChange code: "+code);
 				codelistBus.fireEvent(new CodeSelectedEvent(code));
 			}
 		});
 
 		dataGrid.setSelectionModel(selectionModel);
+		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
 		dataProvider.addDataDisplay(dataGrid);
 		
@@ -267,6 +277,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		CONTINUE_BUTTON = new ConfirmDialog.SimpleDialogButton("Continue And Remove", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
 		MARK_BUTTON =  new ConfirmDialog.SimpleDialogButton("Mark Deleted Instead", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
 		CANCEL_BUTTON =  new ConfirmDialog.SimpleDialogButton(DialogButtonDefaultSet.CANCEL.getLabel(), DialogButtonDefaultSet.CANCEL.getStyleName() + " " + style.cancelButton(), 98);
+		
+		codeRemotionController.setItemCanBeRemoved(false);
+		updateRemoveButtonVisibility(false);
 	}
 
 	@Inject
@@ -277,6 +290,10 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	public void reload() {
 		selectionModel.clear();
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
+	}
+	
+	private void updateRemoveButtonVisibility(boolean animate) {
+		toolBar.setEnabled(ItemButton.MINUS, codeRemotionController.canRemove(), animate);
 	}
 
 	private void setupColumns() {
@@ -368,7 +385,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 			@Override
 			public void toggleFeature(boolean active) {
-				toolBar.setEnabled(ItemButton.MINUS, active);
+				codeRemotionController.setUserCanEdit(active);
+				//we animate only if the user obtain the edit permission
+				updateRemoveButtonVisibility(active);
 			}
 		}, codelistId, ManagerUIFeature.REMOVE_CODE);
 
@@ -430,13 +449,16 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 					if (button == MARK_BUTTON) doMarkCodeDeleted(code);
 				}
 			}, CONTINUE_BUTTON, MARK_BUTTON, CANCEL_BUTTON);
-
 		}
 	}
 	
 	private void doRemoveCode(UICode code) {
 		dataProvider.remove(code);
 		codeEditor.removed(code);
+		selectionModel.clear();
+		
+		/*codeRemotionController.setItemCanBeRemoved(false);
+		updateRemoveButtonVisibility(false);*/
 	}
 	
 	private void doMarkCodeDeleted(UICode code) {
@@ -448,9 +470,14 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	private void addNewCode()
 	{
 		Log.trace("addNewCode");
-		UICode code = factories.createCode();
+		final UICode code = factories.createCode();
 		dataProvider.add(0, code);
-		selectionModel.setSelected(code, true);
+		
+		//workaround to avoid select model setSelect method use due to the missing id in the new code and used by the key provider to resolve the row
+		dataGrid.setKeyboardSelectedRow(0, true);
+	
+		dataGrid.getScrollPanel().setVerticalScrollPosition(0);
+		dataGrid.getScrollPanel().setHorizontalScrollPosition(0);
 		codeEditor.added(code);
 	}
 	

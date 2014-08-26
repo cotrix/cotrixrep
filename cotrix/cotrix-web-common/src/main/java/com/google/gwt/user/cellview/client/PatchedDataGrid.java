@@ -696,6 +696,11 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		this(DEFAULT_PAGESIZE, keyProvider);
 	}
 	
+    public ScrollPanel getScrollPanel() {
+        HeaderPanel header = (HeaderPanel) getWidget();
+        return (ScrollPanel) header.getContentWidget();
+    }
+	
 	/**
 	 * @return the autoAdjust
 	 */
