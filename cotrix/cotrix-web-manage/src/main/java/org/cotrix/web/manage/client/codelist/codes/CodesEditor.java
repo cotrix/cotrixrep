@@ -475,10 +475,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	private void doRemoveCode(UICode code) {
 		dataProvider.remove(code);
 		codeEditor.removed(code);
-		selectionModel.clear();
-		
-		/*codeRemotionController.setItemCanBeRemoved(false);
-		updateRemoveButtonVisibility(false);*/
 	}
 	
 	private void doMarkCodeDeleted(UICode code) {
