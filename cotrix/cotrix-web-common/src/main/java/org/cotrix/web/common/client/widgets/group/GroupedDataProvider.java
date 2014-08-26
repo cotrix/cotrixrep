@@ -4,6 +4,7 @@
 package org.cotrix.web.common.client.widgets.group;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class GroupedDataProvider<T> extends AbstractDataProvider<Group<T>> {
 	
 	private CachedDataProvider<T> dataProvider;
 	private Grouper<T> grouper;
+	private Comparator<T> comparator;
 	private Map<String, Group<T>> lastGroups;
 
 	public GroupedDataProvider(CachedDataProvider<T> dataProvider,
@@ -46,6 +48,10 @@ public class GroupedDataProvider<T> extends AbstractDataProvider<Group<T>> {
 
 	public void setGrouper(Grouper<T> grouper) {
 		this.grouper = grouper;
+	}
+
+	public void setComparator(Comparator<T> comparator) {
+		this.comparator = comparator;
 	}
 
 	@Override
@@ -109,6 +115,8 @@ public class GroupedDataProvider<T> extends AbstractDataProvider<Group<T>> {
 
 		}
 		
+		if (comparator!=null) for (Group<T> group:groupsIndex.values()) group.sort(comparator);
+	
 		return groupsIndex;
 	}
 }

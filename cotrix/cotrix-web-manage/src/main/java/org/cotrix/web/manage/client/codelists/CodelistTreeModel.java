@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.client.codelists;
 
+import java.util.Comparator;
+
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.client.widgets.group.Group;
 import org.cotrix.web.common.client.widgets.group.GroupedDataProvider;
@@ -120,6 +122,15 @@ public class CodelistTreeModel implements TreeViewModel {
 			sb.append(CELL_TEMPLATES.groupName(value.getName()));
 		}
 	};
+	
+	private final static Comparator<UICodelistInfo> SORTER = new Comparator<UICodelistInfo>() {
+		
+		@Override
+		public int compare(UICodelistInfo o1, UICodelistInfo o2) {
+			int compare = o1.getCreationDate().compareTo(o2.getCreationDate());
+			return compare == 0?0:-compare;
+		}
+	};
 
 	protected CodelistsDataProvider dataProvider;
 	private GroupedDataProvider<UICodelistInfo> groupedProvider;
@@ -129,6 +140,7 @@ public class CodelistTreeModel implements TreeViewModel {
 		this.dataProvider = dataProvider;
 		this.selectionModel = selectionModel;
 		groupedProvider = new GroupedDataProvider<UICodelistInfo>(dataProvider, Grouping.BY_NAME);
+		groupedProvider.setComparator(SORTER);
 	}
 
 	@Override

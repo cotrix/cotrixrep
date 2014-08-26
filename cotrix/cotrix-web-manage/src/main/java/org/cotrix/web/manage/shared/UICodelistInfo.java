@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.manage.shared;
 
+import java.util.Date;
+
 import org.cotrix.web.common.shared.codelist.UICodelist;
 
 /**
@@ -12,6 +14,7 @@ import org.cotrix.web.common.shared.codelist.UICodelist;
 public class UICodelistInfo extends UICodelist {
 	
 	private boolean isUserInTeam;
+	private Date creationDate;
 
 	public boolean isUserInTeam() {
 		return isUserInTeam;
@@ -19,6 +22,14 @@ public class UICodelistInfo extends UICodelist {
 
 	public void setUserInTeam(boolean isUserInTeam) {
 		this.isUserInTeam = isUserInTeam;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	@Override
@@ -34,6 +45,8 @@ public class UICodelistInfo extends UICodelist {
 		builder.append(state);
 		builder.append(", isUserInTeam=");
 		builder.append(isUserInTeam);
+		builder.append(", creationDate=");
+		builder.append(creationDate);
 		builder.append("]");
 		return builder.toString();
 	}

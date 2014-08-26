@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.common.client.widgets.group;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import com.google.gwt.view.client.ListDataProvider;
 
 /**
@@ -30,6 +33,10 @@ public class Group<T> {
 
 	public ListDataProvider<T> getItems() {
 		return items;
+	}
+	
+	public void sort(Comparator<T> comparator) {
+		Collections.sort(items.getList(), comparator);
 	}
 
 	@Override
