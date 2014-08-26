@@ -5,8 +5,6 @@
 		type='org.cotrix.web.common.client.resources.CommonResources' />
 	<ui:style>
 		.toolbar {
-			/*background-color: #f1f1f1;*/
-			border-top: 1px solid #eeeeee;
 			vertical-align: middle;
 		}
 		
