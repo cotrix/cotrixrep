@@ -5,15 +5,14 @@
 }
 
 .menuBar {
-	padding: 5px;
-
+	padding: 3px;
 }
 
 .menuItem {
-	padding: 4px 7px;
+	padding: 2px 5px;
 	color: TITLE_GREY;
 	cursor: pointer;
-	font-size: MEDIUM;
+	font-size: SMALL;
 }
 
 .menuItemSelected {
@@ -36,9 +35,8 @@
 
 @external gwt-MenuItemSeparator;
 .gwt-MenuItemSeparator {
-	padding-top: 3px;
+	/*padding-top: 3px;*/
 	padding-bottom: 3px;
-
 }
 
 @external menuButton;

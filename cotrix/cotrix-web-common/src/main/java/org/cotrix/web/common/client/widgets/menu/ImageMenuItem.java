@@ -29,10 +29,10 @@ public class ImageMenuItem extends AbstractMenuItem {
 
 	static interface ImageMenuItemTemplate extends SafeHtmlTemplates {
 
-		@Template("<div style=\"height:18px\"><img src=\"{1}\" class=\"{2}\" style=\"padding-right:8px;\"/>{0}</div>")
+		@Template("<div style=\"height:14px\"><img src=\"{1}\" class=\"{2}\" style=\"padding-right:8px;\"/>{0}</div>")
 		SafeHtml checked(SafeHtml label, SafeUri img, String imgStyle);
 		
-		@Template("<div style=\"{1}height:18px;\">{0}</div>")
+		@Template("<div style=\"{1}height:14px;\">{0}</div>")
 		SafeHtml unchecked(SafeHtml label, SafeStyles padding);
 	}
 	
