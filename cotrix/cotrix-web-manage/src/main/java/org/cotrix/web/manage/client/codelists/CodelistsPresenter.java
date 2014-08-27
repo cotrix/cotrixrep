@@ -21,6 +21,8 @@ import org.cotrix.web.manage.client.codelists.CodelistTreeModel.Grouping;
 import org.cotrix.web.manage.client.codelists.CodelistsFeatureCache.CodelistsFeatureCacheListener;
 import org.cotrix.web.manage.client.codelists.CodelistsMenu.MenuButton;
 import org.cotrix.web.manage.client.codelists.NewCodelistDialog.NewCodelistDialogListener;
+import org.cotrix.web.manage.client.event.AllCodelistClosedEvent;
+import org.cotrix.web.manage.client.event.CodelistTabSelectedEvent;
 import org.cotrix.web.manage.client.event.CreateNewCodelistEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
@@ -140,21 +142,26 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 		});
 	}
 	
-	
 	@EventHandler
 	void onRefreshCodelists(RefreshCodelistsEvent event) {
 		refreshCodeLists();
 	}
-
+	
+	@EventHandler
+	void onCodelistTabSelected(CodelistTabSelectedEvent event) {
+		view.setSelected(event.getCodelist());
+	}
+	
+	@EventHandler
+	void onAllCodelistClosed(AllCodelistClosedEvent event) {
+		view.clearSelection();
+	}
 	
 	public void go(HasWidgets container) {
 		container.add(view.asWidget());
 		view.reloadData();
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	public void onCodelistItemSelected(UICodelist codelist) {
 		Log.trace("onCodelistItemSelected codelist: "+codelist);
 		lastSelected = codelist;

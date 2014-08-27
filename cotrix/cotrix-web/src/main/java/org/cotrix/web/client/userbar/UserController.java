@@ -106,14 +106,7 @@ public class UserController {
 	
 	@Inject
 	void bind() {
-		cotrixBus.addHandler(CodelistClosedEvent.TYPE, new CodelistClosedEvent.CodelistClosedHandler() {
-			
-			@Override
-			public void onCodelistClosed(CodelistClosedEvent event) {
-				openedCodelists.remove(event.getCodelistid());
-			}
-		});
-		
+	
 		cotrixBus.addHandler(CodelistOpenedEvent.TYPE, new CodelistOpenedEvent.CodelistOpenedHandler() {
 			
 			@Override
@@ -121,6 +114,11 @@ public class UserController {
 				openedCodelists.add(event.getCodelistId());
 			}
 		});
+	}
+	
+	@EventHandler
+	void onCodelistClosed(CodelistClosedEvent event) {
+		openedCodelists.remove(event.getCodelistid());
 	}
 	
 	@EventHandler

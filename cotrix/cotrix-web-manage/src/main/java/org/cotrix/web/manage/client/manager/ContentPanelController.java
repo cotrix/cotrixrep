@@ -10,7 +10,9 @@ import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.CodelistPanelController;
 import org.cotrix.web.manage.client.di.CodelistPanelFactory;
+import org.cotrix.web.manage.client.event.AllCodelistClosedEvent;
 import org.cotrix.web.manage.client.event.CloseCodelistEvent;
+import org.cotrix.web.manage.client.event.CodelistTabSelectedEvent;
 import org.cotrix.web.manage.client.event.ManagerBus;
 import org.cotrix.web.manage.client.event.OpenCodelistEvent;
 import org.cotrix.web.manage.client.manager.ContentPanel.ContentPanelListener;
@@ -51,7 +53,6 @@ public class ContentPanelController {
 	@Inject
 	public ContentPanelController(ContentPanel view) {
 		this.view = view;
-		checkTabVisibility();
 	}
 	
 	@Inject
@@ -65,8 +66,10 @@ public class ContentPanelController {
 			
 			@Override
 			public void onCodelistTabSelected(Widget codelistPanel) {
+				Log.trace("onCodelistTabSelected");
 				CodelistPanelController codelistController = getController(codelistPanel);
 				codelistController.onSelected();
+				managerBus.fireEvent(new CodelistTabSelectedEvent(codelistController.getCodelist()));
 			}
 		});
 	}
@@ -125,13 +128,18 @@ public class ContentPanelController {
 		CodelistPanelController codeListPanelPresenter = presenters.get(id);
 		view.removeCodeListPanel(codeListPanelPresenter.getView());
 		presenters.remove(id);
-		checkTabVisibility();
 		cotrixBus.fireEvent(new CodelistClosedEvent(id));
+		managerBus.fireEvent(new CodelistClosedEvent(id));
+		checkTabVisibility();
 	}
 	
+	@Inject
 	protected void checkTabVisibility()
 	{
 		if (presenters.size()>0) view.showCodelists();
-		else view.showEmpty();
+		else {
+			view.showEmpty();
+			managerBus.fireEvent(new AllCodelistClosedEvent());
+		}
 	}
 }

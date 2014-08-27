@@ -96,6 +96,10 @@ public class CodelistPanelController implements Presenter {
 		loadCaches();
 	}
 
+	public UICodelist getCodelist() {
+		return codelist;
+	}
+
 	private void loadCaches() {
 
 		showLoader();

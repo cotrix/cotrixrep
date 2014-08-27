@@ -2,6 +2,7 @@ package org.cotrix.web.manage.client.codelists;
 
 import org.cotrix.web.common.client.util.SingleSelectionModel;
 import org.cotrix.web.common.client.widgets.SearchBox;
+import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelists.CodelistTreeModel.Grouping;
 import org.cotrix.web.manage.client.codelists.CodelistsToolbar.ButtonClickedEvent;
 import org.cotrix.web.manage.client.codelists.CodelistsToolbar.ToolBarButton;
@@ -130,6 +131,19 @@ public class CodelistsViewImpl extends ResizeComposite implements CodelistsView 
 	private void fireSelection() {
 		UICodelistInfo selected = selectionModel.getSelectedObject();
 		presenter.onCodelistItemSelected((selected != null)?selected:null);
+	}
+	
+	@Override
+	public void setSelected(UICodelist codelist) {
+		UICodelistInfo codelistInfo = codeListDataProvider.getCodelist(codelist.getId());
+		Log.trace("selecting "+codelistInfo);
+		if (codelistInfo!=null) selectionModel.setSelected(codelistInfo, true);
+	}
+	
+	@Override
+	public void clearSelection() {
+		Log.trace("clearSelection");
+		selectionModel.clear();
 	}
 
 	public void setPresenter(Presenter presenter) {

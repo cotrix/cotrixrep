@@ -93,6 +93,11 @@ public class CodelistsDataProvider extends FilteredCachedDataProvider<UICodelist
 		Log.trace("refreshing cache: "+cache);
 		updateData(cache, new Range(0, cache.size()), cache.size());
 	}
+	
+	public UICodelistInfo getCodelist(String id) {
+		for (UICodelistInfo codelist:unfilteredCache) if (codelist.getId().equals(id)) return codelist;
+		return null;
+	}
 
 	@Override
 	protected void onRangeChanged(final Range range) {
