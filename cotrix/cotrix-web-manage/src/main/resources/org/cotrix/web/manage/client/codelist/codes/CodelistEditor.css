@@ -154,5 +154,5 @@
 }
 
 .dataGridKeyboardSelectedCell {
-	border: selectionBorderWidth solid #d7dde8;
+	background-color: TRANSPARENT_GREY;
 }
