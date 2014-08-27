@@ -111,7 +111,6 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource showMenu();
 	public ImageResource radioBullet();
 	public ImageResource checkBullet();
-	public ImageResource codesBullet();
 	
 	public ImageResource hideMenu();
 	
