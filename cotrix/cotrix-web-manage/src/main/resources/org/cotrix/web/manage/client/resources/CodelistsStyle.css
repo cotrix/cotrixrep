@@ -1,7 +1,7 @@
 .versionItem {
 	padding-left: 5px;
 	vertical-align: middle;
-	font-size: SMALL;
+	font-size: SMALL_MEDIUM;
 }
 
 .versionBadge {
@@ -48,6 +48,7 @@
 .cellTreeItemValue {
   padding-left: 3px;
   padding-right: 3px;
+  color: TITLE_GREY;
   height: 18px;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -60,12 +61,12 @@
 
 .cellTreeTopItem {
   font-size: MEDIUM;
-  color: SUBTITLE_GREY;
+  color: TITLE_GREY;
   padding: 2px 13px 2px 10px !important;
 }
 
 .cellTreeTopItemImage {
-  
+  padding-right: 3px;
 }
 
 .cellTreeTopItemImageValue {

@@ -68,8 +68,8 @@
 	
 	background-color: FRAME_GREY;
 	
-	border-top-left-radius: 2px;
-	border-top-right-radius: 2px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
 	
 	vertical-align: bottom;
 }

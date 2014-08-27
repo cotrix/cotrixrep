@@ -24,7 +24,9 @@
 
 /** FONTS **/
 @def SMALL 13px;
+@def SMALL_MEDIUM 14px;
 @def MEDIUM 16px;
+@def MEDIUM_LARGE 18px;
 @def LARGE 20px;
 
 @def LIGHT 300;

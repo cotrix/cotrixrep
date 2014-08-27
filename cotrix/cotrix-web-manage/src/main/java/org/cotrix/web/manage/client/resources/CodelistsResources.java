@@ -17,10 +17,10 @@ public interface CodelistsResources extends CellTree.Resources {
 	
 	public static final CodelistsResources INSTANCE = GWT.create(CodelistsResources.class);
 	
-    @Source("codes.png")
+    @Source("codesBullet.png")
     ImageResource cellTreeClosedItem();
 
-    @Source("codes.png")
+    @Source("codesBullet.png")
     ImageResource cellTreeOpenItem();
 	
     /**
