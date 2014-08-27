@@ -70,6 +70,8 @@
 	
 	border-top-left-radius: 2px;
 	border-top-right-radius: 2px;
+	
+	vertical-align: bottom;
 }
 
 .dataGridCell {
@@ -100,7 +102,6 @@
 
 .dataGridSortableHeader {
 	cursor: pointer;
-	cursor: hand;
 }
 
 .dataGridSortableHeader:hover {

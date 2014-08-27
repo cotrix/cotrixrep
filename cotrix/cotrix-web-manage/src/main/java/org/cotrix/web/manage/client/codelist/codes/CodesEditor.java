@@ -21,9 +21,9 @@ import org.cotrix.web.common.client.widgets.ItemToolbar;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedEvent;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
-import org.cotrix.web.common.client.widgets.PageSizer.PageSizerStyle;
 import org.cotrix.web.common.client.widgets.LoadingPanel;
 import org.cotrix.web.common.client.widgets.PageSizer;
+import org.cotrix.web.common.client.widgets.PageSizer.PageSizerStyle;
 import org.cotrix.web.common.client.widgets.PageSizer.PagerSizerResource;
 import org.cotrix.web.common.client.widgets.cell.DoubleClickEditTextCell;
 import org.cotrix.web.common.client.widgets.cell.SafeHtmlRendererCell;
@@ -356,8 +356,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		TextHeader nameColumnHeader = new TextHeader("Code");
 		nameColumnHeader.setHeaderStyleNames(resource.dataGridStyle().headerCell() + " " + resource.dataGridStyle().codeCell());
 		dataGrid.addColumn(nameColumn, nameColumnHeader);
-		
-
 	}
 
 	public void showAllGroupsAsColumn(final boolean reloadData)
@@ -732,7 +730,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
 
-			@Template("<div style=\"height:16px\">{0}<img id=\"{3}\"  src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\" title=\"Hide Column\" /></div>")
+			@Template("<table width=\"100%\"><tr><td>{0}</td><td width=\"8px\" style=\"vertical-align: top;\"><img id=\"{3}\" src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\" title=\"Hide Column\" /></td></tr></table>")
 			SafeHtml header(SafeHtml label, SafeUri img, String imgStyle, String imgId);
 		}
 
