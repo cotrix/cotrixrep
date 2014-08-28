@@ -113,32 +113,44 @@ public class ColumnsMenu extends PopupPanel {
 		columnsContainer.clear();
 		
 		int index = 0;
-		for (final Group group:groups) {
-			final ColumnPanel panel = new ColumnPanel();
-			panel.setListener(new ColumnPanelListener() {
-				
-				@Override
-				public void onUpClicked() {
-					moveUp(panel);
-				}
-				
-				@Override
-				public void onDownClicked() {
-					moveDown(panel);
-				}
-
-				@Override
-				public void onCheckClicked(boolean down) {
-					active(panel, down);
-				}
-			});
-			
-			panel.setGroup(group);
-			panel.setActive(activeGroups.contains(group));
-			panel.setButtons(index!=0, index!=groups.size()-1);
-			columnsContainer.add(panel);
+		
+		for (final Group group:activeGroups) {
+			addGroup(group, true, index!=0, index!=groups.size()-1);
 			index++;
 		}
+		
+		
+		for (final Group group:groups) {
+			if (activeGroups.contains(group)) continue;
+			addGroup(group, false, index!=0, index!=groups.size()-1);
+			index++;
+		}
+	}
+	
+	private void addGroup(Group group, boolean active, boolean first, boolean last) {
+		final ColumnPanel panel = new ColumnPanel();
+		panel.setListener(new ColumnPanelListener() {
+			
+			@Override
+			public void onUpClicked() {
+				moveUp(panel);
+			}
+			
+			@Override
+			public void onDownClicked() {
+				moveDown(panel);
+			}
+
+			@Override
+			public void onCheckClicked(boolean down) {
+				active(panel, down);
+			}
+		});
+		
+		panel.setGroup(group);
+		panel.setActive(active);
+		panel.setButtons(first, last);
+		columnsContainer.add(panel);
 	}
 	
 	private void moveUp(ColumnPanel panel) {
