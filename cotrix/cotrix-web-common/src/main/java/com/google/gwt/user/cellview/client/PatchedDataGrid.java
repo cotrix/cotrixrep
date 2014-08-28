@@ -529,12 +529,13 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private final Element tableFooterScroller;
 	private final SimplePanel tableHeaderContainer;
 	private final Element tableHeaderScroller;
-	private Map<Column<T, ?>, Double> columnWidths = new HashMap<Column<T, ?>, Double>();
+	private Map<Column<T, ?>, Double> gridColumnWidths = new HashMap<Column<T, ?>, Double>();
 	private List<Column<T, ?>> fixedWidthColumns = new ArrayList<Column<T, ?>>();
 	private Element measuringElement;
 	private boolean autoAdjust = false;
 	private LoadingState previousLoadingState;
 	private boolean lastColumnSpan = false;
+	private Column<T, ?> lastColumn;
 
 	/**
 	 * Constructs a table with a default page size of 50.
@@ -721,7 +722,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	public void addFixedWidthColumn(Column<T, ?> col, Header<?> header, double width) {
 		fixedWidthColumns.add(col);
-		columnWidths.put(col, width);
+		gridColumnWidths.put(col, width);
 		addColumn(col, header);
 	}
 
@@ -738,7 +739,8 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		if (autoAdjust) {
 			double width = getColumnSize(col);
 			setColumnWidth(col, width, Unit.PX);
-			columnWidths.put(col, width);
+			gridColumnWidths.put(col, width);
+			if (lastColumnSpan) resetLastColumnSize();
 			updateTableWidth();
 		}
 	}
@@ -748,8 +750,9 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		if (autoAdjust) {
 			Log.trace("removing form autosize");
 			Column<T, ?> column = getColumn(index);
-			columnWidths.remove(column);
+			gridColumnWidths.remove(column);
 			fixedWidthColumns.remove(column);
+			if (lastColumnSpan) resetLastColumnSize();
 		}
 		
 		super.removeColumn(index);
@@ -758,8 +761,16 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		}
 	}
 	
+	private void resetLastColumnSize() {
+		if (lastColumn!=null) {
+			double width = getColumnSize(lastColumn);
+			setColumnWidth(lastColumn, width, Unit.PX);
+			gridColumnWidths.put(lastColumn, width);
+		}
+	}
+	
 	private double getColumnSize(Column<T, ?> col) {
-		if (fixedWidthColumns.contains(col)) return columnWidths.get(col);
+		if (fixedWidthColumns.contains(col)) return gridColumnWidths.get(col);
 		return getRequiredSize(col);
 	}
 	
@@ -770,7 +781,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			Column<T, ?> column = getColumn(i);
 			double width = getColumnSize(column);
 			setColumnWidth(column, width, Unit.PX);
-			columnWidths.put(column, width);
+			gridColumnWidths.put(column, width);
 		}
 		
 		updateTableWidth();
@@ -801,12 +812,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	protected <D> void setColWidth(Column<T, D> column, double width) {
 		setColumnWidth(column, width, Unit.PX);
-		columnWidths.put(column, width);
+		gridColumnWidths.put(column, width);
 	}
 	
 	private double columnsWidth() {
 		double columnsWidth = 0;
-		for (Double colWidth:columnWidths.values()) {
+		for (Double colWidth:gridColumnWidths.values()) {
 			//Log.trace("colWidth "+colWidth);
 			columnsWidth += colWidth;
 		}
@@ -822,6 +833,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		//Log.trace("widgetWidth: "+widgetWidth);
 		
 		if (columnsWidth<widgetWidth && lastColumnSpan) spanLastColumn(widgetWidth-columnsWidth);
+		else lastColumn = null;
 		
 		double tableWidth = Math.max(columnsWidth, widgetWidth);
 		//Log.trace("new tableWidth: "+tableWidth);
@@ -832,13 +844,13 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	private void spanLastColumn(double span) {
 		Log.trace("spanLastColumn");
 
-		Column<T, ?> lastColumn = getColumn(getColumnCount()-1);
+		lastColumn = getColumn(getColumnCount()-1);
 		
 		//FIXME -1px added as workaround
 		double width = getColumnSize(lastColumn) + span - 1;
 			
 		setColumnWidth(lastColumn, width, Unit.PX);
-		columnWidths.put(lastColumn, width);
+		gridColumnWidths.put(lastColumn, width);
 	}
 	
 	protected int getTableWidth() {
