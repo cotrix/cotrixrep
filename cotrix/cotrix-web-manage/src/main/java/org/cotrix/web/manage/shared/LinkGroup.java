@@ -235,4 +235,9 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		return false;
 	}
 
+	@Override
+	public String getSubtitle() {
+		return "";
+	}
+
 }

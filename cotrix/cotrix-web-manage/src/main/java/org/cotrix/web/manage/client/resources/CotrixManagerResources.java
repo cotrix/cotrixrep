@@ -81,6 +81,16 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource tasksSelected();
 	public ImageResource tasksUnselected();
 		
+	public ImageResource upArrow();
+	public ImageResource upArrowDisabled();
+	
+	public ImageResource downArrow();
+	public ImageResource downArrowDisabled();
+	
+	public ImageResource checked();
+	public ImageResource unchecked();
+	
+	public ImageResource refresh();
 	
 	public ImageResource linksTypes();
 	

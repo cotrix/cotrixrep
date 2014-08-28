@@ -1,0 +1,127 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:org.cotrix.web.common.client.widgets">
+	<ui:with field='common'
+		type='org.cotrix.web.common.client.resources.CommonResources' />
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style src="definitions.css" 
+	type="org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnsMenu.ColumnsMenuStyle">
+	@def VERTICAL_PADDING 10px;
+	
+	.popup {
+		width: 300px;
+		background-color: PANE_WHITE;
+		border-radius: 5px;
+		border: 1px solid WIREFRAME_GREY;
+	}
+	
+	.table {
+		width: 100%;
+		border-radius: 5px;
+		background-color: PANE_WHITE;
+		table-layout: fixed;
+	}
+	
+	.headerCell {
+		background-color: FRAME_GREY;
+	}
+	
+	.iconCell {
+		width: 32px;
+		text-align: center;
+		padding-left: 5px;
+		vertical-align: middle;
+	}
+	
+	.titleCell {
+		width: 125px;
+		height: 30px;
+	}
+	
+	.title {
+		padding-left: 5px;
+		color: TITLE_GREY;
+		font-size: LARGE;
+		line-height: 26px;
+		font-weight: REGULAR;
+	}
+	
+	.name {
+		color: ICON_BLUE;
+		font-size: LARGE;
+		font-weight: REGULAR;
+		line-height: 26px;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	
+	.refreshCell {
+		width: 25px;
+		vertical-align: middle;
+	}
+	
+	.refreshButton {
+		cursor: pointer;
+		outline: none;
+		padding-top: 0;
+		vertical-align: middle;
+	}
+	
+	.columnsContainer {
+		max-height: 300px;
+	}
+	
+	.separatorCell {
+		height: 0;
+		line-height: 0;
+	}
+	
+	.footerCell {
+		background-color: PANE_WHITE;
+		text-align: center;
+		height: 45px;
+		vertical-align: middle;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table ui:field="table" class="{style.table}">
+			<tr>
+				<td class="{style.iconCell} {style.headerCell}">
+					<g:Image resource="{resources.allColumns}" />
+				</td>
+				<td class="{style.headerCell} {style.titleCell}">
+					<span class="{style.title}">Columns for </span>
+				</td>
+				<td class="{style.headerCell}">
+					<g:Label ui:field="name" styleName="{style.name}" />
+				</td>
+				<td class="{style.refreshCell} {style.headerCell}">
+					<g:PushButton ui:field="refreshButton" styleName="{style.refreshButton}">
+						<g:upFace image="{resources.refresh}" />
+					</g:PushButton>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" class="{style.columnsContainer}">
+					<g:ScrollPanel ui:field="columnsScroller">
+						<g:VerticalPanel ui:field="columnsContainer"
+							spacing="5" />
+					</g:ScrollPanel>
+					<c:Loader ui:field="loader" visible="false" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" class="{style.separatorCell}">
+				&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" class="{style.footerCell}">
+					<g:Button ui:field="doneButton" styleName="{common.css.blueButton}">Done</g:Button>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

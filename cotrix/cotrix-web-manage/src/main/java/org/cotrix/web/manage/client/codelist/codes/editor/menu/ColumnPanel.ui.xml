@@ -1,0 +1,150 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style src="definitions.css"
+		type="org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnPanel.ColumnPanelStyle">
+		@def VERTICAL_PADDING 10px;
+		.table {
+			width: 100%;
+			background-color: HOVER_GREY;
+			margin-top: 5px;
+			table-layout: fixed;
+		}
+		
+		.table:hover {
+			background-color: WIREFRAME_GREY;
+		}
+		
+		.tableSelected {
+			background-color: SELECTION_GREY;
+		}
+		
+		.tableDisabled {
+			/*background-color: DISABLED_GREY;*/
+			
+		}
+		
+		.iconCell {
+			width: 32px;
+			text-align: center;
+			padding-left: 5px;
+			padding-top: VERTICAL_PADDING;
+			vertical-align: top;
+		}
+		
+		.iconCellAlignMiddle {
+			padding-top: 0;
+			vertical-align: middle;
+		}
+		
+		.switchButtonCell {
+			padding-top: VERTICAL_PADDING;
+			width: 40px;
+			vertical-align: top;
+		}
+		
+		.switchButton {
+			cursor: pointer;
+			outline: none;
+		}
+		
+		.titleFocus {
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-top: 5px;
+			cursor: pointer;
+			outline: none;
+		}
+		
+		.title {
+			color: TITLE_GREY;
+			font-size: LARGE;
+			line-height: 26px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		
+		.titleDisabled {
+			color: DISABLED_GREY;
+		}
+		
+		.arrowsCell {
+			width: 25px;
+			vertical-align: middle;
+		}
+		
+		.arrowButton {
+			cursor: pointer;
+			outline: none;
+		}
+		
+		.subtitleFocus {
+			padding-top: 2px;
+			padding-left: 5px;
+			padding-right: 5px;
+			padding-bottom: VERTICAL_PADDING;
+			cursor: pointer;
+			outline: none;
+		}
+		
+		.subtitle {
+			color: SUBTITLE_GREY;
+			font-size: SMALL;
+			line-height: 16px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		
+		.subtitleDisabled {
+			color: DISABLED_GREY;
+		}
+		</ui:style>
+	<g:HTMLPanel>
+		<table ui:field="table" class="{style.table}">
+			<tr>
+				<td ui:field="iconCell" class="{style.iconCell}" rowspan="2">
+					<g:ToggleButton ui:field="switchButton" styleName="{style.switchButton}">
+						<g:upFace image="{resources.unchecked}" />
+						<g:downFace image="{resources.checked}" />
+					</g:ToggleButton>
+				</td>
+				<td>
+					<g:FocusPanel ui:field="titleFocus" styleName="{style.titleFocus}">
+						<g:Label ui:field="title" styleName="{style.title}" />
+					</g:FocusPanel>
+				</td>
+				<td class="{style.arrowsCell}" rowspan="2">
+					<table>
+						<tr>
+							<td>
+								<g:PushButton ui:field="upButton" styleName="{style.arrowButton}">
+									<g:upFace image="{resources.upArrow}" />
+									<g:upDisabledFace image="{resources.upArrowDisabled}" />
+								</g:PushButton>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<g:PushButton ui:field="downButton" styleName="{style.arrowButton}">
+									<g:upFace image="{resources.downArrow}" />
+									<g:upDisabledFace image="{resources.downArrowDisabled}" />
+								</g:PushButton>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<g:FocusPanel ui:field="subtitleFocus" styleName="{style.subtitleFocus}">
+						<g:Label ui:field="subtitle" styleName="{style.subtitle}" />
+					</g:FocusPanel>
+				</td>
+			</tr>
+		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

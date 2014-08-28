@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.codes;
 
+import org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnsMenuController;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu;
 import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu.Listener;
@@ -46,6 +47,9 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	private MarkerMenu markerMenu;
 	
 	@Inject
+	private ColumnsMenuController columnsMenuController;
+	
+	@Inject
 	public void init() {
 		initWidget(uiBinder.createAndBindUi(this));
 		markerMenu.setListener(new Listener() {
@@ -60,12 +64,15 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 				listener.onMarkerMenu(marker, selected);
 			}
 		});
+		
+		columnsMenuController.bind(allColumns);
 	}
 	
-	@UiHandler("allColumns")
+	/*@UiHandler("allColumns")
 	protected void onAllColumnsClick(ClickEvent event) {
+		
 		listener.onAction(Action.ALL_COLUMN);
-	}
+	}*/
 	
 	@UiHandler("allNormals")
 	protected void onAllNormalsClick(ClickEvent event) {

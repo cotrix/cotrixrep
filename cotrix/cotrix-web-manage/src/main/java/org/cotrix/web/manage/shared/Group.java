@@ -21,6 +21,7 @@ public interface Group extends IsSerializable {
 	public int getPosition();
 	
 	public SafeHtml getLabel();
+	public String getSubtitle();
 
 	public String getValue(UICode code);
 	

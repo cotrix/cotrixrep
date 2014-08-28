@@ -285,4 +285,18 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		return true;
 	}
 
+	@Override
+	public String getSubtitle() {
+		StringBuilder subtitle = new StringBuilder();
+		
+		if (type!=null) subtitle.append(type.getLocalPart());
+		
+		if (language!=Language.NONE) {
+			if (type!=null) subtitle.append(", ");
+			subtitle.append(language.getName());
+		}
+		
+		return subtitle.toString();
+	}
+
 }
