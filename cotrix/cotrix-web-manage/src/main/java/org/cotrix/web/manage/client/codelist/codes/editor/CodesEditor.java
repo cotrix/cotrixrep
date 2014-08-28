@@ -1,4 +1,4 @@
-package org.cotrix.web.manage.client.codelist.codes;
+package org.cotrix.web.manage.client.codelist.codes.editor;
 
 import static com.google.gwt.dom.client.BrowserEvents.*;
 

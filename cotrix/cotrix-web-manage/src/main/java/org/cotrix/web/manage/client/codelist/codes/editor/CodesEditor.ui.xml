@@ -2,7 +2,7 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:c="urn:import:com.google.gwt.user.cellview.client"
 	xmlns:common="urn:import:org.cotrix.web.common.client.widgets">
-	<ui:style type="org.cotrix.web.manage.client.codelist.codes.CodesEditor.EditorStyle">
+	<ui:style type="org.cotrix.web.manage.client.codelist.codes.editor.CodesEditor.EditorStyle">
 		.editor {
 			margin-bottom: 8px;
 			margin-left: 8px;

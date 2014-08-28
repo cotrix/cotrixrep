@@ -2,6 +2,7 @@ package org.cotrix.web.manage.client.codelist.codes;
 
 
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.manage.client.codelist.codes.editor.CodesEditor;
 
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.ImplementedBy;

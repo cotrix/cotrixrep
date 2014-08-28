@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes;
+package org.cotrix.web.manage.client.codelist.codes.editor;
 
 import org.cotrix.web.common.shared.codelist.UICode;
 

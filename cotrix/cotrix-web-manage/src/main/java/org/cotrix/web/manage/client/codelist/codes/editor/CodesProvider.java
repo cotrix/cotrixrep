@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes;
+package org.cotrix.web.manage.client.codelist.codes.editor;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.CachedDataProviderExperimental;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.codes.CodesEditor.GroupColumn;
+import org.cotrix.web.manage.client.codelist.codes.editor.CodesEditor.GroupColumn;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.Group;

@@ -1,6 +1,7 @@
 package org.cotrix.web.manage.client.codelist.codes;
 
 import org.cotrix.web.common.client.widgets.HasEditing;
+import org.cotrix.web.manage.client.codelist.codes.editor.CodesEditor;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.google.gwt.core.client.GWT;

@@ -1,7 +1,8 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
-	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.codes">
+	xmlns:v="urn:import:org.cotrix.web.manage.client.codelist.codes"
+	xmlns:e="urn:import:org.cotrix.web.manage.client.codelist.codes.editor">
 	<ui:style>
 		.contentPanel {
 			border-left: 1px solid #a8a7a7;
@@ -17,7 +18,7 @@
 						<v:CodesToolbarImpl ui:field="toolbar" />
 					</g:north>
 					<g:center>
-						<v:CodesEditor ui:field="editor" />
+						<e:CodesEditor ui:field="editor" />
 					</g:center>
 				</g:DockLayoutPanel>
 			</g:center>

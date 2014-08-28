@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.codes;
+package org.cotrix.web.manage.client.codelist.codes.editor;
 
 import java.util.Collections;
 import java.util.EnumSet;
