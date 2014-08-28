@@ -32,8 +32,7 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	interface CodesToolbarUiBinder extends UiBinder<Widget, CodesToolbarImpl> {}
 	private static CodesToolbarUiBinder uiBinder = GWT.create(CodesToolbarUiBinder.class);
 	
-	@UiField PushButton allColumns;
-	@UiField PushButton allNormals;
+	@UiField PushButton columnsMenu;
 	@UiField ToggleButton markersMenuButton;
 	
 	@UiField InlineLabel state;
@@ -65,18 +64,7 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 			}
 		});
 		
-		columnsMenuController.bind(allColumns);
-	}
-	
-	/*@UiHandler("allColumns")
-	protected void onAllColumnsClick(ClickEvent event) {
-		
-		listener.onAction(Action.ALL_COLUMN);
-	}*/
-	
-	@UiHandler("allNormals")
-	protected void onAllNormalsClick(ClickEvent event) {
-		listener.onAction(Action.ALL_NORMAL);
+		columnsMenuController.bind(columnsMenu);
 	}
 	
 	@UiHandler("metadataButton")
@@ -107,13 +95,9 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 		state.setVisible(!visible);
 	}
 
-	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void setEnabled(Action action, boolean enabled) {
-		switch (action) {
-			case ALL_COLUMN: allColumns.setEnabled(enabled); break;
-			case ALL_NORMAL: allNormals.setEnabled(enabled); break;
-		}
+
 	}
 
 }

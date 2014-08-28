@@ -89,7 +89,7 @@
 		<table ui:field="table" class="{style.table}">
 			<tr>
 				<td class="{style.iconCell} {style.headerCell}">
-					<g:Image resource="{resources.allColumns}" />
+					<g:Image resource="{resources.columnMenu}" />
 				</td>
 				<td class="{style.headerCell} {style.titleCell}">
 					<span class="{style.title}">Columns for </span>

@@ -48,6 +48,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	
 	public ImageResource allNormals();
 	
+	public ImageResource columnMenu();
+	public ImageResource columnMenuHover();	
+	
 	public ImageResource versionItem();
 	
 	public ImageResource bullet();
@@ -58,6 +61,9 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource unseal();
 	
 	public ImageResource metadata();
+	public ImageResource metadataHover();
+	public ImageResource codesSwitch();
+	public ImageResource codesSwitchHover();
 	public ImageResource codes();
 	
 	public ImageResource splash();
@@ -126,6 +132,7 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource markersHeader();
 	
 	public ImageResource marker();
+	public ImageResource markerHover();
 	public ImageResource markerDown();
 	
 	public ImageResource run();
