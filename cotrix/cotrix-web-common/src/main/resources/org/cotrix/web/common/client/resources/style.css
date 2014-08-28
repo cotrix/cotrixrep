@@ -442,11 +442,6 @@
 
 @external .gwt-SuggestBox;
 .gwt-SuggestBox {
-	/*padding: 5px 4px;
-	border: 1px solid #ccc;
-	border-top: 1px solid #999;
-	font-size: 100%;
-	font-family: Arial Unicode MS, Arial, sans-serif;*/
 	
 	padding: 5px;
 	border-radius: 5px;
@@ -710,7 +705,7 @@
 	outline: none;
 }
 
-.sugestionListBoxPanel {
+.suggestionListBoxPanel {
 	border-radius: 5px;
 	background-color: #fafafa;
 	box-shadow: 0 0 0 0;
@@ -718,13 +713,13 @@
 	
 }
 
-.sugestionListBoxTextBox {
+.suggestionListBoxTextBox {
 	border: none;
 	height: 28px;
 	box-sizing: border-box;
 }
 
-.sugestionListBoxButton {
+.suggestionListBoxButton {
 	width: 19px;
 	height: 27px;
 	border: none;

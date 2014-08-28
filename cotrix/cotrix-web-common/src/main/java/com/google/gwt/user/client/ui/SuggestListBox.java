@@ -38,11 +38,11 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 		
 		suggestBox = new SuggestBox(new SuggestOracleProxy(oracle));
 		suggestBox.setWidth("100%");
-		suggestBox.setStyleName(CommonResources.INSTANCE.css().sugestionListBoxTextBox());
+		suggestBox.setStyleName(CommonResources.INSTANCE.css().suggestionListBoxTextBox());
 		mainPanel.add(suggestBox);
 		
 		suggestButton = new PushButton(new Image(CommonResources.INSTANCE.selectArrow()));
-		suggestButton.setStyleName(CommonResources.INSTANCE.css().sugestionListBoxButton());
+		suggestButton.setStyleName(CommonResources.INSTANCE.css().suggestionListBoxButton());
 		mainPanel.add(suggestButton);
 		mainPanel.setCellWidth(suggestButton, "12px");
 		
@@ -55,6 +55,7 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 				
 			}
 		});
+		
 		initWidget(mainPanel);
 	}
 	
