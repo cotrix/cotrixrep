@@ -83,6 +83,7 @@ public class FilterMenuController {
 			
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
+				target.setDown(false);
 				filterMenu.hide();
 			}
 		});
@@ -102,7 +103,8 @@ public class FilterMenuController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				filterMenu.show(target);
+				if (target.isDown()) filterMenu.show(target);
+				else filterMenu.hide();
 			}
 		});
 	}
@@ -116,6 +118,8 @@ public class FilterMenuController {
 			case SINCE_CREATION: fireOption(new SinceCreationOption()); break;
 			case SINCE: showSinceMenu(); break;
 		}
+		
+		if (button!=MenuButton.SINCE) target.setDown(false);
 	}
 	
 	private void fireOption(FilterOption option) {

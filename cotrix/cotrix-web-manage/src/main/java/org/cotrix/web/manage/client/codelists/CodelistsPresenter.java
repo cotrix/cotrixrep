@@ -93,6 +93,7 @@ public class CodelistsPresenter implements Presenter, CodelistsView.Presenter {
 			@Override
 			public void onButtonClicked(MenuButton button) {
 				menuButtonClicked(button);
+				view.toggleMenuButton(false);
 			}
 
 			@Override

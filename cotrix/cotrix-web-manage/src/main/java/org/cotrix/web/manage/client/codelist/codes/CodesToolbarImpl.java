@@ -9,6 +9,7 @@ import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu;
 import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu.Listener;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -54,8 +55,6 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	@Inject
 	private FilterMenuController filterMenuController;
 	
-
-	
 	@Inject
 	public void init() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -63,12 +62,12 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 			
 			@Override
 			public void onHide() {
-				markersMenuButton.setDown(false);
 			}
 			
 			@Override
 			public void onButtonClicked(MarkerType marker, boolean selected) {
 				listener.onMarkerMenu(marker, selected);
+				markersMenuButton.setDown(false);
 			}
 		});
 		
@@ -83,7 +82,9 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	
 	@UiHandler("markersMenuButton")
 	protected void onMarkersMenuButtonClick(ClickEvent event) {
-		markerMenu.show(markersMenuButton);
+		Log.trace("markersMenuButton.isDown() "+markersMenuButton.isDown());
+		if (markersMenuButton.isDown())	markerMenu.show(markersMenuButton);
+		else markerMenu.hide();
 	}
 
 	@Override

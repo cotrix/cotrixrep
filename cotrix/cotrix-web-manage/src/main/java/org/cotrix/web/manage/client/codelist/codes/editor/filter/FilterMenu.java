@@ -62,7 +62,7 @@ public class FilterMenu extends DecoratedPopupPanel {
 
 			@Override
 			public void onClose(CloseEvent<PopupPanel> event) {
-				if (listener!=null) listener.onHide();
+				if (listener!=null && event.isAutoClosed()) listener.onHide();
 			}
 		});
 	}
