@@ -64,7 +64,6 @@
 	}
 	
 	.markersButton {
-		margin-left: 10px;
 	}
 	
 	.rightButton {
