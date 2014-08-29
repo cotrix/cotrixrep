@@ -96,6 +96,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource checked();
 	public ImageResource unchecked();
 	
+	public ImageResource calendar();
+	
 	public ImageResource refresh();
 	
 	public ImageResource linksTypes();

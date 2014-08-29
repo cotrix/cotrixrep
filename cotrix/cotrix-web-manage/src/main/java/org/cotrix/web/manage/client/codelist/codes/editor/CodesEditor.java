@@ -35,6 +35,7 @@ import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.FilterOptionUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
@@ -449,6 +450,12 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	@EventHandler
 	void onMarkerHighlight(MarkerHighlightEvent event) {
 		dataGrid.redraw();
+	}
+	
+	@EventHandler
+	void onFilterOptionUpdated(FilterOptionUpdatedEvent event) {
+		dataProvider.setFilterOptions(event.getFilterOptions());
+		reload();
 	}
 
 	private void refreshCode(UICode code)

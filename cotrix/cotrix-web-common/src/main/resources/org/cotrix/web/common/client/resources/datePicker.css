@@ -1,0 +1,122 @@
+@external gwt-DatePicker;
+.gwt-DatePicker {
+  border: 1px solid WIREFRAME_GREY;
+  cursor: default;
+}
+
+@external gwt-DatePicker, datePickerMonthSelector;
+.gwt-DatePicker td,
+.datePickerMonthSelector td:focus {
+  outline: none;
+}
+
+@external datePickerDays;
+.datePickerDays {
+  width: 100%;
+  background: white;
+}
+
+@external datePickerDay, datePickerWeekdayLabel, datePickerWeekendLabel;
+.datePickerDay,
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  font-size: 85%;
+  text-align: center;
+  padding: 4px;
+  outline: none;
+  font-weight:bold;
+  color:TITLE_GREY;
+  border-right: 1px solid WIREFRAME_GREY;
+  border-bottom: 1px solid WIREFRAME_GREY;
+}
+
+@external datePickerWeekdayLabel, datePickerWeekendLabel;
+.datePickerWeekdayLabel,
+.datePickerWeekendLabel {
+  background: #fff;
+  padding: 0px 4px 2px;
+  cursor: default;
+  color:TITLE_GREY;
+  font-size:70%;
+  font-weight:normal;
+}
+
+@external datePickerDay;
+.datePickerDay {
+  padding: 4px 7px;
+  cursor: hand;
+  cursor: pointer;
+}
+
+@external datePickerDayIsWeekend;
+.datePickerDayIsWeekend {
+  background: #f7f7f7;
+}
+
+@external datePickerDayIsFiller;
+.datePickerDayIsFiller {
+  color: #999;
+  font-weight:normal;
+}
+
+@external datePickerDayIsValue;
+.datePickerDayIsValue {
+  background: SELECTION_GREY;
+}
+
+@external datePickerDayIsDisabled;
+.datePickerDayIsDisabled {
+  color: DISABLED_GREY;
+  font-style: italic;
+}
+
+@external datePickerDayIsHighlighted;
+.datePickerDayIsHighlighted {
+  background: SELECTION_GREY;
+}
+
+@external datePickerDayIsValueAndHighlighted;
+.datePickerDayIsValueAndHighlighted {
+  background: SELECTION_GREY;
+}
+
+@external datePickerDayIsToday;
+.datePickerDayIsToday {
+  padding: 3px;
+  color: DECORATOR_ORANGE;
+  background: url(images/hborder.png) repeat-x 0px -2607px;
+}
+
+@external datePickerMonthSelector;
+.datePickerMonthSelector {
+  width: 100%;
+  padding: 1px 0 5px 0;
+  background: #fff;
+}
+
+@external datePickerMonth, datePickerYear;
+td.datePickerMonth,
+td.datePickerYear {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 100%;
+  font-weight: bold;
+  color: #333;
+}
+
+@external datePickerPreviousButton, datePickerNextButton, datePickerPreviousYearButton, datePickerNextYearButton;
+.datePickerPreviousButton,
+.datePickerNextButton,
+.datePickerPreviousYearButton,
+.datePickerNextYearButton {
+  font-size: 120%;
+  line-height: 1em;
+  color: ICON_BLUE;
+  cursor: hand;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0px 4px;
+  outline: none;
+}
+	

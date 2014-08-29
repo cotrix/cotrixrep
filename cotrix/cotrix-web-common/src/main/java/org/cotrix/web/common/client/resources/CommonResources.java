@@ -16,6 +16,9 @@ public interface CommonResources extends ClientBundle {
 	@Source("style.css")
 	public CommonCss css();
 	
+	@Source({"datePicker.css", "definitions.css"})
+	public DatePickerStyle datePicker();
+	
 	public ImageResource loader();
 	
 	public ImageResource circleLoader();

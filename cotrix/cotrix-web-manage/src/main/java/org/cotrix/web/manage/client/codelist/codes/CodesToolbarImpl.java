@@ -3,6 +3,7 @@
  */
 package org.cotrix.web.manage.client.codelist.codes;
 
+import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterMenuController;
 import org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnsMenuController;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu;
@@ -35,6 +36,8 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	@UiField PushButton columnsMenu;
 	@UiField ToggleButton markersMenuButton;
 	
+	@UiField ToggleButton filterMenuButton;
+	
 	@UiField InlineLabel state;
 	@UiField Image stateLoader;
 	
@@ -47,6 +50,11 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 	
 	@Inject
 	private ColumnsMenuController columnsMenuController;
+	
+	@Inject
+	private FilterMenuController filterMenuController;
+	
+
 	
 	@Inject
 	public void init() {
@@ -65,6 +73,7 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 		});
 		
 		columnsMenuController.bind(columnsMenu);
+		filterMenuController.bind(filterMenuButton);
 	}
 	
 	@UiHandler("metadataButton")

@@ -86,6 +86,8 @@ import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 import org.cotrix.web.manage.shared.UILogbookEntry;
+import org.cotrix.web.manage.shared.filter.FilterOption;
+import org.cotrix.web.manage.shared.filter.MarkerFilterOption;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.slf4j.Logger;
@@ -127,7 +129,7 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private LifecycleService lifecycleService;
-	
+
 	@Inject
 	private LogbookService logbookService;
 
@@ -145,10 +147,10 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject
 	private ProgressService progressService;
-	
+
 	@Inject
 	private ValidationService validationService;
-	
+
 	@Inject
 	private ChangelogService changelogService;
 
@@ -198,8 +200,8 @@ public class ManageServiceImpl implements ManageService {
 
 	@Override
 	@CodelistTask(VIEW)
-	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range, CodelistEditorSortInfo sortInfo) throws ServiceException {
-		logger.trace("getCodelistRows codelistId {}, range: {} sortInfo: {}", codelistId, range, sortInfo);
+	public DataWindow<UICode> getCodelistCodes(@Id String codelistId, com.google.gwt.view.client.Range range, CodelistEditorSortInfo sortInfo, List<FilterOption> filterOptions) throws ServiceException {
+		logger.trace("getCodelistRows codelistId {}, range: {} sortInfo: {} filterOptions: {}", codelistId, range, sortInfo, filterOptions);
 
 		int start = range.getStart() + 1;
 		int end = range.getStart() + range.getLength();
@@ -207,7 +209,31 @@ public class ManageServiceImpl implements ManageService {
 
 		Codelist codelist = repository.lookup(codelistId);
 
-		MultiQuery<Codelist, Code> query = allCodesIn(codelistId).from(start).to(end);
+		MultiQuery<Codelist, Code> query = null;
+		CodelistSizeProvider codelistSizeProvider = null;
+		
+		if (!filterOptions.isEmpty()) {
+			FilterOption option = filterOptions.get(0);
+			if (option instanceof MarkerFilterOption) {
+				MarkerFilterOption markerOption = (MarkerFilterOption)option;
+				CommonDefinition[] definitions = getDefinitions(markerOption.getDefinitionsNames());
+				query = codesWith(definitions).in(codelistId);
+				codelistSizeProvider = new CodelistSizeProvider.CounterCodelistSizeProvider(repository.get(codesWith(definitions).in(codelistId)));
+			}
+			
+			//TODO
+			if (query == null) {
+				query = allCodesIn(codelistId);
+				codelistSizeProvider = new CodelistSizeProvider.ConstantCodelistSizeProvider(codelist.codes().size());
+			}
+
+		} else {
+			query = allCodesIn(codelistId);
+			codelistSizeProvider = new CodelistSizeProvider.ConstantCodelistSizeProvider(codelist.codes().size());
+		}
+
+		query.from(start).to(end);
+
 		if (sortInfo!=null) {
 			if (sortInfo instanceof CodelistEditorSortInfo.CodeNameSortInfo) {
 				if (sortInfo.isAscending()) query.sort(descending(byCodeName()));
@@ -222,6 +248,7 @@ public class ManageServiceImpl implements ManageService {
 			}
 		}
 
+
 		Iterable<Code> codes  = repository.get(query);
 		List<UICode> uiCodes = new ArrayList<UICode>(range.getLength());
 		for (Code code:codes) {
@@ -229,7 +256,14 @@ public class ManageServiceImpl implements ManageService {
 			uiCodes.add(uicode);
 		}
 		logger.trace("retrieved {} rows", uiCodes.size());
-		return new DataWindow<UICode>(uiCodes, codelist.codes().size());
+		return new DataWindow<UICode>(uiCodes, codelistSizeProvider.getSize());
+	}
+
+	private CommonDefinition[] getDefinitions(Set<String> definitionsNames) {
+		CommonDefinition[] definitions = new CommonDefinition[definitionsNames.size()];
+		int index = 0;
+		for (String name:definitionsNames) definitions[index++] = CommonDefinition.commonDefinitionFor(name);
+		return definitions;
 	}
 
 	@Override
@@ -489,19 +523,19 @@ public class ManageServiceImpl implements ManageService {
 		logbook.remove(entry);
 		logbookService.update(logbook);
 	}
-	
+
 	@CodelistTask(EDIT)
 	public void validateCodelist(@Id String codelistId) throws ServiceException {
 		logger.trace("validateCodelist codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
 		validationService.validate(codelist);
 	}
-	
+
 	@CodelistTask(EDIT)
 	public void generateCodelistChangelog(@Id String codelistId) throws ServiceException {
 		logger.trace("generateCodelistChangelog codelistId: {}", codelistId);
 		Codelist codelist = repository.lookup(codelistId);
-		
+
 		//TODO: can trigger optimisation when user is allowed to say so (based on timestamps)
 		boolean optimised =false;
 		changelogService.track(codelist,optimised);

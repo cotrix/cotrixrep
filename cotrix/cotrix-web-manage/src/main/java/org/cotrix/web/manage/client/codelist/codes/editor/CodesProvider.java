@@ -3,6 +3,9 @@
  */
 package org.cotrix.web.manage.client.codelist.codes.editor;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.util.CachedDataProviderExperimental;
 import org.cotrix.web.common.shared.DataWindow;
@@ -12,6 +15,7 @@ import org.cotrix.web.manage.client.codelist.codes.editor.CodesEditor.GroupColum
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.Group;
+import org.cotrix.web.manage.shared.filter.FilterOption;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.AbstractCellTable;
@@ -29,15 +33,21 @@ import com.google.inject.Inject;
 public class CodesProvider extends CachedDataProviderExperimental<UICode> {
 
 	@Inject
-	protected ManageServiceAsync managerService;
+	private ManageServiceAsync managerService;
 
 	@Inject @CurrentCodelist
-	protected String codelistId;
+	private String codelistId;
+	
+	private List<FilterOption> filterOptions = Collections.emptyList();
+
+	public void setFilterOptions(List<FilterOption> filterOptions) {
+		this.filterOptions = filterOptions;
+	}
 
 	@Override
 	protected void onRangeChanged(final Range range, final ManagedFailureCallback<DataWindow<UICode>> callback) {
 		CodelistEditorSortInfo sortInfo = getSortInfo();
-		managerService.getCodelistCodes(codelistId, range, sortInfo, new ManagedFailureCallback<DataWindow<UICode>>() {
+		managerService.getCodelistCodes(codelistId, range, sortInfo, filterOptions, new ManagedFailureCallback<DataWindow<UICode>>() {
 
 			@Override
 			public void onSuccess(DataWindow<UICode> result) {
