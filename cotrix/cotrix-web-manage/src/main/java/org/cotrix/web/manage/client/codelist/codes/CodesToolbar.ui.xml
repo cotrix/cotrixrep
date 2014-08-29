@@ -7,7 +7,7 @@
 		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
 	<ui:with field='common'
 		type='org.cotrix.web.common.client.resources.CommonResources' />
-	<ui:style>
+	<ui:style src="definitions.css">
 		.mainPanel {
 	    	padding-left: 10px;
     		padding-right: 10px;
@@ -50,13 +50,14 @@
 		}
 		
 		.rightButton {
+			padding-left: 10px;
 			padding-right: 5px;
 			float: right;
 		}
 	
 		.state {
-			color: lightgray;
-			font-size: 25px;
+			color: SUBTITLE_GREY;
+			font-size: LARGE;
 		}
 	</ui:style>
 	<g:HTMLPanel styleName="{style.mainPanel}">
@@ -74,16 +75,17 @@
 					</g:ToggleButton>
 				</td>
 				<td class="{style.center}">
-					<div>
-						<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
-						<g:Image ui:field="stateLoader" resource="{common.dataLoader}" visible="false" />
-					</div>
 				</td>
 				<td class="{style.right}">
 					<g:PushButton ui:field="metadataButton" styleName="{style.button} {style.rightButton}" title="Codelist metadata">
 						<g:upFace image="{resources.metadata}" />
 						<g:upHoveringFace image="{resources.metadataHover}" />
 					</g:PushButton>
+					<div>
+						<g:InlineLabel ui:field="state" styleName="{style.state}">draft</g:InlineLabel>
+						<g:Image ui:field="stateLoader" resource="{common.dataLoader}" visible="false" />
+					</div>
+				
 				</td>
 			</tr>
 		</table>
