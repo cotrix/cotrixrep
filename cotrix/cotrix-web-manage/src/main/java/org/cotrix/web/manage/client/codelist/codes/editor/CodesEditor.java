@@ -4,10 +4,8 @@ import static com.google.gwt.dom.client.BrowserEvents.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.factory.UIFactories;
@@ -41,6 +39,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
@@ -433,13 +432,18 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	@EventHandler
-	void onSwitchAttribute(SwitchGroupEvent event) {
+	void onSwitchGroup(SwitchGroupEvent event) {
 		Group group = event.getGroup();
-		Log.trace("onSwitchAttribute group: "+group+" type: "+event.getSwitchType());
+		Log.trace("onSwitchGroup group: "+group+" type: "+event.getSwitchType());
 		switch (event.getSwitchType()) {
 			case TO_COLUMN: switchToColumn(group); break;
 			case TO_NORMAL: switchToNormal(group); break;
 		}
+	}
+	
+	@EventHandler
+	void onSwitchGroups(SwitchGroupsEvent event) {
+		setGroups(event.getGroups());
 	}
 	
 	@EventHandler
@@ -585,24 +589,45 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	private void setGroups(List<Group> groups) {
-		Log.trace("groups: "+groups);
+		Log.trace("setGroups groups: "+groups);
 		
-		Set<Group> columnsToRemove = new HashSet<Group>(groupsAsColumn);
-		//can't use removeall because based on comparable interface
-		//no optimization for (Group group:groups) columnsToRemove.remove(group);
-		Log.trace("columns to remove: "+columnsToRemove);
+		showLoader();
+		
+		switchAllGroupsToNormal();
 
-		for (Group toRemove:columnsToRemove) switchToNormal(toRemove);
-
-		for (Group group:groups) switchToColumn(group);
+		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
+		List<Header<?>> headers = new ArrayList<Header<?>>(groups.size());
+		
+		for (Group group:groups) {
+			Column<UICode, String> column = getGroupColumn(group);
+			columns.add(column);
+			
+			groupsAsColumn.add(group);
+			
+			GroupHeader header = new GroupHeader(group);
+			header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
+			headers.add(header);
+		}
+		
+		dataGrid.addColumns(columns, headers);
+		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
+		
+		hideLoader();
 	}
-
+	
 	private void switchAllGroupsToNormal() {
-		Set<Group> groupsToNormal = new HashSet<Group>(groupsAsColumn);
-		for (Group group:groupsToNormal) switchToNormal(group);
+		
+		List<Column<UICode, ?>> columns = toColumns(groupsAsColumn);
+		dataGrid.removeColumns(columns);
+		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
+		groupsAsColumn.clear();
 	}
 	
-	
+	private List<Column<UICode, ?>> toColumns(List<Group> groups) {
+		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
+		for (Group group:groups) columns.add(getGroupColumn(group));
+		return columns;
+	}
 
 	public static abstract class CodelistEditorColumn<C> extends Column<UICode, C> {
 

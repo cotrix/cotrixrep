@@ -696,12 +696,12 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	public PatchedDataGrid(ProvidesKey<T> keyProvider) {
 		this(DEFAULT_PAGESIZE, keyProvider);
 	}
-	
-    public ScrollPanel getScrollPanel() {
-        HeaderPanel header = (HeaderPanel) getWidget();
-        return (ScrollPanel) header.getContentWidget();
-    }
-	
+
+	public ScrollPanel getScrollPanel() {
+		HeaderPanel header = (HeaderPanel) getWidget();
+		return (ScrollPanel) header.getContentWidget();
+	}
+
 	/**
 	 * @return the autoAdjust
 	 */
@@ -715,7 +715,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	public void setAutoAdjust(boolean autoAdjust) {
 		this.autoAdjust = autoAdjust;
 	}
-	
+
 	public void setLastColumnSpan(boolean lastColumnSpan) {
 		this.lastColumnSpan = lastColumnSpan;
 	}
@@ -728,13 +728,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	public void insertColumn(int beforeIndex, Column<T, ?> col, Header<?> header, Header<?> footer) {
 		//Log.trace("insertColumn "+header.getValue());
-		
-		/*if (autoAdjust) {
-			double width = getRequiredSize(col);
-			setColumnWidth(col, width, Unit.PX);
-			columnWidths.put(col, width);
-		}*/
-		
+
 		super.insertColumn(beforeIndex, col, header, footer);
 		if (autoAdjust) {
 			double width = getColumnSize(col);
@@ -745,6 +739,45 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		}
 	}
 	
+	public void addColumns(List<Column<T, ?>> cols, List<Header<?>> headers) {
+		//Log.trace("insertColumn "+header.getValue());
+		
+		for (int i = 0; i<cols.size(); i++) {
+			Column<T, ?> col = cols.get(i);
+			Header<?> header = headers.get(i);
+			super.insertColumn(getColumnCount(), col, header, null);
+			
+			if (autoAdjust) {
+				double width = getColumnSize(col);
+				setColumnWidth(col, width, Unit.PX);
+				gridColumnWidths.put(col, width);
+			}
+		}
+
+		if (autoAdjust) {
+			if (lastColumnSpan) resetLastColumnSize();
+			updateTableWidth();
+		}
+	}
+
+	public void removeColumns(List<Column<T, ?>> cols) {
+		Log.trace("removeColumns "+cols);
+
+		for (Column<T, ?> col:cols) {
+			if (autoAdjust) {
+				Log.trace("removing form autosize");
+				gridColumnWidths.remove(col);
+				fixedWidthColumns.remove(col);
+			}
+			super.removeColumn(getColumnIndex(col));
+		}
+
+		if (autoAdjust) {
+			if (lastColumnSpan) resetLastColumnSize();
+			updateTableWidth();
+		}
+	}
+
 	public void removeColumn(int index) {
 		Log.trace("removeColumn "+index);
 		if (autoAdjust) {
@@ -754,13 +787,13 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			fixedWidthColumns.remove(column);
 			if (lastColumnSpan) resetLastColumnSize();
 		}
-		
+
 		super.removeColumn(index);
 		if (autoAdjust) {
 			updateTableWidth();
 		}
 	}
-	
+
 	private void resetLastColumnSize() {
 		if (lastColumn!=null) {
 			double width = getColumnSize(lastColumn);
@@ -768,22 +801,22 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			gridColumnWidths.put(lastColumn, width);
 		}
 	}
-	
+
 	private double getColumnSize(Column<T, ?> col) {
 		if (fixedWidthColumns.contains(col)) return gridColumnWidths.get(col);
 		return getRequiredSize(col);
 	}
-	
+
 	public void refreshColumnSizes() {
 		Log.trace("refreshColumnSizes");
-		
+
 		for (int i = 0; i < getColumnCount(); i++) {
 			Column<T, ?> column = getColumn(i);
 			double width = getColumnSize(column);
 			setColumnWidth(column, width, Unit.PX);
 			gridColumnWidths.put(column, width);
 		}
-		
+
 		updateTableWidth();
 	}
 
@@ -814,7 +847,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		setColumnWidth(column, width, Unit.PX);
 		gridColumnWidths.put(column, width);
 	}
-	
+
 	private double columnsWidth() {
 		double columnsWidth = 0;
 		for (Double colWidth:gridColumnWidths.values()) {
@@ -831,28 +864,28 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		//Log.trace("TOTAL columns width: "+columnsWidth);
 		int widgetWidth = getTableWidth();
 		//Log.trace("widgetWidth: "+widgetWidth);
-		
+
 		if (columnsWidth<widgetWidth && lastColumnSpan) spanLastColumn(widgetWidth-columnsWidth);
 		else lastColumn = null;
-		
+
 		double tableWidth = Math.max(columnsWidth, widgetWidth);
 		//Log.trace("new tableWidth: "+tableWidth);
-		
+
 		setTableWidth(tableWidth, Unit.PX);
 	}
-	
+
 	private void spanLastColumn(double span) {
 		Log.trace("spanLastColumn");
 
 		lastColumn = getColumn(getColumnCount()-1);
-		
+
 		//FIXME -1px added as workaround
 		double width = getColumnSize(lastColumn) + span - 1;
-			
+
 		setColumnWidth(lastColumn, width, Unit.PX);
 		gridColumnWidths.put(lastColumn, width);
 	}
-	
+
 	protected int getTableWidth() {
 		return getElement().getOffsetWidth();
 	}
@@ -865,7 +898,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		measuringElement.getStyle().setTop(-1000, Unit.PX);
 		document.getBody().appendChild(measuringElement);
 	}
-	
+
 	private <D> double measureHeaderCell(Cell<D> cell, D value, String headerStyle)
 	{
 		//FIXME 4px added as workaround
@@ -873,7 +906,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		String style = getResources().style().header() + " "+ headerStyle;
 		return 4 + measureCell(cell, value, context, style);
 	}
-	
+
 	private <D> double measureCell(Cell<D> cell, D value, Context context)
 	{
 		return measureCell(cell, value, context, getResources().style().cell());
@@ -1014,7 +1047,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		tableFooterContainer.getElement().getStyle().setWidth(value, unit);
 		tableDataContainer.getStyle().setWidth(value, unit);
 	}
-	
+
 	public void adjustTableWidth()
 	{
 		int width = 0;
@@ -1074,7 +1107,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	@Override
 	protected void onLoadingStateChanged(LoadingState state) {
 		//Log.trace("onLoadingStateChanged state: "+state.getClass().getName()+" LOADING? "+(state==LoadingState.LOADING)+" LOADED? "+(state==LoadingState.LOADED));
-		
+
 		Widget message = tableData;
 		if (state == LoadingState.LOADING) {
 			// Loading indicator.
@@ -1083,10 +1116,10 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			// Empty table.
 			message = emptyTableWidgetContainer;
 		}
-		
+
 		if (autoAdjust && state == LoadingState.LOADED && previousLoadingState == LoadingState.LOADING) refreshColumnSizes();
 		previousLoadingState = state;
-		
+
 		// Switch out the message to display.
 		tableDataScroller.setWidget(message);
 
@@ -1104,11 +1137,11 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		tableData.hideUnusedColumns(columnCount);
 		tableFooter.hideUnusedColumns(columnCount);
 	}
-	
+
 	public void showLoader() {
 		tableDataScroller.setWidget(loadingIndicatorContainer);
 	}
-	
+
 	public void hideLoader() {
 		tableDataScroller.setWidget(tableData);
 	}

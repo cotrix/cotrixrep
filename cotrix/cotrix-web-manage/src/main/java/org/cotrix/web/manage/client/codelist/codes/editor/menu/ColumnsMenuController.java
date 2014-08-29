@@ -10,9 +10,8 @@ import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnsMenu.GroupsProvider;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
-import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.Group;
@@ -99,9 +98,7 @@ public class ColumnsMenuController {
 	
 	private void updateGroups(List<Group> newActiveGroups) {
 		Log.trace("updating groups");
-		List<Group> toRemove = new ArrayList<Group>(activeGroups);
-		for (Group group:toRemove) bus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL));
-		for (Group group:newActiveGroups) bus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN));
+		bus.fireEvent(new SwitchGroupsEvent(newActiveGroups));
 	}
 	
 }
