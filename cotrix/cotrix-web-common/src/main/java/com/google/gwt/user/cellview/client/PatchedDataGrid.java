@@ -738,15 +738,15 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			updateTableWidth();
 		}
 	}
-	
+
 	public void addColumns(List<Column<T, ?>> cols, List<Header<?>> headers) {
 		//Log.trace("insertColumn "+header.getValue());
-		
+
 		for (int i = 0; i<cols.size(); i++) {
 			Column<T, ?> col = cols.get(i);
 			Header<?> header = headers.get(i);
 			super.insertColumn(getColumnCount(), col, header, null);
-			
+
 			if (autoAdjust) {
 				double width = getColumnSize(col);
 				setColumnWidth(col, width, Unit.PX);
@@ -758,6 +758,45 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			if (lastColumnSpan) resetLastColumnSize();
 			updateTableWidth();
 		}
+	}
+
+	public void replaceColumns(List<Column<T, ?>> colsToRemove, List<Column<T, ?>> colsToAdd, List<Header<?>> headers) {
+		//Log.trace("insertColumn "+header.getValue());
+		
+		showLoader();
+
+		if (autoAdjust) {
+			//we reset last column size to normal
+			if (lastColumnSpan) resetLastColumnSize();
+
+			Map<Column<T, ?>, Double> gridColumnWidthsCopy = new HashMap<Column<T, ?>, Double>(gridColumnWidths);
+
+			for (Column<T, ?> col:colsToRemove) {
+				Log.trace("removing form autosize");
+				gridColumnWidths.remove(col);
+				fixedWidthColumns.remove(col);
+				super.removeColumn(getColumnIndex(col));
+			}
+
+			for (int i = 0; i<colsToAdd.size(); i++) {
+				Column<T, ?> col = colsToAdd.get(i);
+				Header<?> header = headers.get(i);
+				super.insertColumn(getColumnCount(), col, header, null);
+
+				Double widthCache = gridColumnWidthsCopy.get(col);
+				double width = widthCache!=null?widthCache:getColumnSize(col);
+				setColumnWidth(col, width, Unit.PX);
+				gridColumnWidths.put(col, width);
+			}
+
+			updateTableWidth();
+
+		} else {
+			removeColumns(colsToRemove);
+			addColumns(colsToAdd, headers);
+		}
+		
+		hideLoader();
 	}
 
 	public void removeColumns(List<Column<T, ?>> cols) {
