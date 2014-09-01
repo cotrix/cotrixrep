@@ -93,7 +93,7 @@
 }
 
 .textbox:hover {
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     border-radius: 5px;
     padding-left: 5px;
         
@@ -173,8 +173,9 @@
 
 .listbox:hover {
     border-radius: 5px;
+    -webkit-border-radius: 5px;
     background-color: transparent;
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     outline: none;
     transition: border-color 700ms ease;
     padding-left: 1px;
@@ -212,7 +213,7 @@
 .suggestionbox:hover {
     border-radius: 5px;
     background-color: transparent;
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     outline: none;
     transition: border-color 700ms ease;
     padding-left: 1px;
@@ -265,7 +266,7 @@
 
 .suggestionPopup {
 	background-color: white;
-	border: 1px solid #999;
+	border: 1px solid WIREFRAME_GREY;
 }
 
 .suggestionPopup table {
@@ -320,7 +321,7 @@
 }
 
 .textarea:hover {
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     border-radius: 5px;
     padding-left: 5px;
     resize: both;
