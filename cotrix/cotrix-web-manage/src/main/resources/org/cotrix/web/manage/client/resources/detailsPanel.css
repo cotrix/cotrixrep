@@ -71,6 +71,7 @@
     border: 1px solid transparent;
     border-radius: 5px;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     padding-left: 5px;
     font-size: 14px;
     height: 27px;
@@ -156,6 +157,7 @@
 .listbox {
     font-size: 14px;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: none;
@@ -198,6 +200,7 @@
 .suggestionbox {
     font-size: 14px;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: 1px solid transparent;
@@ -297,9 +300,9 @@
     border: none;
     border-color: transparent;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     padding-left: 6px;
     font-size: 14px;
- /*   height: 27px;*/
     width: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;

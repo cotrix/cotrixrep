@@ -61,6 +61,7 @@ public class SuggestListBox extends Composite implements HasValueChangeHandlers<
 		
 		suggestButton = new PushButton(new Image(CommonResources.INSTANCE.selectArrow()));
 		suggestButton.setStyleName(CotrixManagerResources.INSTANCE.detailsPanelStyle().suggestionboxButton());
+		suggestButton.setTabIndex(-1);
 		buttonAnimation = new FadeAnimation(suggestButton.getElement());
 		buttonAnimation.fadeOut(Speed.IMMEDIATE);
 		mainPanel.addDomHandler(new MouseOverHandler() {
