@@ -42,6 +42,7 @@ public class HeaderPanel extends Composite {
 		String tableSelected();
 		
 		String titleSmall();
+		String titleGreyed();
 		
 		String tableDisabled();
 		String titleDisabled();
@@ -103,6 +104,10 @@ public class HeaderPanel extends Composite {
 	
 	public void setTitle(String title) {
 		this.title.setText(title);
+	}
+	
+	public void setTitleGreyed(boolean greyed) {
+		title.setStyleName(style.titleGreyed(), greyed);
 	}
 	
 	public void setSubtitle(String subtitle) {

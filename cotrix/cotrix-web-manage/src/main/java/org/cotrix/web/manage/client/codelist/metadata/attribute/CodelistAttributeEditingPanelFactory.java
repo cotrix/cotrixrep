@@ -52,7 +52,9 @@ public class CodelistAttributeEditingPanelFactory implements ItemPanelFactory<UI
 	}
 	
 	private EditingHeader getHeader(UIAttribute item) {
-		EditingHeader header = new EditingHeader(Attributes.isSystemAttribute(item)?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
+		boolean systemAttribute = Attributes.isSystemAttribute(item);
+		EditingHeader header = new EditingHeader(systemAttribute?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
+		header.setTitleGreyed(systemAttribute);
 		header.setSmall();
 		return header;
 	}

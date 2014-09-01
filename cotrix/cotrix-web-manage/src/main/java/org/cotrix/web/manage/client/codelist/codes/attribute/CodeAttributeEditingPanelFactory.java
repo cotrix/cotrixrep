@@ -53,7 +53,9 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 	}
 	
 	private EditingHeader buildHeader(UIAttribute item) {
-		EditingHeader header = new EditingHeader(Attributes.isSystemAttribute(item)?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
+		boolean systemAttribute = Attributes.isSystemAttribute(item);
+		EditingHeader header = new EditingHeader(systemAttribute?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
+		header.setTitleGreyed(systemAttribute);
 		header.setSwitch(SWITCH);
 		header.setSmall();
 		return header;

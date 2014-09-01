@@ -36,6 +36,10 @@ public class EditingHeader implements ItemPanelHeader {
 		switchAvailable = false;
 	}
 	
+	public void setTitleGreyed(boolean greyed) {
+		header.setTitleGreyed(greyed);
+	}
+	
 	public void setSwitch(ButtonResources switchButton) {
 		header.setSwitchButton(switchButton);
 		switchAvailable = true;
