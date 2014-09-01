@@ -66,12 +66,12 @@ public abstract class AbstractMultiQuery<D,R> implements MultiQuery.Private<D,R>
 	
 	
 	
-	protected Range range() {
+	public Range range() {
 		return range;
 	}
 	
 	
-	protected Criterion<R> criterion() {
+	public Criterion<R> criterion() {
 		return criterion;
 	}
 	

@@ -8,6 +8,7 @@ import static org.cotrix.neo.domain.Constants.NodeType.*;
 import static org.cotrix.repository.CodelistCoordinates.*;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -17,6 +18,7 @@ import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.attributes.Attribute;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.BeanIteratorAdapter;
@@ -27,6 +29,7 @@ import org.cotrix.neo.domain.Constants.Relations;
 import org.cotrix.neo.domain.NeoCode;
 import org.cotrix.neo.domain.NeoCodelist;
 import org.cotrix.neo.domain.utils.NeoNodeIterator;
+import org.cotrix.neo.repository.PostProcessingIterator.PostProcessor;
 import org.cotrix.repository.CodelistCoordinates;
 import org.cotrix.repository.CodelistSummary;
 import org.cotrix.repository.Criterion;
@@ -122,6 +125,57 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 			}
 
 		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesChangedSince(final String codelistId, final Date date) {
+		
+		
+		return new NeoMultiQuery<Codelist, Code>(engine) {
+
+			//neo has no date and support no user-defined functions
+			//must get all codes out and post-process.
+			{
+				match(format("(L:%1$s {%2$s:'%3$s'})-[:%4$s]->(%5$s)",
+						CODELIST.name(),
+						id_prop,
+						codelistId,
+						Relations.CODE.name(),
+						$node));
+				
+				rtrn(format("DISTINCT %1$s as %2$s",$node,$result));	
+			}
+
+			@Override
+			public Iterator<Code> iterator() {
+				
+				query(query());
+				
+				ExecutionResult result = executeNeo();
+				
+				Iterator<Node> nodes = result.columnAs($result);
+				
+				PostProcessor<Code> processor = new PostProcessor<Code>() {
+					
+					public boolean match(Code result) {
+						
+						Date changed = CommonDefinition.LAST_UPDATED.dateOf(result); 
+						
+						if (changed == null)
+							changed = CommonDefinition.CREATED.dateOf(result);
+						
+						return changed!=null && changed.after(date);
+					}
+				
+				};
+				
+				
+				return new PostProcessingIterator<Code>(codes(nodes),range(),processor);
+				
+			}
+			
+		};
+				
 	}
 	
 	@Override
@@ -444,7 +498,7 @@ public class NeoCodelistQueries extends NeoQueries implements CodelistQueryFacto
 	}
 
 	
-	Iterator<Code> codes(ResourceIterator<Node> it) {
+	Iterator<Code> codes(Iterator<Node> it) {
 		return new BeanIteratorAdapter<>(new NeoNodeIterator<>(it, NeoCode.factory));
 	}
 

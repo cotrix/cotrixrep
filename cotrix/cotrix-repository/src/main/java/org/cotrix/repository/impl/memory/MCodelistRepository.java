@@ -11,6 +11,7 @@ import static org.cotrix.repository.CodelistCoordinates.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -25,6 +26,7 @@ import org.cotrix.common.async.TaskContext;
 import org.cotrix.common.async.TaskUpdate;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.attributes.AttributeDefinition;
+import org.cotrix.domain.attributes.CommonDefinition;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.codelist.Codelist.Bean;
@@ -224,6 +226,33 @@ public class MCodelistRepository extends MemoryRepository<Codelist.Bean> impleme
 					
 					codes.add(c);
 				}
+				return adapt(codes);
+			}
+		};
+	}
+	
+	@Override
+	public MultiQuery<Codelist, Code> codesChangedSince(final String codelistId, final Date date) {
+		
+		return new MMultiQuery<Codelist, Code>() {
+			
+			public Collection<Code> executeInMemory() {
+				
+				Collection<Code.Bean> codes = new ArrayList<Code.Bean>();
+				
+				for (Code.Bean c : lookup(codelistId).codes()) {
+					
+					Code entity = c.entity();
+				
+					Date changed = CommonDefinition.LAST_UPDATED.dateOf(entity); 
+					
+					if (changed == null)
+						changed = CommonDefinition.CREATED.dateOf(entity);
+					
+					if (changed!=null && changed.after(date)) 
+						codes.add(c);
+				}
+				
 				return adapt(codes);
 			}
 		};

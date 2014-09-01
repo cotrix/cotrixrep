@@ -1,11 +1,18 @@
 package org.acme;
 
+import static java.util.Arrays.*;
+import static java.util.Calendar.*;
+import static java.util.concurrent.TimeUnit.*;
+import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.Users.*;
 import static org.cotrix.domain.utils.Constants.*;
 import static org.cotrix.repository.CodelistActions.*;
+import static org.cotrix.repository.CodelistQueries.*;
 import static org.junit.Assert.*;
+
+import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -205,4 +212,30 @@ public class ChangelogTest extends ApplicationTest {
 	}
 	
 	
+	@Test
+	public void codesChangedSince() throws Exception {
+
+		
+		Code c1 = code().name("c1").build();
+		Code c2 = code().name("c2").build();
+		
+		Codelist list = codelist().name("name").with(c1,c2).build();
+		
+		codelists.add(list);
+		
+		Date checkpoint = getInstance().getTime();
+		
+		SECONDS.sleep(1);
+
+		Code c3 = code().name("c3").build();
+
+		Codelist changeset = modify(list).with(c3, modify(c1).name("newname").build()).build();
+		
+		codelists.update(changeset);
+		
+		Iterable<Code> codes  = codelists.get(codesSince(checkpoint).in(list.id()));
+		
+		assertEquals(asList(c1,c3),collect(codes));
+		
+	}
 }

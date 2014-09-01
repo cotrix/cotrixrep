@@ -242,6 +242,17 @@ public class CommonUtils {
 
 	}
 	
+	public static <T>  Collection<T> collect(Iterator<T> it) {
+		
+		Collection<T> c = new ArrayList<T>();
+		
+		while (it.hasNext()) 
+			c.add(it.next());
+		
+		return c;
+			
+	}
+
 	public static <T>  Collection<T> collect(Iterable<T> it) {
 		
 		Collection<T> c = new ArrayList<T>();

@@ -2,6 +2,7 @@ package org.cotrix.repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.enterprise.event.Observes;
 import javax.xml.namespace.QName;
@@ -74,6 +75,7 @@ public class CodelistQueries {
 		};
 	}
 	
+	
 	public static CodelistClause codesWith(final CommonDefinition ... defs) {
 		return new CodelistClause() {
 			
@@ -89,14 +91,33 @@ public class CodelistQueries {
 		};
 	}
 	
+	public static CodelistClause codesSince(final Date date) {
+		
+		return new CodelistClause() {
+			
+			@Override
+			public MultiQuery<Codelist, Code> in(String id) {
+				
+				return factory.codesChangedSince(id,date);
+			}
+		};
+		}
+	
+	
 	public static interface CodelistClause {
 		
 		MultiQuery<Codelist,Code> in(String id);
 	}
 	
+	
+	
+
+	
 	public static MultiQuery<Codelist,CodelistCoordinates> codelistsFor(User u) {
 		return factory.codelistsFor(u);
 	}
+	
+	
 	
 	public static MultiQuery<Codelist,CodelistCoordinates> allListCoordinates() {
 		return factory.allListCoordinates();

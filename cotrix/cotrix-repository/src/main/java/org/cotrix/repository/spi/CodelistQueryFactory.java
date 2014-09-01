@@ -1,6 +1,7 @@
 package org.cotrix.repository.spi;
 
 import java.util.Collection;
+import java.util.Date;
 
 import javax.xml.namespace.QName;
 
@@ -32,6 +33,8 @@ public interface CodelistQueryFactory {
 	
 	MultiQuery<Codelist, Code> codesWithCommonAttributes(String id, Iterable<QName> names);
 	
+	
+	MultiQuery<Codelist, Code> codesChangedSince(String id, Date date);
 	
 	Query<Codelist, Code> code(String id);
 	
