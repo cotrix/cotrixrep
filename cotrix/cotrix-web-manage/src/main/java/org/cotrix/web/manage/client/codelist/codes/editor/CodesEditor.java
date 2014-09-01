@@ -33,6 +33,7 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDef
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterWordUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.FilterOptionUpdatedEvent;
@@ -456,6 +457,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	void onFilterOptionUpdated(FilterOptionUpdatedEvent event) {
 		dataProvider.setFilterOptions(event.getFilterOptions());
 		reload();
+	}
+	
+	@EventHandler
+	void onWordUpdate(FilterWordUpdatedEvent event) {
+		dataGrid.redraw();
 	}
 
 	private void refreshCode(UICode code)

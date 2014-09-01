@@ -12,6 +12,7 @@ import org.cotrix.web.manage.client.codelist.NewStateEvent;
 import org.cotrix.web.manage.client.codelist.SwitchPanelEvent;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.Action;
 import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.ToolBarListener;
+import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterWordUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.data.DataSaverManager;
@@ -90,6 +91,11 @@ public class CodesPanelPresenter implements Presenter {
 			@Override
 			public void onMarkerMenu(MarkerType marker, boolean selected) {
 				codelistBus.fireEvent(selected?MarkerHighlightEvent.ADD(marker):MarkerHighlightEvent.REMOVE(marker));
+			}
+
+			@Override
+			public void onFilterWordUpdate(String word) {
+				codelistBus.fireEvent(new FilterWordUpdatedEvent(word));
 			}
 		});
 	}

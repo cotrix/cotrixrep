@@ -100,3 +100,7 @@
 .addLabel:hover {
 	cursor: pointer;
 }
+
+.filteredRow {
+	opacity: 0.10;
+}

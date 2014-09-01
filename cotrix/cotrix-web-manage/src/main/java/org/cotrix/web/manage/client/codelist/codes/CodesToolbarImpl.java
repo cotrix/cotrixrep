@@ -12,6 +12,7 @@ import org.cotrix.web.manage.client.codelist.codes.marker.menu.MarkerMenu.Listen
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -85,6 +86,11 @@ public class CodesToolbarImpl extends Composite implements CodesToolbar {
 		Log.trace("markersMenuButton.isDown() "+markersMenuButton.isDown());
 		if (markersMenuButton.isDown())	markerMenu.show(markersMenuButton);
 		else markerMenu.hide();
+	}
+	
+	@UiHandler("filterTextBox")
+	protected void onValueChange(ValueChangeEvent<String> event) {
+		listener.onFilterWordUpdate(event.getValue());
 	}
 
 	@Override

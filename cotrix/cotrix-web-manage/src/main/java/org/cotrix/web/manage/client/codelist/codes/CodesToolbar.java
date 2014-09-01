@@ -21,6 +21,7 @@ public interface CodesToolbar {
 	public interface ToolBarListener {
 		public void onAction(Action action);
 		public void onMarkerMenu(MarkerType marker, boolean selected);
+		public void onFilterWordUpdate(String word);
 	}
 	
 	public void setListener(ToolBarListener listener);

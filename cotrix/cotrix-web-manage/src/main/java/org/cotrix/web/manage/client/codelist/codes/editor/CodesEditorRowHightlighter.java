@@ -10,12 +10,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.manage.client.codelist.codes.editor.filter.RowFilter;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.GradientClassGenerator;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
 import org.cotrix.web.manage.client.codelist.codes.marker.style.DefaultMarkerStyleProvider;
 import org.cotrix.web.manage.client.di.CodelistBus;
+import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.cellview.client.RowStyles;
@@ -44,6 +46,9 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 	private DefaultMarkerStyleProvider styleProvider;
 	
 	@Inject
+	private RowFilter rowFilter;
+	
+	@Inject
 	void bind(@CodelistBus EventBus bus, CodesEditorRowHightlighterEventBinder binder) {
 		binder.bindEventHandlers(this, bus);
 	}
@@ -55,6 +60,18 @@ public class CodesEditorRowHightlighter implements RowStyles<UICode> {
 		
 		if (row == null) return null;
 		
+		String markerClass = getMarkerHighlightClass(row);;
+		String filterClass = getRowFilterClass(row);
+		
+		return markerClass == null?filterClass:filterClass==null?markerClass:markerClass+" "+filterClass;
+
+	}
+	
+	private String getRowFilterClass(UICode row) {
+		return rowFilter.isActive()&&!rowFilter.accept(row)?CotrixManagerResources.INSTANCE.css().filteredRow():null;
+	}
+	
+	private String getMarkerHighlightClass(UICode row) {
 		//no highlight necessary
 		if (highlightedMarkers.isEmpty()) return null;
 		

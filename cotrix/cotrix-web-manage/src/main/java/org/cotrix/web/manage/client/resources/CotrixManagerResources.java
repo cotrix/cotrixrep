@@ -161,6 +161,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String noItemsBackground();
 		String noItemsLabel();
 		String systemAttributeDisclosurePanelLabel();
+		String filteredRow();
 	}
 	
 	public interface PropertyGridStyle extends CssResource {
