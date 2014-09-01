@@ -68,10 +68,10 @@
 }
 
 .textbox {
-    border: none;
-    border-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
     color: SUBTITLE_GREY;
-    padding-left: 6px;
+    padding-left: 5px;
     font-size: 14px;
     height: 27px;
     line-height: 18px;
@@ -79,6 +79,8 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     transition: border-color 700ms ease;
+    
+    text-overflow: ellipsis;
 }
 
 .textbox:focus {
@@ -93,6 +95,8 @@
     border: 1px solid #999;
     border-radius: 5px;
     padding-left: 5px;
+        
+    text-overflow: initial;
 }
 
 .textbox:focus:hover {
