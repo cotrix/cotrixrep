@@ -19,12 +19,13 @@ import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class MarkerMenuItem extends AbstractMenuItem {
+public class MarkerMenuItem extends AbstractMenuItem implements HasSelectionChangedHandlers {
 	
 
 	static interface MarkerMenuItemTemplate extends SafeHtmlTemplates {

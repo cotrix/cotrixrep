@@ -96,6 +96,8 @@ public interface CotrixManagerResources extends ClientBundle {
 	public ImageResource checked();
 	public ImageResource unchecked();
 	
+	public ImageResource calendar();
+	
 	public ImageResource refresh();
 	
 	public ImageResource linksTypes();
@@ -159,6 +161,7 @@ public interface CotrixManagerResources extends ClientBundle {
 		String noItemsBackground();
 		String noItemsLabel();
 		String systemAttributeDisclosurePanelLabel();
+		String filteredRow();
 	}
 	
 	public interface PropertyGridStyle extends CssResource {

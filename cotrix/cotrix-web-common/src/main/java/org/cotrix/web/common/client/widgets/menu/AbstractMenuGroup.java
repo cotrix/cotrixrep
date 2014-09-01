@@ -15,6 +15,7 @@ import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -27,13 +28,15 @@ public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<A
 	
 	protected void addItem(final AbstractMenuItem item) {
 		items.add(item);
-		item.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				fireSelection(item);
-			}
-		});
+		if (item instanceof HasSelectionChangedHandlers) {
+			((HasSelectionChangedHandlers)item).addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+				
+				@Override
+				public void onSelectionChange(SelectionChangeEvent event) {
+					fireSelection(item);
+				}
+			});
+		}
 	}
 	
 	public List<AbstractMenuItem> getItems() {
@@ -52,6 +55,12 @@ public abstract class AbstractMenuGroup implements Group, HasSelectionHandlers<A
 	@Override
 	public HandlerRegistration addSelectionHandler(SelectionHandler<AbstractMenuItem> handler) {
 		return handlerManager.addHandler(SelectionEvent.getType(), handler);
+	}
+	
+	public List<AbstractMenuItem> getSelectedItems() {
+		List<AbstractMenuItem> selected = new ArrayList<AbstractMenuItem>();
+		for (AbstractMenuItem item:items) if (item.isSelected()) selected.add(item);
+		return selected;
 	}
 
 }

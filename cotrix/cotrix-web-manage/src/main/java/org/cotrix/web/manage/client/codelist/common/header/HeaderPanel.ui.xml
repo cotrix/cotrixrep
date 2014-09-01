@@ -65,6 +65,10 @@
 		color: DISABLED_GREY;
 	}
 	
+	.titleGreyed {
+		color: SUBTITLE_GREY;
+	}
+	
 	.primaryButtonCell {
 		padding-top: VERTICAL_PADDING;
 		width: 40px;

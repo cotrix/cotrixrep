@@ -19,12 +19,13 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public class ImageMenuItem extends AbstractMenuItem {
+public class ImageMenuItem extends AbstractMenuItem implements HasSelectionChangedHandlers {
 	
 
 	static interface ImageMenuItemTemplate extends SafeHtmlTemplates {
@@ -46,6 +47,7 @@ public class ImageMenuItem extends AbstractMenuItem {
 	private boolean manageSelection;
 	private String value;
 	private String selectedItemStyleName;
+	private String disabledItemStyleName;
 	
 	@UiConstructor
 	public ImageMenuItem(String label, ImageResource image, String value) {
@@ -73,13 +75,19 @@ public class ImageMenuItem extends AbstractMenuItem {
 		this.selectedItemStyleName = selectedItemStyleName;
 	}
 
+	public void setDisabledItemStyleName(String disabledItemStyleName) {
+		this.disabledItemStyleName = disabledItemStyleName;
+	}
+
 	public String getValue() {
 		return value;
 	}
 
 	private void fireSelectionChange() {
-		if (manageSelection) setSelected(!selected);
-		SelectionChangeEvent.fire(this);
+		if (isEnabled()) {
+			if (manageSelection) setSelected(!selected);
+			SelectionChangeEvent.fire(this);
+		}
 	}
 	
 	public void setImage(ImageResource resource) {
@@ -110,4 +118,14 @@ public class ImageMenuItem extends AbstractMenuItem {
 		return handlerManager.addHandler(SelectionChangeEvent.getType(), handler);
 	}
 
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		if (disabledItemStyleName!=null) setStyleName(disabledItemStyleName, !enabled);
+	}
+
+	@Override
+	public boolean isSelected() {
+		return selected;
+	}
 }

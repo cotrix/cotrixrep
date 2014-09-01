@@ -37,7 +37,10 @@ public class FlatMenuBar extends MenuBar {
 	public void addGroup(final Group group) {
 		if (!isFirstElement) addSeparator();
 		isFirstElement = false;
-		for (AbstractMenuItem item:group.getItems()) addItem(item);
+		for (AbstractMenuItem item:group.getItems()) {
+			if (item instanceof ItemSeparator) addSeparator();
+			else addItem(item);
+		}
 	}
 	
 	@SuppressWarnings("deprecation")

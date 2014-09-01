@@ -13,8 +13,11 @@ import com.google.inject.Singleton;
 public interface CommonResources extends ClientBundle {
 	public static final CommonResources INSTANCE = GWT.create(CommonResources.class);
 	
-	@Source("style.css")
+	@Source({"style.css", "definitions.css"})
 	public CommonCss css();
+	
+	@Source({"datePicker.css", "definitions.css"})
+	public DatePickerStyle datePicker();
 	
 	public ImageResource loader();
 	

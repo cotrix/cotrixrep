@@ -68,10 +68,11 @@
 }
 
 .textbox {
-    border: none;
-    border-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 5px;
     color: SUBTITLE_GREY;
-    padding-left: 6px;
+    -webkit-text-fill-color: SUBTITLE_GREY;
+    padding-left: 5px;
     font-size: 14px;
     height: 27px;
     line-height: 18px;
@@ -79,6 +80,8 @@
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     transition: border-color 700ms ease;
+    
+    text-overflow: ellipsis;
 }
 
 .textbox:focus {
@@ -90,9 +93,11 @@
 }
 
 .textbox:hover {
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     border-radius: 5px;
     padding-left: 5px;
+        
+    text-overflow: initial;
 }
 
 .textbox:focus:hover {
@@ -152,6 +157,7 @@
 .listbox {
     font-size: 14px;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: none;
@@ -167,8 +173,9 @@
 
 .listbox:hover {
     border-radius: 5px;
+    -webkit-border-radius: 5px;
     background-color: transparent;
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     outline: none;
     transition: border-color 700ms ease;
     padding-left: 1px;
@@ -194,6 +201,7 @@
 .suggestionbox {
     font-size: 14px;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     height: 29px;
     outline: none;
     border: 1px solid transparent;
@@ -205,7 +213,7 @@
 .suggestionbox:hover {
     border-radius: 5px;
     background-color: transparent;
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     outline: none;
     transition: border-color 700ms ease;
     padding-left: 1px;
@@ -258,7 +266,7 @@
 
 .suggestionPopup {
 	background-color: white;
-	border: 1px solid #999;
+	border: 1px solid WIREFRAME_GREY;
 }
 
 .suggestionPopup table {
@@ -269,10 +277,11 @@
 	padding: 2px 6px;
 	color: SUBTITLE_GREY;
 	cursor: default;
+	font-size: 14px;
 }
 
 .suggestionItemSelected {
-	background: #eee;
+	background: SELECTION_GREY;
 }
 
 .label {
@@ -293,9 +302,9 @@
     border: none;
     border-color: transparent;
     color: SUBTITLE_GREY;
+    -webkit-text-fill-color: SUBTITLE_GREY;
     padding-left: 6px;
     font-size: 14px;
- /*   height: 27px;*/
     width: 100%;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -313,7 +322,7 @@
 }
 
 .textarea:hover {
-    border: 1px solid #999;
+    border: 1px solid WIREFRAME_GREY;
     border-radius: 5px;
     padding-left: 5px;
     resize: both;

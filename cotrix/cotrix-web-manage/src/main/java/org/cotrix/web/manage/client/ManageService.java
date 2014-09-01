@@ -22,6 +22,7 @@ import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 import org.cotrix.web.manage.shared.UILogbookEntry;
+import org.cotrix.web.manage.shared.filter.FilterOption;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 
@@ -37,7 +38,7 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("service/manageService")
 public interface ManageService extends RemoteService {
 	
-	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo) throws ServiceException;
+	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo, List<FilterOption> filterOptions) throws ServiceException;
 	List<Group> getGroups(String codelistId) throws ServiceException;
 	
 	List<UICodelistInfo> getCodelistsInfos() throws ServiceException;

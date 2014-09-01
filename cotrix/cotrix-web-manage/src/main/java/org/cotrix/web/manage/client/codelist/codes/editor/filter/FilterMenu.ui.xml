@@ -1,0 +1,57 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:m="urn:import:org.cotrix.web.common.client.widgets.menu">
+	<ui:with field='resources'
+		type='org.cotrix.web.manage.client.resources.CotrixManagerResources' />
+	<ui:style src="definitions.css">
+	.disabledItem {
+		color: DISABLED_GREY;
+	}
+	</ui:style>
+	<m:FlatMenuBar vertical="true" styleName="{resources.menuStyle.menuBar}">
+
+		<!-- FILTER -->
+		<m:group>
+			<m:RadioMenuGroup ui:field="filterGroup">
+				<m:radio>
+					<m:ImageMenuItem label="SHOW ALL" image="{resources.checkBullet}"
+						ui:field="showAllItem" 
+						selected="true" styleName="{resources.menuStyle.menuItem}"
+						selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
+						value="all" />
+				</m:radio>
+				<m:radio>
+					<m:ItemSeparator />
+				</m:radio>
+				<m:radio>
+					<m:ImageMenuItem label="HIGHLIGHTED" image="{resources.checkBullet}"
+						ui:field="highlightedItem" styleName="{resources.menuStyle.menuItem}"
+						selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
+						disabledItemStyleName="{style.disabledItem}"
+						value="highlighted" />
+				</m:radio>
+				<m:radio>
+					<m:ItemSeparator />
+				</m:radio>
+				<m:radio>
+					<m:ImageMenuItem label="RECENT CHANGES" image="{resources.checkBullet}"
+						styleName="{resources.menuStyle.menuItem}" selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
+						value="recent_changes" />
+				</m:radio>
+				<m:radio>
+					<m:ImageMenuItem label="SINCE CREATION" image="{resources.checkBullet}"
+						styleName="{resources.menuStyle.menuItem}" selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
+						value="since_creation" />
+				</m:radio>
+				<m:radio>
+					<m:ImageMenuItem label="SINCE..." image="{resources.checkBullet}"
+						ui:field="sinceItem" styleName="{resources.menuStyle.menuItem}"
+						selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
+						value="since" />
+				</m:radio>
+			</m:RadioMenuGroup>
+		</m:group>
+
+	</m:FlatMenuBar>
+
+</ui:UiBinder> 

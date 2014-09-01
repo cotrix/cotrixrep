@@ -39,7 +39,7 @@ public class CodelistTab extends Composite implements HasCloseHandlers<Widget>{
 	@UiField(provided=true)  PushButton close;
 
 	public CodelistTab(String name, String version) {
-		Image image = new Image(CotrixManagerResources.INSTANCE.close());
+		Image image = new Image(CotrixManagerResources.INSTANCE.closeSmall());
 		image.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);		
 		close = new PushButton(image);
 		
