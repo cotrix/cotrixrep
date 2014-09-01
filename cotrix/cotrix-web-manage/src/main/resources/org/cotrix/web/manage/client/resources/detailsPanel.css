@@ -277,10 +277,11 @@
 	padding: 2px 6px;
 	color: SUBTITLE_GREY;
 	cursor: default;
+	font-size: 14px;
 }
 
 .suggestionItemSelected {
-	background: #eee;
+	background: SELECTION_GREY;
 }
 
 .label {
