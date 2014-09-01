@@ -180,6 +180,7 @@ public class ColumnsMenu extends PopupPanel {
 	}
 
 	private List<Group> getActiveGroups() {
+		Log.trace("getActiveGroups");
 		List<Group> actives = new ArrayList<Group>();
 		for (int i = 0; i < columnsContainer.getWidgetCount(); i++) {
 			Widget child = columnsContainer.getWidget(i);

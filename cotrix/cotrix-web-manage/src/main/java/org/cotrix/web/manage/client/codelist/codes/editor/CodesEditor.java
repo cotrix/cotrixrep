@@ -600,11 +600,13 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		
 		showLoader();
 		
+		
 		switchAllGroupsToNormal();
 
 		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
 		List<Header<?>> headers = new ArrayList<Header<?>>(groups.size());
 		
+		Log.trace("preparing columns");
 		for (Group group:groups) {
 			Column<UICode, String> column = getGroupColumn(group);
 			columns.add(column);
@@ -616,17 +618,26 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			headers.add(header);
 		}
 		
+		Log.trace("adding columns");
 		dataGrid.addColumns(columns, headers);
+		Log.trace("firing events");
 		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
+		Log.trace("done");
 		
 		hideLoader();
 	}
 	
 	private void switchAllGroupsToNormal() {
+		Log.trace("switchAllGroupsToNormal");
 		
+		Log.trace("toColumns");
 		List<Column<UICode, ?>> columns = toColumns(groupsAsColumn);
+		Log.trace("generated "+columns.size()+" columns, removing columns");
+		
 		dataGrid.removeColumns(columns);
+		Log.trace("removed, firing events");
 		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
+		Log.trace("firing complete");
 		groupsAsColumn.clear();
 	}
 	
