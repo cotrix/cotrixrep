@@ -8,6 +8,7 @@ import static org.cotrix.web.manage.shared.ManagerUIFeature.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
 import org.cotrix.action.CodelistAction;
@@ -88,6 +90,9 @@ import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
 import org.cotrix.web.manage.shared.UILogbookEntry;
 import org.cotrix.web.manage.shared.filter.FilterOption;
 import org.cotrix.web.manage.shared.filter.MarkerFilterOption;
+import org.cotrix.web.manage.shared.filter.SessionStartedOption;
+import org.cotrix.web.manage.shared.filter.SinceCreationOption;
+import org.cotrix.web.manage.shared.filter.SinceDateOption;
 import org.cotrix.web.manage.shared.modify.ModifyCommand;
 import org.cotrix.web.manage.shared.modify.ModifyCommandResult;
 import org.slf4j.Logger;
@@ -138,6 +143,9 @@ public class ManageServiceImpl implements ManageService {
 
 	@Inject @Current
 	private BeanSession session;
+	
+	@Inject
+	private HttpSession httpSession;
 
 	@Inject @Current
 	private User currentUser;
@@ -221,11 +229,25 @@ public class ManageServiceImpl implements ManageService {
 				codelistSizeProvider = new CodelistSizeProvider.CounterCodelistSizeProvider(repository.get(codesWith(definitions).in(codelistId)));
 			}
 			
-			//TODO
-			if (query == null) {
-				query = allCodesIn(codelistId);
-				codelistSizeProvider = new CodelistSizeProvider.ConstantCodelistSizeProvider(codelist.codes().size());
+			if (option instanceof SinceDateOption) {
+				SinceDateOption sinceOption = (SinceDateOption)option;
+				query = codesSince(sinceOption.getSince()).in(codelistId);
+				codelistSizeProvider = new CodelistSizeProvider.CounterCodelistSizeProvider(repository.get(codesSince(sinceOption.getSince()).in(codelistId)));
 			}
+			
+			if (option instanceof SessionStartedOption) {
+				Date creationTime = new Date(httpSession.getCreationTime());
+				query = codesSince(creationTime).in(codelistId);
+				codelistSizeProvider = new CodelistSizeProvider.CounterCodelistSizeProvider(repository.get(codesSince(creationTime).in(codelistId)));
+			}
+			
+			if (option instanceof SinceCreationOption) {
+				Date creationTime = CommonDefinition.CREATED.dateOf(codelist);
+				query = codesSince(creationTime).in(codelistId);
+				codelistSizeProvider = new CodelistSizeProvider.CounterCodelistSizeProvider(repository.get(codesSince(creationTime).in(codelistId)));
+			}
+
+			if (query == null) throw new ServiceException("Unknown filter option "+option);
 
 		} else {
 			query = allCodesIn(codelistId);
