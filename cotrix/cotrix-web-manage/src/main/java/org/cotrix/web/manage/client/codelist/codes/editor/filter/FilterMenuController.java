@@ -27,6 +27,8 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.inject.Inject;
@@ -39,6 +41,8 @@ import com.google.web.bindery.event.shared.binder.EventHandler;
  *
  */
 public class FilterMenuController {
+	
+	private static final DateTimeFormat FORMAT = DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT);
 	
 	interface FilterMenuControllerEventBinder extends EventBinder<FilterMenuController> {}
 	
@@ -53,6 +57,8 @@ public class FilterMenuController {
 	private ToggleButton target;
 	
 	private DatePickerPopup datePickerPopup;
+	
+	private Date since;
 	
 	@Inject
 	void init() {
@@ -75,7 +81,9 @@ public class FilterMenuController {
 			
 			@Override
 			public void onValueChange(ValueChangeEvent<Date> event) {
-				fireOption(new SinceDateOption(event.getValue()));
+				since = event.getValue();
+				fireOption(new SinceDateOption(since));
+				filterMenu.setSinceItemLabel("SINCE "+FORMAT.format(since));
 			}
 		});
 		
@@ -85,6 +93,7 @@ public class FilterMenuController {
 			public void onClose(CloseEvent<PopupPanel> event) {
 				target.setDown(false);
 				filterMenu.hide();
+				if (event.isAutoClosed()) resetToAll();
 			}
 		});
 		
@@ -119,7 +128,10 @@ public class FilterMenuController {
 			case SINCE: showSinceMenu(); break;
 		}
 		
-		if (button!=MenuButton.SINCE) target.setDown(false);
+		if (button!=MenuButton.SINCE) {
+			target.setDown(false);
+			filterMenu.resetSinceItemLabel();
+		}
 	}
 	
 	private void fireOption(FilterOption option) {
@@ -127,6 +139,7 @@ public class FilterMenuController {
 	}
 	
 	private void showSinceMenu() {
+		since = null;
 		datePickerPopup.showRelativeTo(filterMenu.getSinceItem());
 	}
 	
@@ -141,9 +154,13 @@ public class FilterMenuController {
 		filterMenu.setHighlightItemEnabled(!highlightedMarkers.isEmpty());
 		
 		if (highlightedMarkers.isEmpty() && filterMenu.getSelectedButton() == MenuButton.HIGHLIGHTED) {
-			filterMenu.setSelectedShowAll();
-			onMenuButtonClicked(MenuButton.ALL);
+			resetToAll();
 		}
+	}
+	
+	private void resetToAll() {
+		filterMenu.setSelectedShowAll();
+		onMenuButtonClicked(MenuButton.ALL);
 	}
 
 }

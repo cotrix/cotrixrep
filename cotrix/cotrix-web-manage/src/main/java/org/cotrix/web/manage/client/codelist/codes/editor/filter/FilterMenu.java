@@ -106,6 +106,14 @@ public class FilterMenu extends DecoratedPopupPanel {
 	public UIObject getSinceItem() {
 		return sinceItem;
 	}
+	
+	public void setSinceItemLabel(String label) {
+		sinceItem.setLabel(label);
+	}
+	
+	public void resetSinceItemLabel() {
+		sinceItem.setLabel("SINCE...");
+	}
 
 	@Override
 	public void hide() {

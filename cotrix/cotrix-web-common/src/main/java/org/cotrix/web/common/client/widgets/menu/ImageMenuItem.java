@@ -71,6 +71,13 @@ public class ImageMenuItem extends AbstractMenuItem implements HasSelectionChang
 		setSelected(false);
 	}
 	
+	
+	
+	public void setLabel(String label) {
+		this.label = SafeHtmlUtils.fromString(label);
+		generateHTML();
+	}
+
 	public void setSelectedItemStyleName(String selectedItemStyleName) {
 		this.selectedItemStyleName = selectedItemStyleName;
 	}
@@ -96,6 +103,10 @@ public class ImageMenuItem extends AbstractMenuItem implements HasSelectionChang
 	
 	public void setSelected(boolean selected) {
 		this.selected = selected;
+		generateHTML();
+	}
+	
+	private void generateHTML() {
 		SafeHtml html = selected?TEMPLATE.checked(label, image.getSafeUri(), ""):TEMPLATE.unchecked(label, SafeStylesUtils.forPaddingLeft(image.getWidth() + 8, Unit.PX));
 		setHTML(html);
 	}
