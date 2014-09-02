@@ -51,6 +51,7 @@ public class ItemPanel<T> extends Composite {
 	private boolean readOnly;
 	private boolean editable;
 	private boolean editing;
+	private boolean edited;
 
 	private ItemPanelHeader header;
 	private ItemEditingPanelListener<T> listener;
@@ -61,6 +62,7 @@ public class ItemPanel<T> extends Composite {
 	public ItemPanel(final ItemPanelHeader header, ItemView view, ItemEditor<T> editor) {
 		this.editor = editor;
 		this.header = header;
+		this.edited = false;
 		
 		disclosurePanel = new CustomDisclosurePanel(header);
 		disclosurePanel.setWidth("100%");
@@ -83,6 +85,7 @@ public class ItemPanel<T> extends Composite {
 			public void onValueChange(ValueChangeEvent<Void> event) {
 				updateHeaderLabel();
 				validate();
+				edited = true;
 			}
 		});
 
@@ -114,7 +117,10 @@ public class ItemPanel<T> extends Composite {
 				switch (button) {
 					case EDIT: onEdit(); break;
 					case REVERT: onCancel(); break;
-					case SAVE: onSave(); break;
+					case SAVE: {
+						if (edited) onSave();
+						else onCancel();
+					} break;
 				}
 			}
 
@@ -149,6 +155,7 @@ public class ItemPanel<T> extends Composite {
 	}
 
 	private void onEdit() {
+		edited = false;
 		editor.onEdit(new AsyncCallback<Boolean>() {
 
 			@Override
