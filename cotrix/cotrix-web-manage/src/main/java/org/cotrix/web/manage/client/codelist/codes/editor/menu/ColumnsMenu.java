@@ -86,9 +86,9 @@ public class ColumnsMenu extends PopupPanel {
 		this.provider = provider;
 		this.callback = callback;
 		
-		refresh();
-		
-		showRelativeTo(target);
+		setGroups(provider.getActiveGroups(), provider.getActiveGroups());
+
+		center();
 	}
 	
 	private void refresh() {
