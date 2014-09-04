@@ -46,8 +46,8 @@ public class GroupFactory {
 		}
 
 		for (UILinkDefinition definition:linkTypesCache) {
-			int max = 1;
-			for (int i = 0; i<max; i++) {
+			UIRange range = definition.getRange();
+			for (int i = 0; i<range.getMax(); i++) {
 				LinkGroup group = new LinkGroup(definition);
 				group.setPosition(i);
 				groups.add(group);

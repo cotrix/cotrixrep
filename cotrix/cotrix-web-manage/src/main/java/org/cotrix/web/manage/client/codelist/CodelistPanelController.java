@@ -199,7 +199,7 @@ public class CodelistPanelController implements Presenter {
 				//the modification is about our codelist
 				if (isAboutOurCodelist(event)) {
 					codesDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class, UILinkDefinition.class);
-					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class);
+					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class, UILinkDefinition.class);
 
 				} else {
 					if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkDefinition.class)) return;

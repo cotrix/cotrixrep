@@ -140,34 +140,34 @@ public class ChangesetUtil {
 		return deleteLink(link.getId());
 	}
 	
-	public static LinkDefinition addCodelistLink(UILinkDefinition linkType, Codelist target) {
-		UIValueType valueType = linkType.getValueType();
+	public static LinkDefinition addLinkDefinition(UILinkDefinition linkDefinition, Codelist target) {
+		UIValueType valueType = linkDefinition.getValueType();
 		
 		ThirdClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorToName().occurs(toRange(linkType.getRange()));
+			clause = linkdef().name(convert(linkDefinition.getName())).target(target).anchorToName().occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (valueType instanceof AttributeValue) {
 			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(template).occurs(toRange(linkType.getRange()));
+			clause = linkdef().name(convert(linkDefinition.getName())).target(target).anchorTo(template).occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
 			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.linkDefinitions());
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(codelistLink).occurs(toRange(linkType.getRange()));
+			clause = linkdef().name(convert(linkDefinition.getName())).target(target).anchorTo(codelistLink).occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
 		
-		List<Attribute> attributes = addAttributes(linkType.getAttributes());
+		List<Attribute> attributes = addAttributes(linkDefinition.getAttributes());
 		clause = clause.attributes(attributes);
 		
-		if (linkType.getValueFunction()!=null) {
-			ValueFunction function = toValueFunction(linkType.getValueFunction());
+		if (linkDefinition.getValueFunction()!=null) {
+			ValueFunction function = toValueFunction(linkDefinition.getValueFunction());
 			clause =clause.transformWith(function);
 		}
 		
@@ -191,35 +191,35 @@ public class ChangesetUtil {
 		return arguments.get(0);
 	}
 
-	public static LinkDefinition updateCodelistLink(UILinkDefinition linkType, Codelist target, LinkDefinition oldCodelistLink) {
+	public static LinkDefinition updateLinkDefinition(UILinkDefinition linkDefinition, Codelist target, LinkDefinition oldLinkDefinition) {
 		
-		UIValueType valueType = linkType.getValueType();
+		UIValueType valueType = linkDefinition.getValueType();
 		
 		ThirdClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
-			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorToName();
+			clause = modifyLinkDef(linkDefinition.getId()).name(convert(linkDefinition.getName())).anchorToName().occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (valueType instanceof AttributeValue) {
 			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
-			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorTo(template);
+			clause = modifyLinkDef(linkDefinition.getId()).name(convert(linkDefinition.getName())).anchorTo(template).occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
 			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.linkDefinitions());
-			clause = modifyLinkDef(linkType.getId()).name(convert(linkType.getName())).anchorTo(codelistLink);
+			clause = modifyLinkDef(linkDefinition.getId()).name(convert(linkDefinition.getName())).anchorTo(codelistLink).occurs(toRange(linkDefinition.getRange()));
 		}
 		
 		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);
 		
-		List<Attribute> attributes = buildChangeSet(linkType.getAttributes(), oldCodelistLink.attributes());
+		List<Attribute> attributes = buildChangeSet(linkDefinition.getAttributes(), oldLinkDefinition.attributes());
 		clause = clause.attributes(attributes);
 		
-		if (linkType.getValueFunction()!=null) {
-			ValueFunction function = toValueFunction(linkType.getValueFunction());
+		if (linkDefinition.getValueFunction()!=null) {
+			ValueFunction function = toValueFunction(linkDefinition.getValueFunction());
 			clause = clause.transformWith(function);
 		}
 		

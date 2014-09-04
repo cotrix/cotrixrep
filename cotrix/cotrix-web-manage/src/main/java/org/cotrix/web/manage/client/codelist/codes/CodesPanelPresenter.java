@@ -131,7 +131,7 @@ public class CodesPanelPresenter implements Presenter {
 	}
 	
 	public void reloadCodes(boolean reloadHeaders) {
-		view.getCodeListEditor().showAllGroupsAsColumn(false);
+		if (reloadHeaders) view.getCodeListEditor().showAllGroupsAsColumn(false);
 		view.getCodeListEditor().reload();
 	}
 

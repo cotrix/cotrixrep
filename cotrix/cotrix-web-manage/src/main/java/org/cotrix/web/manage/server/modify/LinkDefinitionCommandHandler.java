@@ -44,14 +44,14 @@ public class LinkDefinitionCommandHandler {
 		switch (command.getAction()) {
 			case ADD: {
 				Codelist target = repository.lookup(linkDefinition.getTargetCodelist().getId());
-				LinkDefinition codelistChangeSet = ChangesetUtil.addCodelistLink(linkDefinition, target);
+				LinkDefinition codelistChangeSet = ChangesetUtil.addLinkDefinition(linkDefinition, target);
 				update(codelistId, codelistChangeSet);
 				return new UpdatedLinkDefinition(toUILinkDefinition(lookupLinkDefinition(codelistId, codelistChangeSet.id())));
 			}
 			case UPDATE: {
 				Codelist target = repository.lookup(linkDefinition.getTargetCodelist().getId());
 				LinkDefinition oldCodelistLink = lookupLinkDefinition(codelistId, linkDefinition.getId());
-				LinkDefinition codelistChangeSet = ChangesetUtil.updateCodelistLink(linkDefinition, target, oldCodelistLink);
+				LinkDefinition codelistChangeSet = ChangesetUtil.updateLinkDefinition(linkDefinition, target, oldCodelistLink);
 				repository.update(modifyCodelist(codelistId).links(codelistChangeSet).build());
 				return new UpdatedLinkDefinition(toUILinkDefinition(lookupLinkDefinition(codelistId, codelistChangeSet.id())));
 			}
