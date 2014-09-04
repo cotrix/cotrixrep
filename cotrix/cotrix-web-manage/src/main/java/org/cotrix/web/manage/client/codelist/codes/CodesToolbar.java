@@ -13,8 +13,6 @@ import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 public interface CodesToolbar {
 	
 	enum Action {
-		ALL_COLUMN,
-		ALL_NORMAL,
 		TO_METADATA;
 	}
 	

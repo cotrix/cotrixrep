@@ -8,8 +8,6 @@ import java.util.List;
 
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupsSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.codelist.common.GroupFactory;
@@ -72,12 +70,6 @@ public class ColumnsMenuController {
 	@Inject
 	void bind(ColumnsMenuControllerEventBinder binder) {
 		binder.bindEventHandlers(this, bus);
-	}
-	
-	@EventHandler
-	void onGroupSwitched(GroupSwitchedEvent  event) {
-		Group group = event.getGroup();
-		if (event.getSwitchType() == GroupSwitchType.TO_NORMAL) activeDefinitionIds.remove(group.getDefinition().getId());
 	}
 	
 	@EventHandler

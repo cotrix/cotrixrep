@@ -82,8 +82,6 @@ public class CodesPanelPresenter implements Presenter {
 			public void onAction(Action action) {
 				Log.trace("toolbar onAction "+action);
 				switch (action) {
-					case ALL_COLUMN: showAllGroupsAsColumn(); break;
-					case ALL_NORMAL: view.getCodeListEditor().showAllGroupsAsNormal(); break;
 					case TO_METADATA: codelistBus.fireEvent(SwitchPanelEvent.METADATA); break;
 				}
 			}

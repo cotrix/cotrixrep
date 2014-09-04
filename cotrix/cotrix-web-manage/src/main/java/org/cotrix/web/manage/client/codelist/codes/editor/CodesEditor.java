@@ -1,7 +1,5 @@
 package org.cotrix.web.manage.client.codelist.codes.editor;
 
-import static com.google.gwt.dom.client.BrowserEvents.*;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +33,6 @@ import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterWordUpdat
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.FilterOptionUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupsSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
@@ -58,23 +54,11 @@ import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.cell.client.AbstractSafeHtmlCell;
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ValueUpdater;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.resources.client.CssResource;
-import com.google.gwt.safehtml.client.SafeHtmlTemplates;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.text.shared.AbstractSafeHtmlRenderer;
-import com.google.gwt.text.shared.SafeHtmlRenderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.cellview.client.Column;
@@ -82,6 +66,7 @@ import com.google.gwt.user.cellview.client.ColumnSortEvent.AsyncHandler;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.cellview.client.PatchedDataGrid;
+import com.google.gwt.user.cellview.client.SafeHtmlHeader;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.SimplePager.Style;
 import com.google.gwt.user.cellview.client.SimplePager.TextLocation;
@@ -367,11 +352,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		if (reloadData) reload();
 	}
 
-	public void showAllGroupsAsNormal()
-	{
-		switchAllGroupsToNormal();
-	}
-
 	public void setEditable(boolean editable)
 	{
 		this.editable = editable;
@@ -549,20 +529,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		}
 	}
 
-	private void switchToNormal(Group group)
-	{
-		removeGroupColumn(group);
-		codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
-	}
-
-	private void removeGroupColumn(Group group)
-	{
-		if (!groupsAsColumn.contains(group)) return;
-		Column<UICode, String> column = getGroupColumn(group);
-		groupsAsColumn.remove(group);
-		dataGrid.removeColumn(column);
-	}
-
 	private void setGroups(List<Group> groups) {
 		Log.trace("setGroups groups: "+groups);
 
@@ -580,8 +546,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			columns.add(column);
 
 			groupsAsColumn.add(group);
-
-			GroupHeader header = new GroupHeader(group);
+			
+			SafeHtmlHeader header = new SafeHtmlHeader(group.getLabel());
 			header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
 			headers.add(header);
 		}
@@ -592,20 +558,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		codelistBus.fireEvent(new GroupsSwitchedEvent(groups));
 
 		hideLoader();
-	}
-
-	private void switchAllGroupsToNormal() {
-		Log.trace("switchAllGroupsToNormal");
-
-		Log.trace("toColumns");
-		List<Column<UICode, ?>> columns = toColumns(groupsAsColumn);
-		Log.trace("generated "+columns.size()+" columns, removing columns");
-
-		dataGrid.removeColumns(columns);
-		Log.trace("removed, firing events");
-		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
-		Log.trace("firing complete");
-		groupsAsColumn.clear();
 	}
 
 	private List<Column<UICode, ?>> toColumns(List<Group> groups) {
@@ -653,106 +605,5 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			return group;
 		}
 	}
-
-	private class GroupHeader extends Header<Group> {
-
-		private Group group;
-
-		/**
-		 * Construct a new TextHeader.
-		 *
-		 * @param text the header text as a String
-		 */
-		public GroupHeader(Group group) {
-			super(new ClickableGroupCell(new SafeHtmlGroupRenderer()));
-			this.group = group;
-
-			setUpdater(new ValueUpdater<Group>() {
-
-				@Override
-				public void update(Group value) {
-					switchToNormal(value);
-				}
-			});
-		}
-
-		/** 
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean onPreviewColumnSortEvent(Context context, Element elem, NativeEvent event) {
-			Element element = event.getEventTarget().cast();
-			return !element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID);
-		}
-
-
-
-		/**
-		 * Return the header text.
-		 */
-		@Override
-		public Group getValue() {
-			return group;
-		}
-	}
-
-	public class ClickableGroupCell extends AbstractSafeHtmlCell<Group> {
-
-
-		/**
-		 * Construct a new ClickableTextCell that will use a given
-		 * {@link SafeHtmlRenderer}.
-		 * 
-		 * @param renderer a {@link SafeHtmlRenderer SafeHtmlRenderer<Group>} instance
-		 */
-		public ClickableGroupCell(SafeHtmlRenderer<Group> renderer) {
-			super(renderer, CLICK, KEYDOWN);
-		}
-
-		@Override
-		public void onBrowserEvent(Context context, Element parent, Group value,
-				NativeEvent event, ValueUpdater<Group> valueUpdater) {
-			super.onBrowserEvent(context, parent, value, event, valueUpdater);
-			if (CLICK.equals(event.getType())) {
-				onEnterKeyDown(context, parent, value, event, valueUpdater);
-			}
-		}
-
-		@Override
-		protected void onEnterKeyDown(Context context, Element parent, Group value,
-				NativeEvent event, ValueUpdater<Group> valueUpdater) {
-			Element element = event.getEventTarget().cast();
-
-			if (valueUpdater != null && element.getId().equals(SafeHtmlGroupRenderer.CLOSE_IMG_ID)) {
-				valueUpdater.update(value);
-			}
-		}
-
-		@Override
-		protected void render(Context context, SafeHtml value, SafeHtmlBuilder sb) {
-			if (value != null) {
-				sb.append(value);
-			}
-		}
-	}
-
-	static class SafeHtmlGroupRenderer extends AbstractSafeHtmlRenderer<Group> {
-
-		static interface GroupHeaderTemplate extends SafeHtmlTemplates {
-
-			@Template("<table width=\"100%\"><tr><td>{0}</td><td width=\"8px\" style=\"vertical-align: top;\"><img id=\"{3}\" src=\"{1}\" class=\"{2}\" style=\"vertical-align:middle;\" title=\"Hide Column\" /></td></tr></table>")
-			SafeHtml header(SafeHtml label, SafeUri img, String imgStyle, String imgId);
-		}
-
-		static final GroupHeaderTemplate HEADER_TEMPLATE = GWT.create(GroupHeaderTemplate.class);
-		public static final String CLOSE_IMG_ID = Document.get().createUniqueId();
-
-		@Override
-		public SafeHtml render(Group value) {
-			SafeHtml label = value.getLabel();
-			SafeUri img = CotrixManagerResources.INSTANCE.closeSmall().getSafeUri();
-			String imgStyle = resource.dataGridStyle().closeGroup();
-			return HEADER_TEMPLATE.header(label, img, imgStyle, CLOSE_IMG_ID);
-		}
-	}
+	
 }
