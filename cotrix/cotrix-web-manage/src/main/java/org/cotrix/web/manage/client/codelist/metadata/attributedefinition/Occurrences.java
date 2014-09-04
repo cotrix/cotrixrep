@@ -12,12 +12,12 @@ import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
  */
 public enum Occurrences {
 	
-	ARBITRARY("arbitrarily",0,Integer.MAX_VALUE),
+	//ARBITRARY("arbitrarily",0,Integer.MAX_VALUE),
 	ONCE("once",1,1),
-	AT_LEAST_ONCE("at least once",1,Integer.MAX_VALUE),
+	//AT_LEAST_ONCE("at least once",1,Integer.MAX_VALUE),
 	AT_MOST_ONCE("at most once",0,1),
 	AT_MOST("at most",0,Integer.MAX_VALUE, false,true),
-	AT_LEAST("at least", true, false),
+	//AT_LEAST("at least", true, false),
 	CUSTOM("custom", true, true);
 	
 	private String label;
