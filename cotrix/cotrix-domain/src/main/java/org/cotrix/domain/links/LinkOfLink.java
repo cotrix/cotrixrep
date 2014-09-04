@@ -2,7 +2,7 @@ package org.cotrix.domain.links;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Data.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 
 import java.util.ArrayList;
 import java.util.List;

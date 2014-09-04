@@ -18,8 +18,8 @@ public class Ranges {
 
 	public static final  Range once = new Default(1,1);
 	public static final  Range atmostonce = new Default(0,1);
-	public static final  Range arbitrarily = new Default(0);
-	public static final  Range atleastonce = new Default(1);
+	//public static final  Range arbitrarily = new Default(0);
+	//public static final  Range atleastonce = new Default(1);
 	
 	
 }

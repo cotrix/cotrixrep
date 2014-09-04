@@ -1,7 +1,7 @@
 package org.cotrix.repository.impl;
 
 import static java.util.Collections.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 
 import java.util.Collection;
 import java.util.HashMap;

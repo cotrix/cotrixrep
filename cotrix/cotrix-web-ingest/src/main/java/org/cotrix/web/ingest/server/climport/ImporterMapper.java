@@ -12,7 +12,7 @@ import javax.xml.namespace.QName;
 
 import org.cotrix.common.Outcome;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.io.MapService;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.io.sdmx.map.Sdmx2CodelistDirectives;
@@ -97,12 +97,12 @@ public interface ImporterMapper<T> {
 		protected QName getType(AttributeType type, String customType)
 		{
 			switch (type) {
-				case ANNOTATION: return Constants.ANNOTATION_TYPE;
-				case DESCRIPTION: return Constants.DESCRIPTION_TYPE;
-				case CODE: return Constants.defaultType;
-				case OTHER_CODE: return Constants.OTHER_CODE_TYPE;
-				case NAME: return Constants.NAME_TYPE;
-				case OTHER: return new QName(Constants.NS, customType);
+				case ANNOTATION: return DomainConstants.ANNOTATION_TYPE;
+				case DESCRIPTION: return DomainConstants.DESCRIPTION_TYPE;
+				case CODE: return DomainConstants.defaultType;
+				case OTHER_CODE: return DomainConstants.OTHER_CODE_TYPE;
+				case NAME: return DomainConstants.NAME_TYPE;
+				case OTHER: return new QName(DomainConstants.NS, customType);
 				default: throw new IllegalArgumentException("Unknow attribute type "+type);
 			}
 		}

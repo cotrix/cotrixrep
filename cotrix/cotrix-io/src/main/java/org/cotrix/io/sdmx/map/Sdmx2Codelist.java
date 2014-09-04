@@ -12,7 +12,7 @@ import javax.xml.namespace.QName;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.io.impl.MapTask;
 import org.cotrix.io.utils.SharedDefinitionPool;
 import org.sdmxsource.sdmx.api.model.beans.base.AnnotationBean;
@@ -141,12 +141,12 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 		
 		//names: at least one, all with language
 		for (TextTypeWrapper name : bean.getNames())
-			attributes.add(attributeFor(directives.get(NAME), Constants.NAME_TYPE, name, pool));
+			attributes.add(attributeFor(directives.get(NAME), DomainConstants.NAME_TYPE, name, pool));
 		
 
 		//descriptions: might be none, all with language
 		for (TextTypeWrapper description :  bean.getDescriptions()) 
-			attributes.add(attributeFor(directives.get(DESCRIPTION),Constants.DESCRIPTION_TYPE, description, pool));
+			attributes.add(attributeFor(directives.get(DESCRIPTION),DomainConstants.DESCRIPTION_TYPE, description, pool));
 		
 		//annotations: there might be none, all with language
 		for (AnnotationBean annotationBean : bean.getAnnotations()) {
@@ -155,7 +155,7 @@ public class Sdmx2Codelist implements MapTask<CodelistBean, Codelist,Sdmx2Codeli
 					annotationBean.getTitle()==null?directives.get(NAME):q(annotationBean.getTitle()):
 					q(annotationBean.getId());
 
-			QName type = annotationBean.getType()==null?Constants.defaultType:q(annotationBean.getType());
+			QName type = annotationBean.getType()==null?DomainConstants.defaultType:q(annotationBean.getType());
 			
 			for (TextTypeWrapper annotation :  annotationBean.getText()) // create an attribute for each annotation text piece
 				attributes.add(attributeFor(name,type, annotation, pool));

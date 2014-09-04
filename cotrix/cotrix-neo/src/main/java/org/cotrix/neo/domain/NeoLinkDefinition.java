@@ -2,6 +2,7 @@ package org.cotrix.neo.domain;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.dsl.Data.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.cotrix.neo.domain.Constants.*;
 import static org.cotrix.neo.domain.Constants.NodeType.*;
@@ -9,7 +10,6 @@ import static org.neo4j.graphdb.Direction.*;
 
 import org.cotrix.domain.codelist.Codelist;
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.links.LinkValueType;
@@ -146,13 +146,13 @@ public class NeoLinkDefinition extends NeoDescribed implements LinkDefinition.Be
 		
 		return node().hasProperty(range_prop)? 
 					(Range) binder().fromXML((String) node().getProperty(range_prop))
-					:Ranges.arbitrarily;
+					:defaultRange;
 	}
 	
 	@Override
 	public void range(Range type) {
 		
-		if(type!=Ranges.arbitrarily)
+		if(type!=defaultRange)
 			node().setProperty(range_prop,binder().toXML(type));
 		
 	}

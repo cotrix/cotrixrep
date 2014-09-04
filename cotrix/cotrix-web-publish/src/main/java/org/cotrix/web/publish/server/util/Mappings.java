@@ -15,7 +15,7 @@ import org.cotrix.domain.links.AttributeLink;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkOfLink;
 import org.cotrix.domain.utils.AttributeTemplate;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.io.sdmx.SdmxElement;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.common.shared.Language;
@@ -95,7 +95,7 @@ public class Mappings {
 			AttributeDefinition definition = attribute.definition();
 			
 			//skip system attributes
-			if (definition.is(Constants.SYSTEM_TYPE)) continue;
+			if (definition.is(DomainConstants.SYSTEM_TYPE)) continue;
 			
 			DefinitionMapping mapping = getDefinitionMapping(definition, provider);
 			

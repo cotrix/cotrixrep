@@ -1,7 +1,6 @@
 package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
-import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 
 import org.cotrix.domain.codelist.Codelist;
@@ -10,6 +9,7 @@ import org.cotrix.domain.common.Status;
 import org.cotrix.domain.links.LinkDefinition;
 import org.cotrix.domain.links.LinkValueType;
 import org.cotrix.domain.links.NameLink;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.domain.values.ValueFunction;
 
 public class MLinkDef extends MDescribed implements LinkDefinition.Bean {
@@ -29,7 +29,7 @@ public class MLinkDef extends MDescribed implements LinkDefinition.Bean {
 		valueType(NameLink.INSTANCE);
 		
 		function(identity);
-		range(arbitrarily);
+		range(DomainConstants.defaultRange);
 		
 	}
 	

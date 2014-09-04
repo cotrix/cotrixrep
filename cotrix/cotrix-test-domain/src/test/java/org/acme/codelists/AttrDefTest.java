@@ -4,7 +4,7 @@ import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.common.Status.*;
 import static org.cotrix.domain.dsl.Data.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.domain.validation.Validators.*;
 import static org.junit.Assert.*;
 
@@ -35,7 +35,7 @@ public class AttrDefTest extends DomainTest {
 		
 		assertEquals(defaultType,minimal.type());
 		assertEquals(defaultValueType,minimal.valueType());
-		assertEquals(arbitrarily,minimal.range());
+		assertEquals(defaultRange,minimal.range());
 		assertNull(minimal.language());
 		
 		
@@ -90,7 +90,7 @@ public class AttrDefTest extends DomainTest {
 	public void canBeUpdated() {
 
 		ValueType vtype2 = valueType().with(max_length.instance("10"));
-		AttributeDefinition changeset = modify(def).name(name2).is(type2).valueIs(vtype2).in(language2).occurs(arbitrarily).build();
+		AttributeDefinition changeset = modify(def).name(name2).is(type2).valueIs(vtype2).in(language2).occurs(defaultRange).build();
 		
 		reveal(def).update(reveal(changeset));
 

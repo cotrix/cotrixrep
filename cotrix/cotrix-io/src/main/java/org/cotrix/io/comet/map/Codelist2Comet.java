@@ -7,7 +7,7 @@ import static org.cotrix.common.Report.*;
 import static org.cotrix.common.Report.Item.Type.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.attributes.Facet.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.fao.fi.comet.mapping.dsl.DataProviderDSL.*;
 import static org.fao.fi.comet.mapping.dsl.MappingDataDSL.*;
 import static org.fao.fi.comet.mapping.dsl.MappingDetailDSL.*;

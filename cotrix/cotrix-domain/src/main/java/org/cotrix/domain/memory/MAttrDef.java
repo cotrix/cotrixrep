@@ -2,7 +2,7 @@ package org.cotrix.domain.memory;
 
 import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 
 import javax.xml.namespace.QName;
 

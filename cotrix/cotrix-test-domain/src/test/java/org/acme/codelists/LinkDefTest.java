@@ -4,6 +4,7 @@ import static org.acme.codelists.Fixture.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.common.Status.*;
 import static org.cotrix.domain.dsl.Data.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.domain.values.ValueFunctions.*;
 import static org.junit.Assert.*;
 
@@ -37,7 +38,7 @@ public class LinkDefTest extends DomainTest {
 		//defaults
 		assertEquals(NameLink.INSTANCE,newlink.valueType());
 		assertEquals(identity,reveal(newlink).bean().function());
-		assertEquals(arbitrarily,reveal(newlink).bean().range());
+		assertEquals(defaultRange,reveal(newlink).bean().range());
 		
 		//name-based
 		newlink  = linkdef().name(name).target(target).anchorToName().build();

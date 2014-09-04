@@ -1,6 +1,6 @@
 package org.cotrix.io.sdmx;
 
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.io.sdmx.Constants.*;
 
 import javax.xml.namespace.QName;
