@@ -105,6 +105,7 @@ public class MarkerTypeUtil {
 		attribute.setType(defaults.systemType());
 		attribute.setNote(description==null?"":description);
 		attribute.setValue(ACTIVE_MARKER_VALUE);
+		attribute.setFacets(UIFactories.EMPTY_SET);
 		
 		return attribute;
 	}

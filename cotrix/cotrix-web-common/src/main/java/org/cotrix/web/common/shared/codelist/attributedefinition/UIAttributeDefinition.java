@@ -4,10 +4,12 @@
 package org.cotrix.web.common.shared.codelist.attributedefinition;
 
 import java.util.List;
+import java.util.Set;
 
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.Definition;
 import org.cotrix.web.common.shared.codelist.Identifiable;
+import org.cotrix.web.common.shared.codelist.UIFacet;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
 /**
@@ -24,6 +26,7 @@ public class UIAttributeDefinition implements Definition, Identifiable {
 	private String defaultValue;
 	private List<UIConstraint> constraints;
 	private String expression;
+	private Set<UIFacet> facets;
 
 	public String getId() {
 		return id;
@@ -89,10 +92,18 @@ public class UIAttributeDefinition implements Definition, Identifiable {
 		this.expression = expression;
 	}
 
+	public Set<UIFacet> getFacets() {
+		return facets;
+	}
+
+	public void setFacets(Set<UIFacet> facets) {
+		this.facets = facets;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("UIAttributeType [id=");
+		builder.append("UIAttributeDefinition [id=");
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
@@ -108,6 +119,8 @@ public class UIAttributeDefinition implements Definition, Identifiable {
 		builder.append(constraints);
 		builder.append(", expression=");
 		builder.append(expression);
+		builder.append(", facets=");
+		builder.append(facets);
 		builder.append("]");
 		return builder.toString();
 	}

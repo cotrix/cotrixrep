@@ -134,6 +134,7 @@ public class Codelists {
 		uiattribute.setId(ValueUtils.safeValue(attribute.id()));
 		uiattribute.setDefinitionId(attribute.definition().id());
 		uiattribute.setNote(attribute.note());
+		uiattribute.setFacets(AttributeDefinitions.getUIFacets(attribute.definition()));
 		
 		return uiattribute;
 	}

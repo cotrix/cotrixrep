@@ -4,10 +4,14 @@
 package org.cotrix.web.common.client.factory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UIFacet;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
@@ -26,6 +30,12 @@ public class UIFactories {
 	
 	private static final String defaultCodeName = "name";
 	private static final Language DEFAULT_LANGUAGE = Language.NONE;
+	private static final Set<UIFacet> VISIBLE_SET = new HashSet<UIFacet>();
+	public static final Set<UIFacet> EMPTY_SET = new HashSet<UIFacet>();
+	
+	static {
+		VISIBLE_SET.add(UIFacet.VISIBLE);
+	}
 	
 	@Inject
 	private UIDefaults defaults;
@@ -36,6 +46,7 @@ public class UIFactories {
 		type.setLanguage(DEFAULT_LANGUAGE);
 		type.setConstraints(new ArrayList<UIConstraint>());
 		type.setRange(defaults.defaultRange());
+		type.setFacets(Collections.<UIFacet>emptySet());
 		return type;
 	}
 	
@@ -44,6 +55,7 @@ public class UIFactories {
 		UIAttribute attribute = new UIAttribute();
 		attribute.setType(defaults.defaultType());
 		attribute.setLanguage(DEFAULT_LANGUAGE);
+		attribute.setFacets(VISIBLE_SET);
 		return attribute;
 	}
 	

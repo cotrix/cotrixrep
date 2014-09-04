@@ -12,6 +12,7 @@ import org.cotrix.web.common.client.widgets.ItemToolbar.ButtonClickedHandler;
 import org.cotrix.web.common.client.widgets.ItemToolbar.ItemButton;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
+import org.cotrix.web.common.shared.codelist.UIFacet;
 import org.cotrix.web.manage.client.codelist.codes.attribute.CodeAttributeEditingPanelFactory;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
@@ -178,6 +179,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 			public void onDataEdit(DataEditEvent<CodeAttribute> event) {
 				if (visualizedCode!=null && visualizedCode.equals(event.getData().getCode())) {
 					UIAttribute attribute = event.getData().getAttribute();
+					if (!attribute.is(UIFacet.VISIBLE)) return; 
 					switch (event.getEditType()) {
 						case ADD: {
 							if (event.getSource() != AttributesPanel.this) {
@@ -274,7 +276,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 		attributesGrid.clear();
 		Attributes.sortByAttributeType(visualizedCode.getAttributes());
 		for (UIAttribute attribute:visualizedCode.getAttributes()) {
-			attributesGrid.addItemPanel(attribute);
+			if (attribute.is(UIFacet.VISIBLE)) attributesGrid.addItemPanel(attribute);
 		}
 		
 		refreshSwitches();
@@ -323,7 +325,7 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 		Log.trace("refreshSwitches");
 		if (visualizedCode == null) return;
 		for (UIAttribute attribute:visualizedCode.getAttributes()) {
-			attributesGrid.setSwitchState(attribute, isInGroupAsColumn(attribute)?SwitchState.DOWN:SwitchState.UP);
+			if (attribute.is(UIFacet.VISIBLE)) attributesGrid.setSwitchState(attribute, isInGroupAsColumn(attribute)?SwitchState.DOWN:SwitchState.UP);
 		}
 	}
 	

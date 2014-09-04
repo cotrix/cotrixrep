@@ -1,5 +1,7 @@
 package org.cotrix.web.common.shared.codelist;
 
+import java.util.Set;
+
 import org.cotrix.web.common.shared.Language;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
@@ -17,6 +19,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 	private String value;
 	private Language language;
 	private String definitionId;
+	private Set<UIFacet> facets;
 	
 	public UIQName getName() {
 		return name;
@@ -74,6 +77,18 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		this.note = note;
 	}
 
+	public Set<UIFacet> getFacets() {
+		return facets;
+	}
+
+	public void setFacets(Set<UIFacet> facets) {
+		this.facets = facets;
+	}
+	
+	public boolean is(UIFacet facet) {
+		return facets!=null && facets.contains(facet);
+	}
+
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -114,7 +129,7 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		builder.append(name);
 		builder.append(", type=");
 		builder.append(type);
-		builder.append(", description=");
+		builder.append(", note=");
 		builder.append(note);
 		builder.append(", value=");
 		builder.append(value);
@@ -122,6 +137,8 @@ public class UIAttribute implements Identifiable, IsSerializable {
 		builder.append(language);
 		builder.append(", definitionId=");
 		builder.append(definitionId);
+		builder.append(", facets=");
+		builder.append(facets);
 		builder.append("]");
 		return builder.toString();
 	}
