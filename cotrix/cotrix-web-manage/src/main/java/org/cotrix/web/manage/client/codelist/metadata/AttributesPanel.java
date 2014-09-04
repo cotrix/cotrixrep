@@ -174,11 +174,9 @@ public class AttributesPanel extends LoadingPanel implements HasEditing {
 	
 	private void selectedAttributeChanged()
 	{
-		if (attributesGrid.getSelectedItem()!=null) {
-			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
-			attributeRemotionController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
-			updateRemoveButtonVisibility(false);
-		}
+		boolean canBeRemoved = attributesGrid.getSelectedItem()!=null && !Attributes.isSystemAttribute(attributesGrid.getSelectedItem());	
+		attributeRemotionController.setItemCanBeRemoved(canBeRemoved);
+		updateRemoveButtonVisibility(false);
 	}
 
 	/** 

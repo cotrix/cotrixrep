@@ -126,10 +126,9 @@ public class LinksPanel extends LoadingPanel implements HasEditing {
 			
 			@Override
 			public void onSelectionChange(SelectionChangeEvent event) {
-				if (visualizedCode!=null) {
-					linkRemotionController.setItemCanBeRemoved(linksPanel.getSelectedItem()!=null);
-					updateRemoveButtonVisibility(false);
-				}
+				boolean canBeRemoved = visualizedCode!=null && linksPanel.getSelectedItem()!=null;	
+				linkRemotionController.setItemCanBeRemoved(canBeRemoved);
+				updateRemoveButtonVisibility(false);
 			}
 		});
 		

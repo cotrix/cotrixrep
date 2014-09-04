@@ -162,7 +162,8 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 	}
 	
 	private void selectionUpdated() {
-		attributeTypeController.setItemCanBeRemoved(attributeDefinitionsPanel.getSelectedItem()!=null);
+		boolean canBeRemoved = attributeDefinitionsPanel.getSelectedItem()!=null;	
+		attributeTypeController.setItemCanBeRemoved(canBeRemoved);
 		updateRemoveButtonVisibility(false);
 	}
 	

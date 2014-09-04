@@ -260,11 +260,9 @@ public class AttributesPanel extends ResizeComposite implements HasEditing {
 
 	private void selectedAttributeChanged()
 	{
-		if (visualizedCode!=null && attributesGrid.getSelectedItem()!=null) {
-			UIAttribute selectedAttribute = attributesGrid.getSelectedItem();
-			attributeRemotionController.setItemCanBeRemoved(!Attributes.isSystemAttribute(selectedAttribute));
-			updateRemoveButtonVisibility(false);
-		}
+		boolean canBeRemoved = visualizedCode!=null && attributesGrid.getSelectedItem()!=null && !Attributes.isSystemAttribute(attributesGrid.getSelectedItem());	
+		attributeRemotionController.setItemCanBeRemoved(canBeRemoved);
+		updateRemoveButtonVisibility(false);
 	}
 
 	private void updateVisualizedCode(UICode code)
