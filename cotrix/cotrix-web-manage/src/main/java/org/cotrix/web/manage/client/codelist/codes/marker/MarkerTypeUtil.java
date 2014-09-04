@@ -14,13 +14,10 @@ import org.cotrix.web.common.client.async.AsyncUtils;
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.client.factory.UIFactories;
-import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.common.GroupFactory;
-import org.cotrix.web.manage.shared.AttributeGroup;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -108,10 +105,5 @@ public class MarkerTypeUtil {
 		attribute.setFacets(UIFactories.EMPTY_SET);
 		
 		return attribute;
-	}
-	
-	public AttributeGroup createGroup(MarkerType type, UIAttribute attribute) {
-		if (attribute != null) return GroupFactory.getGroup(attribute);
-		return new AttributeGroup(markerToDefinition.get(type).getName(), null, Language.NONE, true);
 	}
 }

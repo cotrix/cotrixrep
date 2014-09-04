@@ -1,9 +1,5 @@
 package org.cotrix.web.manage.client.codelist.codes;
 
-import java.util.HashSet;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
 import org.cotrix.web.common.client.widgets.HasEditing;
@@ -12,9 +8,6 @@ import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
-import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
-import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
 import org.cotrix.web.manage.client.codelist.codes.marker.panel.MarkersEditingPanel;
@@ -29,8 +22,6 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
-import org.cotrix.web.manage.shared.AttributeGroup;
-import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.ManagerUIFeature;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -54,8 +45,6 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 
 	@Inject
 	private MarkersEditingPanel markersPanel;
-
-	private Set<AttributeGroup> groupsAsColumn = new HashSet<AttributeGroup>();
 
 	@Inject @CodelistBus
 	private EventBus codelistBus;
@@ -92,9 +81,7 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			}
 
 			@Override
-			public void onMarkerSwitch(MarkerType type, UIAttribute attribute,
-					SwitchState state) {
-				switchMarker(type, attribute, state);
+			public void onMarkerSwitch(MarkerType type, UIAttribute attribute, SwitchState state) {
 			}
 
 			@Override
@@ -174,21 +161,6 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 		if (event.getCode().equals(visualizedCode)) setVisualizedCode(event.getCode());
 	}
 
-	@EventHandler
-	void onGroupSwitched(GroupSwitchedEvent event) {
-		Group group = event.getGroup();
-
-		if (group instanceof AttributeGroup) {
-			AttributeGroup attributeGroup = (AttributeGroup) group;
-			Log.trace("onAttributeSwitched group: "+attributeGroup+" type: "+event.getSwitchType());
-
-			updateGroups(attributeGroup, event.getSwitchType());
-
-			if (visualizedCode!=null && attributeGroup.match(visualizedCode.getAttributes())!=null) refreshSwitches();
-		}
-	}
-
-
 	/** 
 	 * {@inheritDoc}
 	 */
@@ -237,8 +209,6 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 			}
 		}
 
-		refreshSwitches();
-
 		Log.trace("request refresh of "+visualizedCode.getAttributes().size()+" attributes");
 	}
 
@@ -261,38 +231,6 @@ public class MarkersPanel extends ResizeComposite implements HasEditing {
 		panel.setHeader("Markers", visualizedCode!=null?visualizedCode.getName().getLocalPart():null, resources.definitions().TASK_GREEN());
 	}
 
-	private void switchMarker(MarkerType type, UIAttribute attribute, SwitchState attributeSwitchState)
-	{
-		AttributeGroup group = markerTypeResolver.createGroup(type, attribute);
-		group.calculatePosition(visualizedCode.getAttributes(), attribute);
-
-		switch (attributeSwitchState) {
-			case UP: codelistBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_NORMAL)); break;
-			case DOWN: codelistBus.fireEvent(new SwitchGroupEvent(group, GroupSwitchType.TO_COLUMN)); break;
-		}
-	}
-
-	private void updateGroups(AttributeGroup group, GroupSwitchType state) {
-		switch (state) {
-			case TO_NORMAL: groupsAsColumn.remove(group); break;
-			case TO_COLUMN: groupsAsColumn.add(group); break;
-		}
-	}
-
-	private void refreshSwitches() {
-		Log.trace("refreshSwitches");
-		if (visualizedCode == null) return;
-		for (Entry<MarkerType,UIAttribute> entry:markersPanel.getAttributes()) {
-			Log.trace("refreshing "+entry.getKey()+" with att "+entry.getValue()+" isInGroupAsColumn? "+isInGroupAsColumn(entry.getValue()));
-			markersPanel.setSwitchState(entry.getKey(), isInGroupAsColumn(entry.getValue())?SwitchState.DOWN:SwitchState.UP);
-		}
-	}
-
-	private boolean isInGroupAsColumn(UIAttribute attribute)
-	{
-		for (AttributeGroup group:groupsAsColumn) if (group.accept(visualizedCode.getAttributes(), attribute)) return true;
-		return false;
-	}
 
 	@Override
 	public void setEditable(boolean editable) {

@@ -23,7 +23,6 @@ public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 
 	private static ButtonResources REVERT = create().upFace(icons.redCancel()).hover(icons.redCancelHover()).title("Discard all changes.").build();
 	private static ButtonResources SAVE = create().upFace(icons.redSave()).hover(icons.redSaveHover()).title("Save all changes.").build();
-	private static ButtonResources SWITCH = create().upFace(icons.columnToggle()).hover(icons.columnToggleHover()).downFace(icons.columnToggleDown()).title("To column").build();
 	
 	@Inject
 	private LinksCodelistInfoProvider codelistInfoProvider;
@@ -39,7 +38,6 @@ public class LinkEditingPanelFactory implements ItemPanelFactory<UILink> {
 	
 	private EditingHeader getHeader() {
 		EditingHeader header = new EditingHeader(icons.link(), RED_EDIT, REVERT, SAVE);
-		header.setSwitch(SWITCH);
 		header.setSmall();
 		return header;
 	}

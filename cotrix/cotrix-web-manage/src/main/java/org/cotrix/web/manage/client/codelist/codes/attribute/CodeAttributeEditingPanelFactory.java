@@ -29,7 +29,6 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 	private static ButtonResources EDIT = create().upFace(icons.blueEdit()).hover(icons.blueEditHover()).title("Make changes.").build();
 	private static ButtonResources REVERT = create().upFace(icons.blueCancel()).hover(icons.blueCancelHover()).title("Discard all changes.").build();
 	private static ButtonResources SAVE = create().upFace(icons.blueSave()).hover(icons.blueSaveHover()).title("Save all changes.").build();
-	private static ButtonResources SWITCH = create().upFace(icons.columnToggle()).hover(icons.columnToggleHover()).downFace(icons.columnToggleDown()).title("To column").build();
 	
 	@Inject @CurrentCodelist
 	private AttributeDefinitionsCache attributeTypesCache;
@@ -56,7 +55,6 @@ public class CodeAttributeEditingPanelFactory implements ItemPanelFactory<UIAttr
 		boolean systemAttribute = Attributes.isSystemAttribute(item);
 		EditingHeader header = new EditingHeader(systemAttribute?icons.attributeDisabled():icons.attribute(), EDIT, REVERT, SAVE);
 		header.setTitleGreyed(systemAttribute);
-		header.setSwitch(SWITCH);
 		header.setSmall();
 		return header;
 	}
