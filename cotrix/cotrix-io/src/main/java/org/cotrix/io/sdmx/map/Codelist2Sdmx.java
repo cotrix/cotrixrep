@@ -115,7 +115,8 @@ public class Codelist2Sdmx implements MapTask<Codelist,CodelistBean,Codelist2Sdm
 			return codelistbean.getImmutableInstance();
 		}
 		catch(SdmxSemmanticException e) {//hilarious, check the spelling...
-			throw new RuntimeException("invalid sdmx result: "+unwrapErrorDescription(e),e);
+			report().log("SDMX validation error: "+unwrapErrorDescription(e)).as(ERROR);
+			return null;
 		}
 	}
 	
