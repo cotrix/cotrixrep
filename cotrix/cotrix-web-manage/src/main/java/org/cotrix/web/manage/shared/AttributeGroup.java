@@ -34,6 +34,10 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		this.definition = definition;
 	}
 
+	public UIAttributeDefinition getDefinition() {
+		return definition;
+	}
+
 	public UIQName getName() {
 		return definition.getName();
 	}

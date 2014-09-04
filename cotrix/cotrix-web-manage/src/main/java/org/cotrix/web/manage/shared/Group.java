@@ -1,5 +1,6 @@
 package org.cotrix.web.manage.shared;
 
+import org.cotrix.web.common.shared.codelist.Definition;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
 
@@ -16,6 +17,8 @@ public interface Group extends IsSerializable {
 	 * TODO move group inside attribute sort info
 	 */
 	public CodelistEditorSortInfo getSortInfo(boolean ascending);
+	
+	public Definition getDefinition();
 
 	public UIQName getName();
 	public int getPosition();

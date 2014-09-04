@@ -6,9 +6,11 @@ package org.cotrix.web.manage.shared;
 import java.util.List;
 
 import org.cotrix.web.common.client.util.ValueUtils;
+import org.cotrix.web.common.shared.codelist.Definition;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UILink;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -20,7 +22,7 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
  */
 public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	
-	private UIQName name;
+	private UILinkDefinition definition;
 	private int position;
 	
 	private SafeHtml label;
@@ -28,29 +30,28 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	protected LinkGroup() {
 	}
 		
-	public LinkGroup(UIQName name) {
-		this.name = name!=null?name.clone():null;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public UIQName getName() {
-		return name;
+	public LinkGroup(UILinkDefinition definition) {
+		this.definition = definition;
 	}
 	
-	public void calculatePosition(List<UILink> links, UILink link)
-	{
+	@Override
+	public Definition getDefinition() {
+		return definition;
+	}
+
+	public UIQName getName() {
+		return definition.getName();
+	}
+	
+	public void calculatePosition(List<UILink> links, UILink link) {
 		int position = getPosition(links, link);
 		setPosition(position);
 	}
 	
-	public void setPosition(int position)
-	{
+	public void setPosition(int position) {
 		this.position = position;
 	}
 	
-
 	@Override
 	public int getPosition() {
 		return position;
@@ -95,13 +96,13 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	
 	private boolean accept(UILink link)
 	{
-		if (name!=null && !name.equals(link.getDefinitionName())) return false;
+		if (!definition.getId().equals(link.getDefinitionId())) return false;
 		return true;
 	}
 	
 	public LinkGroup cloneGroup()
 	{
-		LinkGroup clone = new LinkGroup(name);
+		LinkGroup clone = new LinkGroup(definition);
 		clone.setPosition(position);
 		return clone;
 	}
@@ -138,29 +139,23 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	private void buildLabel() {
 		SafeHtmlBuilder labelBuilder = new SafeHtmlBuilder();
 		labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;padding-right: 7px;\">");
-		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(name));
+		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(definition.getName()));
 		labelBuilder.append(nameHtml);
 		labelBuilder.appendHtmlConstant("</span>");
 		
 		label = labelBuilder.toSafeHtml();
 	}
 
-
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((definition == null) ? 0 : definition.hashCode());
 		result = prime * result + position;
 		return result;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -170,25 +165,21 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		LinkGroup other = (LinkGroup) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (definition == null) {
+			if (other.definition != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!definition.equals(other.definition))
 			return false;
 		if (position != other.position)
 			return false;
 		return true;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("LinkGroup [name=");
-		builder.append(name);
-		builder.append(", type=");
+		builder.append("LinkGroup [definition=");
+		builder.append(definition);
 		builder.append(", position=");
 		builder.append(position);
 		builder.append("]");
@@ -197,7 +188,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 
 	@Override
 	public int compareTo(LinkGroup o) {
-		int compare = (name !=null)?name.compareTo(o.name):1;
+		int compare = (getName() !=null)?getName().compareTo(o.getName()):1;
 		if (compare!=0) return compare;
 		
 		compare = position > o.position ? +1 : position < o.position ? -1 : 0;
@@ -218,5 +209,4 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	public String getSubtitle() {
 		return "";
 	}
-
 }

@@ -11,4 +11,5 @@ import com.google.gwt.user.client.rpc.IsSerializable;
  */
 public interface Definition extends IsSerializable {
 
+	String getId();
 }

@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.codelist.codes.editor.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.client.widgets.Loader;
@@ -70,30 +71,32 @@ public class ColumnsMenu extends PopupPanel {
 		columnsScroller.setVisible(!visible);
 	}
 	
-	public void show(UICodelist codelist, List<Group> groups, List<Group> activeGroups, SuccessCallback<List<Group>> callback, UIObject target) {
+	public void show(UICodelist codelist, Map<String, Group> groups, List<String> activeDefinitionIds, SuccessCallback<List<Group>> callback, UIObject target) {
 		this.name.setText(codelist.getName().getLocalPart());
 		this.name.setTitle(codelist.getName().getLocalPart());
 
 		this.callback = callback;
 		
-		setGroups(groups, activeGroups);
+		setGroups(groups, activeDefinitionIds);
 
 		center();
 	}
 	
-	private void setGroups(List<Group> groups, List<Group> activeGroups) {
+	private void setGroups(Map<String, Group> groups, List<String> activeDefinitionIds) {
 		columnsContainer.clear();
 		
 		int index = 0;
 		
-		for (final Group group:activeGroups) {
+		for (String id:activeDefinitionIds) {
+			Group group = groups.get(id);
 			addGroup(group, true, index!=0, index!=groups.size()-1);
 			index++;
 		}
 		
 		
-		for (final Group group:groups) {
-			if (activeGroups.contains(group)) continue;
+		for (String id:groups.keySet()) {
+			if (activeDefinitionIds.contains(id)) continue;
+			Group group = groups.get(id);
 			addGroup(group, false, index!=0, index!=groups.size()-1);
 			index++;
 		}

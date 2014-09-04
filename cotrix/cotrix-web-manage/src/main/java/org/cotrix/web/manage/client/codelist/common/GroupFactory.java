@@ -4,7 +4,9 @@
 package org.cotrix.web.manage.client.codelist.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
@@ -47,10 +49,26 @@ public class GroupFactory {
 		for (UILinkDefinition definition:linkTypesCache) {
 			int max = 1;
 			for (int i = 0; i<max; i++) {
-				LinkGroup group = new LinkGroup(definition.getName());
+				LinkGroup group = new LinkGroup(definition);
 				group.setPosition(i);
 				groups.add(group);
 			}
+		}
+		
+		return groups;
+	}
+	
+	public Map<String, Group> getUniqueGroups() {
+		Map<String, Group> groups = new HashMap<String, Group>();
+		
+		for (UIAttributeDefinition definition:attributeTypesCache) {
+			AttributeGroup group = new AttributeGroup(definition);
+			groups.put(definition.getId(), group);
+		}
+		
+		for (UILinkDefinition definition:linkTypesCache) {
+			LinkGroup group = new LinkGroup(definition);
+			groups.put(definition.getId(), group);
 		}
 		
 		return groups;
