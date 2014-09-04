@@ -179,6 +179,7 @@ public class ItemPanel<T> extends Composite {
 
 	public void syncWithModel() {
 		writeItem();
+		updateHeaderLabel();
 	}
 
 	private void readItem() {
