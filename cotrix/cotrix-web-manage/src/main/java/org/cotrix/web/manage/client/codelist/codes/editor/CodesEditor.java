@@ -37,8 +37,8 @@ import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.FilterOptionUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.GroupsSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
-import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
@@ -423,16 +423,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	@EventHandler
-	void onSwitchGroup(SwitchGroupEvent event) {
-		Group group = event.getGroup();
-		Log.trace("onSwitchGroup group: "+group+" type: "+event.getSwitchType());
-		switch (event.getSwitchType()) {
-			case TO_COLUMN: switchToColumn(group); break;
-			case TO_NORMAL: switchToNormal(group); break;
-		}
-	}
-
-	@EventHandler
 	void onSwitchGroups(SwitchGroupsEvent event) {
 		setGroups(event.getGroups());
 	}
@@ -559,23 +549,6 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		}
 	}
 
-	private void switchToColumn(Group group)
-	{
-		addGroupColumn(group);
-		codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
-	}
-
-	private void addGroupColumn(Group group)
-	{
-		if (groupsAsColumn.contains(group)) return;
-		Column<UICode, String> column = getGroupColumn(group);
-		groupsAsColumn.add(group);
-
-		GroupHeader header = new GroupHeader(group);
-		header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
-		dataGrid.addColumn(column, header);
-	}
-
 	private void switchToNormal(Group group)
 	{
 		removeGroupColumn(group);
@@ -595,12 +568,8 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		showLoader();
 
-
-		//switchAllGroupsToNormal();
-		List<Group> oldGroups = new ArrayList<Group>(groupsAsColumn);
-		List<Column<UICode, ?>> oldColumns = toColumns(oldGroups);
+		List<Column<UICode, ?>> oldColumns = toColumns(groupsAsColumn);
 		groupsAsColumn.clear();
-		for (Group group:oldGroups) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
 
 		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
 		List<Header<?>> headers = new ArrayList<Header<?>>(groups.size());
@@ -616,13 +585,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
 			headers.add(header);
 		}
-
-		Log.trace("adding columns");
 		dataGrid.replaceColumns(oldColumns, columns, headers);
 
-		Log.trace("firing events");
-		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
 		Log.trace("done");
+		
+		codelistBus.fireEvent(new GroupsSwitchedEvent(groups));
 
 		hideLoader();
 	}

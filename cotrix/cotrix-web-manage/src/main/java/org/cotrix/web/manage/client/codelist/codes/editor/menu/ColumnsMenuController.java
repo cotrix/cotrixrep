@@ -10,9 +10,9 @@ import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchType;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
+import org.cotrix.web.manage.client.codelist.codes.event.GroupsSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.codelist.common.GroupFactory;
-import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.Group;
@@ -51,11 +51,6 @@ public class ColumnsMenuController {
 	@Inject
 	private GroupFactory factory;
 	
-	@EventHandler
-	void onReady(ReadyEvent event) {
-		activeDefinitionIds = new ArrayList<String>(factory.getUniqueGroups().keySet());
-	}
-	
 	private SuccessCallback<List<Group>> callback = new SuccessCallback<List<Group>>() {
 		
 		@Override
@@ -80,22 +75,21 @@ public class ColumnsMenuController {
 	}
 	
 	@EventHandler
-	void onGroupSwitched(GroupSwitchedEvent event) {
+	void onGroupSwitched(GroupSwitchedEvent  event) {
 		Group group = event.getGroup();
 		if (event.getSwitchType() == GroupSwitchType.TO_NORMAL) activeDefinitionIds.remove(group.getDefinition().getId());
 	}
 	
+	@EventHandler
+	void onGroupsSwitched(GroupsSwitchedEvent event) {
+		if (activeDefinitionIds == null) activeDefinitionIds = new ArrayList<String>();
+		else activeDefinitionIds.clear();
+		
+		for (Group group:event.getGroups()) activeDefinitionIds.add(group.getDefinition().getId());
+	}
+	
 	private void updateGroups(List<Group> newActiveGroups) {
 		Log.trace("updating groups");
-		
-		setActiveGroups(newActiveGroups);
-		
 		bus.fireEvent(new SwitchGroupsEvent(newActiveGroups));
-	}
-	
-	private void setActiveGroups(List<Group> activeGroups) {
-		for (Group group:activeGroups) activeDefinitionIds.add(group.getDefinition().getId());
-		
-	}
-	
+	}	
 }
