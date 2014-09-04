@@ -11,8 +11,11 @@ import java.util.Map;
 import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
+import org.cotrix.web.manage.client.data.event.DataSavedEvent;
+import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
+import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -47,11 +50,23 @@ public abstract class AbstractCache<T extends Identifiable> implements Iterable<
 			public void onDataEdit(DataEditEvent<T> event) {
 				Log.trace("cache "+type+" onDataEdit "+event);
 				switch (event.getEditType()) {
-					case ADD: addItem(event.getData()); break;
 					case UPDATE: addItem(event.getData()); break;
 					case REMOVE: cache.remove(event.getData()); break;
 					default: break;
 				}
+			}
+		});
+	}
+	
+	@Inject
+	private void bind(final @ManagerBus EventBus eventBus) {
+		eventBus.addHandler(DataSavedEvent.TYPE, new DataSavedEvent.DataSavedHandler() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onDataSaved(final DataSavedEvent event) {
+				DataEditEvent<?> editEvent = event.getEditEvent();
+				if (editEvent.getEditType() == EditType.ADD && editEvent.getData().getClass() == type) addItem((T) editEvent.getData());
 			}
 		});
 	}

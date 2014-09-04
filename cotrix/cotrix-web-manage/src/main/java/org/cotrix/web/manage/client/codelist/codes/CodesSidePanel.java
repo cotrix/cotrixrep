@@ -9,6 +9,7 @@ import org.cotrix.web.manage.client.data.event.DataEditEvent.DataEditHandler;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.resources.CotrixManagerResources;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -80,6 +81,7 @@ public class CodesSidePanel extends ResizeComposite {
 	}
 	
 	private void setVisualizedCode(UICode code) {
+		Log.trace("setVisualizedCode "+code);
 		visualizedCode = code;
 		panel.showEmptyPanel(visualizedCode == null);
 	}
