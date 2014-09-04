@@ -10,7 +10,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.cotrix.domain.common.Range;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.web.common.client.factory.UIDefaults;
 import org.cotrix.web.common.shared.codelist.UIQName;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
@@ -56,7 +56,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT TYPE
 			src.println("public UIQName defaultType() {");
-			QName defaultType = Constants.defaultType;
+			QName defaultType = DomainConstants.defaultType;
 			src.indent();
 			src.println("return new UIQName(\""+defaultType.getNamespaceURI()+"\",\""+defaultType.getLocalPart()+"\");");
 			src.outdent();
@@ -64,7 +64,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT TYPES
 			src.println("public List<UIQName> defaultTypes() {");
-			QName[] defaultTypes = Constants.DEFAULT_TYPES;
+			QName[] defaultTypes = DomainConstants.DEFAULT_TYPES;
 			src.indent();
 			
 			src.println("List<UIQName> types = new ArrayList<UIQName>();");
@@ -76,7 +76,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT RANGE
 			src.println("public UIRange defaultRange() {");
-			Range defaultRange = Constants.defaultRange;
+			Range defaultRange = DomainConstants.defaultRange;
 			src.indent();
 			src.println("return new UIRange("+defaultRange.min()+","+defaultRange.max()+");");
 			src.outdent();
@@ -84,7 +84,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT VALUE
 			src.println("public String defaultValue() {");
-			String defaultValue = Constants.defaultValueType.defaultValue();
+			String defaultValue = DomainConstants.defaultValueType.defaultValue();
 			src.indent();
 			if (defaultValue == null) src.println("return null;");
 			else src.println("return \""+defaultValue+"\";");
@@ -93,7 +93,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//DEFAULT NAMESPACE
 			src.println("public String defaultNameSpace() {");
-			String defaultNameSpace = Constants.NS;
+			String defaultNameSpace = DomainConstants.NS;
 			src.indent();
 			src.println("return \""+defaultNameSpace+"\";");
 			src.outdent();
@@ -103,7 +103,7 @@ public class UIDefaultsGenerator extends Generator {
 			
 			//SYSTEM TYPE
 			src.println("public UIQName systemType() {");
-			QName systemType = Constants.SYSTEM_TYPE;
+			QName systemType = DomainConstants.SYSTEM_TYPE;
 			src.indent();
 			src.println("return new UIQName(\""+systemType.getNamespaceURI()+"\",\""+systemType.getLocalPart()+"\");");
 			src.outdent();

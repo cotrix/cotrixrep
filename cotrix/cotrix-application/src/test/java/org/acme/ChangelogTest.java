@@ -7,7 +7,7 @@ import static org.cotrix.common.CommonUtils.*;
 import static org.cotrix.domain.attributes.CommonDefinition.*;
 import static org.cotrix.domain.dsl.Data.*;
 import static org.cotrix.domain.dsl.Users.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.repository.CodelistActions.*;
 import static org.cotrix.repository.CodelistQueries.*;
 import static org.junit.Assert.*;

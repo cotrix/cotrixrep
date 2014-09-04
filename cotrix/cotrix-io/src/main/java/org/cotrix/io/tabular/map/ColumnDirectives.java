@@ -6,7 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.xmlbeans.impl.xb.ltgfmt.Code;
 import org.cotrix.domain.codelist.Codelist;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.virtualrepository.tabular.Column;
 
 /**
@@ -18,7 +18,7 @@ import org.virtualrepository.tabular.Column;
  * 
  * <ul>
  * <li> (optional) the <b>name</b> of the target attribute. If unspecified, the attribute is named as the column.
- * <li> (optional) the <b>type</b> of the target attribute. If unspecified,  the attribute has the {@link Constants#defaultType}.
+ * <li> (optional) the <b>type</b> of the target attribute. If unspecified,  the attribute has the {@link DomainConstants#defaultType}.
  * <li> (optional) the <b>language</b> of the target attribute. 
  * <li> (optional) the <b>mapping mode</b> for missing values in the column, {@link MappingMode#log} by default (#cf {@link MappingMode}). 
  * </ul>

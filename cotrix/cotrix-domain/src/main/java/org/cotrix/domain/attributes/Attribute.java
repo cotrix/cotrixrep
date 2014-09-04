@@ -1,6 +1,6 @@
 package org.cotrix.domain.attributes;
 
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 
 import javax.xml.namespace.QName;
 

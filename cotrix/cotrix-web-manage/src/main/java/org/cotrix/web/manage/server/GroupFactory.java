@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 import org.cotrix.domain.attributes.Attribute;
 import org.cotrix.domain.codelist.Code;
 import org.cotrix.domain.links.Link;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.web.common.server.util.ValueUtils;
 import org.cotrix.web.manage.shared.AttributeGroup;
 import org.cotrix.web.manage.shared.Group;
@@ -77,7 +77,7 @@ public class GroupFactory {
 
 		@Override
 		public LinkGroup generate(Link link) {
-			boolean isSystemGroup = link.definition()!=null?link.definition().equals(Constants.SYSTEM_TYPE):false;
+			boolean isSystemGroup = link.definition()!=null?link.definition().equals(DomainConstants.SYSTEM_TYPE):false;
 			return new LinkGroup(ValueUtils.safeValue(link.qname()), isSystemGroup);
 		}
 	};
@@ -100,7 +100,7 @@ public class GroupFactory {
 	}
 	
 	private static boolean isSystemAttribute(Attribute attribute) {
-		return attribute.type()!=null?attribute.is(Constants.SYSTEM_TYPE):false;
+		return attribute.type()!=null?attribute.is(DomainConstants.SYSTEM_TYPE):false;
 	}
 		
 	@SuppressWarnings("unchecked")

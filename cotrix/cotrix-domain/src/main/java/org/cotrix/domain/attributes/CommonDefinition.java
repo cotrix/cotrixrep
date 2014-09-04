@@ -3,7 +3,7 @@ package org.cotrix.domain.attributes;
 import static org.cotrix.domain.attributes.Facet.*;
 import static org.cotrix.domain.common.Ranges.*;
 import static org.cotrix.domain.dsl.Data.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.domain.utils.DomainUtils.*;
 
 import java.util.ArrayList;

@@ -14,7 +14,7 @@ import org.cotrix.domain.memory.MUser;
 import org.cotrix.domain.user.DefaultRole;
 import org.cotrix.domain.user.Role;
 import org.cotrix.domain.user.User;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 
 public class UserBuilder implements UserNewClause, UserChangeClause {
 
@@ -39,7 +39,7 @@ public class UserBuilder implements UserNewClause, UserChangeClause {
 	
 	@Override
 	public ThirdClause noMail() {
-		return email(Constants.NO_MAIL);
+		return email(DomainConstants.NO_MAIL);
 	}
 	
 	public UserBuilder can(Action ... actions) {

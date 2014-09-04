@@ -24,7 +24,7 @@ import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.dsl.grammar.LinkDefinitionGrammar.ThirdClause;
 import org.cotrix.domain.links.Link;
 import org.cotrix.domain.links.LinkDefinition;
-import org.cotrix.domain.utils.Constants;
+import org.cotrix.domain.utils.DomainConstants;
 import org.cotrix.domain.validation.Validator;
 import org.cotrix.domain.validation.Validators;
 import org.cotrix.domain.values.DefaultType;
@@ -262,8 +262,8 @@ public class ChangesetUtil {
 		String localPart = attribute.getType().getLocalPart();
 		if (nameSpace == null || localPart == null) return false;
 		
-		return Constants.SYSTEM_TYPE.getNamespaceURI().equals(nameSpace) && 
-				Constants.SYSTEM_TYPE.getLocalPart().equals(localPart);
+		return DomainConstants.SYSTEM_TYPE.getNamespaceURI().equals(nameSpace) && 
+				DomainConstants.SYSTEM_TYPE.getLocalPart().equals(localPart);
 	}
 	
 	private static Attribute toAttribute(AttributeValue attributeType) {

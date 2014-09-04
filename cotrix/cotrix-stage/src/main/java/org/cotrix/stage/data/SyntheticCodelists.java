@@ -1,7 +1,7 @@
 package org.cotrix.stage.data;
 
 import static org.cotrix.domain.dsl.Data.*;
-import static org.cotrix.domain.utils.Constants.*;
+import static org.cotrix.domain.utils.DomainConstants.*;
 import static org.cotrix.domain.validation.Validators.*;
 
 import java.util.ArrayList;

@@ -9,7 +9,7 @@ import org.cotrix.domain.common.Ranges;
 import org.cotrix.domain.values.DefaultType;
 import org.cotrix.domain.values.ValueType;
 
-public class Constants {
+public class DomainConstants {
 
 	public static final String NS = "http://cotrix.org";
 	
@@ -28,7 +28,7 @@ public class Constants {
 	
 	public static final String defaultValue = "TRUE";
 	public static final ValueType defaultValueType = new DefaultType();
-	public static final Range defaultRange = Ranges.arbitrarily;
+	public static final Range defaultRange = Ranges.atmostonce;
 	
 	//special values
 	
