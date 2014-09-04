@@ -523,6 +523,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				attribute.setName(attributeGroup.getName());
 				attribute.setLanguage(attributeGroup.getLanguage());
 				attribute.setValue(value);
+				attribute.setDefinitionId(attributeGroup.getDefinition().getId());
 				code.addAttribute(attribute);
 				attributeEditor.added(new CodeAttribute(code, attribute));
 			}
