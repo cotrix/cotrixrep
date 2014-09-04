@@ -40,14 +40,14 @@ public class UIFactories {
 	@Inject
 	private UIDefaults defaults;
 	
-	public UIAttributeDefinition createAttributeType() {
-		UIAttributeDefinition type = new UIAttributeDefinition();
-		type.setType(defaults.defaultType());
-		type.setLanguage(DEFAULT_LANGUAGE);
-		type.setConstraints(new ArrayList<UIConstraint>());
-		type.setRange(defaults.defaultRange());
-		type.setFacets(Collections.<UIFacet>emptySet());
-		return type;
+	public UIAttributeDefinition createAttributeDefinition() {
+		UIAttributeDefinition definition = new UIAttributeDefinition();
+		definition.setType(defaults.defaultType());
+		definition.setLanguage(DEFAULT_LANGUAGE);
+		definition.setConstraints(new ArrayList<UIConstraint>());
+		definition.setRange(defaults.defaultRange());
+		definition.setFacets(Collections.<UIFacet>emptySet());
+		return definition;
 	}
 	
 	public UIAttribute createAttribute() {
@@ -69,12 +69,13 @@ public class UIFactories {
 		return code;
 	}
 	
-	public UILinkDefinition createLinkType() {
-		UILinkDefinition linkType = new UILinkDefinition();
+	public UILinkDefinition createLinkDefinition() {
+		UILinkDefinition definition = new UILinkDefinition();
 		UIQName name = new UIQName(defaults.defaultNameSpace(), "");
-		linkType.setName(name);
-		linkType.setAttributes(new ArrayList<UIAttribute>());
-		return linkType;
+		definition.setName(name);
+		definition.setAttributes(new ArrayList<UIAttribute>());
+		definition.setRange(defaults.defaultRange());
+		return definition;
 	}
 	
 	public UILink createLink() {

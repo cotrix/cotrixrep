@@ -178,7 +178,7 @@ public class LinkDefinitionsPanel extends Composite implements HasEditing {
 
 	private void addNewLinkType()
 	{
-		UILinkDefinition linkType = factories.createLinkType();
+		UILinkDefinition linkType = factories.createLinkDefinition();
 		linkDefinitionsPanel.addNewItemPanel(linkType);
 	}
 

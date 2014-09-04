@@ -11,6 +11,7 @@ import org.cotrix.web.common.shared.codelist.Identifiable;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -24,6 +25,7 @@ public class UILinkDefinition implements Identifiable, HasAttributes, Definition
 	private UIValueFunction valueFunction;
 	private UIValueType valueType;
 	private List<UIAttribute> attributes;
+	private UIRange range;
 
 	public UIQName getName() {
 		return name;
@@ -73,6 +75,14 @@ public class UILinkDefinition implements Identifiable, HasAttributes, Definition
 
 	public void setAttributes(List<UIAttribute> attributes) {
 		this.attributes = attributes;
+	}
+	
+	public UIRange getRange() {
+		return range;
+	}
+
+	public void setRange(UIRange range) {
+		this.range = range;
 	}
 	
 	/** 
@@ -158,6 +168,8 @@ public class UILinkDefinition implements Identifiable, HasAttributes, Definition
 		builder.append(valueType);
 		builder.append(", attributes=");
 		builder.append(attributes);
+		builder.append(", range=");
+		builder.append(range);
 		builder.append("]");
 		return builder.toString();
 	}

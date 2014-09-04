@@ -49,6 +49,36 @@
 		<t:row>
 			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
 				<t:cell>
+					<g:Label title="The number of times this attribute can occur within each code.">Occurs</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:EnumListBox ui:field="occurrencesBox" styleName="{resources.detailsPanelStyle.listbox}" width="100%"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="occurrencesMinRow">
+				<t:cell>
+					<g:Label>Min</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedIntegerBox ui:field="occurrencesMin" placeholder="min" styleName="{resources.detailsPanelStyle.textbox}"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}" ui:field="occurrencesMaxRow">
+				<t:cell>
+					<g:Label>Max</g:Label>
+				</t:cell>
+				<t:cell>
+					<c:AdvancedIntegerBox ui:field="occurrencesMax" placeholder="max" styleName="{resources.detailsPanelStyle.textbox}"/>
+				</t:cell>
+			</t:CellContainer>
+		</t:row>
+		<t:row>
+			<t:CellContainer firstCellStyle="{resources.detailsPanelStyle.headerCell}" secondCellStyle="{resources.detailsPanelStyle.valueCell}">
+				<t:cell>
 					<g:Label title="The transformation you want to apply to the value of this link.">Transform</g:Label>
 				</t:cell>
 				<t:cell>

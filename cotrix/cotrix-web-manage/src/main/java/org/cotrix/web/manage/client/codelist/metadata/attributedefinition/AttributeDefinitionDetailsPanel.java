@@ -19,6 +19,7 @@ import org.cotrix.web.common.shared.codelist.attributedefinition.UIConstraint;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+import org.cotrix.web.manage.client.codelist.common.Occurrences;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.common.attribute.AttributeDescriptionSuggestOracle;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemView;

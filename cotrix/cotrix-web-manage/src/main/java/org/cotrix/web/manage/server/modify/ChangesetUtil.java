@@ -146,19 +146,19 @@ public class ChangesetUtil {
 		ThirdClause clause = null;
 		
 		if (valueType instanceof CodeNameValue) {
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorToName();
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorToName().occurs(toRange(linkType.getRange()));
 		}
 		
 		if (valueType instanceof AttributeValue) {
 			AttributeValue attributeType = (AttributeValue) valueType;
 			Attribute template = toAttribute(attributeType);
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(template);
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(template).occurs(toRange(linkType.getRange()));
 		}
 		
 		if (valueType instanceof LinkValue) {
 			LinkValue link = (LinkValue) valueType;
 			LinkDefinition codelistLink = findCodelistLink(link.getLinkId(), target.linkDefinitions());
-			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(codelistLink);
+			clause = linkdef().name(convert(linkType.getName())).target(target).anchorTo(codelistLink).occurs(toRange(linkType.getRange()));
 		}
 		
 		if (clause == null) throw new IllegalArgumentException("Unsupported value type "+valueType);

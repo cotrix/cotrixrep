@@ -8,6 +8,7 @@ import java.util.List;
 import org.cotrix.web.common.client.util.ValueUtils;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction.Function;
@@ -36,6 +37,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 		definition.setName(detailsPanel.getName());
 		definition.setTargetCodelist(detailsPanel.getCodelist());
 		definition.setValueFunction(detailsPanel.getValueFunction());
+		definition.setRange(detailsPanel.getRange());
 		definition.setValueType(detailsPanel.getValueType());
 		definition.setAttributes(detailsPanel.getAttributes());
 	}
@@ -44,6 +46,7 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 	public void write() {
 		detailsPanel.setName(definition.getName());
 		detailsPanel.setCodelist(definition.getTargetCodelist(), definition.getValueType());
+		detailsPanel.setRange(definition.getRange());
 		detailsPanel.setValueFunction(definition.getValueFunction());
 		detailsPanel.setAttributes(definition.getAttributes());
 	}
@@ -76,6 +79,11 @@ public class LinkDefinitionEditor implements ItemEditor<UILinkDefinition> {
 		boolean validFunction = validateValueFunction(valueFunction);
 		detailsPanel.setValidFunction(validFunction);
 		valid &= validFunction;
+		
+		UIRange range = detailsPanel.getRange();
+		boolean rangeValid = range.getMin()!=Integer.MIN_VALUE && range.getMax()!=Integer.MIN_VALUE;
+		detailsPanel.setRangeFieldValid(rangeValid);
+		valid &= rangeValid;
 		
 		valid &= detailsPanel.areAttributesValid();
 

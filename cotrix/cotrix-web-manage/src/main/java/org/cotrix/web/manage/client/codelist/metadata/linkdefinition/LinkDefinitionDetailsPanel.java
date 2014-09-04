@@ -8,17 +8,21 @@ import java.util.List;
 
 import org.cotrix.web.common.client.util.LabelProvider;
 import org.cotrix.web.common.client.util.ListBoxUtils;
+import org.cotrix.web.common.client.widgets.AdvancedIntegerBox;
+import org.cotrix.web.common.client.widgets.EnumListBox;
 import org.cotrix.web.common.client.widgets.UIQNameBox;
 import org.cotrix.web.common.client.widgets.table.CellContainer;
 import org.cotrix.web.common.client.widgets.table.Table;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICodelist;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;
 import org.cotrix.web.common.shared.codelist.linkdefinition.CodeNameValue;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UILinkDefinition.UIValueType;
 import org.cotrix.web.common.shared.codelist.linkdefinition.UIValueFunction.Function;
 import org.cotrix.web.manage.client.codelist.common.DetailsPanelStyle;
+import org.cotrix.web.manage.client.codelist.common.Occurrences;
 import org.cotrix.web.manage.client.codelist.common.SuggestListBox;
 import org.cotrix.web.manage.client.codelist.common.attributed.AttributesPanel;
 import org.cotrix.web.manage.client.codelist.common.form.ItemPanel.ItemView;
@@ -73,6 +77,14 @@ public class LinkDefinitionDetailsPanel extends Composite implements ItemView {
 	@UiField Image codelistBoxLoader;
 
 	@UiField ValueTypePanel valueTypePanel;
+	
+	@UiField(provided = true) EnumListBox<Occurrences> occurrencesBox;
+	
+	@UiField CellContainer occurrencesMinRow;
+	@UiField AdvancedIntegerBox occurrencesMin;
+	
+	@UiField CellContainer occurrencesMaxRow;
+	@UiField AdvancedIntegerBox occurrencesMax;
 
 	@UiField ListBox valueFunction;
 
@@ -105,12 +117,16 @@ public class LinkDefinitionDetailsPanel extends Composite implements ItemView {
 		this.codelistInfoProvider = codelistInfoProvider;
 
 		createCodelistBox();
+		
+		occurrencesBox = new EnumListBox<Occurrences>(Occurrences.class, Occurrences.LABEL_PROVIDER);
 
 		initWidget(uiBinder.createAndBindUi(this));
 
 		setupNameBox();
 
 		setupValueTypePanel();
+		
+		setupOccurrencesField();
 
 		setupFunction();
 
@@ -248,6 +264,64 @@ public class LinkDefinitionDetailsPanel extends Composite implements ItemView {
 	public void setValueType(UIValueType type) {
 		valueTypePanel.setValueType(type);
 	}
+	
+	private void setupOccurrencesField() {
+		occurrencesBox.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				updateMinMaxVisibility(true);
+				fireChange();
+			}
+		});
+		
+		occurrencesMin.addValueChangeHandler(new ValueChangeHandler<Integer>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Integer> event) {
+				fireChange();
+			}
+		});
+		
+		occurrencesMax.addValueChangeHandler(new ValueChangeHandler<Integer>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<Integer> event) {
+				fireChange();
+			}
+		});
+	}
+	
+	private void updateMinMaxVisibility(boolean clean) {
+		Occurrences occurrences = occurrencesBox.getSelectedValue();
+		occurrencesMinRow.setVisible(occurrences.isCustomMin());
+		if (clean) occurrencesMin.setValue(null);
+		
+		occurrencesMaxRow.setVisible(occurrences.isCustomMax());
+		if (clean) occurrencesMax.setValue(null);
+	}
+	
+	public UIRange getRange() {
+		Occurrences occurrences = occurrencesBox.getSelectedValue();
+		Integer userMin = occurrencesMin.getValue();
+		Integer userMax = occurrencesMax.getValue();
+		return occurrences.toRange(userMin!=null?userMin:Integer.MIN_VALUE, userMax!=null?userMax:Integer.MIN_VALUE);
+	}
+	
+	public void setRange(UIRange range) {
+		Occurrences occurrences = Occurrences.toOccurrences(range);
+		occurrencesBox.setSelectedValue(occurrences);
+		updateMinMaxVisibility(false);
+		
+		occurrencesMin.setValue(range.getMin());
+		
+		occurrencesMax.setValue(range.getMax());
+	}
+	
+	public void setRangeFieldValid(boolean valid) {
+		occurrencesMin.setStyleName(style.textboxError(), !valid);
+		occurrencesMax.setStyleName(style.textboxError(), !valid);
+	}
 
 
 	private void setupFunction() {
@@ -350,6 +424,14 @@ public class LinkDefinitionDetailsPanel extends Composite implements ItemView {
 		if (readOnly) codelistBox.setStyleName(style.textboxError(), false);
 
 		valueTypePanel.setReadOnly(readOnly);
+		
+		occurrencesBox.setEnabled(!readOnly);
+		occurrencesMin.setEnabled(!readOnly);
+		occurrencesMax.setEnabled(!readOnly);
+		if (readOnly) {
+			occurrencesMin.setStyleName(style.textboxError(), false);
+			occurrencesMax.setStyleName(style.textboxError(), false);
+		}
 
 		valueFunction.setEnabled(!readOnly);
 

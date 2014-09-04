@@ -178,7 +178,7 @@ public class AttributeDefinitionsPanel extends Composite implements HasEditing {
 			@Override
 			public void onButtonClick(DialogButton button) {
 				if (button == CONTINUE) {
-					UIAttributeDefinition attributeType = factories.createAttributeType();
+					UIAttributeDefinition attributeType = factories.createAttributeDefinition();
 					attributeDefinitionsPanel.addNewItemPanel(attributeType);
 				}
 			}

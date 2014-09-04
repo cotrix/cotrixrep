@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.cotrix.web.manage.client.codelist.metadata.attributedefinition;
+package org.cotrix.web.manage.client.codelist.common;
 
 import org.cotrix.web.common.client.widgets.EnumListBox.LabelProvider;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIRange;

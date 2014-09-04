@@ -38,26 +38,28 @@ public class LinkDefinitions {
 	private static final ArrayList<String> EMPTY_ARGUMENTS = new ArrayList<>();
 	
 	public static UILinkDefinition toUILinkDefinition(LinkDefinition codelistLink) {
-		UILinkDefinition linkType = new UILinkDefinition();
+		UILinkDefinition linkDefinition = new UILinkDefinition();
 		
-		linkType.setId(codelistLink.id());
+		linkDefinition.setId(codelistLink.id());
 		
 		UIQName name = ValueUtils.safeValue(codelistLink.qname());
-		linkType.setName(name);
+		linkDefinition.setName(name);
 		
 		UICodelist targetCodelist = Codelists.toUICodelist(codelistLink.target());
-		linkType.setTargetCodelist(targetCodelist);
+		linkDefinition.setTargetCodelist(targetCodelist);
 		
 		UIValueType valueType = toValueType(codelistLink.valueType());
-		linkType.setValueType(valueType);
+		linkDefinition.setValueType(valueType);
 		
 		UIValueFunction valueFunction = toValueFunction(codelistLink.function());
-		linkType.setValueFunction(valueFunction);
+		linkDefinition.setValueFunction(valueFunction);
 		
 		List<UIAttribute> attributes = Codelists.toUIAttributes(codelistLink.attributes());
-		linkType.setAttributes(attributes);
+		linkDefinition.setAttributes(attributes);
 		
-		return linkType;
+		linkDefinition.setRange(AttributeDefinitions.toUiRange(codelistLink.range()));
+		
+		return linkDefinition;
 	}
 	
 	private static UIValueType toValueType(LinkValueType valueType) {

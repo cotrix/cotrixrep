@@ -51,7 +51,7 @@ public class AttributeDefinitions {
 		return EMPTY_SET;
 	}
 	
-	private static UIRange toUiRange(Range range) {
+	public static UIRange toUiRange(Range range) {
 		UIRange uiRange = new UIRange();
 		uiRange.setMin(range.min());
 		uiRange.setMax(range.max());
