@@ -4,7 +4,6 @@
 package org.cotrix.web.manage.server.modify;
 
 import static org.cotrix.domain.dsl.Data.*;
-import static org.cotrix.web.manage.shared.modify.GenericCommand.Action.*;
 
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
@@ -34,38 +33,28 @@ public class AttributeDefinitionCommandHandler {
 	public ModifyCommandResult handle(String codelistId, AttributeDefinitionCommand command)
 	{
 		Codelist codelist = repository.lookup(codelistId);
-		
-		String definitionId = command.getItem().getId();
-		
-		if (command.getAction()==REMOVE) {
-			
-			repository.update(codelist.id(), CodelistActions.deleteAttrdef(definitionId));
 
-		}
-		else {
-			
-			AttributeDefinition definition = null;
-			
-			switch (command.getAction()) {
-				case ADD: definition = ChangesetUtil.addDefinition(command.getItem()); break;
-				case UPDATE: definition = ChangesetUtil.updateDefinition(command.getItem()); break;
-			}
-			
-			if (definition == null) throw new IllegalArgumentException("Unknown command "+command);
-
-			Codelist changeset = modifyCodelist(codelistId).definitions(definition).build();
-			repository.update(changeset);
-
-		}
-		
-		
 		switch (command.getAction()) {
-			case REMOVE: return new UpdatedAttributeDefinition();
+			case REMOVE: {
+				repository.update(codelist.id(), CodelistActions.deleteAttrdef(command.getItem().getId()));
+				return new UpdatedAttributeDefinition();
+			}
 			default: {
-				AttributeDefinition updatedDefinition = codelist.attributeDefinitions().lookup(definitionId);
+
+				AttributeDefinition definition = null;
+
+				switch (command.getAction()) {
+					case ADD: definition = ChangesetUtil.addDefinition(command.getItem()); break;
+					case UPDATE: definition = ChangesetUtil.updateDefinition(command.getItem()); break;
+				}
+
+				if (definition == null) throw new IllegalArgumentException("Unknown command "+command);
+
+				Codelist changeset = modifyCodelist(codelistId).definitions(definition).build();
+				repository.update(changeset);
+				AttributeDefinition updatedDefinition = codelist.attributeDefinitions().lookup(definition.id());
 				return new UpdatedAttributeDefinition(AttributeDefinitions.toUIAttributeDefinition(updatedDefinition));
 			}
-			
 		}
 	}
 }
