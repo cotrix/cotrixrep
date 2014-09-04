@@ -85,11 +85,12 @@ public class ColumnsMenuController {
 		if (activeDefinitionIds == null) activeDefinitionIds = new ArrayList<String>();
 		else activeDefinitionIds.clear();
 		
-		for (Group group:event.getGroups()) activeDefinitionIds.add(group.getDefinition().getId());
+		for (Group group:event.getGroups()) if (!activeDefinitionIds.contains(group.getDefinition().getId())) activeDefinitionIds.add(group.getDefinition().getId());
 	}
 	
 	private void updateGroups(List<Group> newActiveGroups) {
 		Log.trace("updating groups");
-		bus.fireEvent(new SwitchGroupsEvent(newActiveGroups));
+		List<Group> groups = factory.expandGroups(newActiveGroups);
+		bus.fireEvent(new SwitchGroupsEvent(groups));
 	}	
 }

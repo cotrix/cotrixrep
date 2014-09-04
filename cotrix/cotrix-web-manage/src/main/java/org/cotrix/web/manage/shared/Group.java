@@ -22,6 +22,7 @@ public interface Group extends IsSerializable {
 
 	public UIQName getName();
 	public int getPosition();
+	public void setPosition(int position);
 	
 	public SafeHtml getLabel();
 	public String getSubtitle();
@@ -33,5 +34,7 @@ public interface Group extends IsSerializable {
 	public boolean isEditable();
 	
 	public boolean isSortable();
+
+
 
 }
