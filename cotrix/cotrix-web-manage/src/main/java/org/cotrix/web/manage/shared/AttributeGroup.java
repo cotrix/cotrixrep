@@ -10,6 +10,7 @@ import org.cotrix.web.common.shared.Language;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
 import org.cotrix.web.common.shared.codelist.UIQName;
+import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
@@ -21,71 +22,35 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
  */
 public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPosition {
 	
-	private UIQName name;
-	private UIQName type;
-	private Language language;
+	private UIAttributeDefinition definition;
 	private int position;
-	
-	private boolean isSystemGroup;
 	
 	private SafeHtml label;
 	
 	protected AttributeGroup() {
 	}
 		
-	/**
-	 * @param name
-	 * @param type
-	 * @param language
-	 */
-	public AttributeGroup(UIQName name, UIQName type, Language language, boolean isSystemGroup) {
-		this.name = name!=null?name.clone():null;
-		this.type = type!=null?type.clone():null;
-		this.language = language;
-		this.isSystemGroup = isSystemGroup;
+	public AttributeGroup(UIAttributeDefinition definition) {
+		this.definition = definition;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public UIQName getName() {
-		return name;
+		return definition.getName();
 	}
-
-	/**
-	 * @return the type
-	 */
-	public UIQName getType() {
-		return type;
-	}
-
-	/**
-	 * @return the language
-	 */
+	
 	public Language getLanguage() {
-		return language;
+		return definition.getLanguage();
 	}
 	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isSystemGroup() {
-		return isSystemGroup;
-	}
-	
-	public void calculatePosition(List<UIAttribute> attributes, UIAttribute attribute)
-	{
+	public void calculatePosition(List<UIAttribute> attributes, UIAttribute attribute) {
 		int position = getPosition(attributes, attribute);
 		setPosition(position);
 	}
 	
-	public void setPosition(int position)
-	{
+	public void setPosition(int position) {
 		this.position = position;
 	}
 	
-
 	@Override
 	public int getPosition() {
 		return position;
@@ -130,15 +95,12 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	
 	private boolean accept(UIAttribute attribute)
 	{
-		if (name!=null && !name.equals(attribute.getName())) return false;
-		if (type!=null && !type.equals(attribute.getType())) return false;
-		if (language!=null && !language.equals(attribute.getLanguage())) return false;
-		return true;
+		return attribute.getDefinitionId()!=null && attribute.getDefinitionId().equals(definition.getId());
 	}
 	
 	public AttributeGroup cloneGroup()
 	{
-		AttributeGroup clone = new AttributeGroup(name, type, language, isSystemGroup);
+		AttributeGroup clone = new AttributeGroup(definition);
 		clone.setPosition(position);
 		return clone;
 	}
@@ -148,7 +110,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	 */
 	@Override
 	public CodelistEditorSortInfo getSortInfo(boolean ascending) {
-		return new CodelistEditorSortInfo.AttributeGroupSortInfo(ascending, name, type, language, position);
+		return new CodelistEditorSortInfo.AttributeGroupSortInfo(ascending, definition.getName(), definition.getType(), definition.getLanguage(), position);
 	}
 	
 	/** 
@@ -162,7 +124,7 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	
 	@Override
 	public boolean isEditable() {
-		return !isSystemGroup;
+		return true;
 	}
 	
 	/** 
@@ -179,39 +141,29 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	private void buildLabel() {
 		SafeHtmlBuilder labelBuilder = new SafeHtmlBuilder();
 		labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;padding-right: 7px;\">");
-		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(name));
+		SafeHtml nameHtml = SafeHtmlUtils.fromString(ValueUtils.getValue(definition.getName()));
 		labelBuilder.append(nameHtml);
 		labelBuilder.appendHtmlConstant("</span>");
-		if (language!=null && language!=Language.NONE) {
+		if (definition.getLanguage()!=Language.NONE) {
 			labelBuilder.appendHtmlConstant("<span style=\"vertical-align:middle;color:black;padding-left:5px;\" " +
-					"title=\""+language.getName()+"\">(");
-			labelBuilder.append(SafeHtmlUtils.fromString(language.getCode()));
+					"title=\""+definition.getLanguage().getName()+"\">(");
+			labelBuilder.append(SafeHtmlUtils.fromString(definition.getLanguage().getCode()));
 			labelBuilder.appendHtmlConstant(")</span>");
 		}
 		
 		label = labelBuilder.toSafeHtml();
 	}
 
-
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isSystemGroup ? 1231 : 1237);
 		result = prime * result
-				+ ((language == null) ? 0 : language.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+				+ ((definition == null) ? 0 : definition.hashCode());
 		result = prime * result + position;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -221,63 +173,32 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 		if (getClass() != obj.getClass())
 			return false;
 		AttributeGroup other = (AttributeGroup) obj;
-		if (isSystemGroup != other.isSystemGroup)
-			return false;
-		if (language == null) {
-			if (other.language != null)
+		if (definition == null) {
+			if (other.definition != null)
 				return false;
-		} else if (!language.equals(other.language))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		} else if (!definition.equals(other.definition))
 			return false;
 		if (position != other.position)
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
 			return false;
 		return true;
 	}
 
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("AttributeGroup [name=");
-		builder.append(name);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", language=");
-		builder.append(language);
-		builder.append(", position=");
-		builder.append(position);
-		builder.append(", isSystemGroup=");
-		builder.append(isSystemGroup);
-		builder.append("]");
-		return builder.toString();
-	}
-
 	@Override
 	public int compareTo(AttributeGroup o) {
-		int compare = (name !=null)?name.compareTo(o.name):1;
+		
+		UIAttributeDefinition otherDefinition = o.definition;
+		
+		int compare = (definition.getName() !=null)?definition.getName().compareTo(otherDefinition.getName()):1;
 		if (compare!=0) return compare;
 		
-		compare = (type !=null)?type.compareTo(o.type):1;
+		compare = (definition.getType() !=null)?definition.getType().compareTo(otherDefinition.getType()):1;
 		if (compare!=0) return compare;
 		
-		compare = (language !=null)?language.compareTo(o.language):1;
+		compare = (definition.getLanguage() !=null)?definition.getLanguage().compareTo(otherDefinition.getLanguage()):1;
 		if (compare!=0) return compare;
 		
 		compare = position > o.position ? +1 : position < o.position ? -1 : 0;
-		if (compare!=0) return compare;
-		
-		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
+		return compare;
 	}
 
 	@Override
@@ -289,11 +210,11 @@ public class AttributeGroup implements Comparable<AttributeGroup>, Group, HasPos
 	public String getSubtitle() {
 		StringBuilder subtitle = new StringBuilder();
 		
-		if (type!=null) subtitle.append(type.getLocalPart());
+		if (definition.getType()!=null) subtitle.append(definition.getType().getLocalPart());
 		
-		if (language!=Language.NONE) {
-			if (type!=null) subtitle.append(", ");
-			subtitle.append(language.getName());
+		if (definition.getLanguage()!=Language.NONE) {
+			if (definition.getType()!=null) subtitle.append(", ");
+			subtitle.append(definition.getLanguage().getName());
 		}
 		
 		return subtitle.toString();

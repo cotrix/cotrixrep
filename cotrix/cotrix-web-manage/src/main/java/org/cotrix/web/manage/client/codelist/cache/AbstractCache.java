@@ -5,6 +5,7 @@ package org.cotrix.web.manage.client.codelist.cache;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.cotrix.web.common.shared.codelist.Identifiable;
@@ -22,7 +23,7 @@ import com.google.web.bindery.event.shared.EventBus;
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-public abstract class AbstractCache<T extends Identifiable> {
+public abstract class AbstractCache<T extends Identifiable> implements Iterable<T> {
 
 	private Class<T> type;
 
@@ -92,6 +93,11 @@ public abstract class AbstractCache<T extends Identifiable> {
 
 	public T getItem(String id) {
 		return cache.get(id);
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		return cache.values().iterator();
 	}
 
 	protected abstract void retrieveItems(String codelistId, AsyncCallback<Collection<T>> callback);

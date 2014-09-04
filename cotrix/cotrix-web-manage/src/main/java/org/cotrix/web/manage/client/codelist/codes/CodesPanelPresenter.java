@@ -15,6 +15,7 @@ import org.cotrix.web.manage.client.codelist.codes.CodesToolbar.ToolBarListener;
 import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterWordUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.MarkerHighlightEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
+import org.cotrix.web.manage.client.codelist.event.ReadyEvent;
 import org.cotrix.web.manage.client.data.DataSaverManager;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
@@ -62,7 +63,6 @@ public class CodesPanelPresenter implements Presenter {
 		bind();
 		bindFeatures();
 		
-		showAllGroupsAsColumn();
 		loadState();
 	}
 	
@@ -114,6 +114,11 @@ public class CodesPanelPresenter implements Presenter {
 	@EventHandler
 	void onNewState(NewStateEvent event) {
 		updateState(event.getState());
+	}
+	
+	@EventHandler
+	void onReady(ReadyEvent event) {
+		showAllGroupsAsColumn();
 	}
 	
 	private void showAllGroupsAsColumn() {

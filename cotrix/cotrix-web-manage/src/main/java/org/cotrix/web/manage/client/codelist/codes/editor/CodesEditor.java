@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.cotrix.web.common.client.error.ManagedFailureCallback;
 import org.cotrix.web.common.client.factory.UIFactories;
 import org.cotrix.web.common.client.feature.FeatureBinder;
 import org.cotrix.web.common.client.feature.FeatureToggler;
@@ -32,7 +31,6 @@ import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButton;
 import org.cotrix.web.common.client.widgets.dialog.ConfirmDialog.DialogButtonDefaultSet;
 import org.cotrix.web.common.shared.codelist.UIAttribute;
 import org.cotrix.web.common.shared.codelist.UICode;
-import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.codelist.codes.editor.filter.FilterWordUpdatedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeSelectedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.CodeUpdatedEvent;
@@ -45,6 +43,7 @@ import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerRenderer;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerType;
 import org.cotrix.web.manage.client.codelist.codes.marker.MarkerTypeUtil;
+import org.cotrix.web.manage.client.codelist.common.GroupFactory;
 import org.cotrix.web.manage.client.codelist.common.RemoveItemController;
 import org.cotrix.web.manage.client.data.CodeAttribute;
 import org.cotrix.web.manage.client.data.DataEditor;
@@ -104,11 +103,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	interface Binder extends UiBinder<Widget, CodesEditor> {}
 	interface CodelistEditorEventBinder extends EventBinder<CodesEditor> {}
-	
+
 	private DialogButton CONTINUE_BUTTON;
 	private DialogButton MARK_BUTTON;
 	private DialogButton CANCEL_BUTTON;
-	
+
 	interface EditorStyle extends CssResource {
 		String dialogButton();
 		String cancelButton();
@@ -121,11 +120,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	}
 
 	interface DataGridStyle extends PatchedDataGrid.Style {
-		
+
 		String codeCell();
 
 		String headerCell();
-		
+
 		String markerHeader();
 
 		String textCell();
@@ -136,18 +135,18 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		String emptyTableWidget();
 	}
-	
+
 	interface GridPageSizerResource extends PagerSizerResource {
 		@Source({"PageSizer.css","definitions.css"})
 		GridPagerSizerStyle style();
 	}
-	
+
 	interface GridPagerSizerStyle extends PageSizerStyle {
 	}
-	
+
 	interface GridPagerResource extends CotrixSimplePager {
-	    @Source({"SimplePager.css","definitions.css"})
-	    Style simplePagerStyle();
+		@Source({"SimplePager.css","definitions.css"})
+		Style simplePagerStyle();
 	}
 
 	@UiField(provided = true)
@@ -155,12 +154,12 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	@UiField(provided = true)
 	SimplePager pager;
-	
+
 	@UiField(provided = true)
 	PageSizer pageSizer;
 
 	@UiField ItemToolbar toolBar;
-	
+
 	@UiField EditorStyle style;
 
 	private static DataGridResources resource = GWT.create(DataGridResources.class);
@@ -191,29 +190,29 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	private StyledSafeHtmlRenderer cellRenderer;
 
-	@Inject
-	private ManageServiceAsync managerService;
-
 	@Inject @CurrentCodelist
 	private String codelistId;
-	
+
 	@Inject
 	private UIFactories factories;
 
 	@Inject
 	private RemoveItemController codeRemotionController;
-	
+
 	@Inject
 	private MarkerRenderer markerRenderer;
-	
+
 	@Inject
 	private ConfirmDialog confirmDialog;
-	
+
 	@Inject
 	private MarkerTypeUtil markerTypeResolver;
-	
+
 	@Inject
 	private CodesEditorRowHightlighter hightlighter;
+
+	@Inject
+	private GroupFactory groupFactory;
 
 	@Inject
 	private void init() {
@@ -233,7 +232,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				int internal = super.getTableWidth();
 				return internal>0?internal:CodesEditor.this.getElement().getOffsetWidth()-31;
 			}
-			
+
 		};
 		dataGrid.setAutoHeaderRefreshDisabled(true);
 
@@ -244,7 +243,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		dataGrid.setTableWidth(100, Unit.PCT);
 		dataGrid.setAutoAdjust(true);
 		dataGrid.setLastColumnSpan(true);
-		
+
 		dataGrid.setRowStyles(hightlighter);
 
 		AsyncHandler asyncHandler = new AsyncHandler(dataGrid);
@@ -265,7 +264,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 				codeRemotionController.setItemCanBeRemoved(code!=null);
 				updateRemoveButtonVisibility(false);
-					
+
 				Log.trace("onSelectionChange code: "+code);
 				codelistBus.fireEvent(new CodeSelectedEvent(code));
 			}
@@ -275,13 +274,13 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		dataGrid.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.BOUND_TO_SELECTION);
 
 		dataProvider.addDataDisplay(dataGrid);
-		
+
 		pageSizer = new PageSizer(new int[]{25,50,100}, 25, gridPageSizerResource);
 		pageSizer.setDisplay(dataGrid);
-		
+
 		Binder uiBinder = GWT.create(Binder.class);
 		initWidget(uiBinder.createAndBindUi(this));
-		
+
 		toolBar.addButtonClickedHandler(new ButtonClickedHandler() {
 
 			@Override
@@ -292,11 +291,11 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 				}
 			}
 		});
-		
+
 		CONTINUE_BUTTON = new ConfirmDialog.SimpleDialogButton("Continue And Remove", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
 		MARK_BUTTON =  new ConfirmDialog.SimpleDialogButton("Mark Deleted Instead", CommonResources.INSTANCE.css().blueButton() + " " + style.dialogButton(), 220);
 		CANCEL_BUTTON =  new ConfirmDialog.SimpleDialogButton(DialogButtonDefaultSet.CANCEL.getLabel(), DialogButtonDefaultSet.CANCEL.getStyleName() + " " + style.cancelButton(), 98);
-		
+
 		codeRemotionController.setItemCanBeRemoved(false);
 		updateRemoveButtonVisibility(false);
 	}
@@ -305,20 +304,20 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	private void bind(CodelistEditorEventBinder binder) {
 		binder.bindEventHandlers(this, codelistBus);
 	}
-	
+
 	public void reload() {
 		selectionModel.clear();
 		dataGrid.setVisibleRangeAndClearData(dataGrid.getVisibleRange(), true);
 	}
-	
+
 	private void updateRemoveButtonVisibility(boolean animate) {
 		toolBar.setEnabled(ItemButton.MINUS, codeRemotionController.canRemove(), animate);
 	}
 
 	private void setupColumns() {
-		
+
 		Column<UICode, UICode> markerColumn = new Column<UICode, UICode>(new SafeHtmlRendererCell<UICode>(markerRenderer)) {
-			
+
 			@Override
 			public UICode getValue(UICode object) {
 				return object;
@@ -326,7 +325,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		};
 
 		dataGrid.addFixedWidthColumn(markerColumn, new TextHeader(""), 10);
-		
+
 		StyledSafeHtmlRenderer codeCellRenderer = new StyledSafeHtmlRenderer(resource.dataGridStyle().textCell() + " " + resource.dataGridStyle().codeCell());
 		cellRenderer.setAddTitle(true);
 		String codeCellStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor() + " " + resource.dataGridStyle().codeCell();
@@ -362,20 +361,10 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 	public void showAllGroupsAsColumn(final boolean reloadData)
 	{
 		showLoader();
-		managerService.getGroups(codelistId, new ManagedFailureCallback<List<Group>>() {
-			
-			public void onCallFailed() {
-				hideLoader();
-			}
-
-			@Override
-			public void onSuccess(List<Group> groups) {
-				setGroups(groups);
-				hideLoader();
-				dataGrid.refreshColumnSizes();
-				if (reloadData) reload();
-			}
-		});
+		setGroups(groupFactory.getGroups());
+		hideLoader();
+		dataGrid.refreshColumnSizes();
+		if (reloadData) reload();
 	}
 
 	public void showAllGroupsAsNormal()
@@ -442,23 +431,23 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			case TO_NORMAL: switchToNormal(group); break;
 		}
 	}
-	
+
 	@EventHandler
 	void onSwitchGroups(SwitchGroupsEvent event) {
 		setGroups(event.getGroups());
 	}
-	
+
 	@EventHandler
 	void onMarkerHighlight(MarkerHighlightEvent event) {
 		dataGrid.redraw();
 	}
-	
+
 	@EventHandler
 	void onFilterOptionUpdated(FilterOptionUpdatedEvent event) {
 		dataProvider.setFilterOptions(event.getFilterOptions());
 		reload();
 	}
-	
+
 	@EventHandler
 	void onWordUpdate(FilterWordUpdatedEvent event) {
 		dataGrid.redraw();
@@ -475,9 +464,9 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		Log.trace("removeSelectedCode");
 		final UICode code = selectionModel.getSelectedObject();
 		if (code!=null) {
-			
+
 			confirmDialog.center("Do you want to go ahead, or just mark the code as DELETED (reccomended)?", new ConfirmDialogListener() {
-				
+
 				@Override
 				public void onButtonClick(DialogButton button) {
 					if (button == CONTINUE_BUTTON) doRemoveCode(code);
@@ -486,12 +475,12 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 			}, CONTINUE_BUTTON, MARK_BUTTON, CANCEL_BUTTON);
 		}
 	}
-	
+
 	private void doRemoveCode(UICode code) {
 		dataProvider.remove(code);
 		codeEditor.removed(code);
 	}
-	
+
 	private void doMarkCodeDeleted(UICode code) {
 		UIAttribute attribute = markerTypeResolver.toAttribute(MarkerType.DELETED, "");
 		code.addAttribute(attribute);
@@ -503,15 +492,15 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		Log.trace("addNewCode");
 		final UICode code = factories.createCode();
 		dataProvider.add(0, code);
-		
+
 		//workaround to avoid select model setSelect method use due to the missing id in the new code and used by the key provider to resolve the row
 		dataGrid.setKeyboardSelectedRow(0, true);
-	
+
 		dataGrid.getScrollPanel().setVerticalScrollPosition(0);
 		dataGrid.getScrollPanel().setHorizontalScrollPosition(0);
 		codeEditor.added(code);
 	}
-	
+
 	private DoubleClickEditTextCell createCell(boolean isEditable)
 	{
 		String editorStyle = CommonResources.INSTANCE.css().textBox() + " " + resources.css().editor();
@@ -529,7 +518,7 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		Column<UICode, String> column = groupsColumns.get(group);
 		if (column == null) {
 			column = new GroupColumn(createCell(group.isEditable()), group);
-			column.setCellStyleNames(group.isSystemGroup()?resources.css().systemProperty():"");
+			//column.setCellStyleNames(group.isSystemGroup()?resources.css().systemProperty():"");
 			column.setSortable(group.isSortable());
 
 			if (group.isEditable()) {
@@ -603,10 +592,10 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 	private void setGroups(List<Group> groups) {
 		Log.trace("setGroups groups: "+groups);
-		
+
 		showLoader();
-		
-		
+
+
 		//switchAllGroupsToNormal();
 		List<Group> oldGroups = new ArrayList<Group>(groupsAsColumn);
 		List<Column<UICode, ?>> oldColumns = toColumns(oldGroups);
@@ -615,43 +604,43 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 
 		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
 		List<Header<?>> headers = new ArrayList<Header<?>>(groups.size());
-		
+
 		Log.trace("preparing columns");
 		for (Group group:groups) {
 			Column<UICode, String> column = getGroupColumn(group);
 			columns.add(column);
-			
+
 			groupsAsColumn.add(group);
-			
+
 			GroupHeader header = new GroupHeader(group);
 			header.setHeaderStyleNames(resource.dataGridStyle().headerCell());
 			headers.add(header);
 		}
-		
+
 		Log.trace("adding columns");
 		dataGrid.replaceColumns(oldColumns, columns, headers);
-		
+
 		Log.trace("firing events");
 		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_COLUMN));
 		Log.trace("done");
-		
+
 		hideLoader();
 	}
-	
+
 	private void switchAllGroupsToNormal() {
 		Log.trace("switchAllGroupsToNormal");
-		
+
 		Log.trace("toColumns");
 		List<Column<UICode, ?>> columns = toColumns(groupsAsColumn);
 		Log.trace("generated "+columns.size()+" columns, removing columns");
-		
+
 		dataGrid.removeColumns(columns);
 		Log.trace("removed, firing events");
 		for (Group group:groupsAsColumn) codelistBus.fireEvent(new GroupSwitchedEvent(group, GroupSwitchType.TO_NORMAL));
 		Log.trace("firing complete");
 		groupsAsColumn.clear();
 	}
-	
+
 	private List<Column<UICode, ?>> toColumns(List<Group> groups) {
 		List<Column<UICode, ?>> columns = new ArrayList<Column<UICode, ?>>(groups.size());
 		for (Group group:groups) columns.add(getGroupColumn(group));

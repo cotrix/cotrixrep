@@ -31,6 +31,4 @@ public interface Group extends IsSerializable {
 	
 	public boolean isSortable();
 
-	public boolean isSystemGroup();
-
 }

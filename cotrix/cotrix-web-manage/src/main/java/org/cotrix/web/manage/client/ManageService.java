@@ -17,7 +17,6 @@ import org.cotrix.web.common.shared.feature.ResponseWrapper;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
-import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
@@ -39,7 +38,6 @@ import com.google.gwt.view.client.Range;
 public interface ManageService extends RemoteService {
 	
 	DataWindow<UICode> getCodelistCodes(String codelistId, Range range, CodelistEditorSortInfo sortInfo, List<FilterOption> filterOptions) throws ServiceException;
-	List<Group> getGroups(String codelistId) throws ServiceException;
 	
 	List<UICodelistInfo> getCodelistsInfos() throws ServiceException;
 	

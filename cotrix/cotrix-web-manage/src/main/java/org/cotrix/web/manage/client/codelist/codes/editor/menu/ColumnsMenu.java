@@ -19,7 +19,6 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -27,8 +26,6 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Singleton;
-
-import static org.cotrix.web.common.client.async.AsyncUtils.*;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
@@ -45,11 +42,6 @@ public class ColumnsMenu extends PopupPanel {
 		String popup();
 	}
 	
-	public interface GroupsProvider {
-		public void getGroups(AsyncCallback<List<Group>> callback);
-		public List<Group> getActiveGroups();
-	}
-	
 	@UiField ColumnsMenuStyle style;
 	
 	@UiField
@@ -63,7 +55,6 @@ public class ColumnsMenu extends PopupPanel {
 	
 	@UiField Loader loader;
 	
-	private GroupsProvider provider;
 	private SuccessCallback<List<Group>> callback;
 	
 	public ColumnsMenu() {
@@ -79,34 +70,15 @@ public class ColumnsMenu extends PopupPanel {
 		columnsScroller.setVisible(!visible);
 	}
 	
-	public void show(UICodelist codelist, GroupsProvider provider, SuccessCallback<List<Group>> callback, UIObject target) {
+	public void show(UICodelist codelist, List<Group> groups, List<Group> activeGroups, SuccessCallback<List<Group>> callback, UIObject target) {
 		this.name.setText(codelist.getName().getLocalPart());
 		this.name.setTitle(codelist.getName().getLocalPart());
-		
-		this.provider = provider;
+
 		this.callback = callback;
 		
-		setGroups(provider.getActiveGroups(), provider.getActiveGroups());
+		setGroups(groups, activeGroups);
 
 		center();
-	}
-	
-	private void refresh() {
-		setLoaderVisible(true);
-		provider.getGroups(manageAndReportError(new AsyncCallback<List<Group>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				setLoaderVisible(false);
-				hide();
-			}
-
-			@Override
-			public void onSuccess(List<Group> result) {
-				setGroups(result, provider.getActiveGroups());
-				setLoaderVisible(false);
-			}
-		}));
 	}
 	
 	private void setGroups(List<Group> groups, List<Group> activeGroups) {
@@ -188,12 +160,6 @@ public class ColumnsMenu extends PopupPanel {
 			if (panel.isActive()) actives.add(panel.getGroup());
 		}
 		return actives;
-	}
-	
-	
-	@UiHandler("refreshButton")
-	void onRefreshClick(ClickEvent event) {
-		refresh();
 	}
 	
 	@UiHandler("doneButton")

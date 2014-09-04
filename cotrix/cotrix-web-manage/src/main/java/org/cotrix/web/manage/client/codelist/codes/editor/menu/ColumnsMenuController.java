@@ -8,10 +8,9 @@ import java.util.List;
 
 import org.cotrix.web.common.client.async.AsyncUtils.SuccessCallback;
 import org.cotrix.web.common.shared.codelist.UICodelist;
-import org.cotrix.web.manage.client.ManageServiceAsync;
-import org.cotrix.web.manage.client.codelist.codes.editor.menu.ColumnsMenu.GroupsProvider;
 import org.cotrix.web.manage.client.codelist.codes.event.GroupSwitchedEvent;
 import org.cotrix.web.manage.client.codelist.codes.event.SwitchGroupsEvent;
+import org.cotrix.web.manage.client.codelist.common.GroupFactory;
 import org.cotrix.web.manage.client.di.CodelistBus;
 import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.shared.Group;
@@ -20,7 +19,6 @@ import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.inject.Inject;
 import com.google.web.bindery.event.shared.EventBus;
@@ -42,27 +40,14 @@ public class ColumnsMenuController {
 	private UICodelist codelist;
 	
 	@Inject
-	private ManageServiceAsync managerService;
-	
-	@Inject
 	private ColumnsMenu menu;
 	
 	@Inject
 	@CodelistBus 
 	private EventBus bus;
 	
-	private GroupsProvider groupsProvider = new GroupsProvider() {
-		
-		@Override
-		public void getGroups(AsyncCallback<List<Group>> callback) {
-			managerService.getGroups(codelist.getId(), callback);
-		}
-		
-		@Override
-		public List<Group> getActiveGroups() {
-			return activeGroups;
-		}
-	};
+	@Inject
+	private GroupFactory factory;
 	
 	private SuccessCallback<List<Group>> callback = new SuccessCallback<List<Group>>() {
 		
@@ -77,7 +62,7 @@ public class ColumnsMenuController {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				menu.show(codelist, groupsProvider, callback, target);
+				menu.show(codelist, factory.getGroups(), activeGroups, callback, target);
 			}
 		});
 	}

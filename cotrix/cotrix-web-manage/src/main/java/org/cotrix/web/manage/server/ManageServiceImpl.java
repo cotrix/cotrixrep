@@ -83,7 +83,6 @@ import org.cotrix.web.manage.server.util.LogbookEntries;
 import org.cotrix.web.manage.shared.CodelistEditorSortInfo;
 import org.cotrix.web.manage.shared.CodelistRemoveCheckResponse;
 import org.cotrix.web.manage.shared.CodelistValueTypes;
-import org.cotrix.web.manage.shared.Group;
 import org.cotrix.web.manage.shared.UICodeInfo;
 import org.cotrix.web.manage.shared.UICodelistInfo;
 import org.cotrix.web.manage.shared.UILinkDefinitionInfo;
@@ -286,19 +285,6 @@ public class ManageServiceImpl implements ManageService {
 		int index = 0;
 		for (String name:definitionsNames) definitions[index++] = CommonDefinition.commonDefinitionFor(name);
 		return definitions;
-	}
-
-	@Override
-	@CodelistTask(VIEW)
-	public List<Group> getGroups(@Id String codelistId) throws ServiceException {
-		logger.trace("getGroups codelistId {}", codelistId);
-
-		Iterable<Code> codes  = repository.get(allCodesIn(codelistId));
-		List<Group> groups = GroupFactory.getGroups(codes);
-
-		logger.trace("Generated {} groups: {}", groups.size(), groups);
-
-		return groups;
 	}
 
 	@Override

@@ -23,19 +23,13 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	private UIQName name;
 	private int position;
 	
-	private boolean isSystemGroup;
-	
 	private SafeHtml label;
 	
 	protected LinkGroup() {
 	}
 		
-	/**
-	 * @param name
-	 */
-	public LinkGroup(UIQName name, boolean isSystemGroup) {
+	public LinkGroup(UIQName name) {
 		this.name = name!=null?name.clone():null;
-		this.isSystemGroup = isSystemGroup;
 	}
 
 	/**
@@ -43,14 +37,6 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	 */
 	public UIQName getName() {
 		return name;
-	}
-	
-	/** 
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isSystemGroup() {
-		return isSystemGroup;
 	}
 	
 	public void calculatePosition(List<UILink> links, UILink link)
@@ -115,7 +101,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	
 	public LinkGroup cloneGroup()
 	{
-		LinkGroup clone = new LinkGroup(name, isSystemGroup);
+		LinkGroup clone = new LinkGroup(name);
 		clone.setPosition(position);
 		return clone;
 	}
@@ -167,7 +153,6 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (isSystemGroup ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + position;
 		return result;
@@ -185,8 +170,6 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		if (getClass() != obj.getClass())
 			return false;
 		LinkGroup other = (LinkGroup) obj;
-		if (isSystemGroup != other.isSystemGroup)
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -208,8 +191,6 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		builder.append(", type=");
 		builder.append(", position=");
 		builder.append(position);
-		builder.append(", isSystemGroup=");
-		builder.append(isSystemGroup);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -220,9 +201,7 @@ public class LinkGroup implements Comparable<LinkGroup>, Group, HasPosition {
 		if (compare!=0) return compare;
 		
 		compare = position > o.position ? +1 : position < o.position ? -1 : 0;
-		if (compare!=0) return compare;
-		
-		return isSystemGroup && !o.isSystemGroup ? +1 : !isSystemGroup && o.isSystemGroup ? -1 : 0;
+		return compare;
 	}
 
 	@Override

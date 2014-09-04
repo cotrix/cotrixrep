@@ -26,13 +26,6 @@
 			background-color: FRAME_GREY;
 		}
 		
-		.iconCell {
-			width: 32px;
-			text-align: center;
-			padding-left: 5px;
-			vertical-align: middle;
-		}
-		
 		.titleCell {
 			width: 125px;
 			height: 30px;
@@ -54,18 +47,6 @@
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			overflow: hidden;
-		}
-		
-		.refreshCell {
-			width: 25px;
-			vertical-align: middle;
-		}
-		
-		.refreshButton {
-			cursor: pointer;
-			outline: none;
-			padding-top: 0;
-			vertical-align: middle;
 		}
 		
 		.columnsContainer {
@@ -93,11 +74,6 @@
 					</td>
 					<td>
 						<g:Label ui:field="name" styleName="{style.name}" />
-					</td>
-					<td class="{style.refreshCell}">
-						<g:PushButton ui:field="refreshButton" styleName="{style.refreshButton}">
-							<g:upFace image="{resources.refresh}" />
-						</g:PushButton>
 					</td>
 				</tr>
 			</table>
