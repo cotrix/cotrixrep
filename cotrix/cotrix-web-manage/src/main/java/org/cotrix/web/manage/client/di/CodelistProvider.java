@@ -17,9 +17,6 @@ public class CodelistProvider implements Provider<UICodelist> {
 
 	protected UICodelist codelist;
 
-	/**
-	 * @param codelist the codelist to set
-	 */
 	public void setCodelist(UICodelist codelist) {
 		this.codelist = codelist;
 	}

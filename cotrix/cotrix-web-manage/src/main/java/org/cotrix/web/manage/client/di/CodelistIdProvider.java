@@ -15,9 +15,6 @@ public class CodelistIdProvider implements Provider<String> {
 
 	protected String codelistId;
 
-	/**
-	 * @param codelistId the codelistId to set
-	 */
 	public void setCodelistId(String codelistId) {
 		this.codelistId = codelistId;
 	}

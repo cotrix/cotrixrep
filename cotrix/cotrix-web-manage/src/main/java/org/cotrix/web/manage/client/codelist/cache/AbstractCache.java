@@ -9,12 +9,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.cotrix.web.common.shared.codelist.Identifiable;
-import org.cotrix.web.manage.client.ManageServiceAsync;
 import org.cotrix.web.manage.client.data.event.DataEditEvent;
 import org.cotrix.web.manage.client.data.event.DataSavedEvent;
 import org.cotrix.web.manage.client.data.event.EditType;
 import org.cotrix.web.manage.client.di.CodelistBus;
-import org.cotrix.web.manage.client.di.CurrentCodelist;
 import org.cotrix.web.manage.client.event.ManagerBus;
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -29,12 +27,6 @@ import com.google.web.bindery.event.shared.EventBus;
 public abstract class AbstractCache<T extends Identifiable> implements Iterable<T> {
 
 	private Class<T> type;
-
-	@Inject
-	private ManageServiceAsync service;
-
-	@Inject @CurrentCodelist
-	private String codelistId;
 
 	private Map<String, T> cache = null;
 
@@ -78,7 +70,7 @@ public abstract class AbstractCache<T extends Identifiable> implements Iterable<
 
 	public void setup(final AsyncCallback<Void> callback) {
 
-		retrieveItems(codelistId, new AsyncCallback<Collection<T>>() {
+		retrieveItems(new AsyncCallback<Collection<T>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -115,5 +107,5 @@ public abstract class AbstractCache<T extends Identifiable> implements Iterable<
 		return cache.values().iterator();
 	}
 
-	protected abstract void retrieveItems(String codelistId, AsyncCallback<Collection<T>> callback);
+	protected abstract void retrieveItems(AsyncCallback<Collection<T>> callback);
 }

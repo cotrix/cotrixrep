@@ -23,7 +23,6 @@ public class CodelistBusProvider implements Provider<EventBus> {
 
 	@Override
 	public EventBus get() {
-
 		return eventBus;
 	}
 

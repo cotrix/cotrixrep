@@ -8,6 +8,7 @@ import java.util.Collection;
 import org.cotrix.web.common.shared.DataWindow;
 import org.cotrix.web.common.shared.codelist.attributedefinition.UIAttributeDefinition;
 import org.cotrix.web.manage.client.ManageServiceAsync;
+import org.cotrix.web.manage.client.di.CurrentCodelist;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,12 +23,15 @@ public class AttributeDefinitionsCache extends AbstractCache<UIAttributeDefiniti
 	@Inject
 	private ManageServiceAsync service;
 
+	@Inject @CurrentCodelist
+	private String codelistId;
+
 	public AttributeDefinitionsCache() {
 		super(UIAttributeDefinition.class);
 	}
 
 	@Override
-	protected void retrieveItems(String codelistId, final AsyncCallback<Collection<UIAttributeDefinition>> callback) {
+	protected void retrieveItems(final AsyncCallback<Collection<UIAttributeDefinition>> callback) {
 		service.getCodelistAttributeTypes(codelistId, new AsyncCallback<DataWindow<UIAttributeDefinition>>() {
 
 			@Override
