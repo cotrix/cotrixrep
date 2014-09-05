@@ -68,17 +68,16 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	protected void onKeyDown(KeyDownEvent event) {
 		 if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			 doLogin();
+	     } else {
+	    	 if (event.getSource() instanceof UIObject) {
+			 	UIObject uiObject = (UIObject)event.getSource();
+			 	uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
+		 	}
 	     }
-		 
-		 if (event.getSource() instanceof UIObject) {
-			 UIObject uiObject = (UIObject)event.getSource();
-			 uiObject.setStyleName(resources.css().dialogTextboxInvalid(), false);
-		 }
 	}
 	
 	@UiHandler("login")
-	protected void onLogin(ClickEvent clickEvent)
-	{
+	protected void onLogin(ClickEvent clickEvent) {
 		doLogin();
 	}
 	
@@ -88,19 +87,15 @@ public class LoginDialogImpl extends PopupPanel implements LoginDialog {
 	}
 	
 	protected boolean validate() {
-		boolean valid = true;
+		boolean usernameValid = AccountValidator.validateUsername(username.getText());
+		username.setStyleName(resources.css().dialogTextboxInvalid(), !usernameValid);
+		username.setFocus(!usernameValid);
 		
-		if (!AccountValidator.validateUsername(username.getText())) {
-			username.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}
+		boolean passwordValid = AccountValidator.validatePassword(password.getText());
+		password.setStyleName(resources.css().dialogTextboxInvalid(), !passwordValid);
+		password.setFocus(usernameValid && !passwordValid);
 		
-		if (!AccountValidator.validatePassword(password.getText())) {
-			password.setStyleName(resources.css().dialogTextboxInvalid(), true);
-			valid = false;
-		}
-		
-		return valid;
+		return usernameValid && passwordValid;
 	}
 	
 	protected void cleanValidation() {
