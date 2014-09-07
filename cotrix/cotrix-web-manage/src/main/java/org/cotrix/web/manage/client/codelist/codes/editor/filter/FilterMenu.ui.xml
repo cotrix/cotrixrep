@@ -39,7 +39,7 @@
 						value="recent_changes" />
 				</m:radio>
 				<m:radio>
-					<m:ImageMenuItem label="SINCE CREATION" image="{resources.checkBullet}"
+					<m:ImageMenuItem label="SINCE THIS VERSION" image="{resources.checkBullet}"
 						styleName="{resources.menuStyle.menuItem}" selectedItemStyleName="{resources.menuStyle.menuItemSelected}"
 						value="since_creation" />
 				</m:radio>
