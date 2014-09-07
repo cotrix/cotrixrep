@@ -10,9 +10,9 @@ package org.cotrix.web.manage.client.codelist.codes.marker;
 public enum MarkerType {
 	
 	NEWCODE("NEW", "first added to this version.", true, false, "new", MarkerEventExtractor.NONE),
-	MODIFIED("MODIFIED", "has changed in this version.", true, true, "modified", MarkerEventExtractor.PARSE),
+	MODIFIED("MODIFIED", "has changed in this version.", true, false, "modified", MarkerEventExtractor.PARSE),
 	DELETED("DELETED", "will not be part of future versions.", false, false, "deleted", MarkerEventExtractor.NONE),
-	INVALID("INVALID", "doesn't satisfy all constraints.", true, true, "invalid", MarkerEventExtractor.PARSE);
+	INVALID("INVALID", "doesn't satisfy all constraints.", true, false, "invalid", MarkerEventExtractor.PARSE);
 	
 	private String name;
 	private String description;
