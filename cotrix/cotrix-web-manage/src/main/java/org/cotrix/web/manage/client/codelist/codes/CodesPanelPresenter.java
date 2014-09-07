@@ -128,8 +128,7 @@ public class CodesPanelPresenter implements Presenter {
 		view.getToolBar().showStateLoader(false);
 	}
 	
-	public void reloadCodes(boolean reloadHeaders) {
-		if (reloadHeaders) view.getCodeListEditor().showAllGroupsAsColumn(false);
+	public void reloadCodes() {
 		view.getCodeListEditor().reload();
 	}
 

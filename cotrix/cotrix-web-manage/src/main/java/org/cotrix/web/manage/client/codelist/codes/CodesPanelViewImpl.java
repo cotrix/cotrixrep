@@ -54,7 +54,7 @@ public class CodesPanelViewImpl extends ResizeComposite implements CodesPanelVie
 		super.setVisible(visible);
 		
 		//workaround issuse #7188 https://code.google.com/p/google-web-toolkit/issues/detail?id=7188
-		onResize();
+		if (visible) onResize();
 	}
 
 	@Override

@@ -67,7 +67,6 @@ public class CodelistPanelController implements Presenter {
 	@Inject
 	private CodesPanelPresenter codesPresenter;
 	private boolean codesDirty = false;
-	private boolean codesHeaderDirty = false;
 
 	@Inject
 	private MetadataPanelPresenter metadataPresenter;
@@ -182,9 +181,8 @@ public class CodelistPanelController implements Presenter {
 	private void checkCodesDirty() {
 		Log.trace("codesDirty: "+codesDirty);
 		if (codesDirty) {
-			codesPresenter.reloadCodes(codesHeaderDirty);
+			codesPresenter.reloadCodes();
 			codesDirty = false;
-			codesHeaderDirty = false;
 		}
 	}
 
@@ -199,8 +197,6 @@ public class CodelistPanelController implements Presenter {
 				//the modification is about our codelist
 				if (isAboutOurCodelist(event)) {
 					codesDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class, UILinkDefinition.class);
-					codesHeaderDirty |= isUpdateOrRemoveOf(event, UIAttributeDefinition.class, UILinkDefinition.class);
-
 				} else {
 					if (!isUpdateOrRemoveOf(event, UICode.class, CodeAttribute.class, CodeLink.class, UILinkDefinition.class)) return;
 					

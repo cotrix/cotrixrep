@@ -43,7 +43,7 @@ public abstract class AbstractCache<T extends Identifiable> implements Iterable<
 				Log.trace("cache "+type+" onDataEdit "+event);
 				switch (event.getEditType()) {
 					case UPDATE: addItem(event.getData()); break;
-					case REMOVE: cache.remove(event.getData()); break;
+					case REMOVE: cache.remove(event.getData().getId()); break;
 					default: break;
 				}
 			}

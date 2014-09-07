@@ -772,19 +772,23 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 			Map<Column<T, ?>, Double> gridColumnWidthsCopy = new HashMap<Column<T, ?>, Double>(gridColumnWidths);
 
 			for (Column<T, ?> col:colsToRemove) {
-				Log.trace("removing form autosize");
+				//Log.trace("removing col "+col);
 				gridColumnWidths.remove(col);
 				fixedWidthColumns.remove(col);
+				if (lastColumn == col) lastColumn = null;
 				super.removeColumn(getColumnIndex(col));
 			}
 
 			for (int i = 0; i<colsToAdd.size(); i++) {
 				Column<T, ?> col = colsToAdd.get(i);
+				//Log.trace("adding col "+col);
+				
 				Header<?> header = headers.get(i);
 				super.insertColumn(getColumnCount(), col, header, null);
 
 				Double widthCache = gridColumnWidthsCopy.get(col);
 				double width = widthCache!=null?widthCache:getColumnSize(col);
+				//Log.trace("col width "+width);
 				setColumnWidth(col, width, Unit.PX);
 				gridColumnWidths.put(col, width);
 			}
@@ -807,6 +811,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 				Log.trace("removing form autosize");
 				gridColumnWidths.remove(col);
 				fixedWidthColumns.remove(col);
+				if (lastColumn == col) lastColumn = null;
 			}
 			super.removeColumn(getColumnIndex(col));
 		}
@@ -820,10 +825,11 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	public void removeColumn(int index) {
 		Log.trace("removeColumn "+index);
 		if (autoAdjust) {
-			Log.trace("removing form autosize");
+			//Log.trace("removing form autosize");
 			Column<T, ?> column = getColumn(index);
 			gridColumnWidths.remove(column);
 			fixedWidthColumns.remove(column);
+			if (lastColumn == column) lastColumn = null;
 			if (lastColumnSpan) resetLastColumnSize();
 		}
 
@@ -834,8 +840,10 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	}
 
 	private void resetLastColumnSize() {
+		Log.trace("resetLastColumnSize lastColumn: "+lastColumn);
 		if (lastColumn!=null) {
-			double width = getColumnSize(lastColumn);
+			double width = getRequiredSize(lastColumn);
+			//Log.trace("width "+width);
 			setColumnWidth(lastColumn, width, Unit.PX);
 			gridColumnWidths.put(lastColumn, width);
 		}
@@ -862,7 +870,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected <D> double getRequiredSize(Column<T, D> column)
 	{
-		Log.trace("getRequiredSize");
+		//Log.trace("getRequiredSize "+column);
 		startMeasuring();
 		int colIndex = getColumnIndex(column);
 		Header header = getHeader(colIndex);
@@ -898,11 +906,19 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	protected void updateTableWidth()
 	{
+		int widgetWidth = getTableWidth();
+		Log.trace("widgetWidth: "+widgetWidth);
+		
+		if (widgetWidth<=0) {
+			Log.trace("aborting table width setup");
+			return;
+		}
+		
+		if (lastColumnSpan) resetLastColumnSize();
+		
 		//Log.trace("updateTableWidth");
 		double columnsWidth = columnsWidth();
 		//Log.trace("TOTAL columns width: "+columnsWidth);
-		int widgetWidth = getTableWidth();
-		//Log.trace("widgetWidth: "+widgetWidth);
 
 		if (columnsWidth<widgetWidth && lastColumnSpan) spanLastColumn(widgetWidth-columnsWidth);
 		else lastColumn = null;
@@ -917,6 +933,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 		Log.trace("spanLastColumn");
 
 		lastColumn = getColumn(getColumnCount()-1);
+		Log.trace("lastColumn "+lastColumn);
 
 		//FIXME -1px added as workaround
 		double width = getColumnSize(lastColumn) + span - 1;
@@ -998,6 +1015,7 @@ public class PatchedDataGrid<T> extends AbstractCellTable<T> implements Requires
 
 	@Override
 	public void onResize() {
+		Log.trace("onResize");
 		headerPanel.onResize();
 		if (autoAdjust) updateTableWidth();
 	}

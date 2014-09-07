@@ -605,6 +605,14 @@ public class CodesEditor extends LoadingPanel implements HasEditing {
 		public Group getGroup() {
 			return group;
 		}
+
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("GroupColumn [group=");
+			builder.append(group);
+			builder.append("]");
+			return builder.toString();
+		}
 	}
-	
 }
