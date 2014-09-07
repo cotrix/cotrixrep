@@ -20,13 +20,11 @@ import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 /**
  * @author "Federico De Faveri federico.defaveri@fao.org"
  *
  */
-@Singleton
 public class MarkerMenuImpl extends DecoratedPopupPanel implements MarkerMenu {
 	
 	private Listener listener;
