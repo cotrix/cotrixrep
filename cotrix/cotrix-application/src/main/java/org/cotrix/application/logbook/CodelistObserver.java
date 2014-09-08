@@ -12,6 +12,7 @@ import org.cotrix.action.events.CodelistActionEvents.Import;
 import org.cotrix.action.events.CodelistActionEvents.Publish;
 import org.cotrix.action.events.CodelistActionEvents.Version;
 import org.cotrix.common.events.After;
+import org.cotrix.common.events.Before;
 import org.cotrix.common.events.New;
 import org.cotrix.common.events.Removed;
 import org.cotrix.domain.attributes.CommonDefinition;
@@ -55,7 +56,7 @@ public class CodelistObserver {
 	}
 	
 	//remove
-	public void onCodelistRemoved(@Observes @After @Removed Codelist list) {
+	public void onCodelistRemoved(@Observes @Before @Removed Codelist list) {
 		
 		try {
 			
