@@ -3,6 +3,8 @@
  */
 package org.cotrix.web.common.server.util;
 
+import static org.virtualrepository.impl.Type.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -83,7 +85,7 @@ public class Repositories {
 	}
 	
 	private static Format convert(AssetType type) {
-		if (type instanceof CsvGenericType || type instanceof CsvCodelistType) return Format.CSV;
+		if (type instanceof CsvGenericType || type instanceof CsvCodelistType || type==any) return Format.CSV;
 		if (type instanceof SdmxGenericType || type instanceof SdmxCodelistType) return Format.SDMX;
 		if (type instanceof CometGenericType) return Format.COMET;
 		throw new IllegalArgumentException("Unknown asset type "+type);
